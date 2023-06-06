@@ -3,8 +3,12 @@ import React from 'react';
 import {postQSO} from "./api/api";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { format } from 'date-fns';
 
+import DatePicker from "react-datepicker";
 
+import "react-datepicker/dist/react-datepicker.css";
+import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
 
 export default class Qso extends  React.Component {
@@ -12,25 +16,22 @@ export default class Qso extends  React.Component {
         super(props);
 
         this.state = {
-            date:"20230606",
+            date:"2023/06/06",
             time:"1200",
             signal:"lu1eqe",
             rst:"",
-            message:"",
             mode:"",
             band:"",
             frequency:"7100",
             error:"",
-
-
+            datePick:new Date(),
+            timePick:new Date()
         };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
-        
-    
         this.submit();
     }
 
@@ -39,15 +40,18 @@ export default class Qso extends  React.Component {
 
         postQSO({
             signal: this.state.signal,
-            micall:this.state.myCall,
             freq:this.state.frequency,
+            date:format(this.state.datePick,"yyyyMMdd"),
+            time:format(this.state.timePick,"HHmm"),
+            
+
+            micall:this.state.myCall,
             sucall:this.state.toCall,
             banda:this.state.band,
             modo:this.state.mode,
-            date:this.state.date,
-            time:this.state.time,
-            rst:this.state.rst,
-            x_qslMSG:this.state.message
+            //date:this.state.date,
+            //time:this.state.time,
+            rst:this.state.rst
         })       
             .then((response) => {
                 if (response.response==="OK"){
@@ -106,24 +110,24 @@ export default class Qso extends  React.Component {
      handleChangeDate = (event) => {
         this.setState({date:event.target.value});
       };
-
+      handleChangeDatePick = (value) => {
+        this.setState({datePick:value});
+      };
      handleChangeTime = (event) => {
         this.setState({time:event.target.value});
+      };
+
+      handleChangeTimePick = (value) => {
+        this.setState({timePick:value});
       };
 
      handleChangeRst = (event) => {
         this.setState({rst:event.target.value});
       };
 
-
-
      handleChangeProp = (event) => {
         this.setState({prop:event.target.value});
       };
-     handleChangeMessage= (event) => {
-        this.setState({message:event.target.value});
-      };      
-
       handleChangeToCall= (event) => {
         this.setState({signal:event.target.value});
       };            
@@ -171,7 +175,7 @@ export default class Qso extends  React.Component {
                              
                                 <div className="row">
                                     <div className="col-12">
-                                        Incluya un contacto a Log Argentina
+                                        Confirme un contacto para obtener una qso o certificado.
                                     </div>
                                 </div>
 
@@ -180,10 +184,12 @@ export default class Qso extends  React.Component {
                                 
                                 <div className="row">&nbsp;</div>
 
+                
                                 <div className="row">
-                                <div className="col-2 text-left">Fecha</div>
-                                    <div class="input-group col-10 text-center has-validation">    
-                                        <input type="text" className="form-control"  id="date" value={this.state.date} onChange={this.handleChangeDate} required />
+                                    <div className="col-2 text-left">Fecha</div>
+                                    <div class="col-10 has-validation">    
+                                        <DatePicker showIcon selected={this.state.datePick} onChange={(date) => this.handleChangeDatePick(date)}  dateFormat="dd/MM/yyyy" />        
+                                        
                                         <div class="invalid-feedback">
                                                 La fecha no puede ser vacia!
                                         </div>
@@ -191,8 +197,17 @@ export default class Qso extends  React.Component {
                                 </div>
                                 <div className="row">
                                 <div className="col-2 text-left">Hora</div>
-                                    <div class="input-group col-10 text-center has-validation">    
-                                        <input type="text" className="form-control"  id="time" value={this.state.time} onChange={this.handleChangeTime} required />
+                                    <div class=" col-10 has-validation">    
+                                    <DatePicker
+      selected={this.state.timePick}
+      onChange={(time) => this.handleChangeTimePick(time)}
+      showTimeSelect
+      showTimeSelectOnly
+      timeIntervals={15}
+      timeCaption="Time"
+      dateFormat="h:mm aa"
+    />
+                                        
                                         <div className="invalid-feedback">
                                                 La hora no puede ser vacia!
                                         </div>
@@ -207,7 +222,7 @@ export default class Qso extends  React.Component {
                                 </div>
 
                                 <div className="row">
-                                <div className="col-2 text-left">Recuencia</div>
+                                <div className="col-2 text-left">Frecuencia</div>
                                     <div className="col-10 text-center">
                                     <div className="row">
                                         <div className="col-3 text-center">
