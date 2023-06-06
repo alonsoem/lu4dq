@@ -12,15 +12,14 @@ export default class Qso extends  React.Component {
         super(props);
 
         this.state = {
-            date:"2023/05/11",
-            time:"19:00",
-            myCall:"lu1eqe",
-            toCall:"lu1epp",
+            date:"20230606",
+            time:"1200",
+            signal:"lu1eqe",
             rst:"",
             message:"",
             mode:"",
             band:"",
-            frequency:"",
+            frequency:"7100",
             error:"",
 
 
@@ -39,7 +38,7 @@ export default class Qso extends  React.Component {
     submit = () =>{
 
         postQSO({
-            signal: this.state.user,
+            signal: this.state.signal,
             micall:this.state.myCall,
             frequency:this.state.frequency,
             sucall:this.state.toCall,
@@ -126,7 +125,7 @@ export default class Qso extends  React.Component {
       };      
 
       handleChangeToCall= (event) => {
-        this.setState({toCall:event.target.value});
+        this.setState({signal:event.target.value});
       };            
 
       handleChangeMode= (event) => {
