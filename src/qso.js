@@ -41,7 +41,7 @@ export default class Qso extends  React.Component {
         postQSO({
             signal: this.state.user,
             micall:this.state.myCall,
-            freq:this.state.frequency,
+            frequency:this.state.frequency,
             sucall:this.state.toCall,
             banda:this.state.band,
             modo:this.state.mode,
@@ -51,12 +51,17 @@ export default class Qso extends  React.Component {
             x_qslMSG:this.state.message
         })       
             .then((response) => {
+                if (response.response==="OK"){
+                    this.notify("CONTACTO CONFIRMADO");
+                }else{
+                    this.handleAPIError(response.response))
+                }
               //registro ok a donde voy?
                 //this.props.history.push("/");
               console.log("PASO");
               console.log(response);
               //this.notify(this.props.t("userModifiedOK"));
-              this.notify("CAMBIO REALIZADO");
+              
             })
             .catch((responseError) => this.handleAPIError(responseError));
     
@@ -130,7 +135,10 @@ export default class Qso extends  React.Component {
 
       handleChangeBand= (event) => {
         this.setState({band:event.target.value});
-      };            
+      };        
+      handleChangeFreq= (event) => {
+        this.setState({frequency:event.target.value});
+      };     
 
       
       
@@ -198,7 +206,19 @@ export default class Qso extends  React.Component {
                                         <input type="text" className="form-control" style={{ 'width': '100% !important'}} id="callsign"  value={this.state.toCall} onChange={this.handleChangeToCall} /> 
                                     </div>
                                 </div>
-                            
+
+                                <div className="row">
+                                <div className="col-2 text-left">Frequency</div>
+                                    <div className="col-10 text-center">
+                                    <div className="row">
+                                        <div className="col-3 text-center">
+                                            <input type="text" className="form-control" id="frequency"  value={this.state.frequency} onChange={this.handleChangeFreq} /> 
+                                        </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            {/*
                                 <div className="row">
                                     <div className="col-2 text-left">Modo</div>
 
@@ -279,7 +299,7 @@ export default class Qso extends  React.Component {
                                         
                                     </div>
                                 </div>
-
+        */}
                                 <div className="row">&nbsp;</div>
     
                                 <div className="row">
