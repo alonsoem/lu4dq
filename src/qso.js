@@ -183,7 +183,7 @@ export default class Qso extends  React.Component {
                                 <div className="row">
                                 <div className="col-2 text-left">Fecha</div>
                                     <div class="input-group col-10 text-center has-validation">    
-                                        <input type="text" className="form-control" style={{ 'width': '100% !important'}} id="date" value={this.state.date} onChange={this.handleChangeDate} required />
+                                        <input type="text" className="form-control"  id="date" value={this.state.date} onChange={this.handleChangeDate} required />
                                         <div class="invalid-feedback">
                                                 La fecha no puede ser vacia!
                                         </div>
@@ -192,7 +192,7 @@ export default class Qso extends  React.Component {
                                 <div className="row">
                                 <div className="col-2 text-left">Hora</div>
                                     <div class="input-group col-10 text-center has-validation">    
-                                        <input type="text" className="form-control" style={{ 'width': '100% !important'}} id="time" value={this.state.time} onChange={this.handleChangeTime} required />
+                                        <input type="text" className="form-control"  id="time" value={this.state.time} onChange={this.handleChangeTime} required />
                                         <div className="invalid-feedback">
                                                 La hora no puede ser vacia!
                                         </div>
@@ -200,14 +200,14 @@ export default class Qso extends  React.Component {
                                 </div>
                                 
                                 <div className="row">
-                                <div className="col-2 text-left">Callsign</div>
+                                <div className="col-2 text-left">Señal</div>
                                     <div className="col-10 text-center">
-                                        <input type="text" className="form-control" style={{ 'width': '100% !important'}} id="callsign"  value={this.state.toCall} onChange={this.handleChangeToCall} /> 
+                                        <input type="text" className="form-control"  id="callsign"  value={this.state.signal} onChange={this.handleChangeToCall} /> 
                                     </div>
                                 </div>
 
                                 <div className="row">
-                                <div className="col-2 text-left">Frequency</div>
+                                <div className="col-2 text-left">Recuencia</div>
                                     <div className="col-10 text-center">
                                     <div className="row">
                                         <div className="col-3 text-center">
