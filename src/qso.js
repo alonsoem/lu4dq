@@ -49,8 +49,6 @@ export default class Qso extends  React.Component {
             sucall:this.state.toCall,
             banda:this.state.band,
             modo:this.state.mode,
-            //date:this.state.date,
-            //time:this.state.time,
             rst:this.state.rst
         })       
             .then((response) => {
