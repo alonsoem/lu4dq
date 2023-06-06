@@ -1,6 +1,6 @@
 import React from 'react';
 //import '../node_modules/bootstrap-css-only/css/bootstrap.css';
-import {postQSOLA} from "./api/api";
+import {postQSO} from "./api/api";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -20,8 +20,7 @@ export default class Qso extends  React.Component {
             message:"",
             mode:"",
             band:"",
-            user:"alonso.em@gmail.com",
-            password:"Wsbwnp.04",
+            frequency:"",
             error:"",
 
 
@@ -39,15 +38,15 @@ export default class Qso extends  React.Component {
 
     submit = () =>{
 
-        postQSOLA({
-            user: this.state.user,
-            pass: this.state.password,
+        postQSO({
+            signal: this.state.user,
             micall:this.state.myCall,
+            freq:this.state.frequency,
             sucall:this.state.toCall,
             banda:this.state.band,
             modo:this.state.mode,
-            fecha:this.state.date,
-            hora:this.state.time,
+            date:this.state.date,
+            time:this.state.time,
             rst:this.state.rst,
             x_qslMSG:this.state.message
         })       
