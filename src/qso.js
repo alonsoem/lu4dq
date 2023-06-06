@@ -54,7 +54,7 @@ export default class Qso extends  React.Component {
                 if (response.response==="OK"){
                     this.notify("CONTACTO CONFIRMADO");
                 }else{
-                    this.handleAPIError(response.response))
+                    this.handleAPIError(response.response);
                 }
               //registro ok a donde voy?
                 //this.props.history.push("/");
