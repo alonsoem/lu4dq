@@ -40,7 +40,7 @@ export default class Qso extends  React.Component {
         postQSO({
             signal: this.state.signal,
             micall:this.state.myCall,
-            frequency:this.state.frequency,
+            freq:this.state.frequency,
             sucall:this.state.toCall,
             banda:this.state.band,
             modo:this.state.mode,
