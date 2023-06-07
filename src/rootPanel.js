@@ -13,7 +13,7 @@ import FileUploadSingle from "./upload.js";
 export default class App extends React.Component {
     render() {
       return (
-        <BrowserRouter basename="/">
+        <BrowserRouter >
           <Routes>
             
           <Route path="/back" element={<FileUploadSingle />}></Route>
