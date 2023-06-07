@@ -15,7 +15,7 @@ function FileUploadSingle() {
     }
 
     // 👇 Uploading the file using the fetch API to the server
-    fetch('http://lu4dq.qrits.com.ar/api/postFile.php', {
+    fetch('http://lu4dq.qrits.com.ar/api/pubAdif.php', {
       method: 'POST',
       body: file,
       // 👇 Set headers manually for single file upload
