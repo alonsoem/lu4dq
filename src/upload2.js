@@ -26,7 +26,7 @@ class uploadBis extends Component {
 
 		// Update the formData object
 		formData.append(
-			"myFile",
+			"file",
 			this.state.selectedFile,
 			this.state.selectedFile.name
 		);
