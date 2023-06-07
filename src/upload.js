@@ -30,7 +30,7 @@ function FileUploadSingle() {
   };
 
   return (
-    <div>
+    <div className="container">
       <input type="file" onChange={handleFileChange} />
 
       <div>{file && `${file.name} - ${file.type}`}</div>
