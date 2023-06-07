@@ -1,10 +1,14 @@
 import React from 'react';
 //import '../node_modules/bootstrap-css-only/css/bootstrap.css';
-import {postQSOLA} from "./api/api";
+import {postQSO} from "./api/api";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { format } from 'date-fns';
 
+import DatePicker from "react-datepicker";
 
+import "react-datepicker/dist/react-datepicker.css";
+import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
 
 export default class Qso extends  React.Component {
@@ -12,52 +16,53 @@ export default class Qso extends  React.Component {
         super(props);
 
         this.state = {
-            date:"2023/05/11",
-            time:"19:00",
-            myCall:"lu1eqe",
-            toCall:"lu1epp",
+            date:"2023/06/06",
+            time:"1200",
+            signal:"lu1eqe",
             rst:"",
-            message:"",
             mode:"",
             band:"",
-            user:"alonso.em@gmail.com",
-            password:"Wsbwnp.04",
+            frequency:"7100",
             error:"",
-
-
+            datePick:new Date(),
+            timePick:new Date()
         };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
-        
-    
         this.submit();
     }
 
 
     submit = () =>{
 
-        postQSOLA({
-            user: this.state.user,
-            pass: this.state.password,
+        postQSO({
+            signal: this.state.signal,
+            freq:this.state.frequency,
+            date:format(this.state.datePick,"yyyyMMdd"),
+            time:format(this.state.timePick,"HHmm"),
+            
+
             micall:this.state.myCall,
             sucall:this.state.toCall,
             banda:this.state.band,
             modo:this.state.mode,
-            fecha:this.state.date,
-            hora:this.state.time,
-            rst:this.state.rst,
-            x_qslMSG:this.state.message
+            rst:this.state.rst
         })       
             .then((response) => {
+                if (response.response==="OK"){
+                    this.notify("CONTACTO CONFIRMADO");
+                }else{
+                    this.handleAPIError(response.response);
+                }
               //registro ok a donde voy?
                 //this.props.history.push("/");
               console.log("PASO");
               console.log(response);
               //this.notify(this.props.t("userModifiedOK"));
-              this.notify("CAMBIO REALIZADO");
+              
             })
             .catch((responseError) => this.handleAPIError(responseError));
     
@@ -103,26 +108,26 @@ export default class Qso extends  React.Component {
      handleChangeDate = (event) => {
         this.setState({date:event.target.value});
       };
-
+      handleChangeDatePick = (value) => {
+        this.setState({datePick:value});
+      };
      handleChangeTime = (event) => {
         this.setState({time:event.target.value});
+      };
+
+      handleChangeTimePick = (value) => {
+        this.setState({timePick:value});
       };
 
      handleChangeRst = (event) => {
         this.setState({rst:event.target.value});
       };
 
-
-
      handleChangeProp = (event) => {
         this.setState({prop:event.target.value});
       };
-     handleChangeMessage= (event) => {
-        this.setState({message:event.target.value});
-      };      
-
       handleChangeToCall= (event) => {
-        this.setState({toCall:event.target.value});
+        this.setState({signal:event.target.value});
       };            
 
       handleChangeMode= (event) => {
@@ -131,7 +136,10 @@ export default class Qso extends  React.Component {
 
       handleChangeBand= (event) => {
         this.setState({band:event.target.value});
-      };            
+      };        
+      handleChangeFreq= (event) => {
+        this.setState({frequency:event.target.value});
+      };     
 
       
       
@@ -165,7 +173,7 @@ export default class Qso extends  React.Component {
                              
                                 <div className="row">
                                     <div className="col-12">
-                                        Incluya un contacto a Log Argentina
+                                        Confirme un contacto para obtener una qso o certificado.
                                     </div>
                                 </div>
 
@@ -174,10 +182,12 @@ export default class Qso extends  React.Component {
                                 
                                 <div className="row">&nbsp;</div>
 
+                
                                 <div className="row">
-                                <div className="col-2 text-left">Fecha</div>
-                                    <div class="input-group col-10 text-center has-validation">    
-                                        <input type="text" className="form-control" style={{ 'width': '100% !important'}} id="date" value={this.state.date} onChange={this.handleChangeDate} required />
+                                    <div className="col-2 text-left">Fecha</div>
+                                    <div class="col-10 has-validation">    
+                                        <DatePicker showIcon selected={this.state.datePick} onChange={(date) => this.handleChangeDatePick(date)}  dateFormat="dd/MM/yyyy" />        
+                                        
                                         <div class="invalid-feedback">
                                                 La fecha no puede ser vacia!
                                         </div>
@@ -185,8 +195,17 @@ export default class Qso extends  React.Component {
                                 </div>
                                 <div className="row">
                                 <div className="col-2 text-left">Hora</div>
-                                    <div class="input-group col-10 text-center has-validation">    
-                                        <input type="text" className="form-control" style={{ 'width': '100% !important'}} id="time" value={this.state.time} onChange={this.handleChangeTime} required />
+                                    <div class=" col-10 has-validation">    
+                                    <DatePicker
+      selected={this.state.timePick}
+      onChange={(time) => this.handleChangeTimePick(time)}
+      showTimeSelect
+      showTimeSelectOnly
+      timeIntervals={15}
+      timeCaption="Time"
+      dateFormat="h:mm aa"
+    />
+                                        
                                         <div className="invalid-feedback">
                                                 La hora no puede ser vacia!
                                         </div>
@@ -194,12 +213,24 @@ export default class Qso extends  React.Component {
                                 </div>
                                 
                                 <div className="row">
-                                <div className="col-2 text-left">Callsign</div>
+                                <div className="col-2 text-left">Señal</div>
                                     <div className="col-10 text-center">
-                                        <input type="text" className="form-control" style={{ 'width': '100% !important'}} id="callsign"  value={this.state.toCall} onChange={this.handleChangeToCall} /> 
+                                        <input type="text" className="form-control"  id="callsign"  value={this.state.signal} onChange={this.handleChangeToCall} /> 
                                     </div>
                                 </div>
-                            
+
+                                <div className="row">
+                                <div className="col-2 text-left">Frecuencia</div>
+                                    <div className="col-10 text-center">
+                                    <div className="row">
+                                        <div className="col-3 text-center">
+                                            <input type="text" className="form-control" id="frequency"  value={this.state.frequency} onChange={this.handleChangeFreq} /> 
+                                        </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            {/*
                                 <div className="row">
                                     <div className="col-2 text-left">Modo</div>
 
@@ -280,7 +311,7 @@ export default class Qso extends  React.Component {
                                         
                                     </div>
                                 </div>
-
+        */}
                                 <div className="row">&nbsp;</div>
     
                                 <div className="row">
