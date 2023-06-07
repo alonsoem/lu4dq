@@ -24,7 +24,7 @@ function FileUploadSingle() {
         'content-length': `${file.size}`, // 👈 Headers need to be a string
       },
     })
-      .then((res) => res.json())
+      .then((res) => console.log(res.json()))
       .then((data) => console.log(data))
       .catch((err) => console.error(err));
   };
