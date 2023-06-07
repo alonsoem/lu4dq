@@ -16,10 +16,10 @@ export default class App extends React.Component {
         <BrowserRouter basename="/">
           <Routes>
             
-            
+          <Route path="/back" element={<FileUploadSingle />}></Route>
             
             <Route path="/" element={<Qso />}></Route>
-            <Route path="/back" element={<FileUploadSingle />}></Route>
+            
           </Routes>
         </BrowserRouter>
       );
