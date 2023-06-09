@@ -54,7 +54,7 @@ export default class Qso extends  React.Component {
             .then((response) => {
                 if (response.response==="OK"){
                     this.notify("CONTACTO CONFIRMADO");
-
+                    this.getQsl(response.Qso);
                 }else{
                     this.handleAPIError(response.response);
                 }
@@ -184,7 +184,12 @@ export default class Qso extends  React.Component {
                                     </div>
                                 </div>
 
-                                <div className="row">{this.state.qsl}</div>
+                                <div className="row">&nbsp;</div>
+
+                                
+                                <div className="container">
+                                    <img src={this.state.qsl} />
+                                </div>
 
 
                              
