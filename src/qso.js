@@ -52,16 +52,16 @@ export default class Qso extends  React.Component {
             rst:this.state.rst
         })       
             .then((response) => {
-                //eslint-disable-next-line
+                
                 console.log(response.response);
+                //eslint-disable-next-line
                 if (response.response=="OK"){
                     this.notify("CONTACTO CONFIRMADO");
                     this.getQsl(response.Qso);
                 }else{
                     this.handleAPIError(response.response);
                 }
-                //registro ok a donde voy?
-                //this.props.history.push("/");
+                
               console.log("PASO");
               console.log(response);
               //this.notify(this.props.t("userModifiedOK"));
