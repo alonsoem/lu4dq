@@ -25,7 +25,8 @@ export default class Qso extends  React.Component {
             frequency:"7100",
             error:"",
             datePick:new Date(),
-            timePick:new Date()
+            timePick:new Date(),
+            qsl:null,
         };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
