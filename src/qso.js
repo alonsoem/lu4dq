@@ -53,11 +53,10 @@ export default class Qso extends  React.Component {
         })       
             .then((response) => {
                 
-                console.log(response.response);
                 //eslint-disable-next-line
                 if (response.response=="OK"){
                     this.notify("CONTACTO CONFIRMADO");
-                    this.getQsl(response.Qso);
+                    this.getQsl(response.qso);
                 }else{
                     this.handleAPIError(response.response);
                 }
