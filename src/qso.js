@@ -52,7 +52,8 @@ export default class Qso extends  React.Component {
             rst:this.state.rst
         })       
             .then((response) => {
-                if (response.response==="OK"){
+                //eslint-disable-next-line
+                if (response.response=="OK"){
                     this.notify("CONTACTO CONFIRMADO");
                     this.getQsl(response.Qso);
                 }else{
@@ -188,7 +189,7 @@ export default class Qso extends  React.Component {
 
                                 
                                 <div className="container">
-                                    <img src={this.state.qsl} />
+                                    <img src={this.state.qsl} alt="Qsl" />
                                 </div>
 
 
