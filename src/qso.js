@@ -57,7 +57,8 @@ export default class Qso extends  React.Component {
                 //eslint-disable-next-line
                 if (response.response=="OK"){
                     this.notify("CONTACTO CONFIRMADO");
-                    this.tryQsl(response.document);
+                    //this.tryQsl(response.document);
+                    this.setState({qsl:"http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+response.document});
                 }else{
                     this.handleAPIError(response.response);
                 }
