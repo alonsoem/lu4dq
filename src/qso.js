@@ -1,6 +1,6 @@
 import React from 'react';
 //import '../node_modules/bootstrap-css-only/css/bootstrap.css';
-import {postQSO} from "./api/api";
+import {postQSO, getQsl} from "./api/api";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { format } from 'date-fns';
@@ -54,10 +54,11 @@ export default class Qso extends  React.Component {
             .then((response) => {
                 if (response.response==="OK"){
                     this.notify("CONTACTO CONFIRMADO");
+
                 }else{
                     this.handleAPIError(response.response);
                 }
-              //registro ok a donde voy?
+                //registro ok a donde voy?
                 //this.props.history.push("/");
               console.log("PASO");
               console.log(response);
@@ -77,6 +78,12 @@ export default class Qso extends  React.Component {
     
         this.setState({ error: errorToDisplay });
         this.notifyError(errorToDisplay);
+      }
+
+      getQsl(str){
+        getQsl({qso:str})
+        .then((response)=>this.setState({qsl:response}))
+        .catch((responseError) => this.handleAPIError(responseError));
       }
 
       notify = (message) => {
@@ -177,7 +184,9 @@ export default class Qso extends  React.Component {
                                     </div>
                                 </div>
 
-                                <div className="row">&nbsp;</div>
+                                <div className="row">{this.state.qsl}</div>
+
+
                              
                                 
                                 <div className="row">&nbsp;</div>

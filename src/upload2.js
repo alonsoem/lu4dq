@@ -49,9 +49,6 @@ class uploadBis extends Component {
 				<div>
 					<h2>File Details:</h2>
 					<p>File Name: {this.state.selectedFile.name}</p>
-
-					<p>File Type: {this.state.selectedFile.type}</p>
-
 					<p>
 						Last Modified:{" "}
 						{this.state.selectedFile.lastModifiedDate.toDateString()}
@@ -74,11 +71,10 @@ class uploadBis extends Component {
 		return (
 			<div>
 				<h1>
-					GeeksforGeeks
+					Upload a File
+
 				</h1>
-				<h3>
-					File Upload using React!
-				</h3>
+		
 				<div>
 					<input type="file" onChange={this.onFileChange} />
 					<button onClick={this.onFileUpload}>
