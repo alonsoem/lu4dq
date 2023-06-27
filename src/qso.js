@@ -159,31 +159,23 @@ export default class Qso extends  React.Component {
        
     render() {
         return (
-
             <div >
-                 
-        
-            
-                
-            
-            <div className="card-header bgdiv text-white">
-                <h1>QSO's</h1> 
-            </div>
 
             <div className="container-fluid table-scroll-vertical">
             <ToastContainer />
 
-            <p>&nbsp;</p>
             
-                    <div style={{'width': '100%', 'height': '100%', 'background-color': 'rgba(0,0,255,0.1)'}}>
-                        <div className="card" style={{'background-color':'#439139ef'}}>
+            <p>&nbsp;</p>
+                    <div style={{ 'height': '100%'}} className="container col-10">
+                        
+                        <div className="card" style={{'background-color': 'rgba(181,181,181,0.1)'}}>
                         <form onSubmit={this.handleSubmit} className="row g-3 needs-validation">
                         
                             <div className="card-body " >
                              
-                                <div className="row">
+                                <div className="row rowForm">
                                     <div className="col-12">
-                                        Confirme un contacto para obtener una qso o certificado.
+                                    <h1>Ingresa los datos de tu Qso para confirmar el mismo en linea y descarga la QSL o certificado!</h1>
                                     </div>
                                 </div>
 
@@ -200,7 +192,7 @@ export default class Qso extends  React.Component {
                                 <div className="row">&nbsp;</div>
 
                 
-                                <div className="row">
+                                <div className="row rowForm">
                                     <div className="col-2 text-left">Fecha</div>
                                     <div class="col-10 has-validation">    
                                         <DatePicker showIcon selected={this.state.datePick} onChange={(date) => this.handleChangeDatePick(date)}  dateFormat="dd/MM/yyyy" />        
@@ -210,7 +202,7 @@ export default class Qso extends  React.Component {
                                         </div>
                                      </div>
                                 </div>
-                                <div className="row">
+                                <div className="row rowForm">
                                 <div className="col-2 text-left">Hora</div>
                                     <div class=" col-10 has-validation">    
                                     <DatePicker
@@ -229,14 +221,14 @@ export default class Qso extends  React.Component {
                                      </div>
                                 </div>
                                 
-                                <div className="row">
+                                <div className="row rowForm">
                                 <div className="col-2 text-left">Señal</div>
                                     <div className="col-10 text-center">
                                         <input type="text" className="form-control"  id="callsign"  value={this.state.signal} onChange={this.handleChangeToCall} /> 
                                     </div>
                                 </div>
 
-                                <div className="row">
+                                <div className="row rowForm">
                                 <div className="col-2 text-left">Frecuencia</div>
                                     <div className="col-10 text-center">
                                     <div className="row">
@@ -333,7 +325,7 @@ export default class Qso extends  React.Component {
     
                                 <div className="row">
                                     <div className="col-12 text-right">
-                                            <button type="submit" className="btn btn-light">Registrar!</button>
+                                            <button type="submit" className="btn btn-success">Confirmar</button>
                                     </div>
                                 </div>
 
