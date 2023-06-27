@@ -68,15 +68,15 @@ export default class Qso extends  React.Component {
               //this.notify(this.props.t("userModifiedOK"));
               
             })
-            .catch((responseError) => this.handleAPIError(responseError));
+            .catch((response) => this.handleAPIError(response));
     
       }
 
-      handleAPIError(responseError) {
-        let errorToDisplay = "MENSAJE GENERICO DE ERROR";
-    
-        if (responseError.request ) {
-          errorToDisplay = "OTRO ERROR";
+      handleAPIError(response) {
+        let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
+    console.log(response);
+        if (response.response==="Not Confirmed" ) {
+          errorToDisplay = "NO SE PUDO CONFIRMAR EL QSO, VERIFIQUE LOS DATOS.";
         }
     
         this.setState({ error: errorToDisplay });
