@@ -14,8 +14,8 @@ export default class Qso extends  React.Component {
         super(props);
 
         this.state = {
-            datePick:"2023-06-18",
-            timePick:"12:00",
+            datePick:"2023-06-28",
+            timePick:"18:19",
             signal:"lu1eqe",
             frequency:"7100",
 
@@ -341,6 +341,8 @@ export default class Qso extends  React.Component {
         function PreviewPanel(props){
             return <div className="container">
                     <img src={props.qsl} alt="Qsl" />
+
+                    <button type="button" className="btn btn-success" >Hacer otra consulta </button>
                 </div>
         }
 
