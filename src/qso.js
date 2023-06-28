@@ -20,7 +20,7 @@ export default class Qso extends  React.Component {
             frequency:"7100",
 
 
-            formState:true,
+            formState:false,
             
             rst:"",
             mode:"",
@@ -210,7 +210,10 @@ export default class Qso extends  React.Component {
       handleChangeFreq= (event) => {
         this.setState({frequency:event.target.value});
       };     
-
+      resetForm=()=>{
+        
+        this.setState({formState:true,signal:"",frequency:"",datePick:"2023-01-01",time:"12:00"});
+      }
       
       
     componentDidMount() {
@@ -340,9 +343,23 @@ export default class Qso extends  React.Component {
         }
         function PreviewPanel(props){
             return <div className="container">
-                    <img src={props.qsl} alt="Qsl" />
+                    <div class="col-md-12 text-left">
+                        <h3>Encontramos las siguientes tarjetas de confirmación</h3>
+                    </div>
+                    
+                    <div>&nbsp;</div>
 
-                    <button type="button" className="btn btn-success" >Hacer otra consulta </button>
+                    <div class="col-md-12 text-center">
+                        <img src={props.qsl} alt="Qsl" />
+                    </div>
+
+                    <div>&nbsp;</div>
+
+                    
+                    <div class="col-md-12 text-center">
+                            <button type="button" className="btn btn-success" onClick={props.showForm()}>Hacer otra consulta </button>
+                    </div>
+                    
                 </div>
         }
 
@@ -350,7 +367,7 @@ export default class Qso extends  React.Component {
             console.log(props);
             // eslint-disable-next-line
             if (props.state.formState==false){
-                return <PreviewPanel qsl={props.state.qsl} />;
+                return <PreviewPanel qsl={props.state.qsl} showForm={props.resetForm} />;
         
             }else{
                 return <FormRequest state={props.state} function={props.function} handleChangeFrecuency={props.handleChangeFrecuency} 
@@ -382,6 +399,7 @@ export default class Qso extends  React.Component {
                              handleChangeTime={this.handleChangeTime}
                              handleChangeDatePick= {this.handleChangeDatePick}
                              handleChangeSignal={this.handleChangeSignal}
+                             resetForm={this.resetForm}
                              />
                              </div>
                             </form>
