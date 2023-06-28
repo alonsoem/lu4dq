@@ -1,11 +1,9 @@
 import React from 'react';
-//import '../node_modules/bootstrap-css-only/css/bootstrap.css';
 import {postQSO, getQsl} from "./api/api";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { format } from 'date-fns';
 
-import DatePicker from "react-datepicker";
+import {Row, Form} from "react-bootstrap";
 
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
@@ -16,19 +14,24 @@ export default class Qso extends  React.Component {
         super(props);
 
         this.state = {
-            date:"2023/06/06",
-            time:"1200",
+            datePick:"2023-06-18",
+            timePick:"12:00",
             signal:"lu1eqe",
+            frequency:"7100",
+            
             rst:"",
             mode:"",
             band:"",
-            frequency:"7100",
             error:"",
-            datePick:new Date(),
-            timePick:new Date(),
+            //datePick:new Date(),
+            
             qsl:null,
+            errors:[],
         };
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChangeFrecuency = this.handleChangeFrecuency.bind(this);
+        this.handleChangeSignal = this.handleChangeSignal.bind(this);
+        
     }
 
     handleSubmit = (event) => {
@@ -36,16 +39,34 @@ export default class Qso extends  React.Component {
         this.submit();
     }
 
+    
+      handleChangeFrecuency  = (event) => {
+        this.setState({ frequency: event.target.value });
+      };
+
+      handleChangeSignal  = (event) => {
+        this.setState({ signal: event.target.value });
+      };
+
+    hasError(key) {
+        return this.state.errors.indexOf(key) !== -1;
+    }
+
 
     submit = () =>{
+        console.log(this.state.datePick);
+        var date= new Date(this.state.datePick);
+        console.log(date.getDate()+1);
+        console.log(date.getMonth()+1);
+        console.log(date.getFullYear());
 
+        
+        
         postQSO({
             signal: this.state.signal,
             freq:this.state.frequency,
-            date:format(this.state.datePick,"yyyyMMdd"),
-            time:format(this.state.timePick,"HHmm"),
-            
-
+            date:this.state.datePick.replace(/\D/g, ""),
+            time:this.state.timePick.replace(/\D/g, ""),
             micall:this.state.myCall,
             sucall:this.state.toCall,
             banda:this.state.band,
@@ -60,23 +81,34 @@ export default class Qso extends  React.Component {
                     //this.tryQsl(response.document);
                     this.setState({qsl:"http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+response.document});
                 }else{
-                    this.handleAPIError(response.response);
+                    this.handleAPIError(response);
                 }
                 
               console.log("PASO");
               console.log(response);
-              //this.notify(this.props.t("userModifiedOK"));
               
             })
-            .catch((response) => this.handleAPIError(response));
+            .catch((response) => this.handleAxiosError(response));
     
       }
 
       handleAPIError(response) {
         let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
     console.log(response);
-        if (response.response==="Not Confirmed" ) {
+    // eslint-disable-next-line
+        if (response.response=="Not Confirmed" ) {
           errorToDisplay = "NO SE PUDO CONFIRMAR EL QSO, VERIFIQUE LOS DATOS.";
+        }
+    
+        this.setState({ error: errorToDisplay });
+        this.notifyError(errorToDisplay);
+      }
+      handleAxiosError(response) {
+        let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
+    
+        // eslint-disable-next-line
+        if (response.message=="Network Error") {
+          errorToDisplay = "Error de red!. Reintente a la brevedad";
         }
     
         this.setState({ error: errorToDisplay });
@@ -116,16 +148,17 @@ export default class Qso extends  React.Component {
       }
 
      handleChangeDate = (event) => {
-        this.setState({date:event.target.value});
+        this.setState({datePick:event.target.value});
       };
       handleChangeDatePick = (value) => {
         this.setState({datePick:value});
       };
      handleChangeTime = (event) => {
-        this.setState({time:event.target.value});
+        this.setState({timePick:event.target.value});
       };
 
       handleChangeTimePick = (value) => {
+        console.log(value);
         this.setState({timePick:value});
       };
 
@@ -159,9 +192,9 @@ export default class Qso extends  React.Component {
        
     render() {
         return (
-            <div >
+            <div className="container d-flex gap-3 p-3">
 
-            <div className="container-fluid table-scroll-vertical">
+            <div className="container-fluid table-scroll-vertical gap-3">
             <ToastContainer />
 
             
@@ -172,6 +205,8 @@ export default class Qso extends  React.Component {
                         <form onSubmit={this.handleSubmit} className="row g-3 needs-validation">
                         
                             <div className="card-body " >
+                             
+
                              
                                 <div className="row rowForm">
                                     <div className="col-12">
@@ -192,53 +227,104 @@ export default class Qso extends  React.Component {
                                 <div className="row">&nbsp;</div>
 
                 
-                                <div className="row rowForm">
-                                    <div className="col-2 text-left">Fecha</div>
-                                    <div class="col-10 has-validation">    
-                                        <DatePicker showIcon selected={this.state.datePick} onChange={(date) => this.handleChangeDatePick(date)}  dateFormat="dd/MM/yyyy" />        
-                                        
-                                        <div class="invalid-feedback">
-                                                La fecha no puede ser vacia!
-                                        </div>
-                                     </div>
-                                </div>
-                                <div className="row rowForm">
-                                <div className="col-2 text-left">Hora</div>
-                                    <div class=" col-10 has-validation">    
-                                    <DatePicker
-      selected={this.state.timePick}
-      onChange={(time) => this.handleChangeTimePick(time)}
-      showTimeSelect
-      showTimeSelectOnly
-      timeIntervals={15}
-      timeCaption="Time"
-      dateFormat="h:mm aa"
-    />
-                                        
-                                        <div className="invalid-feedback">
-                                                La hora no puede ser vacia!
-                                        </div>
-                                     </div>
-                                </div>
+                                <Row className="mb-3">
+                    <Form.Group className="mb-3" controlId="dateValue">
+                      <Form.Label>FECHA NUEVA</Form.Label>
+                      <Form.Control  onChange={(e) => this.handleChangeDatePick(e.target.value)} value={this.state.datePick} type="date" 
+                                     className={
+                                         this.hasError("date")
+                                             ? "form-control is-invalid"
+                                             : "form-control"
+                                     }/>
+                        <div
+                            className={
+                                this.hasError("date")
+                                    ? "invalid-feedback"
+                                    : "visually-hidden"
+                            }
+                        >
+                         description invalid feebakc
+                        </div>
+  
+                    </Form.Group>
+                  </Row>
+
+                               
                                 
-                                <div className="row rowForm">
-                                <div className="col-2 text-left">Señal</div>
-                                    <div className="col-10 text-center">
-                                        <input type="text" className="form-control"  id="callsign"  value={this.state.signal} onChange={this.handleChangeToCall} /> 
-                                    </div>
-                                </div>
+                                
+         
 
-                                <div className="row rowForm">
-                                <div className="col-2 text-left">Frecuencia</div>
-                                    <div className="col-10 text-center">
-                                    <div className="row">
-                                        <div className="col-3 text-center">
-                                            <input type="text" className="form-control" id="frequency"  value={this.state.frequency} onChange={this.handleChangeFreq} /> 
-                                        </div>
 
-                                        </div>
-                                    </div>
-                                </div>
+                               
+
+                                <Row className="mb-3">
+                    <Form.Group className="mb-3" controlId="timeValue">
+                      <Form.Label>HORA</Form.Label>
+                      <Form.Control  onChange={this.handleChangeTime} value={this.state.timePick} type="time"
+                                     className={
+                                         this.hasError("time")
+                                             ? "form-control is-invalid"
+                                             : "form-control"
+                                     }/>
+                        <div
+                            className={
+                                this.hasError("time")
+                                    ? "invalid-feedback"
+                                    : "visually-hidden"
+                            }
+                        >
+                         description invalid feebakc
+                        </div>
+  
+                    </Form.Group>
+                  </Row>
+
+        
+                   
+                                <Row className="mb-3">
+                    <Form.Group className="mb-3" controlId="frequencyValue">
+                      <Form.Label>FRECUENCIA</Form.Label>
+                      <Form.Control  onChange={this.handleChangeFrecuency} value={this.state.frequency}
+                                     className={
+                                         this.hasError("frequency")
+                                             ? "form-control is-invalid"
+                                             : "form-control"
+                                     }/>
+                        <div
+                            className={
+                                this.hasError("frequency")
+                                    ? "invalid-feedback"
+                                    : "visually-hidden"
+                            }
+                        >
+                         description invalid feebakc
+                        </div>
+  
+                    </Form.Group>
+                  </Row>
+                                <Row className="mb-3">
+                    <Form.Group className="mb-3" controlId="signalValue">
+                      <Form.Label>INDICATIVO</Form.Label>
+                      <Form.Control  onChange={this.handleChangeSignal} value={this.state.signal}
+                                     className={
+                                         this.hasError("signal")
+                                             ? "form-control is-invalid"
+                                             : "form-control"
+                                     }/>
+                        <div
+                            className={
+                                this.hasError("siganl")
+                                    ? "invalid-feedback"
+                                    : "visually-hidden"
+                            }
+                        >
+                         description invalid feebakc
+                        </div>
+  
+                    </Form.Group>
+                  </Row>
+
+                                
                             {/*
                                 <div className="row">
                                     <div className="col-2 text-left">Modo</div>
