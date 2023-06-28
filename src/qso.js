@@ -18,6 +18,9 @@ export default class Qso extends  React.Component {
             timePick:"12:00",
             signal:"lu1eqe",
             frequency:"7100",
+
+
+            formState:true,
             
             rst:"",
             mode:"",
@@ -80,11 +83,7 @@ export default class Qso extends  React.Component {
 
 
     submit = () =>{
-        console.log(this.state.datePick);
-        var date= new Date(this.state.datePick);
-        console.log(date.getDate()+1);
-        console.log(date.getMonth()+1);
-        console.log(date.getFullYear());
+
 
         
         
@@ -105,7 +104,9 @@ export default class Qso extends  React.Component {
                 if (response.response=="OK"){
                     this.notify("CONTACTO CONFIRMADO");
                     //this.tryQsl(response.document);
-                    this.setState({qsl:"http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+response.document});
+                    this.setState({formState:false});
+                    this.setState({qsl:"http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+response.document+"&chk="+response.chk});
+                    
                 }else{
                     this.handleAPIError(response);
                 }
@@ -215,37 +216,20 @@ export default class Qso extends  React.Component {
     componentDidMount() {
                
     }
+
+
        
     render() {
-        return (
-            <div className="container d-flex gap-3 p-3">
 
-            <div className="container-fluid table-scroll-vertical gap-3">
-            <ToastContainer />
-
-            
-            <p>&nbsp;</p>
-                    <div style={{ 'height': '100%'}} className="container col-10">
-                        
-                        <div className="card" style={{'background-color': 'rgba(181,181,181,0.1)'}}>
-                        <form onSubmit={this.handleSubmit} className="row g-3 needs-validation">
-                        
-                            <div className="card-body " >
-                             
-
-                             
-                                <div className="row rowForm">
+        function FormRequest(props){
+           return  <div>
+                    <div className="row rowForm">
                                     <div className="col-12">
                                     <h1>Ingresa los datos de tu Qso para confirmar el mismo en linea y descarga la QSL o certificado!</h1>
                                     </div>
                                 </div>
 
                                 <div className="row">&nbsp;</div>
-
-                                
-                                <div className="container">
-                                    <img src={this.state.qsl} alt="Qsl" />
-                                </div>
 
 
                              
@@ -256,15 +240,15 @@ export default class Qso extends  React.Component {
                                 <Row className="mb-3">
                     <Form.Group className="mb-3" controlId="dateValue">
                       <Form.Label>FECHA NUEVA</Form.Label>
-                      <Form.Control  onChange={(e) => this.handleChangeDatePick(e.target.value)} value={this.state.datePick} type="date" 
+                      <Form.Control  onChange={(e) => props.handleChangeDatePick(e.target.value)} value={props.state.datePick} type="date" 
                                      className={
-                                         this.hasError("date")
+                                        props.function("date")
                                              ? "form-control is-invalid"
                                              : "form-control"
                                      }/>
                         <div
                             className={
-                                this.hasError("date")
+                                props.function("date")
                                     ? "invalid-feedback"
                                     : "visually-hidden"
                             }
@@ -275,26 +259,19 @@ export default class Qso extends  React.Component {
                     </Form.Group>
                   </Row>
 
-                               
-                                
-                                
-         
-
-
-                               
 
                                 <Row className="mb-3">
                     <Form.Group className="mb-3" controlId="timeValue">
                       <Form.Label>HORA</Form.Label>
-                      <Form.Control  onChange={this.handleChangeTime} value={this.state.timePick} type="time"
+                      <Form.Control  onChange={props.handleChangeTime} value={props.state.timePick} type="time"
                                      className={
-                                         this.hasError("time")
+                                        props.function("time")
                                              ? "form-control is-invalid"
                                              : "form-control"
                                      }/>
                         <div
                             className={
-                                this.hasError("time")
+                                props.function("time")
                                     ? "invalid-feedback"
                                     : "visually-hidden"
                             }
@@ -310,15 +287,15 @@ export default class Qso extends  React.Component {
                                 <Row className="mb-3">
                     <Form.Group className="mb-3" controlId="frequencyValue">
                       <Form.Label>FRECUENCIA</Form.Label>
-                      <Form.Control  onChange={this.handleChangeFrecuency} value={this.state.frequency}
+                      <Form.Control  onChange={props.handleChangeFrecuency} value={props.state.frequency}
                                      className={
-                                         this.hasError("frequency")
+                                        props.function("frequency")
                                              ? "form-control is-invalid"
                                              : "form-control"
                                      }/>
                         <div
                             className={
-                                this.hasError("frequency")
+                                props.function("frequency")
                                     ? "invalid-feedback"
                                     : "visually-hidden"
                             }
@@ -331,15 +308,15 @@ export default class Qso extends  React.Component {
                                 <Row className="mb-3">
                     <Form.Group className="mb-3" controlId="signalValue">
                       <Form.Label>INDICATIVO</Form.Label>
-                      <Form.Control  onChange={this.handleChangeSignal} value={this.state.signal}
+                      <Form.Control  onChange={props.handleChangeSignal} value={props.state.signal}
                                      className={
-                                         this.hasError("signal")
+                                        props.function("signal")
                                              ? "form-control is-invalid"
                                              : "form-control"
                                      }/>
                         <div
                             className={
-                                this.hasError("signal")
+                                props.function("signal")
                                     ? "invalid-feedback"
                                     : "visually-hidden"
                             }
@@ -351,88 +328,7 @@ export default class Qso extends  React.Component {
                   </Row>
 
                                 
-                            {/*
-                                <div className="row">
-                                    <div className="col-2 text-left">Modo</div>
-
-                                    <div className="col-10 text-center">
-                                        <select className="form-select" id="mode" required onChange={this.handleChangeMode}>
-                                            <option selected disabled value="">Elija un modo...</option>
-                                            <option value="cw">CW</option>
-                                            <option value="am">AM</option>
-                                            <option value="ssb">SSB</option>
-                                            <option value="atv">ATV</option>
-                                            <option value="sstv">SSTV</option>
-                                            <option value="PACKET">PACKET</option>
-                                            <option value="APRS">APRS</option>
-                                            <option value="RTTY">RTTY</option>
-                                            <option value="FM">FM</option>
-                                            <option value="FAX">FAX</option>
-                                            <option value="DV">DV</option>
-                                        </select>
-                                        <div className="invalid-feedback">
-                                            Falta seleccionar un modo!
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div className="row">
-                                    <div className="col-2 text-left">Banda</div>
-                                    <div className="col-10 text-center">
-    
-                                        <select className="form-select" id="band" required onChange={this.handleChangeBand}>
-                                            <option selected disabled value="">Elija una banda...</option>
-                                            <option value="160m">160 m</option>
-                                            <option value="80m">80 m</option>
-                                            <option value="60m">60 m</option>
-                                            <option value="40m">40 m</option>
-                                            <option value="30m">30 m</option>
-                                            <option value="20m">20 m</option>
-                                            <option value="17m">17 m</option>
-                                            <option value="15m">15 m</option>
-                                            <option value="12m">12 m</option>
-                                            <option value="10m">10 m</option>
-                                            <option value="6m">6 m</option>
-                                            <option value="2m">2 m</option>
-                                            <option value="1.2m">1,2 m</option>
-                                            <option value="70cm">70 cm</option>
-                                            <option value="VOIP">VOIP</option>
-                                        </select>
-                                        <div className="invalid-feedback">
-                                            Falta seleccionar una banda!
-                                        </div>
-                                    </div>
-                                </div>
-   
-
-                                <div className="row">
-                                <div className="col-2 text-left">RST</div>
-                                    <div className="col-10 text-center">
-                                    <div className="row">
-                                        <div className="col-3 text-center">
-                                            <input type="text" className="form-control" id="rst"  value={this.state.rst} onChange={this.handleChangeRst} /> 
-                                        </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                
-                                <div className="row">
-                                    <div className="col-2 text-left">Mensaje</div>
-                                     <div className="col-10 text-center">
-                                     <div class="input-group has-validation">    
-                                        
-                                        <input type="text" className="form-control" style={{ 'width': '100% !important'}} id="message" aria-describedby="inputGroupPrepend" required value={this.state.message} onChange={this.handleChangeMessage} />
-                                        <div className="invalid-feedback">
-                                                El mensaje no puede ser vacio!
-                                        </div>
-                                     </div>
-                                        
-                                    </div>
-                                </div>
-        */}
+                            
                                 <div className="row">&nbsp;</div>
     
                                 <div className="row">
@@ -440,15 +336,59 @@ export default class Qso extends  React.Component {
                                             <button type="submit" className="btn btn-success">Confirmar</button>
                                     </div>
                                 </div>
+                </div>
+        }
+        function PreviewPanel(props){
+            return <div className="container">
+                    <img src={props.qsl} alt="Qsl" />
+                </div>
+        }
 
-                                
-                            </div>
+        function ConditionalForm(props){
+            console.log(props);
+            // eslint-disable-next-line
+            if (props.state.formState==false){
+                return <PreviewPanel qsl={props.state.qsl} />;
+        
+            }else{
+                return <FormRequest state={props.state} function={props.function} handleChangeFrecuency={props.handleChangeFrecuency} 
+                handleChangeTime={props.handleChangeTime}
+                handleChangeDatePick= {props.handleChangeDatePick}
+                handleChangeSignal={props.handleChangeSignal} />;
+                
+            };
+        }
+      
+        return (
+            <div className="container d-flex gap-3 p-3">
+
+                <div className="container-fluid table-scroll-vertical gap-3">
+                <ToastContainer />
+
+            
+                <p>&nbsp;</p>
+                    <div style={{ 'height': '100%'}} className="container col-10">
+                        
+                        <div className="card" style={{'background-color': 'rgba(181,181,181,0.1)'}}>
+                        <form onSubmit={this.handleSubmit} className="row g-3 needs-validation">
+                        
+                            <div className="card-body" >
+                             
+
+                             <ConditionalForm state={this.state} function={this.hasError}
+                             handleChangeFrecuency={this.handleChangeFrecuency} 
+                             handleChangeTime={this.handleChangeTime}
+                             handleChangeDatePick= {this.handleChangeDatePick}
+                             handleChangeSignal={this.handleChangeSignal}
+                             />
+                             </div>
                             </form>
                         </div>
                     </div>
-            </div>
+                </div>
             
-        </div>
+         </div>
+        
 
         );
 
