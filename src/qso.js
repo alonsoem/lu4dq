@@ -36,7 +36,33 @@ export default class Qso extends  React.Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.submit();
+        var errors = [];
+
+        // Check name of Rule
+        if (this.state.signal.length<=3) {
+            errors.push("signal");
+        }
+
+        // Check description of Rule
+        if (this.state.frequency.length <= 3) {
+            errors.push("frequency");
+        }
+
+
+        if (this.state.datePick.length !== 10) {
+            errors.push("date");
+        }
+
+
+        this.setState({
+            errors: errors,
+        });
+
+        if (errors.length > 0) {
+            return false;
+        } else {
+            this.submit();
+        }
     }
 
     
@@ -243,7 +269,7 @@ export default class Qso extends  React.Component {
                                     : "visually-hidden"
                             }
                         >
-                         description invalid feebakc
+                         Indicar una fecha correcta
                         </div>
   
                     </Form.Group>
@@ -273,7 +299,7 @@ export default class Qso extends  React.Component {
                                     : "visually-hidden"
                             }
                         >
-                         description invalid feebakc
+                         Indicar un horario correcto
                         </div>
   
                     </Form.Group>
@@ -297,7 +323,7 @@ export default class Qso extends  React.Component {
                                     : "visually-hidden"
                             }
                         >
-                         description invalid feebakc
+                         Indicar una frecuencia válida
                         </div>
   
                     </Form.Group>
@@ -313,12 +339,12 @@ export default class Qso extends  React.Component {
                                      }/>
                         <div
                             className={
-                                this.hasError("siganl")
+                                this.hasError("signal")
                                     ? "invalid-feedback"
                                     : "visually-hidden"
                             }
                         >
-                         description invalid feebakc
+                         Escribir al menos 3 digitos de un indicativo válido
                         </div>
   
                     </Form.Group>
