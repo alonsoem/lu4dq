@@ -23,8 +23,7 @@ export default class Qso extends  React.Component {
         
     }
 
-    setQsl=()=>{
-        const value="https://media.gettyimages.com/id/1398818729/es/foto/a-group-of-extended-family-and-friends-socialising-together.jpg?s=2048x2048&w=gi&k=20&c=SXwpyXDGFKZw4JxndmPMi3AXiuj25581d-PJBQLf-AA="
+    setQsl=(value)=>{
         this.setState({qsl:value})
         this.setState({formState:false})
         console.log("PASO POR ACA");

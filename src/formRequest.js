@@ -111,7 +111,8 @@ export default function FormRequest(props) {
                 //this.setState({formState:false});
                 //props.formState=false;
                 //this.setState({qsl:"http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+response.document+"&chk="+response.chk});
-                props.qslHook("http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+response.document+"&chk="+response.chk);
+                var url = "http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+response.document+"&chk="+response.chk;
+                props.qslHook(url);
                 
             }else{
                 handleAPIError(response);
