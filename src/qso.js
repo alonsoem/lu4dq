@@ -357,7 +357,7 @@ export default class Qso extends  React.Component {
 
                     
                     <div class="col-md-12 text-center">
-                            <button type="button" className="btn btn-success" onClick={props.showForm()}>Hacer otra consulta </button>
+                            <button type="button" className="btn btn-success" onClick={props.showForm}>Hacer otra consulta </button>
                     </div>
                     
                 </div>
