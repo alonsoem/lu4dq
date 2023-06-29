@@ -109,9 +109,9 @@ export default function FormRequest(props) {
                 notify("CONTACTO CONFIRMADO");
                 //this.tryQsl(response.document);
                 //this.setState({formState:false});
-                props.formState=false;
+                //props.formState=false;
                 //this.setState({qsl:"http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+response.document+"&chk="+response.chk});
-                props.qsl="http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+response.document+"&chk="+response.chk;
+                props.qslHook("http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+response.document+"&chk="+response.chk);
                 
             }else{
                 handleAPIError(response);

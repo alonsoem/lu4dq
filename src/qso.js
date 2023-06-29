@@ -23,8 +23,10 @@ export default class Qso extends  React.Component {
         
     }
 
-  
-     
+    setQsl=(value)=>{
+        this.setState({qsl:value})
+        this.setState({formState:false})
+    }
       resetForm=()=>{
         this.setState({formState:true,signal:"",frequency:"",datePick:"2023-01-01",time:"12:00"});
       }
@@ -65,7 +67,7 @@ export default class Qso extends  React.Component {
                 handleChangeTime={props.handleChangeTime}
                 handleChangeDatePick= {props.handleChangeDatePick}
                 handleChangeSignal={props.handleChangeSignal} />;*/
-                return <FormRequest qsl={props.state.qsl} formState={props.state.formState} />
+                return <FormRequest qslHook={props.setQsl}  />
                 
             };
         }
@@ -91,6 +93,7 @@ export default class Qso extends  React.Component {
                              handleChangeDatePick= {this.handleChangeDatePick}
                              handleChangeSignal={this.handleChangeSignal}
                              resetForm={this.resetForm}
+                             setQsl={this.setQsl}
                              />
                              </div>
                             
