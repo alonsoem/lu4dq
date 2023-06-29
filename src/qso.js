@@ -23,9 +23,11 @@ export default class Qso extends  React.Component {
         
     }
 
-    setQsl=(value)=>{
+    setQsl=()=>{
+        const value="https://media.gettyimages.com/id/1398818729/es/foto/a-group-of-extended-family-and-friends-socialising-together.jpg?s=2048x2048&w=gi&k=20&c=SXwpyXDGFKZw4JxndmPMi3AXiuj25581d-PJBQLf-AA="
         this.setState({qsl:value})
         this.setState({formState:false})
+        console.log("PASO POR ACA");
     }
       resetForm=()=>{
         this.setState({formState:true,signal:"",frequency:"",datePick:"2023-01-01",time:"12:00"});
@@ -63,10 +65,6 @@ export default class Qso extends  React.Component {
                 return <PreviewPanel qsl={props.state.qsl} showForm={props.resetForm} />;
         
             }else{
-                /*return <FormRequest state={props.state} function={props.function} handleChangeFrecuency={props.handleChangeFrecuency} 
-                handleChangeTime={props.handleChangeTime}
-                handleChangeDatePick= {props.handleChangeDatePick}
-                handleChangeSignal={props.handleChangeSignal} />;*/
                 return <FormRequest qslHook={props.setQsl}  />
                 
             };
@@ -87,11 +85,7 @@ export default class Qso extends  React.Component {
                             <div className="card-body" >
                              
 
-                             <ConditionalForm state={this.state} function={this.hasError}
-                             handleChangeFrecuency={this.handleChangeFrecuency} 
-                             handleChangeTime={this.handleChangeTime}
-                             handleChangeDatePick= {this.handleChangeDatePick}
-                             handleChangeSignal={this.handleChangeSignal}
+                             <ConditionalForm state={this.state} 
                              resetForm={this.resetForm}
                              setQsl={this.setQsl}
                              />
@@ -110,23 +104,4 @@ export default class Qso extends  React.Component {
     }
 
 
-    /* MENSAJES DE RESPUESTA DE LDA
-
-    Falta Usuario!
-Falta Contraseña!
-El usuario ‘$usuario’ NO existe en LdA!
-Error de Contraseña!
-No es un Call ni Alias registrado para ‘$usuario’ en LdA!
-Falta su Call!
-Falta Call Corresponsal!
-Falta Banda!
-Banda no admitida en LdA!
-Banda mal expresada!
-Falta Modo!
-Falta Fecha!
-Error en el formato de la fecha!
-Falta Hora!
-Error en el formato de la hora!
-Falta RS(T)!
-Solo se acepta PROP_MODE: SAT!*/
 }
