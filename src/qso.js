@@ -228,7 +228,7 @@ export default class Qso extends  React.Component {
            return  <div>
                     <div className="row rowForm">
                                     <div className="col-12">
-                                    <h1>Ingresa los datos de tu Qso para confirmar el mismo en linea y descarga la QSL o certificado!</h1>
+                                    <h5>Ingresa los datos de tu Qso para confirmar el mismo en linea y descarga la QSL o certificado!</h5>
                                     </div>
                                 </div>
 
