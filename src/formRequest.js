@@ -1,7 +1,7 @@
 //import "./styles.css";
 import {Form, Row} from "react-bootstrap";
 import { useState } from "react";
-import {postQSO, getQsl} from "./api/api";
+import {postQSO} from "./api/api";
 import { ToastContainer, toast } from 'react-toastify';
 
 
@@ -13,7 +13,7 @@ export default function FormRequest(props) {
   const [frequency, setFrequency] = useState("7100");
   const [signal, setSignal] = useState("lu1eqe");
   const [errors, setErrors] = useState([]);
-  const [error, setError] = useState("");
+  //const [error, setError] = useState("");
   
             
           
@@ -42,7 +42,7 @@ export default function FormRequest(props) {
       errorToDisplay = "NO SE PUDO CONFIRMAR EL QSO, VERIFIQUE LOS DATOS.";
     }
 
-    setError(errorToDisplay);
+    //setError(errorToDisplay);
     notifyError(errorToDisplay);
   }
 
@@ -54,15 +54,15 @@ export default function FormRequest(props) {
       errorToDisplay = "Error de red!. Reintente a la brevedad";
     }
 
-    setError(errorToDisplay);
+    //setError(errorToDisplay);
     notifyError(errorToDisplay);
   }
 
-  const tryQsl = (str) =>{
+  /*const tryQsl = (str) =>{
     getQsl({qso:str})
     .then((response)=>this.setState({qsl:response}))
     .catch((responseError) => this.handleAPIError(responseError));
-  }
+  }*/
 
   const notify = (message) => {
     toast.success(message, {
