@@ -14,7 +14,7 @@ export default class Qso extends  React.Component {
         super(props);
 
         this.state = {
-            formState:false,
+            formState:true,
             qsl:null,//aca va una imagen de precarga
             
                        
@@ -29,7 +29,7 @@ export default class Qso extends  React.Component {
         console.log("PASO POR ACA");
     }
       resetForm=()=>{
-        this.setState({formState:true,signal:"",frequency:"",datePick:"2023-01-01",time:"12:00"});
+        this.setState({formState:true});
       }
        
     render() {

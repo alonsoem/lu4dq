@@ -1,6 +1,7 @@
 //import "./styles.css";
 import {Form, Row} from "react-bootstrap";
 import { useState } from "react";
+import { format } from "date-fns";
 import {postQSO} from "./api/api";
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -8,10 +9,10 @@ import { ToastContainer, toast } from 'react-toastify';
 export default function FormRequest(props) {
 
   
-  const [datePick, setDate] = useState("2023-06-28");
-  const [timePick, setTime] = useState("18:19");
-  const [frequency, setFrequency] = useState("7100");
-  const [signal, setSignal] = useState("lu1eqe");
+  const [datePick, setDate] = useState(format(new Date(),"yyyy-MM-dd"));
+  const [timePick, setTime] = useState(format(new Date(),"HH:mm"));
+  const [frequency, setFrequency] = useState("");
+  const [signal, setSignal] = useState("");
   const [errors, setErrors] = useState([]);
   //const [error, setError] = useState("");
   
