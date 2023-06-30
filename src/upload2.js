@@ -33,7 +33,7 @@ class uploadBis extends Component {
 		);
 
 		// Details of the uploaded file
-		console.log(this.state.selectedFile);
+		//		console.log(this.state.selectedFile);
 
 		// Request made to the backend api
 		// Send formData object
@@ -105,11 +105,14 @@ class uploadBis extends Component {
 						(r)=>(
 						<Row >
 							<Col>{r.insert}</Col>
-							<Col>{r.message}</Col>
+							<Col>{r.data.callsign}</Col>
+							<Col>{r.data.date}</Col>
+							<Col>{r.data.time}</Col>
 
 						</Row>
 						)
 					)}
+						
 				</div>
 			</div>
 		);
