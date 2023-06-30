@@ -1,5 +1,5 @@
-import axios from 'axios';
-
+import {postFile} from "./api/api";
+import {Col, Row} from "react-bootstrap";
 import React, { Component } from 'react';
 
 class uploadBis extends Component {
@@ -7,7 +7,8 @@ class uploadBis extends Component {
 	state = {
 
 		// Initially, no file is selected
-		selectedFile: null
+		selectedFile: null,
+		filas:[]
 	};
 
 	// On file select (from the pop up)
@@ -36,8 +37,24 @@ class uploadBis extends Component {
 
 		// Request made to the backend api
 		// Send formData object
-		axios.post("http://lu4dq.qrits.com.ar/api/postFile.php", formData);
-	};
+		//axios.post("http://lu4dq.qrits.com.ar/api/postFile.php", formData);
+		postFile(formData)
+			.then(res=>	{this.showResults(res);
+			}
+			)
+			.catch(()=>{
+				console.log ("ERROR actualizando la DB");
+			}
+			);
+		
+	}
+
+	showResults=(res)=>{
+		console.log(res.rows);
+		this.setState({filas:res.rows});
+
+
+	}
 
 	// File content to be displayed after
 	// file upload is complete
@@ -82,6 +99,18 @@ class uploadBis extends Component {
 					</button>
 				</div>
 				{this.fileData()}
+
+				<div>
+					{this.state.filas.map(
+						(r)=>(
+						<Row >
+							<Col>{r.insert}</Col>
+							<Col>{r.message}</Col>
+
+						</Row>
+						)
+					)}
+				</div>
 			</div>
 		);
 	}
