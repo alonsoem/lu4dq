@@ -1,14 +1,14 @@
 import {postFile} from "./api/api";
-import {Col, Row} from "react-bootstrap";
+import {Badge} from "react-bootstrap";
 import React, { Component } from 'react';
+
 
 class uploadBis extends Component {
 
 	state = {
-
-		// Initially, no file is selected
 		selectedFile: null,
-		filas:[]
+		filas:[],
+		return:false,
 	};
 
 	// On file select (from the pop up)
@@ -51,6 +51,7 @@ class uploadBis extends Component {
 
 	showResults=(res)=>{
 		console.log(res.rows);
+		this.setState({return:true});
 		this.setState({filas:res.rows});
 
 
@@ -83,37 +84,93 @@ class uploadBis extends Component {
 		}
 	};
 
+	showBadgeMov = (value) => {
+		
+		if (value=="OK"){
+			return <span class="badge bg-success">{value}</span>
+		}else if (value=="duplicate"){
+			return <span class="badge bg-warning">{value}</span>
+		}else{
+			return <span class="badge bg-danger">{value}</span>
+		}
+	}
+	showResultsTable = () => {
+
+		if (this.state.return==true) {
+
+			return (
+				<div  className="col-12 mt-3">
+					<table className="table striped hover bordered responsive">
+					<thead>
+						<tr>
+							<th>Movimiento</th>
+							<th>Indicativo</th>
+							<th>Fecha</th>
+							<th>Hora</th>
+	  					</tr>
+					</thead>
+					<tbody className="col-12">
+									{this.state.filas.map(
+									(r)=>(
+											<tr  className="col-12">
+												<td className="col-2">{this.showBadgeMov(r.insert)}</td>
+												<td className="col-4">{r.data.callsign}</td>
+												<td className="col-3">{r.data.date}</td>
+												<td className="col-3">{r.data.time}</td>
+												</tr>
+									)
+								)}
+								</tbody>
+
+					</table>
+
+				</div>
+			);
+		
+		}
+	};
+
+	
+
+
 	render() {
 
 		return (
-			<div>
-				<h1>
-					Upload a File
+			<div className="container d-flex gap-3 p-3">
+			<div className="container col-10">
 
-				</h1>
-		
-				<div>
-					<input type="file" onChange={this.onFileChange} />
-					<button onClick={this.onFileUpload}>
-						Upload!
-					</button>
-				</div>
-				{this.fileData()}
+				
+				<div className="card" style={{'background-color': 'rgba(181,181,181,0.1)'}}>
+                		<div className="card-body" >
 
-				<div>
-					{this.state.filas.map(
-						(r)=>(
-						<Row >
-							<Col>{r.insert}</Col>
-							<Col>{r.data.callsign}</Col>
-							<Col>{r.data.date}</Col>
-							<Col>{r.data.time}</Col>
 
-						</Row>
-						)
-					)}
+							<div className="card-body" >
+								<h1>
+									Incluir un archivo ADIF 
+
+								</h1>
+
+								
+			
+								<div className="mt-3">
+									
+									<div className="card">
+										<input type="file" onChange={this.onFileChange}   />
+										{this.fileData()}
+									</div>	
+								</div>
+								<div className="text-right mt-3">
+									<button className="btn btn-success" onClick={this.onFileUpload}>
+										Upload!
+									</button>
+								</div>
+
+								{this.showResultsTable()}
+							</div>
 						
-				</div>
+
+				</div></div>
+			</div>
 			</div>
 		);
 	}

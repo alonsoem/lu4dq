@@ -18,8 +18,7 @@ export default class App extends React.Component {
         <BrowserRouter >
           <Routes>
             
-          <Route exact path="/back" element={<BackOffice />}></Route>
-          <Route exact path="/back2" element={<UploadBis />}></Route>
+          <Route exact path="/back" element={<UploadBis />}></Route>
           
             
             <Route exact path="/" element={<Qso />}></Route>
