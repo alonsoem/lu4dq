@@ -3,7 +3,6 @@ import React from "react";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 
 import Qso from "./qso.js";
-import BackOffice from "./upload.js";
 import UploadBis from "./upload2.js";
 
 

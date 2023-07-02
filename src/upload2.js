@@ -1,5 +1,4 @@
 import {postFile} from "./api/api";
-import {Badge} from "react-bootstrap";
 import React, { Component } from 'react';
 
 
@@ -85,9 +84,10 @@ class uploadBis extends Component {
 	};
 
 	showBadgeMov = (value) => {
-		
+		// eslint-disable-next-line
 		if (value=="OK"){
 			return <span class="badge bg-success">{value}</span>
+		// eslint-disable-next-line
 		}else if (value=="duplicate"){
 			return <span class="badge bg-warning">{value}</span>
 		}else{
@@ -95,7 +95,7 @@ class uploadBis extends Component {
 		}
 	}
 	showResultsTable = () => {
-
+		// eslint-disable-next-line
 		if (this.state.return==true) {
 
 			return (
