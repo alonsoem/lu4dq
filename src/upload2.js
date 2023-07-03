@@ -77,7 +77,7 @@ class uploadBis extends Component {
 			return (
 				<div>
 					<br />
-					<h4>Choose before Pressing the Upload button</h4>
+					<h4>Elija un archivo y luego presione el boton "Subir al servidor"</h4>
 				</div>
 			);
 		}
@@ -161,7 +161,7 @@ class uploadBis extends Component {
 								</div>
 								<div className="text-right mt-3">
 									<button className="btn btn-success" onClick={this.onFileUpload}>
-										Upload!
+										Subir al servidor!
 									</button>
 								</div>
 
