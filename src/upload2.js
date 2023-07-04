@@ -226,6 +226,7 @@ import {useRef, useState} from 'react';
 								</div>
 
 								{showResultsTable()}
+								
 							</div>
 						
 

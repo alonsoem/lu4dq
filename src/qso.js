@@ -2,6 +2,7 @@ import React from 'react';
 
 import 'react-toastify/dist/ReactToastify.css';
 import FormRequest from './formRequest';
+import { saveAs } from 'file-saver';
 
 
 
@@ -14,15 +15,10 @@ export default class Qso extends  React.Component {
         super(props);
 
         this.state = {
-            formState:true,
+            formState:false,
             qsl:null,//aca va una imagen de precarga
-            
-                       
-        };
-                
-        
+        };            
     }
-
     setQsl=(value)=>{
         this.setState({qsl:value})
         this.setState({formState:false})
@@ -31,9 +27,13 @@ export default class Qso extends  React.Component {
       resetForm=()=>{
         this.setState({formState:true});
       }
+
        
     render() {
 
+        const downloadImage=(url)=>{
+            saveAs(url, 'qsl.jpg');
+          }
        
         function PreviewPanel(props){
             return <div className="container">
@@ -45,14 +45,24 @@ export default class Qso extends  React.Component {
 
                     <div class="col-md-12 text-center">
                         <img src={props.qsl} alt="Qsl" />
-                    </div>
 
-                    <div>&nbsp;</div>
+                   
+                    </div>
 
                     
+
+                    <div>&nbsp;</div>
+          
                     <div class="col-md-12 text-center">
-                            <button type="button" className="btn btn-success" onClick={props.showForm}>Hacer otra consulta </button>
+                    <button className="btn btn-success m-3" onClick={r=>
+                        downloadImage(props.sql)}>
+                        Descargar!
+                    </button>
+                    
+                    
+                         <button type="button" className="btn btn-danger m-3" onClick={props.showForm}>Hacer otra consulta </button>
                     </div>
+                    
                     
                 </div>
         }
