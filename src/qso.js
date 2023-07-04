@@ -15,7 +15,7 @@ export default class Qso extends  React.Component {
         super(props);
 
         this.state = {
-            formState:false,
+            formState:true,
             qsl:null,//aca va una imagen de precarga
         };            
     }
