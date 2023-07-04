@@ -55,7 +55,7 @@ export default class Qso extends  React.Component {
           
                     <div class="col-md-12 text-center">
                     <button className="btn btn-success m-3" onClick={r=>
-                        downloadImage(props.sql)}>
+                        downloadImage(props.qsl)}>
                         Descargar!
                     </button>
                     
