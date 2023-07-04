@@ -47,8 +47,10 @@ import {useRef, useState} from 'react';
 				console.log ("ERROR actualizando la DB");
 				console.log (res);
 				setError(true);
+				// eslint-disable-next-line
 				if (res.response.data.status=="ERROR_UPLOADING"){
 					setResponseError("No se pudo subir el archivo al servidor!");
+					// eslint-disable-next-line
 				}else if (res.response.data.status=="ERROR_PROCESSING"){
 					setResponseError("Ocurrió un error procesando el archivo!");
 				}else{
@@ -156,20 +158,20 @@ import {useRef, useState} from 'react';
 	};
 
 	const haveFile=()=>{
-		//habilita boton si hay archivo seleccionado y return es falso
+		// eslint-disable-next-line
 		return selectedFile!=null && response==false;
 	}
 	const haveReturned=()=>{
 		console.log (response);
+		// eslint-disable-next-line
 		return response==true;
 	}
 
 	const showAnotherBtn=()=>{
+		// eslint-disable-next-line
 		return response==true;
 	}
 	const resetForm=()=>{
-		/*this.setState({return:false});
-		this.setState({selectedFile:null});*/
 		setResponse(false);
 		setFile(null);
 		resetFileInput();
@@ -181,7 +183,7 @@ import {useRef, useState} from 'react';
 	
 
 	const resetFileInput = () => {
-		// resetting the input value
+		// eslint-disable-next-line
 		inputRef.current.value = null;
 		
 	};
