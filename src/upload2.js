@@ -1,34 +1,34 @@
 import {postFile} from "./api/api";
-import React, { Component } from 'react';
+import {useRef, useState} from 'react';
 
 
-class uploadBis extends Component {
+	function Upload(){
 
-	state = {
-		selectedFile: null,
-		filas:[],
-		return:false,
-	};
+		const [ selectedFile, setFile ] = useState(null);
+		const [ filas, setFilas ] = useState([]);
+		const [ response, setResponse ] = useState(false);
+		const [ responseError,setResponseError ] = useState(false);
+		const [ error,setError ] = useState(false);
+		const inputRef = useRef(null);
 
-	// On file select (from the pop up)
-	onFileChange = event => {
+	
 
-		// Update the state
-		this.setState({ selectedFile: event.target.files[0] });
-
-	};
+		// On file select (from the pop up)
+		const onFileChange = event => {
+			setFile(event.target.files[0] );
+		};
 
 	// On file upload (click the upload button)
-	onFileUpload = () => {
-
+	const onFileUpload = () => {
+		setError(false);
 		// Create an object of formData
 		const formData = new FormData();
 
 		// Update the formData object
 		formData.append(
 			"file",
-			this.state.selectedFile,
-			this.state.selectedFile.name
+			selectedFile,
+			selectedFile.name
 		);
 
 		// Details of the uploaded file
@@ -38,52 +38,66 @@ class uploadBis extends Component {
 		// Send formData object
 		//axios.post("http://lu4dq.qrits.com.ar/api/postFile.php", formData);
 		postFile(formData)
-			.then(res=>	{this.showResults(res);
+			.then(res=>	{
+							showResults(res);
+							//this.setState({selectedFile:null});
 			}
 			)
-			.catch(()=>{
+			.catch((res)=>{
 				console.log ("ERROR actualizando la DB");
+				console.log (res);
+				setError(true);
+				if (res.response.data.status=="ERROR_UPLOADING"){
+					setResponseError("No se pudo subir el archivo al servidor!");
+				}else if (res.response.data.status=="ERROR_PROCESSING"){
+					setResponseError("Ocurrió un error procesando el archivo!");
+				}else{
+					setResponseError("Ocurrió un error inesperado!");
+				}
+				setResponse(true);	
 			}
+				
 			);
 		
 	}
 
-	showResults=(res)=>{
-		console.log(res.rows);
-		this.setState({return:true});
-		this.setState({filas:res.rows});
-
-
+	const showResults=(res)=>{
+		setFilas(res.rows);
+		setResponse(true);
 	}
 
-	// File content to be displayed after
-	// file upload is complete
-	fileData = () => {
+	const fileData = () => {
 
-		if (this.state.selectedFile) {
-
+		if (selectedFile) {
 			return (
+				
 				<div>
-					<h2>File Details:</h2>
-					<p>File Name: {this.state.selectedFile.name}</p>
+					<h2>Detalles:</h2>
+					<p>Nombre: {selectedFile.name}</p>
 					<p>
-						Last Modified:{" "}
-						{this.state.selectedFile.lastModifiedDate.toDateString()}
+						Última modificación:{" "}
+						{selectedFile.lastModifiedDate.toDateString()}
+					</p>
+					<p>
+						Tamaño:{" "}
+						{selectedFile.size.toString()}
 					</p>
 
 				</div>
 			);
-		} else {
+		/*} else {
 			return (
 				<div>
-					<br />
-					<h4>Elija un archivo y luego presione el boton "Subir al servidor"</h4>
+					pepe
 				</div>
 			);
+			*/
 		}
 	};
+	/*<br />
+					<h4>Elija un archivo y luego presione el boton "Subir al servidor"</h4>*/
 
-	showBadgeMov = (value) => {
+	const showBadgeMov = (value) => {
 		// eslint-disable-next-line
 		if (value=="OK"){
 			return <span class="badge bg-success">{value}</span>
@@ -94,9 +108,19 @@ class uploadBis extends Component {
 			return <span class="badge bg-danger">{value}</span>
 		}
 	}
-	showResultsTable = () => {
+
+	const showResultsTable = () => {
 		// eslint-disable-next-line
-		if (this.state.return==true) {
+		if (response==true) {
+			if (error){
+
+				return (
+					<div  className="col-12 mt-3">
+						<h3>{responseError}</h3>
+	
+					</div>
+				);
+			}else{
 
 			return (
 				<div  className="col-12 mt-3">
@@ -110,10 +134,10 @@ class uploadBis extends Component {
 	  					</tr>
 					</thead>
 					<tbody className="col-12">
-									{this.state.filas.map(
+									{filas.map(
 									(r)=>(
 											<tr  className="col-12">
-												<td className="col-2">{this.showBadgeMov(r.insert)}</td>
+												<td className="col-2">{showBadgeMov(r.insert)}</td>
 												<td className="col-4">{r.data.callsign}</td>
 												<td className="col-3">{r.data.date}</td>
 												<td className="col-3">{r.data.time}</td>
@@ -126,14 +150,41 @@ class uploadBis extends Component {
 
 				</div>
 			);
+			}
 		
 		}
 	};
 
+	const haveFile=()=>{
+		//habilita boton si hay archivo seleccionado y return es falso
+		return selectedFile!=null && response==false;
+	}
+	const haveReturned=()=>{
+		console.log (response);
+		return response==true;
+	}
+
+	const showAnotherBtn=()=>{
+		return response==true;
+	}
+	const resetForm=()=>{
+		/*this.setState({return:false});
+		this.setState({selectedFile:null});*/
+		setResponse(false);
+		setFile(null);
+		resetFileInput();
+	}
+
+	
+	
+	
 	
 
-
-	render() {
+	const resetFileInput = () => {
+		// resetting the input value
+		inputRef.current.value = null;
+		
+	};
 
 		return (
 			<div className="container d-flex gap-3 p-3">
@@ -145,27 +196,34 @@ class uploadBis extends Component {
 
 
 							<div className="card-body" >
+
 								<h1>
 									Incluir un archivo ADIF 
 
 								</h1>
-
-								
-			
-								<div className="mt-3">
+								<div className="mt-3 ">
 									
-									<div className="card">
-										<input type="file" onChange={this.onFileChange}   />
-										{this.fileData()}
+									<div className={haveReturned()?"card p-3 visually-hidden" :"card p-3"} >
+										<div class=" mb-3">
+  											<label for="formFile" class="form-label"><h4>Elija un archivo y luego presione el boton "Subir al servidor"</h4></label>
+  											<input  ref={inputRef} class="form-control" type="file" id="formFile"  onChange={onFileChange} />
+										</div>
+										{fileData()}
 									</div>	
 								</div>
+
 								<div className="text-right mt-3">
-									<button className="btn btn-success" onClick={this.onFileUpload}>
+								<button class={showAnotherBtn()?"btn btn-danger m-2" :"btn btn-sanger m-2 visually-hidden "} onClick={resetForm}>
+              						Hacer otra carga!
+            					</button>
+								
+								
+									<button className={haveFile()?"btn btn-success m-2" :"btn btn-outline-success disabled m-2"} onClick={onFileUpload}>
 										Subir al servidor!
 									</button>
 								</div>
 
-								{this.showResultsTable()}
+								{showResultsTable()}
 							</div>
 						
 
@@ -173,7 +231,7 @@ class uploadBis extends Component {
 			</div>
 			</div>
 		);
-	}
+	
 }
 
-export default uploadBis;
+export default Upload;
