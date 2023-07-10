@@ -1,24 +1,24 @@
 import {React,useEffect,useState} from 'react';
 import { getResumedActivities } from './api/api';
 import { useParams} from 'react-router-dom';
+import { FlatList } from 'flatlist-react';
 
 
  const Activities =(props) => {
     
     const { idAct } = useParams(); // <-- access id match param here
     //const [signal, setSignal] = useState("");
-    const [activity] = useState([]);
+    const [activity,setActivity] = useState([]);
 
 
 
-    useEffect((props) => {
+    useEffect(() => {
         console.log("VA");
         console.log(idAct);
 
         getResumedActivities({id: idAct})       
             .then((response) => {
-                //eslint-disable-next-line
-                    this.setState({activity:response.confirmed});
+                    setActivity(response.confirmed);
                     console.log(response.confirmed);
             })
             .catch((response) => {
@@ -26,8 +26,8 @@ import { useParams} from 'react-router-dom';
                 console.log(response);
                 }
             );
-        }
-    )
+        }, [idAct,activity]
+        )
 
 
 
@@ -37,17 +37,23 @@ import { useParams} from 'react-router-dom';
        return (<table class="table">
        <thead>
          <tr>
-           <th scope="col">#</th>
+           <th scope="col">Rank</th>
            <th scope="col">Indicativo</th>
+           <th scope="col">Cantidad</th>
            <th scope="col">Estaciones contactadas</th>
          </tr>
        </thead>
        <tbody>
        {activity.map((each) =>{
                 return ( <tr>
-                 <th scope="row">1</th>
-                 <td>{each.callsign}</td>
-                 <td>{each.confirmed}</td>
+                 <th scope="row">{ activity.indexOf(each)+1}</th>
+                 <td>{each.callsign.toUpperCase()}</td>
+                 <td>{each.stations.length}</td>
+                 <td>
+
+                    {each.stations.join(", ").toUpperCase()}
+                 
+                </td>
                </tr>
                 )
 

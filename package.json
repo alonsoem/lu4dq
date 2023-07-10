@@ -1,11 +1,13 @@
 {
   "name": "lu4dq",
+  "homepage": "/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "axios": "^1.4.0",
     "bootstrap": "^5.3.0",
     "file-saver": "^2.0.5",
+    "flatlist-react": "^1.5.14",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.7",
     "react-bootstrap-typeahead": "^6.0.2",
