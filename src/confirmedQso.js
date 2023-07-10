@@ -1,12 +1,12 @@
-import {React,useState,useEffect} from 'react';
+import {React,useEffect} from 'react';
 import { getResumedActivities } from './api/api';
 import { useParams} from 'react-router-dom';
 
 
 export default function Activities ()  {
     const { idAct } = useParams(); // <-- access id match param here
-    const [signal, setSignal] = useState("");
-    const [activity, setActivity] = useState([]);
+    //const [signal, setSignal] = useState("");
+    //const [activity, setActivity] = useState([]);
 
 
 
