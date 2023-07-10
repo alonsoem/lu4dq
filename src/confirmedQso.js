@@ -1,12 +1,13 @@
-import {React,useEffect} from 'react';
+import {React,useEffect,useState} from 'react';
 import { getResumedActivities } from './api/api';
 import { useParams} from 'react-router-dom';
 
 
-export default function Activities ()  {
+ const Activities =(props) => {
+    
     const { idAct } = useParams(); // <-- access id match param here
     //const [signal, setSignal] = useState("");
-    //const [activity, setActivity] = useState([]);
+    const [activity] = useState([]);
 
 
 
@@ -41,29 +42,24 @@ export default function Activities ()  {
        <thead>
          <tr>
            <th scope="col">#</th>
-           <th scope="col">First</th>
-           <th scope="col">Last</th>
-           <th scope="col">Handle</th>
+           <th scope="col">Indicativo</th>
+           <th scope="col">Estaciones contactadas</th>
          </tr>
        </thead>
        <tbody>
-         <tr>
-           <th scope="row">1</th>
-           <td>Mark</td>
-           <td>Otto</td>
-           <td>@mdo</td>
-         </tr>
-         <tr>
-           <th scope="row">2</th>
-           <td>Jacob</td>
-           <td>Thornton</td>
-           <td>@fat</td>
-         </tr>
-         <tr>
-           <th scope="row">3</th>
-           <td colspan="2">Larry the Bird</td>
-           <td>@twitter</td>
-         </tr>
+       {activity.map((each) =>{
+                return ( <tr>
+                 <th scope="row">1</th>
+                 <td>{each.callsign}</td>
+                 <td>{each.confirmed}</td>
+               </tr>
+                )
+
+
+       })}
+       
+
+
        </tbody>
      </table>);
        
@@ -75,15 +71,14 @@ export default function Activities ()  {
 
         return(
        
-            <div className="container d-flex gap-3 p-3">
+            <div className="container d-flex">
 
-                <div className="container-fluid table-scroll-vertical gap-3">
+                <div className="container-fluid" >
             
-                    <p>&nbsp;</p>
-                    <div style={{ 'height': '100%'}} className="container col-10">
+                    <div style={{ 'height': '100%'}} className="container col-10 m-4">
                         
                         <div className="card" style={{'background-color': 'rgba(181,181,181,0.1)'}}>
-                        
+                        <div className="card-header">ACTIVIDAD</div>
                             <div className="card-body" >
                                 {activityTable() }
                              </div>
@@ -98,4 +93,5 @@ export default function Activities ()  {
 
     
 
-} 
+} ;
+export default Activities;

@@ -9,6 +9,7 @@ import Activities from "./confirmedQso.js";
 
 
 
+
 //import '../node_modules/bootstrap-css-only/css/bootstrap.css';
 
 
@@ -18,9 +19,9 @@ export default class App extends React.Component {
       return (
         <BrowserRouter >
           <Routes>
-              
-          <Route exact path="/back" element={<UploadBis />}></Route>
-            <Route exact path="/activities/:idAct" element={<Activities />}></Route>
+          <Route path='/activities/:idAct' element={<Activities />}></Route>   
+          <Route exact path='/back' element={<UploadBis />}></Route>
+          
             <Route exact path="/" element={<Qso />}></Route>
             
           </Routes>
