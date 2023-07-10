@@ -1,15 +1,12 @@
 import {React,useEffect,useState} from 'react';
 import { getResumedActivities } from './api/api';
 import { useParams} from 'react-router-dom';
-import { FlatList } from 'flatlist-react';
-
 
  const Activities =(props) => {
     
     const { idAct } = useParams(); // <-- access id match param here
     //const [signal, setSignal] = useState("");
     const [activity,setActivity] = useState([]);
-
 
 
     useEffect(() => {
@@ -28,10 +25,6 @@ import { FlatList } from 'flatlist-react';
             );
         }, [idAct,activity]
         )
-
-
-
-   
 
     function activityTable(){
        return (<table class="table">
@@ -67,8 +60,6 @@ import { FlatList } from 'flatlist-react';
        
     }
 
-
-    
 
 
         return(

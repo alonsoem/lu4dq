@@ -5,6 +5,7 @@ import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Qso from "./qso.js";
 import UploadBis from "./upload2.js";
 import Activities from "./confirmedQso.js";
+import Prueba from "./activities.js";
 
 
 
@@ -19,6 +20,7 @@ export default class App extends React.Component {
       return (
         <BrowserRouter >
           <Routes>
+          <Route path='/test/:idAct' element={<Prueba />}></Route>   
           <Route path='/activities/:idAct' element={<Activities />}></Route>   
           <Route exact path='/back' element={<UploadBis />}></Route>
           
