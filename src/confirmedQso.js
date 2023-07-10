@@ -11,19 +11,15 @@ import { useParams} from 'react-router-dom';
 
 
 
-    useEffect(() => {
+    useEffect((props) => {
         console.log("VA");
         console.log(idAct);
 
         getResumedActivities({id: idAct})       
             .then((response) => {
                 //eslint-disable-next-line
-                if (response.response=="OK"){
                     this.setState({activity:response.confirmed});
                     console.log(response.confirmed);
-                }else{
-                    //handleAPIError(response);
-                }         
             })
             .catch((response) => {
                 //handleAxiosError(response)
