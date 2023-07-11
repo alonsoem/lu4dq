@@ -7,7 +7,6 @@ import { getActivities } from './api/api.js';
 export default class ActivitiesBeta extends  React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
             activities:[],
         };            
