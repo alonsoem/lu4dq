@@ -13,6 +13,9 @@ export default function FormRequest(props) {
   const [timePick, setTime] = useState(format(new Date(),"HH:mm"));
   const [frequency, setFrequency] = useState("");
   const [signal, setSignal] = useState("");
+  const [band, setBand] = useState("");
+  const [mode, setMode] = useState("");
+  const [rst, setRST] = useState("");
   const [errors, setErrors] = useState([]);
   //const [error, setError] = useState("");
   
@@ -33,7 +36,15 @@ export default function FormRequest(props) {
   const handleChangeSignal  = (event) => {
     setSignal(event.target.value);
   };
-
+  const handleChangeBand  = (event) => {
+    setBand(event.target.value);
+  };
+  const handleChangeMode  = (event) => {
+    setMode(event.target.value);
+  };
+  const handleChangeRST  = (event) => {
+    setRST(event.target.value);
+  };
   
   const handleAPIError= (response)=> {
     let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
@@ -98,11 +109,11 @@ export default function FormRequest(props) {
         freq:frequency,
         date:datePick.replace(/\D/g, ""),
         time:timePick.replace(/\D/g, ""),
+        band:band,
+        mode:mode,
+        rst:rst,
         //micall:this.state.myCall,
         //sucall:this.state.toCall,
-        //banda:this.state.band,
-        //modo:this.state.mode,
-        //rst:this.state.rst
         })       
         .then((response) => {
             //eslint-disable-next-line
@@ -247,7 +258,104 @@ export default function FormRequest(props) {
 
                </Form.Group>
              </Row>
-                           <Row className="mb-3">
+             <Row className="mb-3">
+               <Form.Group className="mb-3" controlId="bandValue">
+                 <Form.Label>BANDA</Form.Label>
+                 
+                  <select id="band" required onChange={handleChangeBand}
+                  className={
+                    hasError("band")
+                          ? "form-select is-invalid"
+                          : "form-select"
+                  } >
+                                            <option selected disabled value="">Elija una banda...</option>
+                                            <option value="160m">160 m</option>
+                                            <option value="80m">80 m</option>
+                                            <option value="60m">60 m</option>
+                                            <option value="40m">40 m</option>
+                                            <option value="30m">30 m</option>
+                                            <option value="20m">20 m</option>
+                                            <option value="17m">17 m</option>
+                                            <option value="15m">15 m</option>
+                                            <option value="12m">12 m</option>
+                                            <option value="10m">10 m</option>
+                                            <option value="6m">6 m</option>
+                                            <option value="2m">2 m</option>
+                                            <option value="1.2m">1,2 m</option>
+                                            <option value="70cm">70 cm</option>
+                                            <option value="VOIP">VOIP</option>
+                                            </select>
+                   <div
+                       className={
+                        hasError("band")
+                               ? "invalid-feedback"
+                               : "visually-hidden"
+                       }
+                   >
+                    Indicar una banda válida
+                   </div>
+
+               </Form.Group>
+             </Row>
+             <Row className="mb-3">
+               <Form.Group className="mb-3" controlId="modeValue">
+                 <Form.Label>MODO</Form.Label>
+                 
+                 <select id="mode" required onChange={handleChangeMode}
+                  className={
+                    hasError("mode")
+                          ? "form-select is-invalid"
+                          : "form-select"
+                  } >
+                                            <option selected disabled value="">Elija un modo...</option>
+                                            <option value="cw">CW</option>
+                                            <option value="am">AM</option>
+                                            <option value="ssb">SSB</option>
+                                            <option value="atv">ATV</option>
+                                            <option value="sstv">SSTV</option>
+                                            <option value="PACKET">PACKET</option>
+                                            <option value="APRS">APRS</option>
+                                            <option value="RTTY">RTTY</option>
+                                            <option value="FM">FM</option>
+                                            <option value="FAX">FAX</option>
+                                            <option value="DV">DV</option>
+                                            </select>
+                   <div
+                       className={
+                        hasError("mode")
+                               ? "invalid-feedback"
+                               : "visually-hidden"
+                       }
+                   >
+                    Indicar un modo válido
+                   </div>
+
+               </Form.Group>
+
+               </Row>             
+                <Row className="mb-3">
+               <Form.Group type="number" className="mb-3" controlId="signalValue">
+                 <Form.Label>SEÑALES</Form.Label>
+                 <Form.Control  onChange={handleChangeRST} value={rst}
+                                className={
+                                  hasError("rstValue")
+                                        ? "form-control is-invalid"
+                                        : "form-control"
+                                }/>
+                   <div
+                       className={
+                        hasError("rstValue")
+                               ? "invalid-feedback"
+                               : "visually-hidden"
+                       }
+                   >
+                    Indique las señales correctamente!
+                   </div>
+
+               </Form.Group>
+             </Row>
+                         
+              <Row className="mb-3">
                <Form.Group className="mb-3" controlId="signalValue">
                  <Form.Label>INDICATIVO</Form.Label>
                  <Form.Control  onChange={handleChangeSignal} value={signal}
