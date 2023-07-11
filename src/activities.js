@@ -1,5 +1,5 @@
 import React from 'react';
-import ConfirmedQsos from "./confirmedQso.js";
+import { getActivities } from './api/api.js';
 
 
 
@@ -9,9 +9,25 @@ export default class ActivitiesBeta extends  React.Component {
         super(props);
 
         this.state = {
-            
+            activities:[],
         };            
     }
+
+    componentDidMount(){
+        getActivities()       
+        .then((response) => {
+                this.setState({activities:response.activities});
+                console.log(response.activities);
+        })
+        .catch((response) => {
+            //handleAxiosError(response)
+            console.log(response);
+            }
+        );
+
+    }
+
+    
    
 
        
@@ -24,21 +40,20 @@ export default class ActivitiesBeta extends  React.Component {
 
                 <div className="container-fluid table-scroll-vertical gap-3">
                 
-
-            
-                <p>&nbsp;</p>
-                    <div style={{ 'height': '100%'}} className="container col-10">
+                    <div style={{ 'height': '100%'}} className="container col-10 m-4">
                         
-                        <div className="card" style={{'background-color': 'rgba(181,181,181,0.1)'}}>
-                        
-                            <div className="card-body" >
-                             
+                    <div className="card-columns">
+                        { this.state.activities.map((each)=>
+                           {
+                            return <div className="card" style={{width: '18rem'}}>
+                                <div className="card-body">
+                                    <a href={"/activities/"+each.id} > {each.title}</a>
+                                </div>
 
-                             {//<ConfirmedQsos idAct={this.props.match.params.idAct} />
-                            }
-                             </div>
-                            
-                        </div>
+                            </div>
+                           } 
+                            )}
+                            </div>
                     </div>
                 </div>
             

@@ -2,10 +2,11 @@ import React from "react";
 
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 
-import Qso from "./qso.js";
+//import Qso from "./qso.js";
 import UploadBis from "./upload2.js";
 import Activities from "./confirmedQso.js";
-import Prueba from "./activities.js";
+import AllActivities from "./activities.js";
+
 
 
 
@@ -20,11 +21,15 @@ export default class App extends React.Component {
       return (
         <BrowserRouter >
           <Routes>
-          <Route path='/test/:idAct' element={<Prueba />}></Route>   
+
+          <Route exact path='/activities' element={<AllActivities />}></Route>   
           <Route path='/activities/:idAct' element={<Activities />}></Route>   
+          
+          
           <Route exact path='/back' element={<UploadBis />}></Route>
           
-            <Route exact path="/" element={<Qso />}></Route>
+          {//<Route exact path="/" element={<Qso />}></Route>
+          }
             
           </Routes>
         </BrowserRouter>

@@ -23,7 +23,7 @@ import { useParams} from 'react-router-dom';
                 console.log(response);
                 }
             );
-        }, [idAct,activity]
+        }, [idAct]
         )
 
     function activityTable(){
@@ -40,11 +40,11 @@ import { useParams} from 'react-router-dom';
        {activity.map((each) =>{
                 return ( <tr>
                  <th scope="row">{ activity.indexOf(each)+1}</th>
-                 <td>{each.callsign.toUpperCase()}</td>
-                 <td>{each.stations.length}</td>
+                 <td>{each.station.toUpperCase()}</td>
+                 <td>{each.callsigns.length}</td>
                  <td>
 
-                    {each.stations.join(", ").toUpperCase()}
+                    {each.callsigns.join(", ").toUpperCase()}
                  
                 </td>
                </tr>
@@ -64,13 +64,13 @@ import { useParams} from 'react-router-dom';
 
         return(
        
-            <div className="container d-flex">
+            <div className="container d-flex gap-3 p-3">
 
-                <div className="container-fluid" >
+                <div className="container-fluid gap-3 p-3" >
             
-                    <div style={{ 'height': '100%'}} className="container col-10 m-4">
+                    <div style={{ 'height': '100%'}} className="container col-12 m-4">
                         
-                        <div className="card" style={{'background-color': 'rgba(181,181,181,0.1)'}}>
+                        <div className="card col-12" style={{'background-color': 'rgba(181,181,181,0.1)'}}>
                         <div className="card-header">ACTIVIDAD</div>
                             <div className="card-body" >
                                 {activityTable() }
