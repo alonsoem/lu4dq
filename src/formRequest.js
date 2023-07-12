@@ -11,7 +11,7 @@ export default function FormRequest(props) {
   
   const [datePick, setDate] = useState(format(new Date(),"yyyy-MM-dd"));
   const [timePick, setTime] = useState(format(new Date(),"HH:mm"));
-  const [frequency, setFrequency] = useState("");
+  //const [frequency, setFrequency] = useState("");
   const [signal, setSignal] = useState("");
   const [band, setBand] = useState("");
   const [mode, setMode] = useState("");
@@ -30,9 +30,11 @@ export default function FormRequest(props) {
     setTime(event.target.value);
   };
 
+  /*
   const handleChangeFrecuency= (event) => {
     setFrequency(event.target.value);
-  };     
+  };
+  */     
   const handleChangeSignal  = (event) => {
     setSignal(event.target.value);
   };
@@ -106,7 +108,7 @@ export default function FormRequest(props) {
 
     postQSO({
         signal: signal,
-        freq:frequency,
+        //freq:frequency,
         date:datePick.replace(/\D/g, ""),
         time:timePick.replace(/\D/g, ""),
         band:band,
@@ -139,16 +141,36 @@ export default function FormRequest(props) {
     event.preventDefault();
     var errors = [];
 
+    console.log("-"+mode+"-");
+
     // Check name of Rule
     if (signal.length<=3) {
         errors.push("signal");
     }
 
     // Check description of Rule
-    if (frequency.length <= 3) {
+    /*if (frequency.length <= 3) {
         errors.push("frequency");
     }
+*/
 
+    if (isNaN(rst)){
+      errors.push("rst");
+    }else{
+      if (rst>59 || rst<11 ) {
+        errors.push("rst");
+      }
+
+    }
+
+
+    if (mode.length===0){
+      errors.push("mode");
+    }
+
+    if (band.length===0){
+      errors.push("band");
+    }
 
     if (datePick.length !== 10) {
         errors.push("date");
@@ -236,7 +258,7 @@ export default function FormRequest(props) {
              </Row>
 
    
-              
+              {/*
                            <Row className="mb-3">
                <Form.Group className="mb-3" controlId="frequencyValue">
                  <Form.Label>FRECUENCIA</Form.Label>
@@ -258,11 +280,12 @@ export default function FormRequest(props) {
 
                </Form.Group>
              </Row>
+             */}
              <Row className="mb-3">
                <Form.Group className="mb-3" controlId="bandValue">
                  <Form.Label>BANDA</Form.Label>
                  
-                  <select id="band" required onChange={handleChangeBand}
+                  <select id="band" onChange={handleChangeBand}
                   className={
                     hasError("band")
                           ? "form-select is-invalid"
@@ -292,7 +315,7 @@ export default function FormRequest(props) {
                                : "visually-hidden"
                        }
                    >
-                    Indicar una banda válida
+                    Seleccione una banda válida
                    </div>
 
                </Form.Group>
@@ -301,7 +324,7 @@ export default function FormRequest(props) {
                <Form.Group className="mb-3" controlId="modeValue">
                  <Form.Label>MODO</Form.Label>
                  
-                 <select id="mode" required onChange={handleChangeMode}
+                 <select id="mode"  onChange={handleChangeMode}
                   className={
                     hasError("mode")
                           ? "form-select is-invalid"
@@ -327,24 +350,24 @@ export default function FormRequest(props) {
                                : "visually-hidden"
                        }
                    >
-                    Indicar un modo válido
+                    Seleccione un modo válido
                    </div>
 
                </Form.Group>
 
                </Row>             
                 <Row className="mb-3">
-               <Form.Group type="number" className="mb-3" controlId="signalValue">
+               <Form.Group  className="mb-3" controlId="rstValue">
                  <Form.Label>SEÑALES</Form.Label>
                  <Form.Control  onChange={handleChangeRST} value={rst}
                                 className={
-                                  hasError("rstValue")
+                                  hasError("rst")
                                         ? "form-control is-invalid"
                                         : "form-control"
                                 }/>
                    <div
                        className={
-                        hasError("rstValue")
+                        hasError("rst")
                                ? "invalid-feedback"
                                : "visually-hidden"
                        }
