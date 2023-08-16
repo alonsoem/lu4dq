@@ -26,6 +26,16 @@ import { useParams} from 'react-router-dom';
         }, [idAct]
         )
 
+        function CellDocument(values){
+            console.log("DOC");
+            console.log(values.info.reqStations);
+            if (values.info.document){
+                return <td><a href={"http://lu4dq.qrits.com.ar/api/certCreator.php?qso="+values.info.document.value+"&chk="+values.info.document.chk}>Descargar!</a></td>
+            }else{
+                return <td>-</td>
+            }
+        }
+
     function activityTable(){
        return (<table class="table">
        <thead>
@@ -33,6 +43,7 @@ import { useParams} from 'react-router-dom';
            <th scope="col">Rank</th>
            <th scope="col">Indicativo</th>
            <th scope="col">Cantidad</th>
+           <th scope="col">Document</th>
            <th scope="col">Estaciones contactadas</th>
          </tr>
        </thead>
@@ -42,6 +53,8 @@ import { useParams} from 'react-router-dom';
                  <th scope="row">{ activity.indexOf(each)+1}</th>
                  <td>{each.station.toUpperCase()}</td>
                  <td>{each.callsigns.length}</td>
+                 <CellDocument info={each} />
+                
                  <td>
 
                     {each.callsigns.join(", ").toUpperCase()}
@@ -69,6 +82,10 @@ import { useParams} from 'react-router-dom';
                 <div className="container-fluid gap-3 p-3" >
             
                     <div style={{ 'height': '100%'}} className="container col-12 m-4">
+
+                        Esta actividad de realiza entre [FECHA] y [FECHA]. Las estaciones colaboradoras que daran contactos son: 1 ,2 ,3, 4.
+
+                        Adicionalmente las estaciones e, b, ,d, c,d son obgligatorias para hacer un contacto y poder conseguir el certificado.
                         
                         <div className="card col-12" style={{'background-color': 'rgba(181,181,181,0.1)'}}>
                         <div className="card-header">ACTIVIDAD</div>
