@@ -15,7 +15,10 @@ export default function FormRequest(props) {
   const [band, setBand] = useState("");
   const [mode, setMode] = useState("");
   const [rst, setRST] = useState("");
+  const [name, setName] = useState("");
+  const [toCall, setToCall] = useState("");
   const [errors, setErrors] = useState([]);
+  
   
   
             
@@ -27,6 +30,12 @@ export default function FormRequest(props) {
  
   const handleChangeTime = (event) => {
     setTime(event.target.value);
+  };
+  const handleChangeName = (event) => {
+    setName(event.target.value);
+  };
+  const handleChangeToCall = (event) => {
+    setToCall(event.target.value);
   };
   
   const handleChangeSignal  = (event) => {
@@ -44,12 +53,9 @@ export default function FormRequest(props) {
   
   const handleAPIError= (responseJson)=> {
     let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
+    console.log("HANDLEAPIERROR");
+    
 
-    console.log(responseJson.code);
-    // eslint-disable-next-line
-    if (responseJson.code=="1062" ) {
-      errorToDisplay = "EL QSO YA EXISTE EN NUESTRA BASE DE DATOS.";
-    }
 
     //setError(errorToDisplay);
     notifyError(errorToDisplay);
@@ -57,7 +63,12 @@ export default function FormRequest(props) {
 
   const handleAxiosError = (response) => {
     let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
-
+    console.log("HANDLEAXIOSERROR");
+    console.log(response);
+        // eslint-disable-next-line
+    if (response.response.data.code==1062 ) {
+          errorToDisplay = "EL QSO YA EXISTE EN NUESTRA BASE DE DATOS.";
+        }
     // eslint-disable-next-line
     if (response.message=="Network Error") {
       errorToDisplay = "Error de red!. Reintente a la brevedad";
@@ -89,14 +100,16 @@ export default function FormRequest(props) {
 
     postOneQSO({
         signal: signal,
-        //freq:frequency,
         date:datePick.replace(/\D/g, ""),
         time:timePick.replace(/\D/g, ""),
         band:band,
         mode:mode,
         rst:rst,
+        name:name,
+        toCall:toCall
+        //freq:frequency,
         //micall:this.state.myCall,
-        //sucall:this.state.toCall,
+        
         })       
         .then((response) => {
             //eslint-disable-next-line
@@ -131,8 +144,6 @@ export default function FormRequest(props) {
       }
 
     }
-
-
     if (mode.length===0){
       errors.push("mode");
     }
@@ -145,6 +156,12 @@ export default function FormRequest(props) {
         errors.push("date");
     }
 
+    if (name.length < 3) {
+      errors.push("name");
+    }
+    if (toCall.length < 3) {
+      errors.push("toCall");
+    }
 
     setErrors(errors);
 
@@ -169,7 +186,7 @@ export default function FormRequest(props) {
            <ToastContainer />
                <div className="row rowForm">
                                <div className="col-12">
-                               <h5>Ingresa los datos de tu Qso para confirmar el mismo en linea y descarga la QSL o certificado!</h5>
+                               <h5>Ingresa los datos de tu Qso para confirmar el mismo en linea!</h5>
                                </div>
                            </div>
 
@@ -250,6 +267,31 @@ export default function FormRequest(props) {
                </Form.Group>
              </Row>
              */}
+
+
+            <Row className="mb-3">
+               <Form.Group className="mb-3" controlId="toCallValue">
+                 <Form.Label>SEÑAL DISTINTIVA CORRESPONSAL</Form.Label>
+                 <Form.Control  onChange={handleChangeToCall} value={toCall} 
+                                className={
+                                  hasError("toCall")
+                                        ? "form-control is-invalid"
+                                        : "form-control"
+                                }
+                                />
+                   <div
+                       className={
+                        hasError("toCall")
+                               ? "invalid-feedback"
+                               : "visually-hidden"
+                       }
+                   >
+                    Escribe al menos 3 caracteres de una señal distintiva
+                   </div>
+
+               </Form.Group>
+             </Row>
+
              <Row className="mb-3">
                <Form.Group className="mb-3" controlId="bandValue">
                  <Form.Label>BANDA</Form.Label>
@@ -363,7 +405,29 @@ export default function FormRequest(props) {
                                : "visually-hidden"
                        }
                    >
-                    Escribir al menos 3 digitos de un indicativo válido
+                    Escribir al menos 3 caracteres de un indicativo válido
+                   </div>
+
+               </Form.Group>
+             </Row>
+
+             <Row className="mb-3">
+               <Form.Group className="mb-3" controlId="nameValue">
+                 <Form.Label>NOMBRE COMPLETO</Form.Label>
+                 <Form.Control  onChange={handleChangeName} value={name}
+                                className={
+                                  hasError("name")
+                                        ? "form-control is-invalid"
+                                        : "form-control"
+                                }/>
+                   <div
+                       className={
+                        hasError("name")
+                               ? "invalid-feedback"
+                               : "visually-hidden"
+                       }
+                   >
+                    Escribe al menos 3 caracteres de un nombre
                    </div>
 
                </Form.Group>
