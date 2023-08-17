@@ -2,7 +2,7 @@
 import {Form, Row} from "react-bootstrap";
 import { useState } from "react";
 import { format } from "date-fns";
-import {postQSO} from "./api/api";
+import {postOneQSO} from "./api/api";
 import { ToastContainer, toast } from 'react-toastify';
 
 
@@ -78,18 +78,7 @@ export default function FormRequest(props) {
     .catch((responseError) => this.handleAPIError(responseError));
   }*/
 
-  const notify = (message) => {
-    toast.success(message, {
-      position: "top-center",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: false,
-      progress: undefined,
-      theme: 'colored',
-    });
-  }
+ 
 
  const notifyError = (message) => {
     toast.error(message, {
@@ -106,7 +95,7 @@ export default function FormRequest(props) {
 
   const submit = () =>{
 
-    postQSO({
+    postOneQSO({
         signal: signal,
         //freq:frequency,
         date:datePick.replace(/\D/g, ""),
@@ -120,13 +109,13 @@ export default function FormRequest(props) {
         .then((response) => {
             //eslint-disable-next-line
             if (response.response=="OK"){
-                notify("CONTACTO CONFIRMADO");
+                //notify("CONTACTO CONFIRMADO");
                 //this.tryQsl(response.document);
                 //this.setState({formState:false});
                 //props.formState=false;
                 //this.setState({qsl:"http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+response.document+"&chk="+response.chk});
-                var url = "http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+response.document+"&chk="+response.chk;
-                props.qslHook(url);
+                //var url = "http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+response.document+"&chk="+response.chk;
+                props.qslHook();
                 
             }else{
                 handleAPIError(response);
