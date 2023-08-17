@@ -11,13 +11,12 @@ export default function FormRequest(props) {
   
   const [datePick, setDate] = useState(format(new Date(),"yyyy-MM-dd"));
   const [timePick, setTime] = useState(format(new Date(),"HH:mm"));
-  //const [frequency, setFrequency] = useState("");
   const [signal, setSignal] = useState("");
   const [band, setBand] = useState("");
   const [mode, setMode] = useState("");
   const [rst, setRST] = useState("");
   const [errors, setErrors] = useState([]);
-  //const [error, setError] = useState("");
+  
   
             
           
@@ -29,12 +28,7 @@ export default function FormRequest(props) {
   const handleChangeTime = (event) => {
     setTime(event.target.value);
   };
-
-  /*
-  const handleChangeFrecuency= (event) => {
-    setFrequency(event.target.value);
-  };
-  */     
+  
   const handleChangeSignal  = (event) => {
     setSignal(event.target.value);
   };
@@ -48,11 +42,12 @@ export default function FormRequest(props) {
     setRST(event.target.value);
   };
   
-  const handleAPIError= (response)=> {
+  const handleAPIError= (responseJson)=> {
     let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
 
+    console.log(responseJson.code);
     // eslint-disable-next-line
-    if (response.code==1062 ) {
+    if (responseJson.code=="1062" ) {
       errorToDisplay = "EL QSO YA EXISTE EN NUESTRA BASE DE DATOS.";
     }
 
@@ -72,11 +67,7 @@ export default function FormRequest(props) {
     notifyError(errorToDisplay);
   }
 
-  /*const tryQsl = (str) =>{
-    getQsl({qso:str})
-    .then((response)=>this.setState({qsl:response}))
-    .catch((responseError) => this.handleAPIError(responseError));
-  }*/
+
 
  
 
@@ -92,6 +83,7 @@ export default function FormRequest(props) {
       theme: 'colored',
     });
   }
+
 
   const submit = () =>{
 
@@ -109,15 +101,9 @@ export default function FormRequest(props) {
         .then((response) => {
             //eslint-disable-next-line
             if (response.response=="OK"){
-                //notify("CONTACTO CONFIRMADO");
-                //this.tryQsl(response.document);
-                //this.setState({formState:false});
-                //props.formState=false;
-                //this.setState({qsl:"http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+response.document+"&chk="+response.chk});
-                //var url = "http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+response.document+"&chk="+response.chk;
                 props.qslHook();
-                
             }else{
+                console.log(response);
                 handleAPIError(response);
             }         
         })
@@ -130,18 +116,12 @@ export default function FormRequest(props) {
     event.preventDefault();
     var errors = [];
 
-    console.log("-"+mode+"-");
-
+    
     // Check name of Rule
     if (signal.length<=3) {
         errors.push("signal");
     }
 
-    // Check description of Rule
-    /*if (frequency.length <= 3) {
-        errors.push("frequency");
-    }
-*/
 
     if (isNaN(rst)){
       errors.push("rst");

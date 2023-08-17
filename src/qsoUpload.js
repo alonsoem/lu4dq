@@ -18,13 +18,14 @@ export default class QsoUpload extends  React.Component {
             formState:true,
         };            
     }
+
     setQsl=()=>{
-                this.setState({formState:false})
-        console.log("PASO POR ACA");
+        this.setState({formState:false})
     }
-      resetForm=()=>{
+
+    resetForm=()=>{
         this.setState({formState:true});
-      }
+    }
 
        
     render() {
@@ -46,7 +47,7 @@ export default class QsoUpload extends  React.Component {
             console.log(props);
             // eslint-disable-next-line
             if (props.state.formState==false){
-                return <PreviewPanel qsl={props.state.qsl} showForm={props.resetForm} />;
+                return <PreviewPanel showForm={props.resetForm} />;
         
             }else{
                 return <FormRequest qslHook={props.setQsl}  />
