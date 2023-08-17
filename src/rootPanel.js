@@ -6,6 +6,7 @@ import Qso from "./qso.js";
 import UploadBis from "./upload2.js";
 import Activities from "./confirmedQso.js";
 import AllActivities from "./activities.js";
+import QsoUpload from "./qsoUpload.js";
 
 
 
@@ -26,7 +27,8 @@ export default class App extends React.Component {
           <Route path='/activities/:idAct' element={<Activities />}></Route>   
           
           
-          <Route exact path='/back' element={<UploadBis />}></Route>
+          <Route exact path='/ADIupload' element={<UploadBis />}></Route>
+          <Route exact path='/qsoUpload' element={<QsoUpload />}></Route>
           
           
           
