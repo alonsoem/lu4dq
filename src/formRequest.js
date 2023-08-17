@@ -52,8 +52,8 @@ export default function FormRequest(props) {
     let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
 
     // eslint-disable-next-line
-    if (response.response=="Not Confirmed" ) {
-      errorToDisplay = "NO SE PUDO CONFIRMAR EL QSO, VERIFIQUE LOS DATOS.";
+    if (response.code==1062 ) {
+      errorToDisplay = "EL QSO YA EXISTE EN NUESTRA BASE DE DATOS.";
     }
 
     //setError(errorToDisplay);
