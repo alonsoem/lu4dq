@@ -26,6 +26,9 @@ export default class QsoUpload extends  React.Component {
     resetForm=()=>{
         this.setState({formState:true});
     }
+    gotoActivities=()=>{
+        this.setState({formState:true});
+    }
 
        
     render() {
@@ -38,7 +41,8 @@ export default class QsoUpload extends  React.Component {
                     
                                      
                     
-                         <button type="button" className="btn btn-danger m-3" onClick={props.showForm}>Hacer otra carga </button>
+                         <button type="button" className="btn btn-danger mt-3" onClick={props.showForm}>Hacer otra carga </button>
+                         <button type="button" className="btn btn-danger ml-3" ><a href="/activities/" >Ir a las actividades </a></button>
                     </div>
                     
         }
@@ -47,7 +51,7 @@ export default class QsoUpload extends  React.Component {
             console.log(props);
             // eslint-disable-next-line
             if (props.state.formState==false){
-                return <PreviewPanel showForm={props.resetForm} />;
+                return <PreviewPanel showForm={props.resetForm} showActivities={props.gotoActivities} />;
         
             }else{
                 return <FormRequest qslHook={props.setQsl}  />

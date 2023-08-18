@@ -46,7 +46,7 @@ export default class ActivitiesBeta extends  React.Component {
                            {
                             return <div className="card" style={{width: '18rem'}}>
                                 <div className="card-body">
-                                    <a href={"/activities/"+each.id} > {each.title}</a>
+                                <a href={"/activities/"+each.id} > {each.title}</a>
                                 </div>
 
                             </div>
