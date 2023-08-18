@@ -42,7 +42,8 @@ export default class QsoUpload extends  React.Component {
                                      
                     
                          <button type="button" className="btn btn-danger mt-3" onClick={props.showForm}>Hacer otra carga </button>
-                         <button type="button" className="btn btn-danger ml-3" ><a href="/activities/" >Ir a las actividades </a></button>
+                         <a class="btn btn-success m-3" href="/activities/">Ir a las actividades</a>
+                         
                     </div>
                     
         }
