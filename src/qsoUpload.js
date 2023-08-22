@@ -1,16 +1,12 @@
 import React from 'react';
-
-import 'react-toastify/dist/ReactToastify.css';
 import FormRequest from './formRequest';
-
-
-
-
+import 'react-toastify/dist/ReactToastify.css';
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
 
 export default class QsoUpload extends  React.Component {
+    
     constructor(props) {
         super(props);
 
@@ -22,13 +18,14 @@ export default class QsoUpload extends  React.Component {
     setQsl=()=>{
         this.setState({formState:false})
     }
-
     resetForm=()=>{
         this.setState({formState:true});
     }
     gotoActivities=()=>{
         this.setState({formState:true});
     }
+
+    
 
        
     render() {
@@ -49,13 +46,13 @@ export default class QsoUpload extends  React.Component {
         }
 
         function ConditionalForm(props){
-            console.log(props);
+
             // eslint-disable-next-line
             if (props.state.formState==false){
                 return <PreviewPanel showForm={props.resetForm} showActivities={props.gotoActivities} />;
         
             }else{
-                return <FormRequest qslHook={props.setQsl}  />
+                return <FormRequest qslHook={props.setQsl} />
                 
             };
         }
@@ -78,6 +75,7 @@ export default class QsoUpload extends  React.Component {
                              <ConditionalForm state={this.state} 
                              resetForm={this.resetForm}
                              setQsl={this.setQsl}
+                             
                              />
                              </div>
                             

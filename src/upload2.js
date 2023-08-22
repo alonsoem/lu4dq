@@ -1,8 +1,9 @@
 import {postFile} from "./api/api";
 import {useRef, useState} from 'react';
-
+import { useParams } from "react-router-dom";
 
 	function Upload(){
+		const { stationCode } = useParams();
 
 		const [ selectedFile, setFile ] = useState(null);
 		const [ filas, setFilas ] = useState([]);
@@ -30,7 +31,7 @@ import {useRef, useState} from 'react';
 			selectedFile,
 			selectedFile.name
 		);
-
+		formData.append('stationCode', stationCode);
 		// Details of the uploaded file
 		//		console.log(this.state.selectedFile);
 

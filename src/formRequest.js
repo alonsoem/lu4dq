@@ -4,11 +4,13 @@ import { useState } from "react";
 import { format } from "date-fns";
 import {postOneQSO} from "./api/api";
 import { ToastContainer, toast } from 'react-toastify';
+import { useParams } from "react-router-dom";
+
 
 
 export default function FormRequest(props) {
 
-  
+  const { stationCode } = useParams();
   const [datePick, setDate] = useState(format(new Date(),"yyyy-MM-dd"));
   const [timePick, setTime] = useState(format(new Date(),"HH:mm"));
   const [signal, setSignal] = useState("");
@@ -106,7 +108,8 @@ export default function FormRequest(props) {
         mode:mode,
         rst:rst,
         name:name,
-        toCall:toCall
+        toCall:toCall,
+        stationCode:stationCode,
         //freq:frequency,
         //micall:this.state.myCall,
         
@@ -126,6 +129,7 @@ export default function FormRequest(props) {
 
 
   const handleSubmit = (event) => {
+    
     event.preventDefault();
     var errors = [];
 

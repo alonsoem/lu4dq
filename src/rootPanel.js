@@ -3,6 +3,7 @@ import React from "react";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 
 
+
 import UploadBis from "./upload2.js";
 import Activities from "./confirmedQso.js";
 import AllActivities from "./activities.js";
@@ -31,9 +32,9 @@ export default class App extends React.Component {
           <Route exact path='/activities' element={<AllActivities />}></Route>   
           <Route path='/activities/:idAct' element={<Activities />}></Route>   
           
-          <Route path="/:stationId" element={<Landing />}></Route>
-          <Route exact path='/:stationId/cargaMasiva' element={<UploadBis />}></Route>
-          <Route exact path='/:stationId/cargaManual' element={<QsoUpload />}></Route>
+          <Route path="/:stationCode" element={<Landing />}></Route>
+          <Route path="/cargaMasiva/:stationCode" element={<UploadBis />}></Route>
+          <Route path="/cargaManual/:stationCode" element={<QsoUpload />}></Route>
           
           
           
