@@ -24,15 +24,16 @@ export default class App extends React.Component {
         <BrowserRouter >
           <Routes>
           <Route exact path="/" element={<Landing />}></Route>
-
+          
           <Route exact path='/cargaMasiva' element={<UploadBis />}></Route>
           <Route exact path='/cargaManual' element={<QsoUpload />}></Route>
 
           <Route exact path='/activities' element={<AllActivities />}></Route>   
           <Route path='/activities/:idAct' element={<Activities />}></Route>   
           
-          
-          
+          <Route path="/:stationId" element={<Landing />}></Route>
+          <Route exact path='/:stationId/cargaMasiva' element={<UploadBis />}></Route>
+          <Route exact path='/:stationId/cargaManual' element={<QsoUpload />}></Route>
           
           
           

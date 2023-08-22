@@ -5,7 +5,7 @@ export default function Landing(props) {
     const navigate = useNavigate();
 
     const navigateManual = () => {
-        navigate('/cargaMAnual');
+        navigate('/cargaManual');
       };
 
     const navigateMultiple = () => {
