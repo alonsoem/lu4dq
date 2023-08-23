@@ -8,11 +8,19 @@ export default function Landing(props) {
     const navigate = useNavigate();
 
     const navigateManual = () => {
-        navigate('/cargaManual/'+stationCode);
+        if (stationCode===undefined){
+            navigate('/cargaManual/');    
+        }else{
+            navigate('/cargaManual/'+stationCode);
+        }
       };
 
     const navigateMultiple = () => {
-        navigate('/cargaMasiva/'+stationCode);
+        if (stationCode===undefined){
+            navigate('/cargaMasiva/');    
+        }else{
+            navigate('/cargaMasiva/'+stationCode);
+        }
     };
 
       

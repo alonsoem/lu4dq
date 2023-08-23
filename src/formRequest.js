@@ -197,7 +197,7 @@ export default function FormRequest(props) {
            <ToastContainer />
                <div className="row rowForm">
                                <div className="col-12">
-                               <h5>Ingresa los datos de tu Qso para confirmar el mismo en linea!</h5>
+                               <h5>Ingresa los datos de un comunicado para ser confirmado en linea!</h5>
                                </div>
                            </div>
 
@@ -211,7 +211,7 @@ export default function FormRequest(props) {
            
                            <Row className="mb-3">
                <Form.Group className="mb-3" controlId="dateValue">
-                 <Form.Label>FECHA NUEVA</Form.Label>
+                 <Form.Label>FECHA</Form.Label>
                  <Form.Control  onChange={(e) => handleChangeDatePick(e.target.value)} value={datePick} type="date" 
                                 className={
                                   hasError("date")
@@ -278,32 +278,7 @@ export default function FormRequest(props) {
                </Form.Group>
              </Row>
              */}
-
-
-            <Row className="mb-3">
-               <Form.Group className="mb-3" controlId="toCallValue">
-                 <Form.Label>SEÑAL DISTINTIVA CORRESPONSAL</Form.Label>
-                 <Form.Control  onChange={handleChangeToCall} value={toCall} 
-                                className={
-                                  hasError("toCall")
-                                        ? "form-control is-invalid"
-                                        : "form-control"
-                                }
-                                />
-                   <div
-                       className={
-                        hasError("toCall")
-                               ? "invalid-feedback"
-                               : "visually-hidden"
-                       }
-                   >
-                    Escribe al menos 3 caracteres de una señal distintiva
-                   </div>
-
-               </Form.Group>
-             </Row>
-
-             <Row className="mb-3">
+  <Row className="mb-3">
                <Form.Group className="mb-3" controlId="bandValue">
                  <Form.Label>BANDA</Form.Label>
                  
@@ -377,32 +352,11 @@ export default function FormRequest(props) {
 
                </Form.Group>
 
-               </Row>             
-                <Row className="mb-3">
-               <Form.Group  className="mb-3" controlId="rstValue">
-                 <Form.Label>SEÑALES</Form.Label>
-                 <Form.Control  onChange={handleChangeRST} value={rst}
-                                className={
-                                  hasError("rst")
-                                        ? "form-control is-invalid"
-                                        : "form-control"
-                                }/>
-                   <div
-                       className={
-                        hasError("rst")
-                               ? "invalid-feedback"
-                               : "visually-hidden"
-                       }
-                   >
-                    Indique las señales correctamente!
-                   </div>
+               </Row>      
 
-               </Form.Group>
-             </Row>
-                         
-              <Row className="mb-3">
+            <Row className="mb-3">
                <Form.Group className="mb-3" controlId="signalValue">
-                 <Form.Label>INDICATIVO</Form.Label>
+                 <Form.Label>TU SEÑAL DISTINTIVA</Form.Label>
                  <Form.Control  onChange={handleChangeSignal} value={signal}
                                 className={
                                   hasError("signal")
@@ -443,6 +397,53 @@ export default function FormRequest(props) {
 
                </Form.Group>
              </Row>
+
+            <Row className="mb-3">
+               <Form.Group className="mb-3" controlId="toCallValue">
+                 <Form.Label>SEÑAL DISTINTIVA CORRESPONSAL</Form.Label>
+                 <Form.Control  onChange={handleChangeToCall} value={toCall} 
+                                className={
+                                  hasError("toCall")
+                                        ? "form-control is-invalid"
+                                        : "form-control"
+                                }
+                                />
+                   <div
+                       className={
+                        hasError("toCall")
+                               ? "invalid-feedback"
+                               : "visually-hidden"
+                       }
+                   >
+                    Escribe al menos 3 caracteres de una señal distintiva
+                   </div>
+
+               </Form.Group>
+             </Row>
+
+                  
+                <Row className="mb-3">
+               <Form.Group  className="mb-3" controlId="rstValue">
+                 <Form.Label>SEÑALES</Form.Label>
+                 <Form.Control  onChange={handleChangeRST} value={rst}
+                                className={
+                                  hasError("rst")
+                                        ? "form-control is-invalid"
+                                        : "form-control"
+                                }/>
+                   <div
+                       className={
+                        hasError("rst")
+                               ? "invalid-feedback"
+                               : "visually-hidden"
+                       }
+                   >
+                    Indique las señales correctamente!
+                   </div>
+
+               </Form.Group>
+             </Row>
+                         
 
                            
                        
