@@ -35,29 +35,29 @@ export default class ActivitiesBeta extends  React.Component {
        
       
         return (
-            <div className="container d-flex gap-3 p-3">
-
-                <div className="container-fluid table-scroll-vertical gap-3">
+                            
+            <div class="container-fluid">
+                <div class="row">
                 
-                    <div style={{ 'height': '100%'}} className="container col-10 m-4">
-                        
-                    <div className="card-columns">
-                        { this.state.activities.map((each)=>
-                           {
-                            return <div className="card" style={{width: '18rem'}}>
-                                <div className="card-body">
-                                <a href={"/activities/"+each.id} > {each.title}</a>
-                                </div>
-
-                            </div>
+                    
+                            { this.state.activities.map((each)=>
+                            {    
+                                return (
+                                    <div class="col m-3">
+                                    <div className="card m-3">
+                                        <div className="card-title">
+                                            <a href={"/activities/"+each.id} > {each.title}</a>
+                                        </div>
+                                        <div className="card-body">{each.description} </div>
+                                    </div>
+                                    </div>
+                                    );
                            } 
                             )}
-                            </div>
-                    </div>
+                    
+                
                 </div>
-            
-         </div>
-        
+            </div>
 
         );
 

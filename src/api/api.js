@@ -17,5 +17,5 @@ export const getResumedActivities = (params) => foreignRequest('get','http://lu4
 export const getActivities = () => foreignRequest('get','http://lu4dq.qrits.com.ar/api/getActivities.php',null,{'Content-Type':'Content-Type: application/json'});
 
 export const postFile = (form) => foreignPost('http://lu4dq.qrits.com.ar/api/postFile.php',form);
-
+export const getName = () => foreignRequest('get','http://lu4dq.qrits.com.ar/api/getNames.php',null,{'Content-Type':'Content-Type: application/json'});
 

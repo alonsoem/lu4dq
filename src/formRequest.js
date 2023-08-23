@@ -2,7 +2,7 @@
 import {Form, Row} from "react-bootstrap";
 import { useState } from "react";
 import { format } from "date-fns";
-import {postOneQSO} from "./api/api";
+import {getName, postOneQSO} from "./api/api";
 import { ToastContainer, toast } from 'react-toastify';
 import { useParams } from "react-router-dom";
 
@@ -42,6 +42,13 @@ export default function FormRequest(props) {
   
   const handleChangeSignal  = (event) => {
     setSignal(event.target.value);
+    getName({station:event.target.value})
+        .then((response) => {
+          setName(response.name);
+          
+      })
+      .catch((response) => handleAxiosError(response));
+    }
   };
   const handleChangeBand  = (event) => {
     setBand(event.target.value);
