@@ -38,11 +38,11 @@ export default function FormRequest(props) {
     setName(event.target.value);
   };
   const handleChangeToCall = (event) => {
-    setToCall(event.target.value);
+    setToCall(event.target.value.toUpperCase());
   };
   
   const handleChangeSignal  = (event) => {
-    setSignal(event.target.value);
+    setSignal(event.target.value.toUpperCase());
     getName({station:event.target.value})
         .then((response) => {
           setName(response.name);
@@ -52,10 +52,10 @@ export default function FormRequest(props) {
     
   };
   const handleChangeBand  = (event) => {
-    setBand(event.target.value);
+    setBand(event.target.value.toUpperCase());
   };
   const handleChangeMode  = (event) => {
-    setMode(event.target.value);
+    setMode(event.target.value.toUpperCase());
   };
   const handleChangeRST  = (event) => {
     setRST(event.target.value);
