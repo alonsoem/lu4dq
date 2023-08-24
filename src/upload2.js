@@ -1,6 +1,8 @@
-import {postFile} from "./api/api";
+import {getName,postFile} from "./api/api";
 import {useRef, useState} from 'react';
 import { useParams } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import {Form, Row} from "react-bootstrap";
 
 	function Upload(){
 		const { stationCode } = useParams();
@@ -10,16 +12,90 @@ import { useParams } from "react-router-dom";
 		const [ response, setResponse ] = useState(false);
 		const [ responseError,setResponseError ] = useState(false);
 		const [ error,setError ] = useState(false);
+		const [errors, setErrors] = useState([]);
+		const [signal, setSignal] = useState("");
+  		const [name, setName] = useState("");
 		const inputRef = useRef(null);
 
+
 	
+
+		const handleChangeName = (event) => {
+			setName(event.target.value);
+		  };
+		  const handleChangeSignal  = (event) => {
+			setSignal(event.target.value.toUpperCase());
+			getName({station:event.target.value})
+				.then((response) => {
+				  setName(response.name);
+				  
+			  })
+			  .catch((response) => handleAxiosError(response));
+			
+		  };
+
+		  const handleAxiosError = (response) => {
+			let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
+			console.log("HANDLEAXIOSERROR");
+			console.log(response);
+				// eslint-disable-next-line
+			if (response.response.data.code==1062 ) {
+				  errorToDisplay = "EL QSO YA EXISTE EN NUESTRA BASE DE DATOS.";
+				}
+			// eslint-disable-next-line
+			if (response.message=="Network Error") {
+			  errorToDisplay = "Error de red!. Reintente a la brevedad";
+			}
+		
+			//setError(errorToDisplay);
+			notifyError(errorToDisplay);
+		  }
+		
+		
+		
+		 
+		
+		 const notifyError = (message) => {
+			toast.error(message, {
+			  position: "top-center",
+			  autoClose: 3000,
+			  hideProgressBar: false,
+			  closeOnClick: true,
+			  pauseOnHover: true,
+			  draggable: false,
+			  progress: undefined,
+			  theme: 'colored',
+			});
+		  }
 
 		// On file select (from the pop up)
 		const onFileChange = event => {
 			setFile(event.target.files[0] );
 		};
 
-	// On file upload (click the upload button)
+	
+	const preEnvio=()=>{
+		
+		var errors = [];
+
+		if (signal.length<=3) {
+			errors.push("signal");
+		}
+		if (name.length<=3) {
+			errors.push("name");
+		}
+
+		setErrors(errors);
+
+		if (errors.length > 0) {
+			return false;
+		} else {
+			onFileUpload();
+		}
+		
+	}
+	
+		// On file upload (click the upload button)
 	const onFileUpload = () => {
 		setError(false);
 		// Create an object of formData
@@ -32,6 +108,8 @@ import { useParams } from "react-router-dom";
 			selectedFile.name
 		);
 		formData.append('stationCode', stationCode);
+		formData.append('station', signal);
+		formData.append('name', name);
 		// Details of the uploaded file
 		//		console.log(this.state.selectedFile);
 
@@ -158,6 +236,9 @@ import { useParams } from "react-router-dom";
 		}
 	};
 
+	const hasError= (key) => {
+        return errors.indexOf(key) !== -1;
+  }
 	const haveFile=()=>{
 		// eslint-disable-next-line
 		return selectedFile!=null && response==false;
@@ -192,6 +273,7 @@ import { useParams } from "react-router-dom";
 		return (
 			<div className="container d-flex gap-3 p-3">
 			<div className="container col-10">
+			<ToastContainer />
 
 				
 				<div className="card" style={{'background-color': 'rgba(181,181,181,0.1)'}}>
@@ -205,8 +287,55 @@ import { useParams } from "react-router-dom";
 
 								</h1>
 								<div className="mt-3 ">
+								<div className={haveReturned()?"card p-3 visually-hidden" :"card p-3"} >
+									<div>
+
+									<Row className="mb-3">
+               <Form.Group className="mb-3" controlId="signalValue">
+                 <Form.Label>SU ESTACION / INDICATIVO</Form.Label>
+                 <Form.Control  onChange={handleChangeSignal} value={signal}
+                                className={
+                                  hasError("signal")
+                                        ? "form-control is-invalid"
+                                        : "form-control"
+                                }/>
+                   <div
+                       className={
+                        hasError("signal")
+                               ? "invalid-feedback"
+                               : "visually-hidden"
+                       }
+                   >
+                    Escribir al menos 3 caracteres de un indicativo válido
+                   </div>
+
+               </Form.Group>
+             </Row>
+
+             <Row className="mb-3">
+               <Form.Group className="mb-3" controlId="nameValue">
+                 <Form.Label>NOMBRE COMPLETO</Form.Label>
+                 <Form.Control  onChange={handleChangeName} value={name}
+                                className={
+                                  hasError("name")
+                                        ? "form-control is-invalid"
+                                        : "form-control"
+                                }/>
+                   <div
+                       className={
+                        hasError("name")
+                               ? "invalid-feedback"
+                               : "visually-hidden"
+                       }
+                   >
+                    Escribe al menos 3 caracteres de un nombre
+                   </div>
+
+               </Form.Group>
+             </Row>
+									</div>
 									
-									<div className={haveReturned()?"card p-3 visually-hidden" :"card p-3"} >
+									
 										<div class=" mb-3">
   											<label for="formFile" class="form-label"><h4>Elija un archivo y luego presione el boton "Subir al servidor"</h4></label>
   											<input  ref={inputRef} class="form-control" type="file" id="formFile"  onChange={onFileChange} />
@@ -221,7 +350,7 @@ import { useParams } from "react-router-dom";
             					</button>
 								
 								
-									<button className={haveFile()?"btn btn-success m-2" :"btn btn-outline-success disabled m-2"} onClick={onFileUpload}>
+									<button className={haveFile()?"btn btn-success m-2" :"btn btn-outline-success disabled m-2"} onClick={preEnvio}>
 										Subir al servidor!
 									</button>
 								</div>

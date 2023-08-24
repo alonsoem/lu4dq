@@ -14,19 +14,16 @@ export default function FormRequest(props) {
   const [datePick, setDate] = useState(format(new Date(),"yyyy-MM-dd"));
   const [timePick, setTime] = useState(format(new Date(),"HH:mm"));
   const [signal, setSignal] = useState("");
+  const [name, setName] = useState("");
   const [band, setBand] = useState("");
   const [mode, setMode] = useState("");
   const [rst, setRST] = useState("");
   const [rstReceived, setRSTReceived] = useState("");
-  const [name, setName] = useState("");
+  
   const [toCall, setToCall] = useState("");
   const [errors, setErrors] = useState([]);
   
-  
-  
-            
-          
-  
+
   const handleChangeDatePick = (value) => {
     setDate(value);
   };
@@ -37,10 +34,6 @@ export default function FormRequest(props) {
   const handleChangeName = (event) => {
     setName(event.target.value);
   };
-  const handleChangeToCall = (event) => {
-    setToCall(event.target.value.toUpperCase());
-  };
-  
   const handleChangeSignal  = (event) => {
     setSignal(event.target.value.toUpperCase());
     getName({station:event.target.value})
@@ -51,6 +44,11 @@ export default function FormRequest(props) {
       .catch((response) => handleAxiosError(response));
     
   };
+  const handleChangeToCall = (event) => {
+    setToCall(event.target.value.toUpperCase());
+  };
+  
+  
   const handleChangeBand  = (event) => {
     setBand(event.target.value.toUpperCase());
   };
