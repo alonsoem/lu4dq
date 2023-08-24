@@ -17,6 +17,7 @@ export default function FormRequest(props) {
   const [band, setBand] = useState("");
   const [mode, setMode] = useState("");
   const [rst, setRST] = useState("");
+  const [rstReceived, setRSTReceived] = useState("");
   const [name, setName] = useState("");
   const [toCall, setToCall] = useState("");
   const [errors, setErrors] = useState([]);
@@ -59,7 +60,9 @@ export default function FormRequest(props) {
   const handleChangeRST  = (event) => {
     setRST(event.target.value);
   };
-  
+  const handleChangeRSTReceived  = (event) => {
+    setRSTReceived(event.target.value);
+  };
   const handleAPIError= (responseJson)=> {
     let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
     console.log("HANDLEAPIERROR");
@@ -113,7 +116,8 @@ export default function FormRequest(props) {
         time:timePick.replace(/\D/g, ""),
         band:band,
         mode:mode,
-        rst:rst,
+        rstS:rst,
+        rstR:rstReceived,
         name:name,
         toCall:toCall,
         stationCode:stationCode,
@@ -152,6 +156,14 @@ export default function FormRequest(props) {
     }else{
       if (rst>59 || rst<11 ) {
         errors.push("rst");
+      }
+
+    }
+    if (isNaN(rstReceived)){
+      errors.push("rstReceived");
+    }else{
+      if (rst>59 || rst<11 ) {
+        errors.push("rstReceived");
       }
 
     }
@@ -424,7 +436,7 @@ export default function FormRequest(props) {
                   
                 <Row className="mb-3">
                <Form.Group  className="mb-3" controlId="rstValue">
-                 <Form.Label>SEÑALES</Form.Label>
+                 <Form.Label>SEÑALES ENTREGADAS</Form.Label>
                  <Form.Control  onChange={handleChangeRST} value={rst}
                                 className={
                                   hasError("rst")
@@ -434,6 +446,28 @@ export default function FormRequest(props) {
                    <div
                        className={
                         hasError("rst")
+                               ? "invalid-feedback"
+                               : "visually-hidden"
+                       }
+                   >
+                    Indique las señales correctamente!
+                   </div>
+
+               </Form.Group>
+             </Row>
+
+             <Row className="mb-3">
+               <Form.Group  className="mb-3" controlId="rstReceivedValue">
+                 <Form.Label>SEÑALES RECIBIDAS</Form.Label>
+                 <Form.Control  onChange={handleChangeRSTReceived} value={rstReceived}
+                                className={
+                                  hasError("rstReceived")
+                                        ? "form-control is-invalid"
+                                        : "form-control"
+                                }/>
+                   <div
+                       className={
+                        hasError("rstReceived")
                                ? "invalid-feedback"
                                : "visually-hidden"
                        }
