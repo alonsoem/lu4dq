@@ -61,7 +61,8 @@ export default function FormRequest(props) {
   const handleChangeRSTReceived  = (event) => {
     setRSTReceived(event.target.value);
   };
-  const handleAPIError= (responseJson)=> {
+  
+  /*const handleAPIError= (responseJson)=> {
     let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
     console.log("HANDLEAPIERROR");
     
@@ -70,7 +71,7 @@ export default function FormRequest(props) {
     //setError(errorToDisplay);
     notifyError(errorToDisplay);
   }
-
+*/
   const handleAxiosError = (response) => {
     let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
     console.log("HANDLEAXIOSERROR");
