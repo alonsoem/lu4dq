@@ -118,18 +118,18 @@ export default function FormRequest(props) {
         rstR:rstReceived,
         name:name,
         toCall:toCall,
-        stationCode:stationCode,
-        //freq:frequency,
-        //micall:this.state.myCall,
+        stationCode:stationCode
         
         })       
         .then((response) => {
             //eslint-disable-next-line
-            if (response.response=="OK"){
-                props.qslHook();
+            if (response.qsl.status=="Confirmed"){
+                var url = "http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+response.qsl.document+"&chk="+response.qsl.chk;
+                props.qslHook(url);
             }else{
+                props.qslHook(null);
                 console.log(response);
-                handleAPIError(response);
+                //handleAPIError(response);
             }         
         })
         .catch((response) => handleAxiosError(response));

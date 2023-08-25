@@ -9,6 +9,7 @@ import Activities from "./confirmedQso.js";
 import AllActivities from "./activities.js";
 import QsoUpload from "./qsoUpload.js";
 import Landing from "./landing.js";
+import Qso from "./qso.js";
 
 
 
@@ -30,6 +31,8 @@ export default class App extends React.Component {
           <Route exact path='/cargaManual' element={<QsoUpload />}></Route>
 
           <Route exact path='/activities' element={<AllActivities />}></Route>   
+
+          <Route exact path='/qsoTest' element={<Qso />}></Route>   
           <Route path='/activities/:idAct' element={<Activities />}></Route>   
           
           <Route path="/:stationCode" element={<Landing />}></Route>
