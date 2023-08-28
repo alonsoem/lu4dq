@@ -3,6 +3,7 @@ import {useRef, useState} from 'react';
 import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import {Form, Row} from "react-bootstrap";
+import { saveAs } from 'file-saver';
 
 	function Upload(){
 		const { stationCode } = useParams();
@@ -190,6 +191,21 @@ import {Form, Row} from "react-bootstrap";
 		}
 	}
 
+	const downloadImage=(url)=>{
+		saveAs(url, 'qsl.jpg');
+	  }
+
+	const qsl = (qsl) =>{
+		if (qsl.status=="Confirmed"){
+			return (<button className="btn btn-success m-3" onClick={r=>
+				downloadImage("http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qsl.document+"&chk="+qsl.chk)}>
+					Descargar QSL!
+			</button>	);
+		}else{
+			return "Not confirmed";
+		}
+
+	}
 	const showResultsTable = () => {
 		// eslint-disable-next-line
 		if (response==true) {
@@ -212,6 +228,7 @@ import {Form, Row} from "react-bootstrap";
 							<th>Indicativo</th>
 							<th>Fecha</th>
 							<th>Hora</th>
+							<th>Confirmed</th>
 	  					</tr>
 					</thead>
 					<tbody className="col-12">
@@ -222,6 +239,12 @@ import {Form, Row} from "react-bootstrap";
 												<td className="col-4">{r.data.callsign}</td>
 												<td className="col-3">{r.data.date}</td>
 												<td className="col-3">{r.data.time}</td>
+												<td className="col-2">		
+													 {qsl(r.qsl)}										
+													
+												</td>
+
+												
 												</tr>
 									)
 								)}
