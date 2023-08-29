@@ -17,6 +17,7 @@ export default function FormRequest(props) {
   const [name, setName] = useState("");
   const [band, setBand] = useState("");
   const [mode, setMode] = useState("");
+  const [email, setEmail] = useState("");
   const [rst, setRST] = useState("");
   const [rstReceived, setRSTReceived] = useState("");
   
@@ -27,7 +28,9 @@ export default function FormRequest(props) {
   const handleChangeDatePick = (value) => {
     setDate(value);
   };
- 
+  const handleChangeEmail = (event) => {
+    setEmail(event.target.value);
+  };
   const handleChangeTime = (event) => {
     setTime(event.target.value);
   };
@@ -119,7 +122,8 @@ export default function FormRequest(props) {
         rstR:rstReceived,
         name:name,
         toCall:toCall,
-        stationCode:stationCode
+        stationCode:stationCode,
+        email:email
         
         })       
         .then((response) => {
@@ -472,6 +476,28 @@ export default function FormRequest(props) {
                        }
                    >
                     Indique las señales correctamente!
+                   </div>
+
+               </Form.Group>
+             </Row>
+             <Row className="mb-3">
+               <Form.Group className="mb-3" controlId="emailValue">
+                 <Form.Label>E-MAIL de CONTACTO</Form.Label>
+                 <Form.Control  onChange={handleChangeEmail} value={email} 
+                                className={
+                                  hasError("email")
+                                        ? "form-control is-invalid"
+                                        : "form-control"
+                                }
+                                />
+                   <div
+                       className={
+                        hasError("email")
+                               ? "invalid-feedback"
+                               : "visually-hidden"
+                       }
+                   >
+                    Escribe una dirección de email valida
                    </div>
 
                </Form.Group>
