@@ -13,9 +13,11 @@ import { saveAs } from 'file-saver';
 		const [ response, setResponse ] = useState(false);
 		const [ responseError,setResponseError ] = useState(false);
 		const [ error,setError ] = useState(false);
+		const [ loading,setLoading ] = useState(false);
 		const [errors, setErrors] = useState([]);
 		const [signal, setSignal] = useState("");
   		const [name, setName] = useState("");
+		const [email, setEmail] = useState("");
 		const inputRef = useRef(null);
 
 
@@ -24,6 +26,13 @@ import { saveAs } from 'file-saver';
 		const handleChangeName = (event) => {
 			setName(event.target.value);
 		  };
+		  
+	
+
+		  const handleChangeEmail = (event) => {
+			setEmail(event.target.value);
+		  };
+
 		  const handleChangeSignal  = (event) => {
 			setSignal(event.target.value.toUpperCase());
 			getName({station:event.target.value})
@@ -91,6 +100,7 @@ import { saveAs } from 'file-saver';
 		if (errors.length > 0) {
 			return false;
 		} else {
+			setLoading(true);
 			onFileUpload();
 		}
 		
@@ -111,6 +121,7 @@ import { saveAs } from 'file-saver';
 		formData.append('stationCode', stationCode);
 		formData.append('station', signal);
 		formData.append('name', name);
+		formData.append('email', email);
 		// Details of the uploaded file
 		//		console.log(this.state.selectedFile);
 
@@ -119,6 +130,7 @@ import { saveAs } from 'file-saver';
 		//axios.post("http://lu4dq.qrits.com.ar/api/postFile.php", formData);
 		postFile(formData)
 			.then(res=>	{
+							setLoading(false);
 							showResults(res);
 							//this.setState({selectedFile:null});
 			}
@@ -127,6 +139,7 @@ import { saveAs } from 'file-saver';
 				console.log ("ERROR actualizando la DB");
 				console.log (res);
 				setError(true);
+				setLoading(false);
 				// eslint-disable-next-line
 				if (res.response.data.status=="ERROR_UPLOADING"){
 					setResponseError("No se pudo subir el archivo al servidor!");
@@ -148,6 +161,16 @@ import { saveAs } from 'file-saver';
 		setResponse(true);
 	}
 
+
+	const fileSize=(size)=>{
+		
+		if (size/1024/1024>=1){
+			return (parseFloat(size/1024/1024).toFixed(2)).toString()+" Mb"
+		}else{
+			return (parseFloat(size/1024).toFixed(2)).toString()+" Kb"
+		}
+
+	}
 	const fileData = () => {
 
 		if (selectedFile) {
@@ -162,22 +185,14 @@ import { saveAs } from 'file-saver';
 					</p>
 					<p>
 						Tamaño:{" "}
-						{selectedFile.size.toString()}
+						{fileSize(selectedFile.size)}
 					</p>
 
 				</div>
 			);
-		/*} else {
-			return (
-				<div>
-					pepe
-				</div>
-			);
-			*/
 		}
 	};
-	/*<br />
-					<h4>Elija un archivo y luego presione el boton "Subir al servidor"</h4>*/
+	
 
 	const showBadgeMov = (value) => {
 		// eslint-disable-next-line
@@ -198,16 +213,25 @@ import { saveAs } from 'file-saver';
 	const qsl = (qsl) =>{
 		// eslint-disable-next-line
 		if (qsl.status=="Confirmed"){
-			return (<button className="btn btn-success m-3" onClick={r=>
+			return (<button className="btn btn-success btn-sm" onClick={r=>
 				downloadImage("http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qsl.document+"&chk="+qsl.chk)}>
-					Descargar QSL!
+					Descargar QSL
 			</button>	);
 		}else{
-			return "Not confirmed";
+			return "Sin Confirmar";
 		}
 
 	}
 	const showResultsTable = () => {
+		
+		if (loading){
+			return(
+			<div class="spinner-border text-primary" role="status">
+  				<span class="visually-hidden">Loading...</span>
+			</div>
+			);
+
+		}
 		// eslint-disable-next-line
 		if (response==true) {
 			if (error){
@@ -229,7 +253,7 @@ import { saveAs } from 'file-saver';
 							<th>Indicativo</th>
 							<th>Fecha</th>
 							<th>Hora</th>
-							<th>Confirmed</th>
+							<th>Confirmación</th>
 	  					</tr>
 					</thead>
 					<tbody className="col-12">
@@ -238,8 +262,8 @@ import { saveAs } from 'file-saver';
 											<tr  className="col-12">
 												<td className="col-2">{showBadgeMov(r.insert)}</td>
 												<td className="col-4">{r.data.callsign}</td>
-												<td className="col-3">{r.data.date}</td>
-												<td className="col-3">{r.data.time}</td>
+												<td className="col-2">{r.data.date}</td>
+												<td className="col-2">{r.data.time}</td>
 												<td className="col-2">		
 													 {qsl(r.qsl)}										
 													
@@ -268,7 +292,6 @@ import { saveAs } from 'file-saver';
 		return selectedFile!=null && response==false;
 	}
 	const haveReturned=()=>{
-		console.log (response);
 		// eslint-disable-next-line
 		return response==true;
 	}
@@ -353,6 +376,27 @@ import { saveAs } from 'file-saver';
                        }
                    >
                     Escribe al menos 3 caracteres de un nombre
+                   </div>
+
+               </Form.Group>
+             </Row>
+			 <Row className="mb-3">
+               <Form.Group className="mb-3" controlId="emailValue">
+                 <Form.Label>E-MAIL</Form.Label>
+                 <Form.Control  onChange={handleChangeEmail} value={email}
+                                className={
+                                  hasError("email")
+                                        ? "form-control is-invalid"
+                                        : "form-control"
+                                }/>
+                   <div
+                       className={
+                        hasError("email")
+                               ? "invalid-feedback"
+                               : "visually-hidden"
+                       }
+                   >
+                    Escribe una direccion de mail válida
                    </div>
 
                </Form.Group>
