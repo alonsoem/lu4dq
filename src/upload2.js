@@ -78,7 +78,6 @@ import { saveAs } from 'file-saver';
 			});
 		  }
 
-		// On file select (from the pop up)
 		const onFileChange = event => {
 			setFile(event.target.files[0] );
 		};
@@ -101,6 +100,7 @@ import { saveAs } from 'file-saver';
 			return false;
 		} else {
 			setLoading(true);
+			
 			onFileUpload();
 		}
 		
@@ -122,17 +122,13 @@ import { saveAs } from 'file-saver';
 		formData.append('station', signal);
 		formData.append('name', name);
 		formData.append('email', email);
-		// Details of the uploaded file
-		//		console.log(this.state.selectedFile);
-
-		// Request made to the backend api
-		// Send formData object
-		//axios.post("http://lu4dq.qrits.com.ar/api/postFile.php", formData);
+		
 		postFile(formData)
 			.then(res=>	{
 							setLoading(false);
 							showResults(res);
-							//this.setState({selectedFile:null});
+							
+							
 			}
 			)
 			.catch((res)=>{
@@ -193,10 +189,13 @@ import { saveAs } from 'file-saver';
 	const showBadgeMov = (value) => {
 		// eslint-disable-next-line
 		if (value=="OK"){
-			return <span class="badge bg-success">{value}</span>
+			return <span class="badge bg-success">Aceptado</span>
 		// eslint-disable-next-line
 		}else if (value=="duplicate"){
 			return <span class="badge bg-warning">{value}</span>
+		// eslint-disable-next-line
+		}else if (value=="fail"){
+			return <span class="badge bg-danger">Falló</span>	
 		}else{
 			return <span class="badge bg-danger">{value}</span>
 		}
@@ -214,7 +213,7 @@ import { saveAs } from 'file-saver';
 					Descargar QSL
 			</button>	);
 		}else{
-			return "Sin Confirmar";
+			return "-";
 		}
 
 	}
@@ -250,22 +249,22 @@ import { saveAs } from 'file-saver';
 					<table className="table striped hover bordered responsive">
 					<thead>
 						<tr>
-							<th>Movimiento</th>
-							<th>Indicativo</th>
-							<th>Fecha</th>
-							<th>Hora</th>
-							<th>Confirmación</th>
+							<th class="text-center">Resultado</th>
+							<th class="text-center">Indicativo</th>
+							<th class="text-center">Fecha</th>
+							<th class="text-center">Hora</th>
+							<th class="text-center">Confirmación</th>
 	  					</tr>
 					</thead>
 					<tbody className="col-12">
 									{filas.map(
 									(r)=>(
 											<tr  className="col-12">
-												<td className="col-2">{showBadgeMov(r.insert)}</td>
-												<td className="col-4">{r.data.callsign}</td>
-												<td className="col-2">{r.data.date}</td>
-												<td className="col-2">{r.data.time}</td>
-												<td className="col-2">		
+												<td className="col-2 text-center">{showBadgeMov(r.insert)}</td>
+												<td className="col-4 text-center">{r.data.callsign}</td>
+												<td className="col-2 text-center">{r.data.date}</td>
+												<td className="col-2 text-center">{r.data.time}</td>
+												<td className="col-2 text-center">		
 													 {qsl(r.qsl)}										
 													
 												</td>
@@ -414,20 +413,20 @@ import { saveAs } from 'file-saver';
 								</div>
 					   			<div class="row mt-3">
 								   <div class="col-6">
-					   		{showLoading()}
+					   					{showLoading()}
 									</div>
 									<div class="col-6 text-end">
 										
-											<button class={showAnotherBtn()?"float-end btn btn-danger m-2" :"btn btn-sanger m-2 visually-hidden "} onClick={resetForm}>
+											<button class={showAnotherBtn()?"btn btn-danger m-2" :"btn btn-sanger m-2 visually-hidden "} onClick={resetForm}>
               									Hacer otra carga!
             								</button>
 								
-					   						<button className={haveFile()?" float-end btn btn-success m-2" :"btn btn-outline-success disabled m-2"} onClick={preEnvio}>
+					   						<button className={haveFile()?" btn btn-success m-2" :"btn btn-outline-success disabled m-2"} onClick={preEnvio}>
 												Subir al servidor!
 											</button>
 										
 									</div>
-									</div>
+								</div>
 								{showResultsTable()}
 								
 							</div>

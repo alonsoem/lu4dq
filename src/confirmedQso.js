@@ -40,10 +40,10 @@ import { useParams} from 'react-router-dom';
        return (<table class="table">
        <thead>
          <tr>
-           <th scope="col">Rank</th>
+           <th scope="col">Posición</th>
            <th scope="col">Indicativo</th>
-           <th scope="col">Cantidad</th>
-           <th scope="col">Document</th>
+           <th scope="col">Contactos</th>
+           <th scope="col">Certificado</th>
            <th scope="col">Estaciones contactadas</th>
          </tr>
        </thead>
