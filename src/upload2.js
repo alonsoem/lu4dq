@@ -180,10 +180,6 @@ import { saveAs } from 'file-saver';
 					<h2>Detalles:</h2>
 					<p>Nombre: {selectedFile.name}</p>
 					<p>
-						Última modificación:{" "}
-						{selectedFile.lastModifiedDate.toDateString()}
-					</p>
-					<p>
 						Tamaño:{" "}
 						{fileSize(selectedFile.size)}
 					</p>
