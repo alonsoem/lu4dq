@@ -1,17 +1,31 @@
 import {React,useEffect,useState} from 'react';
-import { getResumedActivities } from './api/api';
+import { getResumedActivities ,getActivity} from './api/api';
 import { useParams} from 'react-router-dom';
+
 
  const Activities =(props) => {
     
     const { idAct } = useParams(); // <-- access id match param here
     //const [signal, setSignal] = useState("");
     const [activity,setActivity] = useState([]);
+    const [properties,setProps] = useState({});
 
 
     useEffect(() => {
         console.log("VA");
         console.log(idAct);
+
+        getActivity({id: idAct})       
+        .then((response) => {
+                setProps(response);
+        })
+        .catch((response) => {
+            //handleAxiosError(response)
+            console.log(response);
+            }
+        );
+        
+    
 
         getResumedActivities({id: idAct})       
             .then((response) => {
@@ -37,9 +51,9 @@ import { useParams} from 'react-router-dom';
         }
 
     function activityTable(){
-       return (<table class="table">
+       return (<table class="table striped hover bordered responsive border">
        <thead>
-         <tr>
+         <tr class="table-primary">
            <th scope="col">Posición</th>
            <th scope="col">Indicativo</th>
            <th scope="col">Contactos</th>
@@ -83,12 +97,28 @@ import { useParams} from 'react-router-dom';
             
                     <div style={{ 'height': '100%'}} className="container col-12 m-4">
 
-                        Esta actividad de realiza entre [FECHA] y [FECHA]. Las estaciones colaboradoras que daran contactos son: 1 ,2 ,3, 4.
-
-                        Adicionalmente las estaciones e, b, ,d, c,d son obgligatorias para hacer un contacto y poder conseguir el certificado.
+                
                         
                         <div className="card col-12" style={{'background-color': 'rgba(181,181,181,0.1)'}}>
-                        <div className="card-header">ACTIVIDAD</div>
+                            
+                        <div className="card-header">{properties.title}</div>
+                            <div class="container mt-3">
+                                {properties.description}
+                            </div>
+                            <div class="card m-3">
+                            <div className="card-header">BASES</div>
+                                <div className="card-body" dangerouslySetInnerHTML={{__html: properties.tecnical}} >
+                                    
+                                    
+                                </div>
+                            </div>
+                            <div class="card m-3">
+                                <div className="card-header">ESTACIONES</div>
+                                <div className="card-body" >
+                                    1,2,3
+                                </div>
+                            </div>
+                        
                             <div className="card-body" >
                                 {activityTable() }
                              </div>
