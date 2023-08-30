@@ -247,11 +247,11 @@ import { saveAs } from 'file-saver';
 			}else{
 
 			return (
-				<div  className="col-12 mt-3">
-					<table className="table striped hover bordered responsive">
+				<div  className="col-12 mt-3 border">
+					<table className="table striped hover bordered responsive ">
 					<thead>
-						<tr>
-							<th class="text-center">Resultado</th>
+						<tr class="table-primary">
+							<th class="text-center ">Resultado</th>
 							<th class="text-center">Contraparte</th>
 							<th class="text-center">Fecha</th>
 							<th class="text-center">Hora</th>
