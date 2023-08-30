@@ -137,7 +137,7 @@ import { saveAs } from 'file-saver';
 			)
 			.catch((res)=>{
 				console.log ("ERROR actualizando la DB");
-				console.log (res);
+				//console.log (res);
 				setError(true);
 				setLoading(false);
 				// eslint-disable-next-line
@@ -222,16 +222,21 @@ import { saveAs } from 'file-saver';
 		}
 
 	}
-	const showResultsTable = () => {
-		
+
+	const showLoading=()=>{
 		if (loading){
 			return(
-			<div class="spinner-border text-primary" role="status">
-  				<span class="visually-hidden">Loading...</span>
-			</div>
-			);
-
+		<div class="align-middle">
+		<div class="spinner-border text-primary align-middle" role="status">
+			  <span class="visually-hidden">Cargando...</span> 
+		</div>
+		<span class="align-middle ms-3">Procesando el archivo...</span>
+	</div>
+			)
 		}
+	}
+	const showResultsTable = () => {
+
 		// eslint-disable-next-line
 		if (response==true) {
 			if (error){
@@ -411,18 +416,22 @@ import { saveAs } from 'file-saver';
 										{fileData()}
 									</div>	
 								</div>
-
-								<div className="text-right mt-3">
-								<button class={showAnotherBtn()?"btn btn-danger m-2" :"btn btn-sanger m-2 visually-hidden "} onClick={resetForm}>
-              						Hacer otra carga!
-            					</button>
+					   			<div class="row mt-3">
+								   <div class="col-6">
+					   		{showLoading()}
+									</div>
+									<div class="col-6 text-end">
+										
+											<button class={showAnotherBtn()?"float-end btn btn-danger m-2" :"btn btn-sanger m-2 visually-hidden "} onClick={resetForm}>
+              									Hacer otra carga!
+            								</button>
 								
-								
-									<button className={haveFile()?"btn btn-success m-2" :"btn btn-outline-success disabled m-2"} onClick={preEnvio}>
-										Subir al servidor!
-									</button>
-								</div>
-
+					   						<button className={haveFile()?" float-end btn btn-success m-2" :"btn btn-outline-success disabled m-2"} onClick={preEnvio}>
+												Subir al servidor!
+											</button>
+										
+									</div>
+									</div>
 								{showResultsTable()}
 								
 							</div>
