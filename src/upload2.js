@@ -186,18 +186,20 @@ import { saveAs } from 'file-saver';
 	};
 	
 
-	const showBadgeMov = (value) => {
+	const showBadgeMov = (reg) => {
 		// eslint-disable-next-line
-		if (value=="OK"){
+		if (reg.insert=="OK"){
 			return <span class="badge bg-success">Aceptado</span>
 		// eslint-disable-next-line
-		}else if (value=="duplicate"){
-			return <span class="badge bg-warning">{value}</span>
+		}else if (reg.insert=="duplicate"){
+			return <span class="badge bg-warning">{reg.insert}</span>
 		// eslint-disable-next-line
-		}else if (value=="fail"){
-			return <span class="badge bg-danger">Falló</span>	
+		}else if (reg.insert=="No Match Station"){
+			return <span class="badge bg-danger" data-toggle="tooltip" data-placement="right" data-title={reg.message} >
+						{reg.message}
+						</span>	
 		}else{
-			return <span class="badge bg-danger">{value}</span>
+			return <span class="badge bg-danger">{reg.message}</span>
 		}
 	}
 
@@ -250,7 +252,7 @@ import { saveAs } from 'file-saver';
 					<thead>
 						<tr>
 							<th class="text-center">Resultado</th>
-							<th class="text-center">Indicativo</th>
+							<th class="text-center">Contraparte</th>
 							<th class="text-center">Fecha</th>
 							<th class="text-center">Hora</th>
 							<th class="text-center">Confirmación</th>
@@ -260,7 +262,7 @@ import { saveAs } from 'file-saver';
 									{filas.map(
 									(r)=>(
 											<tr  className="col-12">
-												<td className="col-2 text-center">{showBadgeMov(r.insert)}</td>
+												<td className="col-2 text-center">{showBadgeMov(r)}</td>
 												<td className="col-4 text-center">{r.data.callsign}</td>
 												<td className="col-2 text-center">{r.data.date}</td>
 												<td className="col-2 text-center">{r.data.time}</td>
