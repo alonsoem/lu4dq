@@ -1,13 +1,15 @@
 import {React,useEffect,useState} from 'react';
-import { getResumedActivities ,getActivity} from './api/api';
+import { getResumedActivities ,getActivity, getActivityStations} from './api/api';
 import { useParams} from 'react-router-dom';
-
+import 'font-awesome/css/font-awesome.min.css';
+import { saveAs } from 'file-saver';
 
  const Activities =(props) => {
     
     const { idAct } = useParams(); // <-- access id match param here
     //const [signal, setSignal] = useState("");
     const [activity,setActivity] = useState([]);
+    const [stations,setStations] = useState([]);
     const [properties,setProps] = useState({});
 
 
@@ -24,13 +26,22 @@ import { useParams} from 'react-router-dom';
             console.log(response);
             }
         );
+
+        getActivityStations({id: idAct})       
+        .then((response) => {
+                setStations(response.stations);
+        })
+        .catch((response) => {
+            //handleAxiosError(response)
+            console.log(response);
+            }
+        );
         
     
 
         getResumedActivities({id: idAct})       
             .then((response) => {
                     setActivity(response.confirmed);
-                    console.log(response.confirmed);
             })
             .catch((response) => {
                 //handleAxiosError(response)
@@ -87,6 +98,10 @@ import { useParams} from 'react-router-dom';
        
     }
 
+    const downloadImage=()=>{
+        saveAs("http://lu4dq.qrits.com.ar/uploads/BASES CERTIFICADO 74 ANIVERSARIO RADIO CLUB QUILMES.docx", 'BASES CERTIFICADO 74 ANIVERSARIO RADIO CLUB QUILMES.docx');
+      }
+
 
 
         return(
@@ -101,21 +116,48 @@ import { useParams} from 'react-router-dom';
                         
                         <div className="card col-12" style={{'background-color': 'rgba(181,181,181,0.1)'}}>
                             
-                        <div className="card-header">{properties.title}</div>
-                            <div class="container mt-3">
+                        <div className="card-header">
+                            <span class="display-6">{properties.title}</span>
+                           
+                        </div>
+                            <div class="m-4 lh-base">
                                 {properties.description}
                             </div>
                             <div class="card m-3">
-                            <div className="card-header">BASES</div>
-                                <div className="card-body" dangerouslySetInnerHTML={{__html: properties.tecnical}} >
-                                    
-                                    
+                                <div className="card-header">
+                                <div class="row">
+                                    <div class="col-12 ">
+                                        <span class="">BASES</span>
+                                        <span className="float-end fa fa-book" alt="BASES" title="BASES"></span>
+                                    </div>
                                 </div>
+                                </div>
+                                <div className="card-body lh-base" dangerouslySetInnerHTML={{__html: properties.tecnical}} >
+                                    
+                                    
+                                
+                                </div>
+
+                                <div class="row p-4">
+                                    <div class="col-12  display-6">
+                                        <button class="btn btn-success float-end" onClick={r=>
+                                            downloadImage()}>Descargar Bases</button>
+                                    </div>
+                                </div>
+                                
                             </div>
                             <div class="card m-3">
-                                <div className="card-header">ESTACIONES</div>
+                                <div className="card-header">
+                                <div class="row">
+                                    <div class="col-12 ">
+                                        <span class="">ESTACIONES</span>
+                                        <span className="float-end fa fa-radio"></span>
+                                    </div>
+                                </div>
+                                </div>
                                 <div className="card-body" >
-                                    1,2,3
+                                    <p>Las estaciones que entregan contacto son: </p>
+                                    <p class="m-2">{stations.join(' ').toUpperCase()}</p>
                                 </div>
                             </div>
                         

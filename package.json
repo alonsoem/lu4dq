@@ -9,6 +9,7 @@
     "bootstrap": "^5.3.0",
     "file-saver": "^2.0.5",
     "flatlist-react": "^1.5.14",
+    "font-awesome": "^4.7.0",
     "parser": "^0.1.4",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.7",
