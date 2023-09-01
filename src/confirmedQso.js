@@ -122,7 +122,10 @@ import { saveAs } from 'file-saver';
             </Modal.Header>
             <Modal.Body>
                 <div class="container vw-100 vh-50 text-center">
-                    <img  width="80%" class="rounded d-block img-responsive"  src="http://lu4dq.qrits.com.ar/api/CERTIFICADO.jpg" />
+                    <img  width="80%" class="rounded d-block img-responsive"  
+                    src="http://lu4dq.qrits.com.ar/api/CERTIFICADO.jpg" 
+                    alt="Certificado de muestra"
+                    />
                 </div>
             </Modal.Body>
           </Modal>
@@ -152,7 +155,10 @@ import { saveAs } from 'file-saver';
                         </div>
                             <div class="m-4 lh-base float-middle ">
                                 
-                                    <img class="rounded mx-auto d-block cursor-pointer"  src="http://lu4dq.qrits.com.ar/api/CERTIFICADO.jpg" height="15%" width="15%" 
+                                    <img class="rounded mx-auto d-block cursor-pointer" 
+                                    src="http://lu4dq.qrits.com.ar/api/CERTIFICADO.jpg" 
+                                    height="15%" width="15%" 
+                                    alt="Certificado de muestra"
                                         onClick={handleShow}
                                         />
                                 
