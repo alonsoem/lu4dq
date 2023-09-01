@@ -4,7 +4,7 @@ import { useParams} from 'react-router-dom';
 //import 'font-awesome/css/font-awesome.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
-
+import Modal from 'react-bootstrap/Modal';
 
 
 
@@ -17,6 +17,10 @@ import { saveAs } from 'file-saver';
     const [activity,setActivity] = useState([]);
     const [stations,setStations] = useState([]);
     const [properties,setProps] = useState({});
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
 
     useEffect(() => {
@@ -108,13 +112,32 @@ import { saveAs } from 'file-saver';
         saveAs("http://lu4dq.qrits.com.ar/uploads/BASES CERTIFICADO 74 ANIVERSARIO RADIO CLUB QUILMES.docx", 'BASES CERTIFICADO 74 ANIVERSARIO RADIO CLUB QUILMES.docx');
       }
 
+      const ModalForm=()=>{
+        return (
+            <Modal
+            size="xl"
+            aria-labelledby="contained-modal-title-vcenter"
+            show={show} onHide={handleClose} animation={false}>
+            <Modal.Header closeButton>
+            </Modal.Header>
+            <Modal.Body>
+                <div class="container vw-100 vh-50 text-center">
+                    <img  width="80%" class="rounded d-block img-responsive"  src="http://lu4dq.qrits.com.ar/api/CERTIFICADO.jpg" />
+                </div>
+            </Modal.Body>
+          </Modal>
+
+          
+        );
+        
+      }
 
 
         return(
        
             
             <div className="container d-flex gap-3 p-3 ">
-
+                
                 <div className="container-fluid gap-3 p-3" >
             
                     <div style={{ 'height': '100%'}} className="container col-12 m-4">
@@ -127,6 +150,17 @@ import { saveAs } from 'file-saver';
                             <span class="display-6 ">{properties.title}</span>
                            
                         </div>
+                            <div class="m-4 lh-base float-middle ">
+                                
+                                    <img class="rounded mx-auto d-block cursor-pointer"  src="http://lu4dq.qrits.com.ar/api/CERTIFICADO.jpg" height="15%" width="15%" 
+                                        onClick={handleShow}
+                                        />
+                                
+                                    <ModalForm />
+                                        
+                                    
+                                
+                            </div>
                             <div class="m-4 lh-base">
                                 {properties.description}
                             </div>
