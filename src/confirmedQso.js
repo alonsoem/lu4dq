@@ -1,7 +1,13 @@
 import {React,useEffect,useState} from 'react';
 import { getResumedActivities ,getActivity, getActivityStations} from './api/api';
 import { useParams} from 'react-router-dom';
-import 'font-awesome/css/font-awesome.min.css';
+//import 'font-awesome/css/font-awesome.min.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
+
+
+
+
 import { saveAs } from 'file-saver';
 
  const Activities =(props) => {
@@ -106,7 +112,8 @@ import { saveAs } from 'file-saver';
 
         return(
        
-            <div className="container d-flex gap-3 p-3">
+            
+            <div className="container d-flex gap-3 p-3 ">
 
                 <div className="container-fluid gap-3 p-3" >
             
@@ -114,21 +121,25 @@ import { saveAs } from 'file-saver';
 
                 
                         
-                        <div className="card col-12" style={{'background-color': 'rgba(181,181,181,0.1)'}}>
+                        <div className="card col-12 " style={{'background-color': 'rgba(181,181,181,0.1)'}}>
                             
-                        <div className="card-header">
-                            <span class="display-6">{properties.title}</span>
+                        <div className="card-header headerLu4dq">
+                            <span class="display-6 ">{properties.title}</span>
                            
                         </div>
                             <div class="m-4 lh-base">
                                 {properties.description}
                             </div>
                             <div class="card m-3">
-                                <div className="card-header">
+                                <div className="card-header subHeader">
                                 <div class="row">
                                     <div class="col-12 ">
                                         <span class="">BASES</span>
-                                        <span className="float-end fa fa-book" alt="BASES" title="BASES"></span>
+                                        <span class="float-end">
+                                            <FontAwesomeIcon size="1x" icon={icon({name: 'book'})} />
+                                        </span>
+                                        
+                                        
                                     </div>
                                 </div>
                                 </div>
@@ -147,11 +158,14 @@ import { saveAs } from 'file-saver';
                                 
                             </div>
                             <div class="card m-3">
-                                <div className="card-header">
+                                <div className="card-header subHeader">
                                 <div class="row">
                                     <div class="col-12 ">
                                         <span class="">ESTACIONES</span>
-                                        <span className="float-end fa fa-radio"></span>
+                                        <span class="float-end">
+                                            <FontAwesomeIcon size="1x" icon={icon({name: 'radio'})} />
+                                        </span>
+                                        
                                     </div>
                                 </div>
                                 </div>

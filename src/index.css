@@ -5,6 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+
 }
 
 code {
@@ -18,3 +20,30 @@ code {
 }
 
 
+
+.headerLu4dq{
+  /*background-image: url("headerLu4dq.png");*/
+  
+  background-position: top right;
+  background-size: auto;
+  background-repeat: no-repeat;
+  height: 4.0em;
+  background-color: #26abd3;
+}
+
+.footerLu4dq{
+  background-image: url("footerLu4dq.png");
+  background-position: bottom right;
+  background-size: auto;
+  background-repeat: no-repeat;
+  
+
+}
+.subHeader{
+  background-position: bottom right;
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-color: #abbdc2;
+  
+
+}
