@@ -171,7 +171,20 @@ import { saveAs } from 'file-saver';
                                 </div>
                                 <div className="card-body" >
                                     <p>Las estaciones que entregan contacto son: </p>
-                                    <p class="m-2">{stations.map(each=>each.station).join(' ').toUpperCase()}</p>
+                                    <p class="m-2">
+                                        {stations.map((each)=>{
+                                                                        
+                                                                            if (each.required){
+                                                                                return (<span class="me-2"><b>{each.station.toUpperCase()}</b></span>);
+                                                                            }else{
+                                                                                return (<span class="me-2">{each.station.toUpperCase()}</span>);
+                                                                            }
+                                                                            
+                                                                        
+                                                                    }
+                                                                )
+                                        }
+                                    </p>
                                 </div>
                             </div>
                         
