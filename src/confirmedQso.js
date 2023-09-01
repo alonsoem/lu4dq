@@ -171,7 +171,7 @@ import { saveAs } from 'file-saver';
                                 </div>
                                 <div className="card-body" >
                                     <p>Las estaciones que entregan contacto son: </p>
-                                    <p class="m-2">{stations.join(' ').toUpperCase()}</p>
+                                    <p class="m-2">{stations.map(each=>each.station).join(' ').toUpperCase()}</p>
                                 </div>
                             </div>
                         
