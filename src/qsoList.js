@@ -3,7 +3,7 @@ import React from 'react';
 import { useState} from 'react';
 import { getQsoList } from './api/api';
 import {Form, Row} from "react-bootstrap";
-
+import { saveAs } from 'file-saver';
 
 
 function QsoList() {
@@ -43,6 +43,21 @@ function QsoList() {
         //notifyError(errorToDisplay);
       }
     
+    const downloadImage=(url)=>{
+		saveAs(url, 'qsl.jpg');
+	}
+
+	const qsl = (qsl) =>{
+		// eslint-disable-next-line
+		if (qsl.status=="Confirmed"){
+			return (<button className="btn btn-success btn-sm" onClick={r=>
+				downloadImage("http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qsl.document+"&chk="+qsl.chk)}>
+					Descargar QSL
+			</button>	);
+		}else{
+			return "-";
+		}
+    }
 
 
 
@@ -68,7 +83,7 @@ function QsoList() {
                     <td >{each.time}</td>
                     <td >{each.band}</td>
                     <td >{each.mode}</td>
-                    <td >-</td>
+                    <td >{qsl(each.qsl)}</td>
                   </tr>
                  )
             })}
