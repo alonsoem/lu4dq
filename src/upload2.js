@@ -157,16 +157,14 @@ import { saveAs } from 'file-saver';
 		setResponse(true);
 	}
 
-
 	const fileSize=(size)=>{
-		
 		if (size/1024/1024>=1){
 			return (parseFloat(size/1024/1024).toFixed(2)).toString()+" Mb"
 		}else{
 			return (parseFloat(size/1024).toFixed(2)).toString()+" Kb"
 		}
-
 	}
+
 	const fileData = () => {
 
 		if (selectedFile) {
@@ -419,7 +417,7 @@ import { saveAs } from 'file-saver';
 									</div>
 									<div class="col-6 text-end">
 										
-											<button class={showAnotherBtn()?"btn btn-danger m-2" :"btn btn-sanger m-2 visually-hidden "} onClick={resetForm}>
+											<button class={showAnotherBtn()?"btn btn-danger m-2" :"btn btn-danger m-2 visually-hidden "} onClick={resetForm}>
               									Hacer otra carga!
             								</button>
 								

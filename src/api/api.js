@@ -10,7 +10,7 @@ const foreignPost = (fullPath, formData )=>
         .post(fullPath, formData)
         .then(req => req.data);
 
-//export const postQSO = (params) => foreignRequest('get', 'http://lu4dq.qrits.com.ar/api/validateQSO.php',params,{'Content-Type':'Content-Type: text/html'});
+
 export const postOneQSO = (params) => foreignRequest('get', 'http://lu4dq.qrits.com.ar/api/uploadQSO.php',params,{'Content-Type':'Content-Type: text/html'});
 export const getQsl = (params) => foreignRequest('get', 'http://lu4dq.qrits.com.ar/api/qslCreator.php',params,{'Content-Type':'Content-Type: text/html','Control-Allow-Origin':'*'});
 export const getResumedActivities = (params) => foreignRequest('get','http://lu4dq.qrits.com.ar/api/activityLog.php',params,{'Content-Type':'Content-Type: application/json'});
@@ -21,3 +21,4 @@ export const getActivityStations = (params) => foreignRequest('get','http://lu4d
 export const postFile = (form) => foreignPost('http://lu4dq.qrits.com.ar/api/postFile.php',form);
 export const getName = (params) => foreignRequest('get','http://lu4dq.qrits.com.ar/api/getNames.php',params,{'Content-Type':'Content-Type: application/json'});
 
+export const getQsoList = (params) => foreignRequest('get','http://lu4dq.qrits.com.ar/api/getQsos.php',params,{'Content-Type':'Content-Type: application/json'});
