@@ -56,7 +56,7 @@ function QsoList() {
                         <th scope="col">Hora</th>
                         <th scope="col">Banda</th>
                         <th scope="col">Modo</th>
-                        <th scope="col">Qso</th>
+                        <th scope="col">Qsl</th>
                     </tr>
                 </thead>
             <tbody>
