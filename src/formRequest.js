@@ -128,7 +128,7 @@ export default function FormRequest(props) {
         })       
         .then((response) => {
             //eslint-disable-next-line
-            if (response.qsl.status=="Confirmed"){
+            if (response.qsl.status=="RC Confirmed"){
                 var url = "http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+response.qsl.document+"&chk="+response.qsl.chk;
                 props.qslHook(url);
             }else{

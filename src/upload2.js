@@ -207,7 +207,7 @@ import { saveAs } from 'file-saver';
 
 	const qsl = (qsl) =>{
 		// eslint-disable-next-line
-		if (qsl.status=="Confirmed"){
+		if (qsl.status=="RC Confirmed"){
 			return (<button className="btn btn-success btn-sm" onClick={r=>
 				downloadImage("http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qsl.document+"&chk="+qsl.chk)}>
 					Descargar QSL
@@ -396,7 +396,7 @@ import { saveAs } from 'file-saver';
                                : "visually-hidden"
                        }
                    >
-                    Escribe una direccion de mail válida
+                    Escribe una dirección de mail válida
                    </div>
 
                </Form.Group>
