@@ -54,6 +54,7 @@ function QsoList() {
 				downloadImage("http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qsl.document+"&chk="+qsl.chk)}>
 					Descargar QSL
 			</button>	);
+        // eslint-disable-next-line
         }else if (qsl.status=="Confirmed"){
             return ("Confirmado");
 		}else{

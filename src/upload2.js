@@ -249,7 +249,7 @@ import { saveAs } from 'file-saver';
 					<table className="table striped hover bordered responsive ">
 					<thead>
 						<tr class="table-primary">
-							<th class="text-center ">Resultado</th>
+							<th class="text-center">Resultado</th>
 							<th class="text-center">Contraparte</th>
 							<th class="text-center">Fecha</th>
 							<th class="text-center">Hora</th>
