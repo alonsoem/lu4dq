@@ -37,15 +37,24 @@ export default class QsoUpload extends  React.Component {
         const downloadImage=(url)=>{
             saveAs(url, 'qsl.jpg');
           }
-          const downloadQsl=(url)=>{
-            if (url!=null){
+          const downloadQsl=(qsl)=>{
+            
+            // eslint-disable-next-line
+            if (qsl.status=="RC Confirmed"){
+                var url = "http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qsl.document+"&chk="+qsl.chk;
                 return (
                     <h5>Este contacto fue confirmado. 
+
                        <button className="btn btn-success m-3" onClick={r=>
                                downloadImage(url)}>
                                    Descargar QSL!
                        </button>
                    </h5>
+                );
+            // eslint-disable-next-line
+            }else if (QsoUpload.status=="Confirmed"){
+                return (
+                    <h5>Este contacto fue confirmado.</h5>
                 );
             }
             
