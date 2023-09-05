@@ -19,10 +19,14 @@ export default class QsoUpload extends  React.Component {
     }
 
     setQsl=(value)=>{
-        
-        this.setState({qsl:value})
+        console.log("OTRO");
+        console.log(value);
+
+            this.setState({qsl:value})
+
         this.setState({formState:false})
     }
+
     resetForm=()=>{
         this.setState({formState:true});
     }
@@ -37,8 +41,8 @@ export default class QsoUpload extends  React.Component {
         const downloadImage=(url)=>{
             saveAs(url, 'qsl.jpg');
           }
+          
           const downloadQsl=(qsl)=>{
-            
             // eslint-disable-next-line
             if (qsl.status=="RC Confirmed"){
                 var url = "http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qsl.document+"&chk="+qsl.chk;
@@ -52,10 +56,13 @@ export default class QsoUpload extends  React.Component {
                    </h5>
                 );
             // eslint-disable-next-line
-            }else if (QsoUpload.status=="Confirmed"){
+            }else if (qsl.status=="Confirmed"){
                 return (
-                    <h5>Este contacto fue confirmado.</h5>
+                    <h5>Este contacto ha sido confirmado.</h5>
                 );
+            
+            }else{
+                return "Este contacto NO ha sido confirmado aún";
             }
             
             

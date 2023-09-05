@@ -78,7 +78,7 @@ export default function FormRequest(props) {
   const handleAxiosError = (response) => {
     let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
     console.log("HANDLEAXIOSERROR");
-    console.log(response);
+    //console.log(response);
         // eslint-disable-next-line
     if (response.response.data.code==1062 ) {
           errorToDisplay = "EL QSO YA EXISTE EN NUESTRA BASE DE DATOS.";
@@ -129,10 +129,13 @@ export default function FormRequest(props) {
         .then((response) => {
             //eslint-disable-next-line
             if (response.qsl.status=="RC Confirmed"){
-                var url = "http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+response.qsl.document+"&chk="+response.qsl.chk;
-                props.qslHook(url);
+//                var url = "http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+response.qsl.document+"&chk="+response.qsl.chk;
+                props.qslHook(response.qsl);
+            //eslint-disable-next-line
+            }else if (response.qsl.status=="Confirmed"){
+                props.qslHook(response.qsl);
             }else{
-                props.qslHook(null);
+                props.qslHook(response.qsl);
                 console.log(response);
                 //handleAPIError(response);
             }         
