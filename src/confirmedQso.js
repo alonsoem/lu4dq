@@ -1,7 +1,6 @@
 import {React,useEffect,useState} from 'react';
 import { getResumedActivities ,getActivity, getActivityStations} from './api/api';
 import { useParams} from 'react-router-dom';
-//import 'font-awesome/css/font-awesome.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
 import Modal from 'react-bootstrap/Modal';
@@ -60,10 +59,16 @@ import { saveAs } from 'file-saver';
         )
 
         function CellDocument(values){
-            console.log("DOC");
-            console.log(values.info.reqStations);
+            
             if (values.info.document){
-                return <td><a href={"http://lu4dq.qrits.com.ar/api/certCreator.php?qso="+values.info.document.value+"&chk="+values.info.document.chk}>Descargar!</a></td>
+            //    return <td><a href={"http://lu4dq.qrits.com.ar/api/certCreator.php?qso="+values.info.document.value+"&chk="+values.info.document.chk}>Descargar!</a></td>
+                var url = "http://lu4dq.qrits.com.ar/api/certCreator.php?qso="+values.info.document.value+"&chk="+values.info.document.chk;
+                return (<td>
+                        <badge 
+                        class="badge text-bg-warning  text-center" role="button" onClick={(r)=>downloadCertificate(url)}  >
+                            Descargar
+                        </badge>
+                    </td>)
             }else{
                 return <td>-</td>
             }
@@ -109,6 +114,9 @@ import { saveAs } from 'file-saver';
        
     }
 
+    const downloadCertificate=(url)=>{
+        saveAs(url, 'CERTIFICADO 74 ANIVERSARIO RADIO CLUB QUILMES.jpg');
+      }
     const downloadImage=()=>{
         saveAs("http://lu4dq.qrits.com.ar/uploads/BASES CERTIFICADO 74 ANIVERSARIO RADIO CLUB QUILMES.docx", 'BASES CERTIFICADO 74 ANIVERSARIO RADIO CLUB QUILMES.docx');
       }
@@ -122,10 +130,10 @@ import { saveAs } from 'file-saver';
             <Modal.Header closeButton>
             </Modal.Header>
             <Modal.Body>
-                <div class="container vw-100 vh-50 text-center">
+                <div class="container vw-100 vh-50 text-center" role="button">
                     <img  width="80%" class="rounded d-block img-responsive"  
-                    src="http://lu4dq.qrits.com.ar/api/CERTIFICADO.jpg" 
-                    alt="Certificado de muestra"
+                    src="http://lu4dq.qrits.com.ar/api/DEMOCERTIFICADO.jpg" 
+                    alt="Certificado de muestra" role="button"
                     />
                 </div>
             </Modal.Body>
@@ -157,7 +165,7 @@ import { saveAs } from 'file-saver';
                             <div class="m-4 lh-base float-middle ">
                                 
                                     <img class="rounded mx-auto d-block cursor-pointer" 
-                                    src="http://lu4dq.qrits.com.ar/api/CERTIFICADO.jpg" 
+                                    src="http://lu4dq.qrits.com.ar/api/DEMOCERTIFICADO.jpg" 
                                     height="15%" width="15%" 
                                     alt="Certificado de muestra"
                                         onClick={handleShow}
