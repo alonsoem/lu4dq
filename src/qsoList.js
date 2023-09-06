@@ -50,10 +50,11 @@ function QsoList() {
 	const qsl = (qsl) =>{
 		// eslint-disable-next-line
 		if (qsl.status=="RC Confirmed"){
-			return (<button className="btn btn-success btn-sm" onClick={r=>
-				downloadImage("http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qsl.document+"&chk="+qsl.chk)}>
-					Descargar QSL
-			</button>	);
+			return (
+                <badge class="badge text-bg-warning  text-center" role="button" onClick={r=>
+                    downloadImage("http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qsl.document+"&chk="+qsl.chk)}>
+                        Descargar QSL</badge>
+            	);
         // eslint-disable-next-line
         }else if (qsl.status=="Confirmed"){
             return ("Confirmado");
@@ -91,8 +92,6 @@ function QsoList() {
                  )
             })}
         
- 
- 
         </tbody>
       </table>);
         
