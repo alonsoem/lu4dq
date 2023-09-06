@@ -63,14 +63,14 @@ import { saveAs } from 'file-saver';
             if (values.info.document){
             //    return <td><a href={"http://lu4dq.qrits.com.ar/api/certCreator.php?qso="+values.info.document.value+"&chk="+values.info.document.chk}>Descargar!</a></td>
                 var url = "http://lu4dq.qrits.com.ar/api/certCreator.php?qso="+values.info.document.value+"&chk="+values.info.document.chk;
-                return (<td>
+                return (
                         <badge 
                         class="badge text-bg-warning  text-center" role="button" onClick={(r)=>downloadCertificate(url)}  >
                             Descargar
                         </badge>
-                    </td>)
+                    )
             }else{
-                return <td>-</td>
+                return ("-")
             }
         }
 
@@ -78,25 +78,26 @@ import { saveAs } from 'file-saver';
        return (<table class="table striped hover bordered responsive border">
        <thead>
          <tr class="table-primary">
-           <th scope="col">Posición</th>
-           <th scope="col">Indicativo</th>
-           <th scope="col">Contactos</th>
-           <th scope="col">Certificado</th>
-           <th scope="col">Estaciones contactadas</th>
+           <th scope="col" class="text-center">Posición</th>
+           <th scope="col" class="text-center">Indicativo</th>
+           <th scope="col" class="text-center">Contactos</th>
+           <th scope="col" class="text-center">Certificado</th>
+           <th scope="col" class="text-center">Estaciones contactadas</th>
          </tr>
        </thead>
        <tbody>
        {
        activity.sort((a,b)=>b.callsigns.length-a.callsigns.length).map((each) =>{
                 return ( <tr>
-                 <th scope="row">{ activity.indexOf(each)+1}</th>
-                 <td>{each.station.toUpperCase()}</td>
-                 <td>{each.callsigns.length}</td>
-                 <CellDocument info={each} />
-                
-                 <td>
+                 <th scope="row" class="text-center">{ activity.indexOf(each)+1}</th>
+                 <td class="text-center">{each.station.toUpperCase()}</td>
+                 <td class="text-center">{each.callsigns.length}</td>
+                 <td class="text-center">
+                    <CellDocument info={each} />
+                </td>
+                 <td class="text-center">
 
-                    {each.callsigns.join(", ").toUpperCase()}
+                    {each.callsigns.join(" ").toUpperCase()}
                  
                 </td>
                </tr>
