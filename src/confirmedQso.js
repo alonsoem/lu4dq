@@ -24,9 +24,6 @@ import { saveAs } from 'file-saver';
 
 
     useEffect(() => {
-        console.log("VA");
-        console.log(idAct);
-
         getActivity({id: idAct})       
         .then((response) => {
                 setProps(response);
@@ -51,6 +48,7 @@ import { saveAs } from 'file-saver';
 
         getResumedActivities({id: idAct})       
             .then((response) => {
+                    
                     setActivity(response.confirmed);
             })
             .catch((response) => {
@@ -83,7 +81,8 @@ import { saveAs } from 'file-saver';
          </tr>
        </thead>
        <tbody>
-       {activity.map((each) =>{
+       {
+       activity.sort((a,b)=>b.callsigns.length-a.callsigns.length).map((each) =>{
                 return ( <tr>
                  <th scope="row">{ activity.indexOf(each)+1}</th>
                  <td>{each.station.toUpperCase()}</td>
@@ -99,7 +98,9 @@ import { saveAs } from 'file-saver';
                 )
 
 
-       })}
+       })
+       
+       }
        
 
 
