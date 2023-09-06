@@ -70,24 +70,24 @@ function QsoList() {
             <table class="table striped hover bordered responsive mt-3 border">
                 <thead>
                     <tr class="table-primary">
-                        <th scope="col">Indicativo</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Hora</th>
-                        <th scope="col">Banda</th>
-                        <th scope="col">Modo</th>
-                        <th scope="col">Qsl</th>
+                        <th scope="col" class="text-center">Indicativo</th>
+                        <th scope="col" class="text-center">Fecha</th>
+                        <th scope="col" class="text-center">Hora</th>
+                        <th scope="col" class="text-center">Banda</th>
+                        <th scope="col" class="text-center">Modo</th>
+                        <th scope="col" class="text-center">Qsl</th>
                     </tr>
                 </thead>
             <tbody>
             {qsos.map((each) =>{
                  return ( 
                     <tr>
-                    <td >{each.callsign}</td>
-                    <td >{each.date}</td>
-                    <td >{each.time}</td>
-                    <td >{each.band}</td>
-                    <td >{each.mode}</td>
-                    <td >{qsl(each.qsl)}</td>
+                    <td class="text-center">{each.callsign}</td>
+                    <td class="text-center">{each.date}</td>
+                    <td class="text-center">{each.time}</td>
+                    <td class="text-center">{each.band}</td>
+                    <td class="text-center">{each.mode}</td>
+                    <td class="text-center">{qsl(each.qsl)}</td>
                   </tr>
                  )
             })}
