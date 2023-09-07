@@ -184,8 +184,8 @@ import { saveAs } from 'file-saver';
                                     
                                 
                             </div>
-                            <div class="m-4 lh-base">
-                                {properties.description}
+                            <div class="m-4 lh-base" dangerouslySetInnerHTML={{__html: properties.description}}>
+                            
                             </div>
                             <div class="card m-3">
                                 <div className="card-header subHeader">
