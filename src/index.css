@@ -32,6 +32,12 @@ code {
 }
 
 .footerLu4dq{
+  position: fixed;
+  bottom:0;
+  right:0;
+  height:480px;
+  width:480px;
+  opacity: 40%;
   background-image: url("footerLu4dq.png");
   background-position: bottom right;
   background-size: auto;
