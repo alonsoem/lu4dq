@@ -251,14 +251,20 @@ import { saveAs } from 'file-saver';
                                         <div class="col-12 ">
                                             <span class="">CONTACTOS Y CERTIFICADOS</span>
                                             <span class="float-end">
-                                                <FontAwesomeIcon size="1x" icon={icon({name: 'radio'})} />
+                                                <FontAwesomeIcon size="1x" icon={icon({name: 'ranking-star'})} />
                                             </span>                                     
                                         </div>
                                     </div>
                                 </div>
                                 <div className="card-body" >
-                                    <p>Siga los siguientes links para cargar sus contactos y verificarlos en línea. </p>
-                                    <p>El siguiente listado se actualizará automáticamente mostrando los contactos y certificados de cada estación.</p>
+                                    <div class="container fw-bold lh-sm">
+                                    <p>Contactos requeridos: con 5 estaciones autorizadas + LQ4D o LU4DQ</p>
+                                    <p>Fecha límite: 7 días de finalizado el evento, el sistema dejará de computar los contactos subidos y no serán válidos para el mismo después de dicho plazo.</p>
+                                    </div>
+                                    <div class="container lh-sm mt-2">
+                                        <p>Siga los siguientes links para cargar sus contactos y verificarlos en línea. </p>
+                                        <p>El siguiente listado se actualizará automáticamente mostrando los contactos y certificados de cada estación.</p>
+                                    </div>
                                     <div class="container mt-2">
                                         <button class="btn btn-success float-end mb-3" onClick={navLoad}>Cargar Contactos</button>
                                         <button class="btn btn-success float-end mb-3 me-3" onClick={navView}>Ver contactos</button>
