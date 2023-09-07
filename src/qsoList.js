@@ -10,15 +10,20 @@ function QsoList() {
 
 	const [ qsos, setQsos] = useState([]);
 	const [ callsign, setCallSign ] = useState("");
+    const [ loading, setLoading ] = useState(false);
 
  
     const handleSearch =()=>{
+        setLoading(true);
         getQsoList({station:callsign})
         .then((response) => {
+            
             setQsos(response.qsos);
+            setLoading(false);
           
       })
       .catch((response) => handleAxiosError(response));
+      
     
     }
     const handleChangeCallsign = (event) => {
@@ -27,6 +32,7 @@ function QsoList() {
 
     };
     const handleAxiosError = (response) => {
+        setLoading(false);
         //let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
         console.log("HANDLEAXIOSERROR");
         console.log(response);
@@ -50,10 +56,11 @@ function QsoList() {
 	const qsl = (qsl) =>{
 		// eslint-disable-next-line
 		if (qsl.status=="RC Confirmed"){
+            var url ="http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qsl.document+"&chk="+qsl.chk;
 			return (
-                <badge class="badge text-bg-warning  text-center" role="button" onClick={r=>
-                    downloadImage("http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qsl.document+"&chk="+qsl.chk)}>
-                        Descargar QSL</badge>
+                <badge class="badge text-bg-warning  text-center" role="button" onClick={()=>downloadImage(url)} >
+                        Descargar QSL
+                </badge>
             	);
         // eslint-disable-next-line
         }else if (qsl.status=="Confirmed"){
@@ -66,7 +73,24 @@ function QsoList() {
 
 
     function ActivityTable(){
-        return (
+        
+        if (loading){
+                return (<div class="card p-5 mt-3">
+                    <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                        <p class="m-2"> Aguarde un instante...</p>
+                    </div>
+                    </div>);
+        }else{
+            if (qsos.length===0){
+                return (<div class="card p-5 mt-3">
+                            <h5>NO HAY NADA POR EL MOMENTO...</h5>
+                            <p>Busca un indicativo para ver los contactos cargados!</p></div>);
+            }else{
+        
+                return (
             <table class="table striped hover bordered responsive mt-3 border">
                 <thead>
                     <tr class="table-primary">
@@ -90,10 +114,14 @@ function QsoList() {
                     <td class="text-center">{qsl(each.qsl)}</td>
                   </tr>
                  )
-            })}
+            
+                }   )}
+            );
         
         </tbody>
       </table>);
+            }
+      }
         
      }
   
