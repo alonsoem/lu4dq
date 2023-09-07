@@ -4,6 +4,7 @@ import { useParams} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
 import Modal from 'react-bootstrap/Modal';
+import {useNavigate} from 'react-router-dom';
 
 
 
@@ -20,6 +21,7 @@ import { saveAs } from 'file-saver';
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -145,7 +147,12 @@ import { saveAs } from 'file-saver';
         
       }
 
-
+      const navLoad = () =>{
+        navigate('/');    
+      }
+      const navView = () =>{
+        navigate('/qsoList');    
+      }
         return(
        
             
@@ -162,7 +169,7 @@ import { saveAs } from 'file-saver';
                         <div className="card-header headerLu4dq">
                             <span class="display-6 ">{properties.title}</span>
                         </div>
-                        
+
                             <div class="m-4 lh-base float-middle ">
                                 
                                     <img class="rounded mx-auto d-block cursor-pointer" 
@@ -238,9 +245,29 @@ import { saveAs } from 'file-saver';
                                 </div>
                             </div>
                         
-                            <div className="card-body" >
-                                {activityTable() }
-                             </div>
+                            <div class="card m-3">
+                                <div className="card-header subHeader">
+                                    <div class="row">
+                                        <div class="col-12 ">
+                                            <span class="">CONTACTOS Y CERTIFICADOS</span>
+                                            <span class="float-end">
+                                                <FontAwesomeIcon size="1x" icon={icon({name: 'radio'})} />
+                                            </span>                                     
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="card-body" >
+                                    <p>Siga los siguientes links para cargar sus contactos y verificarlos en línea. </p>
+                                    <p>El siguiente listado se actualizará automáticamente mostrando los contactos y certificados de cada estación.</p>
+                                    <div class="container">
+                                        <button class="btn btn-success float-end mb-3" onClick={navLoad}>Cargar Contactos</button>
+                                        <button class="btn btn-success float-end mb-3 me-3" onClick={navView}>Ver contactos</button>
+                                    </div>
+                                    
+                                        {activityTable() }
+                                    
+                                </div>
+                            </div>
                             
                         </div>
 
