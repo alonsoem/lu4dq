@@ -259,7 +259,7 @@ import { saveAs } from 'file-saver';
                                 <div className="card-body" >
                                     <p>Siga los siguientes links para cargar sus contactos y verificarlos en línea. </p>
                                     <p>El siguiente listado se actualizará automáticamente mostrando los contactos y certificados de cada estación.</p>
-                                    <div class="container">
+                                    <div class="container mt-2">
                                         <button class="btn btn-success float-end mb-3" onClick={navLoad}>Cargar Contactos</button>
                                         <button class="btn btn-success float-end mb-3 me-3" onClick={navView}>Ver contactos</button>
                                     </div>
