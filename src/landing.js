@@ -35,7 +35,9 @@ export default function Landing(props) {
                         
                         <div className="card" style={{'background-color': 'rgba(181,181,181,0.1)'}}>
                         
-                            <div className="card-header bg-primary text-white text-center display-5"  >Carga de contactos</div>
+                        <div className="card-header headerLu4dq">
+                            <span class="display-6 ">CARGA DE CONTACTOS</span>       
+                        </div>
                             <div className="card-body text-center"  >
                              
                                 <button className="btn btn-success m-5" onClick={navigateManual}>

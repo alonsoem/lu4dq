@@ -161,8 +161,8 @@ import { saveAs } from 'file-saver';
                             
                         <div className="card-header headerLu4dq">
                             <span class="display-6 ">{properties.title}</span>
-                           
                         </div>
+                        
                             <div class="m-4 lh-base float-middle ">
                                 
                                     <img class="rounded mx-auto d-block cursor-pointer" 

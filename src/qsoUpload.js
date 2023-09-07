@@ -109,6 +109,9 @@ export default class QsoUpload extends  React.Component {
                     <div style={{ 'height': '100%'}} className="container col-10">
                         
                         <div className="card" style={{'background-color': 'rgba(181,181,181,0.1)'}}>
+                        <div className="card-header headerLu4dq">
+                            <span class="display-6 ">CARGA MANUAL</span>       
+                    </div>
                         
                             <div className="card-body" >
                              

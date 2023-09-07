@@ -324,10 +324,14 @@ import { saveAs } from 'file-saver';
 
 				
 				<div className="card" style={{'background-color': 'rgba(181,181,181,0.1)'}}>
-                		<div className="card-body" >
+					<div className="card-header headerLu4dq">
+                            <span class="display-6 ">CARGA MASIVA (ADIF)</span>       
+                    </div>
+						<div className="card-body" >
+						
 
 
-							<div className="card-body" >
+							<div className="card-body " >
 
 								<h1>
 									Incluir un archivo ADIF 

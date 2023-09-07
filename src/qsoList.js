@@ -104,7 +104,9 @@ function QsoList() {
 
                 <div className="container-fluid table-scroll-vertical gap-3 col-11">
                 <div className="card mt-3" >
-                        <div className="card-header bg-primary text-white text-center display-5"  >Consulta de contactos</div>
+                <div className="card-header headerLu4dq">
+                            <span class="display-6 ">CONSULTA DE CONTACTOS</span>       
+                    </div>
                         <div className="card-body" >
 
 
