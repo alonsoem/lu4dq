@@ -156,9 +156,9 @@ import { saveAs } from 'file-saver';
         return(
        
             
-            <div className="container d-flex gap-3 p-3 ">
+            <div className="container d-flex   ">
                 
-                <div className="container-fluid gap-3 p-3" >
+                <div className="container-fluid " >
             
                     <div style={{ 'height': '100%'}} className="container col-12 m-4">
 

@@ -101,9 +101,9 @@ export default class QsoUpload extends  React.Component {
    
       
         return (
-            <div className="container d-flex gap-3 p-3">
+            <div className="container d-flex ">
 
-                <div className="container-fluid table-scroll-vertical gap-3">
+                <div className="container-fluid table-scroll-vertical ">
 
                 <p>&nbsp;</p>
                     <div style={{ 'height': '100%'}} className="container col-10">

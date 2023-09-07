@@ -128,9 +128,9 @@ function QsoList() {
 
     return (
 
-            <div className="container d-flex gap-3 p-3">
+            <div className="container d-flex ">
 
-                <div className="container-fluid table-scroll-vertical gap-3 col-11">
+                <div className="container-fluid table-scroll-vertical col-11">
                 <div className="card mt-3" >
                 <div className="card-header headerLu4dq">
                             <span class="display-6 ">CONSULTA DE CONTACTOS</span>       
