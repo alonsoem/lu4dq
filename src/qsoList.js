@@ -116,7 +116,6 @@ function QsoList() {
                  )
             
                 }   )}
-            );
         
         </tbody>
       </table>);
