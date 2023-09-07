@@ -11,6 +11,7 @@ import QsoUpload from "./qsoUpload.js";
 import Landing from "./landing.js";
 import Qso from "./qso.js";
 import QsoList from "./qsoList.js";
+import NavMenu from "./nav.js";
 
 
 
@@ -24,8 +25,11 @@ import QsoList from "./qsoList.js";
 export default class App extends React.Component {
     render() {
       return (
+        
         <BrowserRouter >
+        <NavMenu />
           <Routes>
+            
           <Route exact path="/" element={<Landing />}></Route>
           
           <Route exact path='/cargaMasiva' element={<UploadBis />}></Route>
