@@ -18,8 +18,10 @@ function QsoList() {
     useEffect(() => {
         if (station){
            setCallSign(station);
+           
             handleSearch();
         }
+        // eslint-disable-next-line
         }, [station]
         )
 
