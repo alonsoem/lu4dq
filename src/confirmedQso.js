@@ -74,7 +74,7 @@ import { saveAs } from 'file-saver';
                 var url = "http://lu4dq.qrits.com.ar/api/certCreator.php?qso="+values.info.document.value+"&chk="+values.info.document.chk;
                 return (
                         <badge 
-                        class="badge text-bg-warning  text-center" role="button" onClick={(r)=>downloadCertificate(url)}  >
+                        class="badge text-bg-warning  text-center" role="button" onClick={(r)=>downloadCertificate(url)} title="Click para descargar el certificado" >
                             Descargar
                         </badge>
                     )
@@ -107,7 +107,7 @@ import { saveAs } from 'file-saver';
                     <CellDocument info={each} />
                 </td>
                 <td class="text-center">
-                     <badge class="badge text-bg-primary  text-center" role="button" onClick={(r)=>navigateToStationQso(each.station)}  >
+                     <badge class="badge text-bg-primary  text-center" role="button" title="Click para ver los comunicados y sus QSL" onClick={(r)=>navigateToStationQso(each.station)}  >
                             Qso/qsl
                      </badge>
                  </td>
