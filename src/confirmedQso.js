@@ -107,7 +107,7 @@ import { saveAs } from 'file-saver';
                     <CellDocument info={each} />
                 </td>
                 <td class="text-center">
-                     <badge class="badge text-bg-warning  text-center" role="button" onClick={(r)=>navigateToStationQso(each.station)}  >
+                     <badge class="badge text-bg-primary  text-center" role="button" onClick={(r)=>navigateToStationQso(each.station)}  >
                             Qso/qsl
                      </badge>
                  </td>
