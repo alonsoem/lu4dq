@@ -16,18 +16,23 @@ function QsoList() {
 
  
     useEffect(() => {
+        console.log(station);
         if (station){
            setCallSign(station);
-           
-            handleSearch();
+           loadData(station);
         }
         // eslint-disable-next-line
         }, [station]
         )
 
     const handleSearch =()=>{
+        loadData(callsign);
+    }
+
+    const loadData =(callId)=> {
+        
         setLoading(true);
-        getQsoList({station:callsign})
+        getQsoList({station:callId})
         .then((response) => {
             
             setQsos(response.qsos);
@@ -35,8 +40,6 @@ function QsoList() {
           
       })
       .catch((response) => handleAxiosError(response));
-      
-    
     }
     const handleChangeCallsign = (event) => {
         setCallSign(event.target.value);
