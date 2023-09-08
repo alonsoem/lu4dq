@@ -23,6 +23,13 @@ import { saveAs } from 'file-saver';
     const handleShow = () => setShow(true);
     const navigate = useNavigate();
 
+    const navigateToStationQso = (station) => {
+        console.log(station);
+        if (station){
+            navigate('/qsoList/'+station);
+        }
+      };
+
 
     useEffect(() => {
         getActivity({id: idAct})       
@@ -84,6 +91,7 @@ import { saveAs } from 'file-saver';
            <th scope="col" class="text-center">Indicativo</th>
            <th scope="col" class="text-center">Contactos</th>
            <th scope="col" class="text-center">Certificado</th>
+           <th scope="col" class="text-center">QSO / QSL</th>
            <th scope="col" class="text-center">Estaciones contactadas</th>
          </tr>
        </thead>
@@ -94,9 +102,15 @@ import { saveAs } from 'file-saver';
                  <th scope="row" class="text-center">{ activity.indexOf(each)+1}</th>
                  <td class="text-center">{each.station.toUpperCase()}</td>
                  <td class="text-center">{each.callsigns.length}</td>
+                 
                  <td class="text-center">
                     <CellDocument info={each} />
                 </td>
+                <td class="text-center">
+                     <badge class="badge text-bg-warning  text-center" role="button" onClick={(r)=>navigateToStationQso(each.station)}  >
+                            Qso/qsl
+                     </badge>
+                 </td>
                  <td class="text-center">
 
                     {each.callsigns.join(" ").toUpperCase()}

@@ -1,18 +1,28 @@
 import React from 'react';
 
-import { useState} from 'react';
+import { useState,useEffect} from 'react';
 import { getQsoList } from './api/api';
 import {Form, Row} from "react-bootstrap";
 import { saveAs } from 'file-saver';
+import { useParams} from "react-router-dom";
 
 
 function QsoList() {
 
+    const {station} = useParams();
 	const [ qsos, setQsos] = useState([]);
 	const [ callsign, setCallSign ] = useState("");
     const [ loading, setLoading ] = useState(false);
 
  
+    useEffect(() => {
+        if (station){
+           setCallSign(station);
+            handleSearch();
+        }
+        }, [station]
+        )
+
     const handleSearch =()=>{
         setLoading(true);
         getQsoList({station:callsign})
@@ -133,6 +143,7 @@ function QsoList() {
                 <div className="card mt-3" >
                 <div className="card-header headerLu4dq">
                             <span class="display-6 ">CONSULTA DE CONTACTOS</span>       
+                            <span class="lead fs-2 text">  y descarga de QSL</span>       
                     </div>
                         <div className="card-body" >
 

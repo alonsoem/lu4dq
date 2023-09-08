@@ -35,6 +35,7 @@ export default class App extends React.Component {
           <Route exact path='/cargaMasiva' element={<UploadBis />}></Route>
           <Route exact path='/cargaManual' element={<QsoUpload />}></Route>
 
+          <Route exact path='/qsoList/:station' element={<QsoList />}></Route>   
           <Route exact path='/qsoList' element={<QsoList />}></Route>   
 
 
