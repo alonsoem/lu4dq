@@ -257,7 +257,7 @@ export default function FormRequest(props) {
 
                            <Row className="mb-3">
                <Form.Group className="mb-3" controlId="timeValue">
-                 <Form.Label>HORA</Form.Label>
+                 <Form.Label>HORA UTC</Form.Label>
                  <Form.Control  onChange={handleChangeTime} value={timePick} type="time"
                                 className={
                                   hasError("time")
