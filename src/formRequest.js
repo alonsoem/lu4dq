@@ -360,6 +360,13 @@ export default function FormRequest(props) {
                                             <option value="APRS">APRS</option>
                                             <option value="RTTY">RTTY</option>
                                             <option value="FM">FM</option>
+                                            <option value="FT8">FT 8</option>
+                                            <option value="PSK">PSK</option>
+                                            <option value="JT9">JT9</option>
+                                            <option value="OLIVIA">Olivia</option>
+                                            <option value="ECHO">Echo</option>
+                                            <option value="JT65">JT65</option>
+                                            <option value="HELL">HELL</option>
                                             <option value="FAX">FAX</option>
                                             <option value="DV">DV</option>
                                             </select>
