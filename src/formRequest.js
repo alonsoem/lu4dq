@@ -369,6 +369,10 @@ export default function FormRequest(props) {
                                             <option value="HELL">HELL</option>
                                             <option value="FAX">FAX</option>
                                             <option value="DV">DV</option>
+                                            <option value="SATCW">Sat CW</option>
+                                            <option value="SATFM">Sat FM</option>
+                                            <option value="SATSSB">Sat SSB</option>
+                                            <option value="SIM31">SIM31</option>
                                             </select>
                    <div
                        className={
