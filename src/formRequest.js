@@ -156,7 +156,7 @@ export default function FormRequest(props) {
         errors.push("signal");
     }
 
-
+/*
     if (isNaN(rst)){
       if (rst.length<3) {
         errors.push("rst");
@@ -167,8 +167,8 @@ export default function FormRequest(props) {
       }
 
     }
-
-    if (isNaN(rstReceived)){
+*/
+   /* if (isNaN(rstReceived)){
       if (rstReceived.length<3) {
         errors.push("rstReceived");
       }
@@ -178,6 +178,14 @@ export default function FormRequest(props) {
       }
 
     }
+    */
+    if (rstReceived.length<2) {
+      errors.push("rst");
+  }
+    if (rstReceived.length<2) {
+        errors.push("rstReceived");
+    }
+
     if (mode.length===0){
       errors.push("mode");
     }
