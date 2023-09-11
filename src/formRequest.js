@@ -158,17 +158,22 @@ export default function FormRequest(props) {
 
 
     if (isNaN(rst)){
-      errors.push("rst");
+      if (rst.length<3) {
+        errors.push("rst");
+      }
     }else{
       if (rst>59 || rst<11 ) {
         errors.push("rst");
       }
 
     }
+
     if (isNaN(rstReceived)){
-      errors.push("rstReceived");
+      if (rstReceived.length<3) {
+        errors.push("rstReceived");
+      }
     }else{
-      if (rst>59 || rst<11 ) {
+      if (rstReceived>59 || rstReceived<11 ) {
         errors.push("rstReceived");
       }
 
