@@ -22,3 +22,4 @@ export const postFile = (form) => foreignPost('http://lu4dq.qrits.com.ar/api/pos
 export const getName = (params) => foreignRequest('get','http://lu4dq.qrits.com.ar/api/getNames.php',params,{'Content-Type':'Content-Type: application/json'});
 
 export const getQsoList = (params) => foreignRequest('get','http://lu4dq.qrits.com.ar/api/getQsos.php',params,{'Content-Type':'Content-Type: application/json'});
+export const getStatusRank = () => foreignRequest('get','http://lu4dq.qrits.com.ar/api/getStatusRank.php',null,{'Content-Type':'Content-Type: application/json'});

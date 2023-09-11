@@ -12,6 +12,7 @@ import Landing from "./landing.js";
 import Qso from "./qso.js";
 import QsoList from "./qsoList.js";
 import NavMenu from "./nav.js";
+import AdminView from "./adminView.js";
 
 
 
@@ -42,12 +43,13 @@ export default class App extends React.Component {
           <Route exact path='/activities' element={<AllActivities />}></Route>   
 
           <Route exact path='/qsoTest' element={<Qso />}></Route>   
+          
           <Route path='/activities/:idAct' element={<Activities />}></Route>   
           
           <Route path="/:stationCode" element={<Landing />}></Route>
           <Route path="/cargaMasiva/:stationCode" element={<UploadBis />}></Route>
           <Route path="/cargaManual/:stationCode" element={<QsoUpload />}></Route>
-          
+          <Route exact path='/status/blabla' element={<AdminView />}></Route>  
           
           
             
