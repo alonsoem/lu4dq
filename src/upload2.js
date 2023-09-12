@@ -132,16 +132,20 @@ import { saveAs } from 'file-saver';
 			}
 			)
 			.catch((res)=>{
-				console.log ("ERROR actualizando la DB");
-				//console.log (res);
 				setError(true);
 				setLoading(false);
+
+				
+				
 				// eslint-disable-next-line
 				if (res.response.data.status=="ERROR_UPLOADING"){
 					setResponseError("No se pudo subir el archivo al servidor!");
-					// eslint-disable-next-line
+				// eslint-disable-next-line
 				}else if (res.response.data.status=="ERROR_PROCESSING"){
 					setResponseError("Ocurrió un error procesando el archivo!");
+				// eslint-disable-next-line
+				}else if (res.response.data.status=="Station not validated" ) {
+					setResponseError("EL CODIGO DE ESTACION NO ES CORRECTO. VERIFIQUELO!");
 				}else{
 					setResponseError("Ocurrió un error inesperado!");
 				}
