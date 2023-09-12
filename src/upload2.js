@@ -202,7 +202,7 @@ import { saveAs } from 'file-saver';
 	}
 
 	const downloadImage=(url)=>{
-		saveAs(url, 'qsl.jpg');
+		saveAs(url, 'qsl.png');
 	  }
 
 	const qsl = (qsl) =>{
@@ -300,6 +300,7 @@ import { saveAs } from 'file-saver';
 		// eslint-disable-next-line
 		return response==true;
 	}
+	
 	const resetForm=()=>{
 		setResponse(false);
 		setFile(null);
