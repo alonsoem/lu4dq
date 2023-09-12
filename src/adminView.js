@@ -80,7 +80,8 @@ function AdminView() {
                 <thead>
                     <tr class="table-primary">
                         <th scope="col" class="text-center">Indicativo</th>
-                        <th scope="col" class="text-center">Cantidad</th>
+                        <th scope="col" class="text-center">Cantidad Total</th>
+                        <th scope="col" class="text-center">Cantidad entre Fechas</th>
                         
                     </tr>
                 </thead>
@@ -90,6 +91,7 @@ function AdminView() {
                     <tr>
                     <td class="text-center">{each.station}</td>
                     <td class="text-center">{each.qty}</td>
+                    <td class="text-center">{each.actQty}</td>
                     </tr>
                  )
             
