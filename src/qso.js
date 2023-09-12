@@ -32,7 +32,7 @@ export default class Qso extends  React.Component {
     render() {
 
         const downloadImage=(url)=>{
-            saveAs(url, 'qsl.jpg');
+            saveAs(url, 'qsl.png');
           }
        
         function PreviewPanel(props){

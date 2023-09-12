@@ -77,12 +77,35 @@ export default function FormRequest(props) {
 */
   const handleAxiosError = (response) => {
     let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
-    console.log("HANDLEAXIOSERROR");
+    console.log(response.response.data);
+    console.log("HANDLEAXIOSERROR form");
     //console.log(response);
         // eslint-disable-next-line
     if (response.response.data.code==1062 ) {
           errorToDisplay = "EL QSO YA EXISTE EN NUESTRA BASE DE DATOS.";
         }
+    if (response.response.data.status==="Station not validated" ) {
+          errorToDisplay = "EL CODIGO DE ESTACION NO ES CORRECTO. VERIFIQUELO!";
+      }
+    // eslint-disable-next-line
+    if (response.message=="Network Error") {
+      errorToDisplay = "Error de red!. Reintente a la brevedad";
+    }
+
+    //setError(errorToDisplay);
+    notifyError(errorToDisplay);
+  }
+  const handleAxiosErrorB = (response) => {
+    let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
+    
+  
+        // eslint-disable-next-line
+    if (response.response.data.code==1062 ) {
+          errorToDisplay = "EL QSO YA EXISTE EN NUESTRA BASE DE DATOS.";
+        }
+    if (response.response.data.status==="Station not validated" ) {
+          errorToDisplay = "EL CODIGO DE ESTACION NO ES CORRECTO. VERIFIQUELO!";
+      }
     // eslint-disable-next-line
     if (response.message=="Network Error") {
       errorToDisplay = "Error de red!. Reintente a la brevedad";
@@ -138,7 +161,7 @@ export default function FormRequest(props) {
                 //handleAPIError(response);
             }         
         })
-        .catch((response) => handleAxiosError(response));
+        .catch((response) => handleAxiosErrorB(response));
 
   }
 

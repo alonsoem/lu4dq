@@ -63,13 +63,15 @@ export default class QsoUpload extends  React.Component {
 
      handleAxiosError = (response) => {
         this.setState({isLoading:false});
+        console.log(response);
         let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
         console.log("HANDLEAXIOSERROR");
-        //console.log(response);
+        
             // eslint-disable-next-line
         if (response.response.data.code==1062 ) {
               errorToDisplay = "EL QSO YA EXISTE EN NUESTRA BASE DE DATOS.";
             }
+
         // eslint-disable-next-line
         if (response.message=="Network Error") {
           errorToDisplay = "Error de red!. Reintente a la brevedad";
@@ -83,7 +85,7 @@ export default class QsoUpload extends  React.Component {
            
     render() {
         const downloadImage=(url)=>{
-            saveAs(url, 'qsl.jpg');
+            saveAs(url, 'qsl.png');
           }
           
           const downloadQsl=(qsl)=>{
