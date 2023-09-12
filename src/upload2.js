@@ -145,7 +145,7 @@ import { saveAs } from 'file-saver';
 					setResponseError("Ocurrió un error procesando el archivo!");
 				// eslint-disable-next-line
 				}else if (res.response.data.status=="Station not validated" ) {
-					setResponseError("EL CODIGO DE ESTACION NO ES CORRECTO. VERIFIQUELO!");
+					setResponseError("EL CÓDIGO DE ESTACIÓN NO ES CORRECTO. VERIFIQUELO!");
 				}else{
 					setResponseError("Ocurrió un error inesperado!");
 				}
