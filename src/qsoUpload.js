@@ -1,6 +1,8 @@
 import React from 'react';
 import FormRequest from './formRequest';
 import { saveAs } from 'file-saver';
+import { getEnabledActivities } from './api/api';
+import { ToastContainer, toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 import "react-datepicker/dist/react-datepicker.css";
@@ -14,32 +16,74 @@ export default class QsoUpload extends  React.Component {
 
         this.state = {
             formState:true,
-            qsl:null
+            qsl:null,
+            enabled:false,
+            isLoading:true,
+            
         };            
     }
 
     setQsl=(value)=>{
-        console.log("OTRO");
-        console.log(value);
-
-            this.setState({qsl:value})
-
+        this.setState({qsl:value})
         this.setState({formState:false})
     }
 
     resetForm=()=>{
         this.setState({formState:true});
     }
+
     gotoActivities=()=>{
         this.setState({formState:true});
     }
 
-    
+    componentDidMount=()=>{
+        this.setState({isLoading:true});
+        getEnabledActivities()       
+            .then((response) => {
+                this.setState({enabled:response.enabled});
+                this.setState({isLoading:false});
+                
+            })
+            .catch((response) => this.handleAxiosError(response));
 
-       
+    }
+
+    notifyError = (message) => {
+        toast.error(message, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+          theme: 'colored',
+        });
+    }
+
+     handleAxiosError = (response) => {
+        this.setState({isLoading:false});
+        let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
+        console.log("HANDLEAXIOSERROR");
+        //console.log(response);
+            // eslint-disable-next-line
+        if (response.response.data.code==1062 ) {
+              errorToDisplay = "EL QSO YA EXISTE EN NUESTRA BASE DE DATOS.";
+            }
+        // eslint-disable-next-line
+        if (response.message=="Network Error") {
+          errorToDisplay = "Error de red!. Reintente a la brevedad";
+        }
+    
+        //setError(errorToDisplay);
+        this.notifyError(errorToDisplay);
+      }
+
+
+           
     render() {
         const downloadImage=(url)=>{
-            saveAs(url, 'qsl.png');
+            saveAs(url, 'qsl.jpg');
           }
           
           const downloadQsl=(qsl)=>{
@@ -94,7 +138,23 @@ export default class QsoUpload extends  React.Component {
                 return <PreviewPanel showForm={props.resetForm} qsl={props.state.qsl} showActivities={props.gotoActivities} />;
         
             }else{
-                return <FormRequest qslHook={props.setQsl} />
+                if (props.state.isLoading){
+                    return (            
+                        <div class="text-center m-5">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Cargando...</span>
+                            </div>
+                            <p class="m-2"> Aguarde un instante...</p>
+                        </div>
+                    );
+                
+                }else{
+                    if (props.state.enabled){
+                        return <FormRequest qslHook={props.setQsl} />
+                    }else{
+                        return "NO HAY ACTIVIDADES DISPONIBLES ACTUALMENTE!";
+                    }
+                }   
                 
             };
         }
@@ -102,31 +162,30 @@ export default class QsoUpload extends  React.Component {
       
         return (
             <div className="container d-flex ">
+                <ToastContainer />
 
                 <div className="container-fluid table-scroll-vertical ">
 
-                <p>&nbsp;</p>
+                    <p>&nbsp;</p>
                     <div style={{ 'height': '100%'}} className="container col-10">
                         
                         <div className="card" style={{'background-color': 'rgba(181,181,181,0.1)'}}>
-                        <div className="card-header headerLu4dq">
-                            <span class="display-6 ">CARGA MANUAL</span>       
-                    </div>
+                            <div className="card-header headerLu4dq">
+                                <span class="display-6 ">CARGA MANUAL</span>       
+                            </div>
                         
                             <div className="card-body" >
-                             
 
-                             <ConditionalForm state={this.state} 
-                             resetForm={this.resetForm}
-                             setQsl={this.setQsl}
-                             
-                             />
-                             </div>
+                                <ConditionalForm state={this.state} 
+                                    resetForm={this.resetForm}
+                                        setQsl={this.setQsl}
+
+                                />
+                            </div>
                             
                         </div>
                     </div>
                 </div>
-            
          </div>
         
 

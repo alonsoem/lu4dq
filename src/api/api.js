@@ -23,3 +23,4 @@ export const getName = (params) => foreignRequest('get','http://lu4dq.qrits.com.
 
 export const getQsoList = (params) => foreignRequest('get','http://lu4dq.qrits.com.ar/api/getQsos.php',params,{'Content-Type':'Content-Type: application/json'});
 export const getStatusRank = (params) => foreignRequest('get','http://lu4dq.qrits.com.ar/api/getStatusRank.php',params,{'Content-Type':'Content-Type: application/json'});
+export const getEnabledActivities = () => foreignRequest('get','http://lu4dq.qrits.com.ar/api/getEnabledActivities.php',null,{'Content-Type':'Content-Type: application/json'});

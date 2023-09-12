@@ -129,14 +129,12 @@ export default function FormRequest(props) {
         .then((response) => {
             //eslint-disable-next-line
             if (response.qsl.status=="RC Confirmed"){
-//                var url = "http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+response.qsl.document+"&chk="+response.qsl.chk;
                 props.qslHook(response.qsl);
             //eslint-disable-next-line
             }else if (response.qsl.status=="Confirmed"){
                 props.qslHook(response.qsl);
             }else{
                 props.qslHook(response.qsl);
-                console.log(response);
                 //handleAPIError(response);
             }         
         })
@@ -233,9 +231,7 @@ export default function FormRequest(props) {
                            </div>
 
                            <div className="row">&nbsp;</div>
-
-
-                        
+                       
                            
                            <div className="row">&nbsp;</div>
 
@@ -286,29 +282,6 @@ export default function FormRequest(props) {
              </Row>
 
    
-              {/*
-                           <Row className="mb-3">
-               <Form.Group className="mb-3" controlId="frequencyValue">
-                 <Form.Label>FRECUENCIA</Form.Label>
-                 <Form.Control  onChange={handleChangeFrecuency} value={frequency}
-                                className={
-                                  hasError("frequency")
-                                        ? "form-control is-invalid"
-                                        : "form-control"
-                                }/>
-                   <div
-                       className={
-                        hasError("frequency")
-                               ? "invalid-feedback"
-                               : "visually-hidden"
-                       }
-                   >
-                    Indicar una frecuencia válida
-                   </div>
-
-               </Form.Group>
-             </Row>
-             */}
   <Row className="mb-3">
                <Form.Group className="mb-3" controlId="bandValue">
                  <Form.Label>BANDA</Form.Label>

@@ -65,7 +65,7 @@ function QsoList() {
       }
     
     const downloadImage=(url)=>{
-		saveAs(url, 'qsl.png');
+		saveAs(url, 'qsl.jpg');
 	}
 
 	const qsl = (qsl) =>{
