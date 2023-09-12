@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { useState,useEffect} from 'react';
-import { getStatusRank } from './api/api';
+import { getActivities, getStatusRank } from './api/api';
+import {Form, Row} from "react-bootstrap";
 
 
 function AdminView() {
@@ -9,22 +10,48 @@ function AdminView() {
 	const [ rank, setRank] = useState([]);
 	
     const [ loading, setLoading ] = useState(false);
+    const [ activities, setActivities ] = useState([]);
+    const [ activity, setActivity ] = useState(null);
 
  
     useEffect(() => {
         
-      
-        loadData();
+        getActivities()
+            .then((response) => {
+            
+                setActivities(response.activities);
+                setLoading(false);
+          
+            })
+            .catch((response) => handleAxiosError(response));
+
+        return;
         
         // eslint-disable-next-line
         }, []
         )
 
-
-    const loadData =()=> {
+    useEffect(() => {
         
+        if (activity){
+            loadData(activity);
+        }
+        
+        // eslint-disable-next-line
+        }, [activity]
+    )        
+
+
+    const handleChangeActivity=(event)=>{
+            console.log(event.target.value);
+            setActivity(event.target.value);
+
+    }
+
+    const loadData =(activityId)=> {
+        console.log(activityId);
         setLoading(true);
-        getStatusRank()
+        getStatusRank({id:activityId})
         .then((response) => {
             
             setRank(response.rank);
@@ -121,14 +148,22 @@ function AdminView() {
                     <div className="card mt-3" style={{'background-color': 'rgba(181,181,181,0.1)'}}>
                         
                         <div className="card-body" >
-                            
-                            <div className=" row float-end">
-                                <div class="col-6 text-end">
-                                   PROXIMAMENTE MAS....
-                                </div>
-                                
+                            <div className="row rowForm">
+                            <Row className="mb-3">
+                                <Form.Group className="mb-3" controlId="bandValue">
+                                <Form.Label>ACTIVITY</Form.Label>
+                                    <select id="activity" onChange={handleChangeActivity} >
+                                        <option selected disabled value="">Elija una actividad...</option>
+                                        {
+                                            activities.map(anAct => 
+                                                    <option value={anAct.id}>{anAct.title}</option>
+                                                )
+                                        }
+                                       </select>
+                                </Form.Group>
+                            </Row>  
                             </div>
-                        </div>
+                         </div>
                     </div>
                     
 
