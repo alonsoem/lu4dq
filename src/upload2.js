@@ -249,6 +249,10 @@ import { saveAs } from 'file-saver';
 			}else{
 
 			return (
+				<div class="container">
+				<div class="mt-3 text-success h5">
+					Se procesó el archivo exitosamente!
+				</div>
 				<div  className="col-12 mt-3 border">
 					<table className="table striped hover bordered responsive ">
 					<thead>
@@ -281,6 +285,7 @@ import { saveAs } from 'file-saver';
 
 					</table>
 
+				</div>
 				</div>
 			);
 			}
