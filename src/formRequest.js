@@ -46,6 +46,7 @@ export default function FormRequest(props) {
     getName({station:event.target.value})
         .then((response) => {
           setName(response.name);
+          setEmail(response.mail);
           
       })
       .catch((response) => handleAxiosError(response));
