@@ -352,7 +352,7 @@ export default function FormRequest(props) {
              </Row>
 
    
-  <Row className="mb-3">
+              <Row className="mb-3">
                <Form.Group className="mb-3" controlId="bandValue">
                  <Form.Label>BANDA</Form.Label>
                  
