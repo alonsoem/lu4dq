@@ -9,10 +9,11 @@ import { useParams } from "react-router-dom";
 
 
 export default function FormRequest(props) {
-
+  const actual= new Date();
+  const dateData = new Date(actual.getUTCFullYear(),actual.getUTCMonth(),actual.getUTCDate(),actual.getUTCHours(),actual.getUTCMinutes());
   const { stationCode } = useParams();
-  const [datePick, setDate] = useState(format(new Date(),"yyyy-MM-dd"));
-  const [timePick, setTime] = useState(format(new Date(),"HH:mm"));
+  const [datePick, setDate] = useState(format(dateData,"yyyy-MM-dd"));
+  const [timePick, setTime] = useState(format(dateData,"HH:mm"));
   const [signal, setSignal] = useState("");
   const [name, setName] = useState("");
   const [band, setBand] = useState("");
