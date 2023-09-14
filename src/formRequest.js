@@ -1,10 +1,13 @@
 //import "./styles.css";
-import {Form, Row} from "react-bootstrap";
+import {Form, Row,Popover, OverlayTrigger} from "react-bootstrap";
 import { useState } from "react";
 import { format } from "date-fns";
 import {getName, postOneQSO} from "./api/api";
 import { ToastContainer, toast } from 'react-toastify';
 import { useParams } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
+
 
 
 
@@ -242,6 +245,35 @@ export default function FormRequest(props) {
   }
 
 
+  const popoverEmail = (
+    <Popover id="popover-positioned-right"  placement="right" >
+      <Popover.Title as="h3">Dirección de email </Popover.Title>
+      <Popover.Content>
+          La dirección de <strong> e-mail</strong> nos servirá para volver contactarte!
+      </Popover.Content>
+      
+    </Popover>
+  );
+
+  const popoverRSTSent = (
+    <Popover id="popover-positioned-right"  placement="right" >
+      <Popover.Title as="h3">Señales Entregadas</Popover.Title>
+      <Popover.Content>
+          Son las señales que le entregó a su corresponsal.
+      </Popover.Content>
+      
+    </Popover>
+  );
+
+  const popoverRSTReceived = (
+    <Popover id="popover-positioned-right"  placement="right" >
+      <Popover.Title as="h3">Señales Recibidas </Popover.Title>
+      <Popover.Content>
+          Son las señales que el corresponsal te entregó.
+      </Popover.Content>
+      
+    </Popover>
+  );
 
   return (
 
@@ -464,6 +496,11 @@ export default function FormRequest(props) {
                 <Row className="mb-3">
                <Form.Group  className="mb-3" controlId="rstValue">
                  <Form.Label>SEÑALES ENTREGADAS</Form.Label>
+                 <span class="ms-2">
+                   <OverlayTrigger trigger="hover" placement="right" overlay={popoverRSTSent}>
+                            <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
+                    </OverlayTrigger>
+                  </span>
                  <Form.Control  onChange={handleChangeRST} value={rst}
                                 className={
                                   hasError("rst")
@@ -486,6 +523,11 @@ export default function FormRequest(props) {
              <Row className="mb-3">
                <Form.Group  className="mb-3" controlId="rstReceivedValue">
                  <Form.Label>SEÑALES RECIBIDAS</Form.Label>
+                 <span class="ms-2">
+                   <OverlayTrigger trigger="hover" placement="right" overlay={popoverRSTReceived}>
+                            <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
+                    </OverlayTrigger>
+                  </span>
                  <Form.Control  onChange={handleChangeRSTReceived} value={rstReceived}
                                 className={
                                   hasError("rstReceived")
@@ -507,6 +549,11 @@ export default function FormRequest(props) {
              <Row className="mb-3">
                <Form.Group className="mb-3" controlId="emailValue">
                  <Form.Label>E-MAIL de CONTACTO</Form.Label>
+                 <span class="ms-2">
+                   <OverlayTrigger trigger="hover" placement="right" overlay={popoverEmail}>
+                            <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
+                    </OverlayTrigger>
+                  </span>
                  <Form.Control  onChange={handleChangeEmail} value={email} 
                                 className={
                                   hasError("email")
@@ -521,11 +568,12 @@ export default function FormRequest(props) {
                                : "visually-hidden"
                        }
                    >
-                    Escribe una dirección de email valida
+                    Escribe una dirección de email válida
                    </div>
 
                </Form.Group>
              </Row>
+             
                          
 
                            
