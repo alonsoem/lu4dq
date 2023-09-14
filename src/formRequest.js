@@ -259,7 +259,7 @@ export default function FormRequest(props) {
     <Popover id="popover-positioned-right"  placement="right" >
       <Popover.Title as="h3">Señales Entregadas</Popover.Title>
       <Popover.Content>
-          Son las señales que le entregó a su corresponsal.
+          Es el reporte de señales que le entregó a su corresponsal.
       </Popover.Content>
       
     </Popover>
@@ -269,7 +269,7 @@ export default function FormRequest(props) {
     <Popover id="popover-positioned-right"  placement="right" >
       <Popover.Title as="h3">Señales Recibidas </Popover.Title>
       <Popover.Content>
-          Son las señales que el corresponsal te entregó.
+        Es el reporte de señales que el corresponsal te entregó.
       </Popover.Content>
       
     </Popover>
