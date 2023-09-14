@@ -274,6 +274,15 @@ export default function FormRequest(props) {
       
     </Popover>
   );
+  const popoverUTC = (
+    <Popover id="popover-positioned-right"  placement="right" >
+      <Popover.Title as="h3">Hora UTC </Popover.Title>
+      <Popover.Content>
+          Es la hora Universal / GMT que NO coincide con la hora local Argentina.
+      </Popover.Content>
+      
+    </Popover>
+  );
 
   return (
 
@@ -318,6 +327,11 @@ export default function FormRequest(props) {
                            <Row className="mb-3">
                <Form.Group className="mb-3" controlId="timeValue">
                  <Form.Label>HORA UTC</Form.Label>
+                 <span class="ms-2">
+                   <OverlayTrigger trigger="hover" placement="right" overlay={popoverUTC}>
+                            <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
+                    </OverlayTrigger>
+                  </span>
                  <Form.Control  onChange={handleChangeTime} value={timePick} type="time"
                                 className={
                                   hasError("time")
