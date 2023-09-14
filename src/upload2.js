@@ -11,6 +11,10 @@ import { saveAs } from 'file-saver';
 
 		const [loadingForm, setLoadingForm] = useState(false);
 		const [formEnabled, setFormEnabled] = useState(false);
+
+		//sin uso no se estan mostrando errores
+		// eslint-disable-next-line
+		const [error, setError] = useState("");
 		
 
 
@@ -48,7 +52,7 @@ import { saveAs } from 'file-saver';
 			}
 			setLoadingForm(false);
 		
-			//setError(errorToDisplay);
+			setError(errorToDisplay);
 			//notifyError(errorToDisplay);
 		  }
 	 
