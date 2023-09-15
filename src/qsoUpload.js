@@ -85,7 +85,7 @@ export default class QsoUpload extends  React.Component {
            
     render() {
         const downloadImage=(url)=>{
-            saveAs(url, 'qsl.png');
+            saveAs(url, 'qsl.jpg');
           }
           
           const downloadQsl=(qsl)=>{
