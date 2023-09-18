@@ -18,6 +18,7 @@ import { saveAs } from 'file-saver';
     const [stations,setStations] = useState([]);
     const [properties,setProps] = useState({});
     const [show, setShow] = useState(false);
+    const [loadingMatch, setLoadingMatch] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -53,15 +54,17 @@ import { saveAs } from 'file-saver';
         );
         
     
-
+        setLoadingMatch(true);
         getResumedActivities({id: idAct})       
             .then((response) => {
                     
                     setActivity(response.confirmed);
+                    setLoadingMatch(false);
             })
             .catch((response) => {
                 //handleAxiosError(response)
                 console.log(response);
+                setLoadingMatch(false);
                 }
             );
         }, [idAct]
@@ -84,50 +87,63 @@ import { saveAs } from 'file-saver';
         }
 
     function activityTable(){
-       return (<table class="table striped hover bordered responsive border">
-       <thead>
-         <tr class="table-primary">
-           <th scope="col" class="text-center">Posición</th>
-           <th scope="col" class="text-center">Indicativo</th>
-           <th scope="col" class="text-center">Contactos</th>
-           <th scope="col" class="text-center">Certificado</th>
-           <th scope="col" class="text-center">QSO / QSL</th>
-           <th scope="col" class="text-center">Estaciones contactadas</th>
-         </tr>
-       </thead>
-       <tbody>
-       {
-       activity.sort((a,b)=>b.callsigns.length-a.callsigns.length).map((each) =>{
-                return ( <tr>
-                 <th scope="row" class="text-center">{ activity.indexOf(each)+1}</th>
-                 <td class="text-center">{each.station.toUpperCase()}</td>
-                 <td class="text-center">{each.callsigns.length}</td>
-                 
-                 <td class="text-center">
-                    <CellDocument info={each} />
-                </td>
-                <td class="text-center">
-                     <badge class="badge text-bg-primary  text-center" role="button" title="Click para ver los comunicados y sus QSL" onClick={(r)=>navigateToStationQso(each.station)}  >
-                            Qso/qsl
-                     </badge>
-                 </td>
-                 <td class="text-center">
+        if (loadingMatch){
+            return (
+            <div class="text-center p-5 mt-3">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+                <p class="m-2"> Aguarde un instante...</p>
+            </div>
+            );
 
-                    {each.callsigns.join(" ").toUpperCase()}
-                 
-                </td>
-               </tr>
-                )
+        }else{
+            return (<table class="table striped hover bordered responsive border">
+                <thead>
+                    <tr class="table-primary">
+                    <th scope="col" class="text-center">Posición</th>
+                    <th scope="col" class="text-center">Indicativo</th>
+                    <th scope="col" class="text-center">Contactos</th>
+                    <th scope="col" class="text-center">Certificado</th>
+                    <th scope="col" class="text-center">QSO / QSL</th>
+                    <th scope="col" class="text-center">Estaciones contactadas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {
+                activity.sort((a,b)=>b.callsigns.length-a.callsigns.length).map((each) =>{
+                            return ( <tr>
+                            <th scope="row" class="text-center">{ activity.indexOf(each)+1}</th>
+                            <td class="text-center">{each.station.toUpperCase()}</td>
+                            <td class="text-center">{each.callsigns.length}</td>
+                            
+                            <td class="text-center">
+                                <CellDocument info={each} />
+                            </td>
+                            <td class="text-center">
+                                <badge class="badge text-bg-primary  text-center" role="button" title="Click para ver los comunicados y sus QSL" onClick={(r)=>navigateToStationQso(each.station)}  >
+                                        Qso/qsl
+                                </badge>
+                            </td>
+                            <td class="text-center">
 
-
-       })
+                                {each.callsigns.join(" ").toUpperCase()}
+                            
+                            </td>
+                        </tr>
+                            )
+                    })
+             }
+            </tbody>
+            </table>
+            );
+       
+       
        
        }
        
 
 
-       </tbody>
-     </table>);
        
     }
 
@@ -283,8 +299,10 @@ import { saveAs } from 'file-saver';
                                         <button class="btn btn-success float-end mb-3" onClick={navLoad}>Cargar Contactos</button>
                                         <button class="btn btn-success float-end mb-3 me-3" onClick={navView}>Ver contactos</button>
                                     </div>
+                                    <div class="card col-12">
                                     
                                         {activityTable() }
+                                        </div>
                                     
                                 </div>
                             </div>
