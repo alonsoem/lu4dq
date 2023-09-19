@@ -3,7 +3,7 @@ import React from 'react';
 import { useState,useEffect} from 'react';
 import { getQsoCheck } from './api/api';
 import {Col, Row} from "react-bootstrap";
-import { saveAs } from 'file-saver';
+
 import { useParams} from "react-router-dom";
 
 
@@ -59,28 +59,9 @@ function CheckerCompare() {
         //notifyError(errorToDisplay);
       }
     
-    const downloadImage=(url)=>{
-		saveAs(url, 'qsl.jpg');
-	}
+ 
 
-
-	const qsl = (qsl) =>{
-		// eslint-disable-next-line
-		if (qsl.status=="RC Confirmed"){
-            var url ="http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qsl.document+"&chk="+qsl.chk;
-			return (
-                <badge class="badge text-bg-warning  text-center" role="button" onClick={()=>downloadImage(url)} >
-                        Descargar QSL
-                </badge>
-            	);
-        // eslint-disable-next-line
-        }else if (qsl.status=="Confirmed"){
-            return ("Confirmado");
-		}else{
-			return "-";
-		}
-    }
-
+	
 
 
     function ActivityTable(){
