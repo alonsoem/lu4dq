@@ -13,6 +13,8 @@ import Qso from "./qso.js";
 import QsoList from "./qsoList.js";
 import NavMenu from "./nav.js";
 import AdminView from "./adminView.js";
+import Checker from "./checker.js";
+import CheckerCompare from "./checkerCompare.js";
 
 
 
@@ -38,6 +40,11 @@ export default class App extends React.Component {
 
           <Route exact path='/qsoList/:station' element={<QsoList />}></Route>   
           <Route exact path='/qsoList' element={<QsoList />}></Route>   
+
+
+          <Route exact path='/checker/:station/:toCallsign' element={<CheckerCompare />}></Route>   
+          <Route exact path='/checker/:station' element={<Checker />}></Route>   
+          <Route exact path='/checker' element={<Checker />}></Route>   
 
 
           <Route exact path='/activities' element={<AllActivities />}></Route>   
