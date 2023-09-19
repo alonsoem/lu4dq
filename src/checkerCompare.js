@@ -3,7 +3,7 @@ import React from 'react';
 import { useState,useEffect} from 'react';
 import { getQsoCheck } from './api/api';
 import {Col, Row} from "react-bootstrap";
-
+import {useNavigate} from 'react-router-dom';
 import { useParams} from "react-router-dom";
 
 
@@ -12,7 +12,7 @@ function CheckerCompare() {
 
     const {station,toCallsign} = useParams();
 	const [ qsos, setQsos] = useState([]);
-	
+	const navigate = useNavigate();
     const [ loading, setLoading ] = useState(false);
     
 
@@ -36,6 +36,10 @@ function CheckerCompare() {
         }, [station,toCallsign]
     )
 
+
+    const handleBack =(event)=>{
+        navigate('/checker/'+station);
+    }
  
 
     
@@ -172,6 +176,12 @@ function CheckerCompare() {
                             <ActivityTable />
                     
                     
+                            <div className=" row float-end mt-4">
+                                <div class="col-12 text-end">
+                                    <button class="btn btn-success" onClick={handleBack}>Volver</button>
+                                </div>
+                                
+                            </div>
                     
                     </div>
                     </div>
