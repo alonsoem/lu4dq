@@ -107,8 +107,8 @@ function CheckerCompare() {
                     qsos.map((each) =>{
                         return ( 
                            <div class="card">
-                           <div class="card-body">
-                               <div class="card">
+                            <div class="card-body">
+                                   <div class="card">
                                    <div class="card-body">
                                        <Row>
                                        <Col>{each.qso.sta_from}</Col>
