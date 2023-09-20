@@ -100,10 +100,18 @@ export default function FormRequest(props) {
     //setError(errorToDisplay);
     notifyError(errorToDisplay);
   }
+
+
   const handleAxiosErrorB = (response) => {
     let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
-    
+    console.log ("ERROR");
+    console.log (response.response.data.detail);
   
+
+    // eslint-disable-next-line
+    if (response.response.data.code==2 ) {
+      errorToDisplay = response.response.data.detail;
+    }
         // eslint-disable-next-line
     if (response.response.data.code==1062 ) {
           errorToDisplay = "EL QSO YA EXISTE EN NUESTRA BASE DE DATOS.";
@@ -119,10 +127,6 @@ export default function FormRequest(props) {
     //setError(errorToDisplay);
     notifyError(errorToDisplay);
   }
-
-
-
- 
 
  const notifyError = (message) => {
     toast.error(message, {
