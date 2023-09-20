@@ -244,6 +244,11 @@ import TimeUp from './timeUp';
 			return <span class="badge bg-danger" data-toggle="tooltip" data-placement="right" data-title={reg.message} >
 						{reg.message}
 						</span>	
+		// eslint-disable-next-line
+		}else if (reg.insert=="Self Qso"){
+			return <span class="badge bg-danger" data-toggle="tooltip" data-placement="right" data-title={reg.message} >
+				{reg.message}
+				</span>							
 		}else{
 			return <span class="badge bg-danger">{reg.message}</span>
 		}

@@ -90,10 +90,7 @@ export default class QsoUpload extends  React.Component {
            
     render() {
 
-        const navigateActivities = () =>{
-            this.props.history.push('/activities');
-            
-        }
+        
 
         const downloadImage=(url)=>{
             saveAs(url, 'qsl.jpg');
