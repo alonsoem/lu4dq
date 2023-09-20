@@ -54,6 +54,10 @@ code {
 
 }
 
+.text-lu4dq{
+  color:#092f3a!important;
+  
+}
 .navLu4dq{
   background-color:#092f3a;
   color:#abbdc2;
@@ -63,3 +67,8 @@ code {
 .navLu4dq a { color:#abbdc2 !important; }
 .navLu4dq a:hover { color:#abbdc2 !important; }
 .navLu4dq a:visited { color:#abbdc2 !important; }
+.cardActivity{
+  max-width: 21rem;
+  min-width:21rem;
+  margin-right:1rem;
+}
