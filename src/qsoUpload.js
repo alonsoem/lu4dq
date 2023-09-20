@@ -8,6 +8,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
+import TimeUp from './timeUp';
+
 
 export default class QsoUpload extends  React.Component {
     
@@ -22,6 +24,9 @@ export default class QsoUpload extends  React.Component {
             
         };            
     }
+    
+
+
 
     setQsl=(value)=>{
         this.setState({qsl:value})
@@ -40,7 +45,7 @@ export default class QsoUpload extends  React.Component {
         this.setState({isLoading:true});
         getEnabledActivities()       
             .then((response) => {
-                this.setState({enabled:response.enabled});
+                //this.setState({enabled:response.enabled});
                 this.setState({isLoading:false});
                 
             })
@@ -84,6 +89,12 @@ export default class QsoUpload extends  React.Component {
 
            
     render() {
+
+        const navigateActivities = () =>{
+            this.props.history.push('/activities');
+            
+        }
+
         const downloadImage=(url)=>{
             saveAs(url, 'qsl.jpg');
           }
@@ -133,6 +144,7 @@ export default class QsoUpload extends  React.Component {
                     
         }
 
+
         function ConditionalForm(props){
 
             // eslint-disable-next-line
@@ -154,7 +166,8 @@ export default class QsoUpload extends  React.Component {
                     if (props.state.enabled){
                         return <FormRequest qslHook={props.setQsl} />
                     }else{
-                        return "NO HAY ACTIVIDADES DISPONIBLES ACTUALMENTE!";
+                       return <TimeUp />
+                        
                     }
                 }   
                 

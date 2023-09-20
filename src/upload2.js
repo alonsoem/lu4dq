@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import {Form, Row} from "react-bootstrap";
 import { saveAs } from 'file-saver';
+import TimeUp from './timeUp';
 
 	function Upload(){
 		
@@ -495,10 +496,11 @@ import { saveAs } from 'file-saver';
 			);
 		
 		}else{
+			console.log(props.enabled);
 			if (props.enabled){
 				return <ShowForm   />
 			}else{
-				return "NO HAY ACTIVIDADES DISPONIBLES ACTUALMENTE!";
+				return <TimeUp />
 			}
 		}   
 		
