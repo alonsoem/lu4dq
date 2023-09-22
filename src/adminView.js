@@ -1,14 +1,29 @@
 import React from 'react';
 
 import { useState,useEffect} from 'react';
-import { getActivities, getStatsByBand, getStatsByMode, getStatusRank } from './api/api';
+import { getActivities, getStatsByBand, getStatsByMode, getStatusRank ,getStatsByDate} from './api/api';
 import {Form, Row} from "react-bootstrap";
-import { Pie } from 'react-chartjs-2';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Pie,Bar } from 'react-chartjs-2';
+//import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+    ArcElement
+  } from 'chart.js';
 
 
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement,  CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend);
 
 function AdminView() {
 
@@ -21,6 +36,9 @@ function AdminView() {
     const [ modeData, setModes ] = useState([]);
     const [ bandLabels, setBandLabels ] = useState([]);
     const [ bandData, setBands ] = useState([]);
+    
+    const [ dateLabels, setDateLabels ] = useState([]);
+    const [ dateData, setDates ] = useState([]);
 
     const dataModes = {
         labels: modeLabels,
@@ -76,6 +94,48 @@ function AdminView() {
         ],
       };
      
+      const dataDates = {
+        labels: dateLabels,
+        datasets: [
+          {
+            label: 'Cantidad de Contactos por día',
+            data: dateData,
+            backgroundColor: [
+              
+              'rgba(54, 162, 235, 0.2)',
+              
+            ],
+            borderColor: [
+              
+              'rgba(54, 162, 235, 1)',
+              
+            ],
+            borderWidth: 1,
+          },
+        ],
+      };
+
+     
+      const barOptions = {
+        responsive: true,
+        legend: {
+          display: false
+        },
+        type: "bar",
+        scales: {
+          xAxes: [
+            {
+              stacked: true
+            }
+          ],
+          yAxes: [
+            {
+              stacked: true
+            }
+          ]
+        }
+      };
+
     useEffect(() => {
         
         getActivities()
@@ -99,6 +159,7 @@ function AdminView() {
             loadData(activity);
             loadPieModes(activity);
             loadPieBands(activity);
+            loadBarDates(activity);
         }
         
         // eslint-disable-next-line
@@ -147,6 +208,20 @@ function AdminView() {
             console.log(response);
             setBandLabels(response.statsByBand.map(aBand=>aBand.band));
             setBands(response.statsByBand.map(aBand=>aBand.qty));
+            setLoading(false);
+          
+      })
+      .catch((response) => handleAxiosError(response));
+    }
+
+    const loadBarDates =(activityId)=> {
+        
+        setLoading(true);
+        getStatsByDate({id:activityId})
+        .then((response) => {
+            
+            setDateLabels(response.statsByDate.map(each=>each.date));
+            setDates(response.statsByDate.map(each=>each.qty));
             setLoading(false);
           
       })
@@ -272,6 +347,14 @@ function AdminView() {
                                 <Row class="">
                                     <div class="text-center">
                                         <Pie data={dataBands} />
+                                    </div>
+                                </Row>
+                            </div>
+
+                            <div class="card p-5 mt-3">
+                                <Row class="">
+                                    <div class="text-center">
+                                        <Bar data={dataDates} options={barOptions} />
                                     </div>
                                 </Row>
                             </div>
