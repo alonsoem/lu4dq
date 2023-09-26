@@ -1,5 +1,5 @@
 //import "./styles.css";
-import {Form, Col, Row,Popover, OverlayTrigger} from "react-bootstrap";
+import {Form, Row,Popover, OverlayTrigger} from "react-bootstrap";
 import { useState } from "react";
 import { format } from "date-fns";
 import {getName, postOneQSO,getBand} from "./api/api";
