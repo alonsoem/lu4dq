@@ -29,3 +29,4 @@ export const getStatsByDate = (params) => foreignRequest('get','http://lu4dq.qri
 export const getEnabledActivities = () => foreignRequest('get','http://lu4dq.qrits.com.ar/api/getEnabledActivities.php',null,{'Content-Type':'Content-Type: application/json'});
 
 export const getQsoCheck = (params) => foreignRequest('get','http://lu4dq.qrits.com.ar/api/getQsoCheck.php',params,{'Content-Type':'Content-Type: application/json'});
+export const getBand = (params) => foreignRequest('get','http://lu4dq.qrits.com.ar/api/getBandsNew.php',params,{'Content-Type':'Content-Type: application/json'});

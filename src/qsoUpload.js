@@ -19,7 +19,8 @@ export default class QsoUpload extends  React.Component {
         this.state = {
             formState:true,
             qsl:null,
-            enabled:false,
+//            enabled:false,
+            enabled:true,
             isLoading:true,
             
         };            
@@ -45,7 +46,7 @@ export default class QsoUpload extends  React.Component {
         this.setState({isLoading:true});
         getEnabledActivities()       
             .then((response) => {
-                this.setState({enabled:response.enabled});
+                //this.setState({enabled:response.enabled});
                 this.setState({isLoading:false});
                 
             })

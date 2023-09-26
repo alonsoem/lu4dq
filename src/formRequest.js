@@ -1,8 +1,8 @@
 //import "./styles.css";
-import {Form, Row,Popover, OverlayTrigger} from "react-bootstrap";
+import {Form, Col, Row,Popover, OverlayTrigger} from "react-bootstrap";
 import { useState } from "react";
 import { format } from "date-fns";
-import {getName, postOneQSO} from "./api/api";
+import {getName, postOneQSO,getBand} from "./api/api";
 import { ToastContainer, toast } from 'react-toastify';
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,6 +20,7 @@ export default function FormRequest(props) {
   const [signal, setSignal] = useState("");
   const [name, setName] = useState("");
   const [band, setBand] = useState("");
+  const [freq, setFrequency] = useState(0);
   const [mode, setMode] = useState("");
   const [email, setEmail] = useState("");
   const [rst, setRST] = useState("");
@@ -34,6 +35,17 @@ export default function FormRequest(props) {
   };
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
+  };
+
+  const handleChangeFreq = (event) => {
+    setFrequency(event.target.value);
+    setBand("");
+    getBand({freq:event.target.value})
+        .then((response) => {
+          setBand(response.name);
+      })
+      .catch((response) => setBand(""));
+
   };
   const handleChangeTime = (event) => {
     setTime(event.target.value);
@@ -57,9 +69,7 @@ export default function FormRequest(props) {
   };
   
   
-  const handleChangeBand  = (event) => {
-    setBand(event.target.value.toUpperCase());
-  };
+
   const handleChangeMode  = (event) => {
     setMode(event.target.value.toUpperCase());
   };
@@ -220,9 +230,19 @@ export default function FormRequest(props) {
       errors.push("mode");
     }
 
-    if (band.length===0){
-      errors.push("band");
+    if (freq.length===0){
+      errors.push("freq");
     }
+
+    if (band){
+      if (band.length===0){
+        errors.push("band");
+      }
+    }else{
+      errors.push("band");
+    
+    }
+    
 
     if (datePick.length !== 10) {
         errors.push("date");
@@ -231,6 +251,7 @@ export default function FormRequest(props) {
     if (name.length < 3) {
       errors.push("name");
     }
+
     if (toCall.length < 3) {
       errors.push("toCall");
     }
@@ -299,12 +320,8 @@ export default function FormRequest(props) {
                                <h5>Ingresa los datos de un comunicado para ser confirmado en linea!</h5>
                                </div>
                            </div>
-
+                           <div className="row">&nbsp;</div>                         
                            <div className="row">&nbsp;</div>
-                       
-                           
-                           <div className="row">&nbsp;</div>
-
            
                            <Row className="mb-3">
                <Form.Group className="mb-3" controlId="dateValue">
@@ -356,34 +373,41 @@ export default function FormRequest(props) {
                </Form.Group>
              </Row>
 
-   
-              <Row className="mb-3">
+             <Row className="mb-3 col-13">
+
+              <div class="col-9">
+               <Form.Group className="mb-3" controlId="frequencyValue">
+                 <Form.Label>FRECUENCIA (en Mhz)</Form.Label>
+                 <Form.Control  onChange={handleChangeFreq} value={freq}
+                                className={
+                                  hasError("freq")
+                                        ? "form-control is-invalid"
+                                        : "form-control"
+                                        
+                                }/>
+                   <div
+                       className={
+                        hasError("freq")
+                               ? "invalid-feedback"
+                               : "visually-hidden"
+                       }
+                   >
+                    Escribir al menos 3 caracteres de un indicativo válido
+                   </div>
+
+               </Form.Group>
+             
+               </div>
+               <div class="col-3">
+             
                <Form.Group className="mb-3" controlId="bandValue">
                  <Form.Label>BANDA</Form.Label>
-                 
-                  <select id="band" onChange={handleChangeBand}
-                  className={
-                    hasError("band")
-                          ? "form-select is-invalid"
-                          : "form-select"
-                  } >
-                                            <option selected disabled value="">Elija una banda...</option>
-                                            <option value="160m">160 m</option>
-                                            <option value="80m">80 m</option>
-                                            <option value="60m">60 m</option>
-                                            <option value="40m">40 m</option>
-                                            <option value="30m">30 m</option>
-                                            <option value="20m">20 m</option>
-                                            <option value="17m">17 m</option>
-                                            <option value="15m">15 m</option>
-                                            <option value="12m">12 m</option>
-                                            <option value="10m">10 m</option>
-                                            <option value="6m">6 m</option>
-                                            <option value="2m">2 m</option>
-                                            <option value="1.2m">1,2 m</option>
-                                            <option value="70cm">70 cm</option>
-                                            <option value="VOIP">VOIP</option>
-                                            </select>
+                 <Form.Control  readonly  value={band}
+                                className={
+                                  hasError("band")
+                                        ? "form-control is-invalid"
+                                        : "form-control"
+                                }/>
                    <div
                        className={
                         hasError("band")
@@ -391,11 +415,13 @@ export default function FormRequest(props) {
                                : "visually-hidden"
                        }
                    >
-                    Seleccione una banda válida
+                    Indique una frecuencia que corresponda a una banda válida
                    </div>
 
                </Form.Group>
+               </div>
              </Row>
+              
              <Row className="mb-3">
                <Form.Group className="mb-3" controlId="modeValue">
                  <Form.Label>MODO</Form.Label>
