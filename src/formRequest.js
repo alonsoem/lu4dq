@@ -29,7 +29,7 @@ export default function FormRequest(props) {
   const [rst, setRST] = useState("");
   const [rstReceived, setRSTReceived] = useState("");
 
-  const [swlEnabled, showSWL] = useState(true);
+  
   const [swl, setSwl] = useState(true);
   
   const [toCall, setToCall] = useState("");
