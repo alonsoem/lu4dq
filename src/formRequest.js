@@ -1,5 +1,6 @@
 //import "./styles.css";
 import {Form, Row,Popover, OverlayTrigger} from "react-bootstrap";
+
 import { useState } from "react";
 import { format } from "date-fns";
 import {getName, postOneQSO,getBand} from "./api/api";
@@ -7,6 +8,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
+
+
 
 
 
@@ -25,14 +28,24 @@ export default function FormRequest(props) {
   const [email, setEmail] = useState("");
   const [rst, setRST] = useState("");
   const [rstReceived, setRSTReceived] = useState("");
+
+  const [swlEnabled, showSWL] = useState(true);
+  const [swl, setSwl] = useState(true);
   
   const [toCall, setToCall] = useState("");
+  const [toCall2, setToCall2] = useState("");
   const [errors, setErrors] = useState([]);
   
 
   const handleChangeDatePick = (value) => {
     setDate(value);
   };
+
+  const handleChangeSwl =(event)=>{
+    console.log(event.target.checked);
+      setSwl(event.target.checked);
+    
+  }
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
   };
@@ -64,12 +77,15 @@ export default function FormRequest(props) {
       .catch((response) => handleAxiosError(response));
     
   };
+
   const handleChangeToCall = (event) => {
     setToCall(event.target.value.toUpperCase());
   };
-  
-  
 
+
+  const handleChangeToCall2= (event) => {
+    setToCall2(event.target.value.toUpperCase());
+  };
   const handleChangeMode  = (event) => {
     setMode(event.target.value.toUpperCase());
   };
@@ -153,7 +169,9 @@ export default function FormRequest(props) {
 
 
   const submit = () =>{
+if (swl){
 
+}
     postOneQSO({
         signal: signal,
         date:datePick.replace(/\D/g, ""),
@@ -165,7 +183,9 @@ export default function FormRequest(props) {
         name:name,
         toCall:toCall,
         stationCode:stationCode,
-        email:email
+        email:email,
+        toCall2:toCall2,
+        isSwl:swl
         
         })       
         .then((response) => {
@@ -219,12 +239,7 @@ export default function FormRequest(props) {
 
     }
     */
-    if (rst.length<2) {
-      errors.push("rst");
-  }
-    if (rstReceived.length<2) {
-        errors.push("rstReceived");
-    }
+   
 
     if (mode.length===0){
       errors.push("mode");
@@ -256,6 +271,43 @@ export default function FormRequest(props) {
       errors.push("toCall");
     }
 
+    
+
+
+    if (swl){
+      if (toCall2.length < 3) {
+        errors.push("toCall2");
+      }
+    }else{
+      if (rst.length<2) {
+        errors.push("rst");
+      }
+      if (rstReceived.length<2) {
+          errors.push("rstReceived");
+      }
+
+      if (isNaN(rstReceived)){
+        errors.push("rstReceived");
+      }else{
+        if (rstReceived>59 || rstReceived<11 ) {
+          errors.push("rstReceived");
+        }
+      }
+
+      if (isNaN(rst)){
+        errors.push("rst");
+      }else{
+        if (rst>59 || rst<11 ) {
+          errors.push("rst");
+        }
+      }
+
+      
+    }
+
+
+    
+
     setErrors(errors);
 
     if (errors.length > 0) {
@@ -269,6 +321,7 @@ export default function FormRequest(props) {
   const hasError= (key) => {
         return errors.indexOf(key) !== -1;
   }
+
 
 
   const popoverEmail = (
@@ -310,6 +363,109 @@ export default function FormRequest(props) {
     </Popover>
   );
 
+  function DistintivaCorresponsal2 (){
+    if (swl){
+      return ( 
+        <Row className="mb-3">
+               <Form.Group className="mb-3" controlId="toCall2Value">
+                 <Form.Label>SEÑAL DISTINTIVA CORRESPONSAL #2</Form.Label>
+                 <Form.Control  onChange={handleChangeToCall2} value={toCall2} 
+                                className={
+                                  hasError("toCall2")
+                                        ? "form-control is-invalid"
+                                        : "form-control"
+                                }
+                                />
+                   <div
+                       className={
+                        hasError("toCall2")
+                               ? "invalid-feedback"
+                               : "visually-hidden"
+                       }
+                   >
+                    Escribe al menos 3 caracteres de una señal distintiva
+                   </div>
+
+               </Form.Group>
+             </Row>
+       );
+    }else{
+      return null;
+    }
+    
+  }
+
+function SeñalesRecibidas() {
+  if (!swl){
+    return (
+      <Row className="mb-3">
+        <Form.Group  className="mb-3" controlId="rstReceivedValue">
+          <Form.Label>SEÑALES RECIBIDAS</Form.Label>
+          <span class="ms-2">
+        <OverlayTrigger trigger="focus" placement="right" overlay={popoverRSTReceived}>
+                 <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
+         </OverlayTrigger>
+       </span>
+          <Form.Control  onChange={handleChangeRSTReceived} value={rstReceived}
+                   className={
+                     hasError("rstReceived")
+                           ? "form-control is-invalid"
+                           : "form-control"
+                   }/>
+          <div
+            className={
+            hasError("rstReceived")
+                  ? "invalid-feedback"
+                  : "visually-hidden"
+            }
+          >
+              Indique las señales correctamente!
+          </div>
+        </Form.Group>
+      </Row>
+    );
+  }else{
+    return null;
+  }
+  
+}
+
+ function SeñalesEntregadas () {
+  if (!swl){
+    return (
+    <Row className="mb-3">
+    <Form.Group  className="mb-3" controlId="rstValue">
+      <Form.Label>SEÑALES ENTREGADAS</Form.Label>
+      <span class="ms-2">
+        <OverlayTrigger trigger="focus" placement="right" overlay={popoverRSTSent}>
+                 <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
+         </OverlayTrigger>
+       </span>
+      <Form.Control  onChange={handleChangeRST} value={rst}
+                     className={
+                       hasError("rst")
+                             ? "form-control is-invalid"
+                             : "form-control"
+                     }/>
+        <div
+            className={
+             hasError("rst")
+                    ? "invalid-feedback"
+                    : "visually-hidden"
+            }
+        >
+         Indique las señales correctamente!
+        </div>
+
+    </Form.Group>
+  </Row>
+    )
+  }else{
+    return null;
+  }
+}
+
+
   return (
 
        <form onSubmit={handleSubmit} className="row g-3 needs-validation">
@@ -350,7 +506,7 @@ export default function FormRequest(props) {
                <Form.Group className="mb-3" controlId="timeValue">
                  <Form.Label>HORA UTC</Form.Label>
                  <span class="ms-2">
-                   <OverlayTrigger trigger="hover" placement="right" overlay={popoverUTC}>
+                   <OverlayTrigger trigger="focus" placement="right" overlay={popoverUTC}>
                             <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
                     </OverlayTrigger>
                   </span>
@@ -400,6 +556,8 @@ export default function FormRequest(props) {
                </div>
                <div class="col-3">
              
+   
+
                <Form.Group className="mb-3" controlId="bandValue">
                  <Form.Label>BANDA</Form.Label>
                  <Form.Control  readonly  value={band}
@@ -514,6 +672,42 @@ export default function FormRequest(props) {
                </Form.Group>
              </Row>
 
+
+            <Row className="mb-3 align-middle col-12">
+               <Form.Group  className="mb-3" controlId="swlValue">
+                 <Form.Label  >SWL</Form.Label>
+                 <div class="form-check mb-3">
+                    <input
+                        type="checkbox"
+                        onChange={handleChangeSwl}  
+                        defaultChecked={swl}
+                        value={swl}
+                        class={hasError("swl")
+                            ? "form-check-input form-control is-invalid"
+                            : "form-check-input form-control"
+                        }
+                        id="swlCheck"
+                    />
+                    <label class="form-check-label ms-3" for="swlCheck">
+                          ¿Es radioescucha?
+                    </label>
+                  </div>               
+
+                  <div
+                       className={
+                        hasError("swl")
+                               ? "invalid-feedback"
+                               : "visually-hidden"
+                       }
+                   >
+                    Escribe al menos 3 caracteres de una señal distintiva
+                   </div>
+               </Form.Group>
+             </Row>
+
+
+
+
             <Row className="mb-3">
                <Form.Group className="mb-3" controlId="toCallValue">
                  <Form.Label>SEÑAL DISTINTIVA CORRESPONSAL</Form.Label>
@@ -537,65 +731,17 @@ export default function FormRequest(props) {
                </Form.Group>
              </Row>
 
-                  
-                <Row className="mb-3">
-               <Form.Group  className="mb-3" controlId="rstValue">
-                 <Form.Label>SEÑALES ENTREGADAS</Form.Label>
-                 <span class="ms-2">
-                   <OverlayTrigger trigger="hover" placement="right" overlay={popoverRSTSent}>
-                            <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
-                    </OverlayTrigger>
-                  </span>
-                 <Form.Control  onChange={handleChangeRST} value={rst}
-                                className={
-                                  hasError("rst")
-                                        ? "form-control is-invalid"
-                                        : "form-control"
-                                }/>
-                   <div
-                       className={
-                        hasError("rst")
-                               ? "invalid-feedback"
-                               : "visually-hidden"
-                       }
-                   >
-                    Indique las señales correctamente!
-                   </div>
+             {DistintivaCorresponsal2()}
+             {SeñalesEntregadas()}
+             {SeñalesRecibidas()}
+             
+             
 
-               </Form.Group>
-             </Row>
-
-             <Row className="mb-3">
-               <Form.Group  className="mb-3" controlId="rstReceivedValue">
-                 <Form.Label>SEÑALES RECIBIDAS</Form.Label>
-                 <span class="ms-2">
-                   <OverlayTrigger trigger="hover" placement="right" overlay={popoverRSTReceived}>
-                            <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
-                    </OverlayTrigger>
-                  </span>
-                 <Form.Control  onChange={handleChangeRSTReceived} value={rstReceived}
-                                className={
-                                  hasError("rstReceived")
-                                        ? "form-control is-invalid"
-                                        : "form-control"
-                                }/>
-                   <div
-                       className={
-                        hasError("rstReceived")
-                               ? "invalid-feedback"
-                               : "visually-hidden"
-                       }
-                   >
-                    Indique las señales correctamente!
-                   </div>
-
-               </Form.Group>
-             </Row>
              <Row className="mb-3">
                <Form.Group className="mb-3" controlId="emailValue">
                  <Form.Label>E-MAIL de CONTACTO</Form.Label>
                  <span class="ms-2">
-                   <OverlayTrigger trigger="hover" placement="right" overlay={popoverEmail}>
+                   <OverlayTrigger trigger="focus" placement="right" overlay={popoverEmail}>
                             <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
                     </OverlayTrigger>
                   </span>
