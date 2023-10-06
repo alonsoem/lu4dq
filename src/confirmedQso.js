@@ -279,7 +279,7 @@ import { saveAs } from 'file-saver';
                                 <div className="card-header subHeader">
                                     <div class="row">
                                         <div class="col-12 ">
-                                            <span class="">CONTACTOS Y CERTIFICADOS</span>
+                                            <span class="">ACTIVIDAD</span>
                                             <span class="float-end">
                                                 <FontAwesomeIcon size="1x" icon={icon({name: 'ranking-star'})} />
                                             </span>                                     
