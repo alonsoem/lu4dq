@@ -8,7 +8,7 @@ function NavMenu() {
     return (
         <ul class="nav justify-content-center mb-3 navLu4dq">
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="/activities/6">ACTIVIDAD</a>
+    <a class="nav-link active" aria-current="page" href="/activities">ACTIVIDADES</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="/">CARGA DE CONTACTOS</a>
