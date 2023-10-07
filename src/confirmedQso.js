@@ -246,6 +246,7 @@ import { saveAs } from 'file-saver';
         
       }
 const showTable=()=>{
+    // eslint-disable-next-line
      if (properties.type==0){
         return activityQslTable() ;
     }else{
