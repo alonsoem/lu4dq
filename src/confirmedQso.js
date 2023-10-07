@@ -85,6 +85,21 @@ import { saveAs } from 'file-saver';
                 return ("-")
             }
         }
+        function CellQslDocument(values){
+            
+            if (values.info.document){
+            
+                var url = "http://lu4dq.qrits.com.ar/api/certCreator.php?qso="+values.info.document.value+"&chk="+values.info.document.chk;
+                return (
+                        <badge 
+                        class="badge text-bg-warning  text-center" role="button" onClick={(r)=>downloadCertificate(url)} title="Click para descargar el certificado" >
+                            Descargar
+                        </badge>
+                    )
+            }else{
+                return ("-")
+            }
+        }
 
     function activityTable(){
         if (loadingMatch){
@@ -147,11 +162,66 @@ import { saveAs } from 'file-saver';
        
     }
 
+    function activityQslTable(){
+        if (loadingMatch){
+            return (
+            <div class="text-center p-5 mt-3">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+                <p class="m-2"> Aguarde un instante...</p>
+            </div>
+            );
+
+        }else{
+            return (<table class="table striped hover bordered responsive border">
+                <thead>
+                    <tr class="table-primary">
+                    <th scope="col" class="text-center">Indicativo</th>
+                    <th scope="col" class="text-center">QSL</th>
+                    <th scope="col" class="text-center">Contactos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {
+                activity.sort((a,b)=>b.callsigns.length-a.callsigns.length).map((each) =>{
+                            return ( <tr>
+                            <td class="text-center">{each.station.toUpperCase()}</td>
+                            
+                            <td class="text-center">
+                                <CellQslDocument info={each} />
+                            </td>
+                            <td class="text-center">
+                                <badge class="badge text-bg-primary  text-center" role="button" title="Click para ver los comunicados y sus QSL" onClick={(r)=>navigateToStationQso(each.station)}  >
+                                        Ver
+                                </badge>
+                            </td>
+    
+                        </tr>
+                            )
+                    })
+             }
+            </tbody>
+            </table>
+            );
+       
+       
+       
+       }
+       
+
+
+       
+    }
+
     const downloadCertificate=(url)=>{
         saveAs(url, 'CERTIFICADO 74 ANIVERSARIO RADIO CLUB QUILMES.jpg');
       }
     const downloadImage=()=>{
-        saveAs("http://lu4dq.qrits.com.ar/uploads/BASES CERTIFICADO 74 ANIVERSARIO RADIO CLUB QUILMES.docx", 'BASES CERTIFICADO 74 ANIVERSARIO RADIO CLUB QUILMES.docx');
+        const docFile = properties.doc.split('.');
+        const fileName=properties.title+"."+docFile[1];
+        console.log(docFile[1]);
+        saveAs("http://lu4dq.qrits.com.ar/dinamic-content/activity"+properties.doc, fileName);
       }
 
       const ModalForm=()=>{
@@ -165,7 +235,7 @@ import { saveAs } from 'file-saver';
             <Modal.Body>
                 <div class="container vw-100 vh-50 text-center" role="button">
                     <img  width="80%" class="rounded d-block img-responsive"  
-                    src="http://lu4dq.qrits.com.ar/api/DEMOCERTIFICADO.jpg" 
+                    src={"http://lu4dq.qrits.com.ar/dinamic-content/"+properties.price}
                     alt="Certificado de muestra" role="button"
                     />
                 </div>
@@ -176,7 +246,13 @@ import { saveAs } from 'file-saver';
         );
         
       }
-
+const showTable=()=>{
+     if (properties.type==0){
+        return activityQslTable() ;
+    }else{
+        return activityTable() ;
+    }
+}
       const navLoad = () =>{
         navigate('/');    
       }
@@ -203,7 +279,7 @@ import { saveAs } from 'file-saver';
                             <div class="m-4 lh-base float-middle ">
                                 
                                     <img class="rounded mx-auto d-block cursor-pointer" 
-                                    src="http://lu4dq.qrits.com.ar/api/DEMOCERTIFICADO.jpg" 
+                                    src={"http://lu4dq.qrits.com.ar/dinamic-content/"+properties.price}
                                     height="15%" width="15%" 
                                     alt="Certificado de muestra"
                                         onClick={handleShow}
@@ -287,10 +363,7 @@ import { saveAs } from 'file-saver';
                                     </div>
                                 </div>
                                 <div className="card-body" >
-                                    <div class="container fw-bold lh-sm">
-                                    <p>Contactos requeridos: con 5 estaciones autorizadas + LQ4D o LU4DQ</p>
-                                    <p>Fecha límite: 7 días de finalizado el evento, el sistema dejará de computar los contactos subidos y no serán válidos para el mismo después de dicho plazo.</p>
-                                    </div>
+                                    <div class="container fw-bold lh-sm"></div>
                                     <div class="container lh-sm mt-2">
                                         <p>Siga los siguientes links para cargar sus contactos y verificarlos en línea. </p>
                                         <p>El siguiente listado se actualizará automáticamente mostrando los contactos y certificados de cada estación.</p>
@@ -300,8 +373,12 @@ import { saveAs } from 'file-saver';
                                         <button class="btn btn-success float-end mb-3 me-3" onClick={navView}>Ver contactos</button>
                                     </div>
                                     <div class="card col-12">
+
                                     
-                                        {activityTable() }
+                                        {
+                                          showTable()
+                                        }
+                                        
                                         </div>
                                     
                                 </div>
