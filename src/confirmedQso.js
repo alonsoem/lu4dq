@@ -220,7 +220,6 @@ import { saveAs } from 'file-saver';
     const downloadImage=()=>{
         const docFile = properties.doc.split('.');
         const fileName=properties.title+"."+docFile[1];
-        console.log(docFile[1]);
         saveAs("http://lu4dq.qrits.com.ar/dinamic-content/activity"+properties.doc, fileName);
       }
 
@@ -258,6 +257,13 @@ const showTable=()=>{
       }
       const navView = () =>{
         navigate('/qsoList');    
+      }
+
+      const conditionalBases=()=>{
+        if (properties.doc){
+            return (<button class="btn btn-success float-end" onClick={r=>
+                downloadImage()}>Descargar Bases</button>);
+            }
       }
         return(
        
@@ -314,8 +320,10 @@ const showTable=()=>{
 
                                 <div class="row p-4">
                                     <div class="col-12  display-6">
-                                        <button class="btn btn-success float-end" onClick={r=>
-                                            downloadImage()}>Descargar Bases</button>
+                                        {
+                                           conditionalBases()
+                                        }
+                                        
                                     </div>
                                 </div>
                                 
