@@ -25,7 +25,6 @@ import { saveAs } from 'file-saver';
     const navigate = useNavigate();
 
     const navigateToStationQso = (station) => {
-        console.log(station);
         if (station){
             navigate('/qsoList/'+station);
         }
@@ -57,7 +56,7 @@ import { saveAs } from 'file-saver';
         setLoadingMatch(true);
         getResumedActivities({id: idAct})       
             .then((response) => {
-                    
+                    console.log(response);
                     setActivity(response.confirmed);
                     setLoadingMatch(false);
             })
@@ -87,9 +86,9 @@ import { saveAs } from 'file-saver';
         }
         function CellQslDocument(values){
             
-            if (values.info.document){
+            if (values.info.qsl.document){
             
-                var url = "http://lu4dq.qrits.com.ar/api/certCreator.php?qso="+values.info.document.value+"&chk="+values.info.document.chk;
+                var url = "http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+values.info.qsl.document+"&chk="+values.info.qsl.chk;
                 return (
                         <badge 
                         class="badge text-bg-warning  text-center" role="button" onClick={(r)=>downloadCertificate(url)} title="Click para descargar el certificado" >
@@ -214,9 +213,10 @@ import { saveAs } from 'file-saver';
        
     }
 
-    const downloadCertificate=(url)=>{
-        saveAs(url, 'CERTIFICADO 74 ANIVERSARIO RADIO CLUB QUILMES.jpg');
-      }
+    function downloadCertificate(url){
+        saveAs(url, properties.title+'.jpg');
+    }
+    
     const downloadImage=()=>{
         const docFile = properties.doc.split('.');
         const fileName=properties.title+"."+docFile[1];
