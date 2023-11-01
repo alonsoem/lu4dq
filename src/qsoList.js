@@ -114,6 +114,7 @@ function QsoList() {
                         <th scope="col" class="text-center">Hora</th>
                         <th scope="col" class="text-center">Banda</th>
                         <th scope="col" class="text-center">Modo</th>
+                        <th scope="col" class="text-center">Swl</th>
                         <th scope="col" class="text-center">Qso / Qsl</th>
                     </tr>
                 </thead>
@@ -126,6 +127,7 @@ function QsoList() {
                     <td class="text-center">{each.time}</td>
                     <td class="text-center">{each.band}</td>
                     <td class="text-center">{each.mode}</td>
+                    <td class="text-center">{each.swl?"SI":"-"}</td>
                     <td class="text-center">{qsl(each.qsl)}</td>
                   </tr>
                  )
