@@ -183,7 +183,7 @@ import { saveAs } from 'file-saver';
                 </thead>
                 <tbody>
                 {
-                activity.sort((a,b)=>b.callsigns.length-a.callsigns.length).map((each) =>{
+                activity.sort((a,b)=>b.station>a.station).map((each) =>{
                             return ( <tr>
                             <td class="text-center">{each.station.toUpperCase()}</td>
                             
