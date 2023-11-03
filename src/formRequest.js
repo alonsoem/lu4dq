@@ -14,6 +14,7 @@ import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
 
 
 
+
 export default function FormRequest(props) {
   const actual= new Date();
   const dateData = new Date(actual.getUTCFullYear(),actual.getUTCMonth(),actual.getUTCDate(),actual.getUTCHours(),actual.getUTCMinutes());
@@ -23,7 +24,7 @@ export default function FormRequest(props) {
   const [signal, setSignal] = useState("");
   const [name, setName] = useState("");
   const [band, setBand] = useState("");
-  const [freq, setFrequency] = useState(0);
+  const [freq, setFrequency] = useState(null);
   const [mode, setMode] = useState("");
   const [email, setEmail] = useState("");
   const [rst, setRST] = useState("");
@@ -245,9 +246,23 @@ if (swl){
       errors.push("mode");
     }
 
-    if (freq.length===0){
+    if ((freq==null)){
       errors.push("freq");
+    }else{
+      if(isNaN(freq)){
+        errors.push("freq");
+      }else{
+        if (freq.length===0){
+          errors.push("freq");
+          
+        }else{
+          if (freq===0){
+            errors.push("freq");
+          }
+        }
+      }
     }
+    
 
     if (band){
       if (band.length===0){
@@ -548,7 +563,7 @@ function SeñalesRecibidas() {
                                : "visually-hidden"
                        }
                    >
-                    Escribir al menos 3 caracteres de un indicativo válido
+                    Indique un valor que represente una frecuencia en Mhz
                    </div>
 
                </Form.Group>
