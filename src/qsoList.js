@@ -122,7 +122,7 @@ function QsoList() {
             {qsos.map((each) =>{
                  return ( 
                     <tr>
-                    <td class="text-center">{each.swl?each.callsign+"/"+each.callsign2:each.callsign}</td>
+                    <td class="text-center">{each.swl?each.callsign+" - "+each.callsign2:each.callsign}</td>
                     <td class="text-center">{each.date}</td>
                     <td class="text-center">{each.time}</td>
                     <td class="text-center">{each.band}</td>
