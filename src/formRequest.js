@@ -413,7 +413,7 @@ if (swl){
 function SeñalesRecibidas() {
   if (!swl){
     return (
-      <Row className="mb-3">
+      
         <Form.Group  className="mb-3" controlId="rstReceivedValue">
           <Form.Label>SEÑALES RECIBIDAS</Form.Label>
           <span class="ms-2">
@@ -437,7 +437,7 @@ function SeñalesRecibidas() {
               Indique las señales correctamente!
           </div>
         </Form.Group>
-      </Row>
+      
     );
   }else{
     return null;
@@ -448,7 +448,7 @@ function SeñalesRecibidas() {
  function SeñalesEntregadas () {
   if (!swl){
     return (
-    <Row className="mb-3">
+    
     <Form.Group  className="mb-3" controlId="rstValue">
       <Form.Label>SEÑALES ENTREGADAS</Form.Label>
       <span class="ms-2">
@@ -473,7 +473,7 @@ function SeñalesRecibidas() {
         </div>
 
     </Form.Group>
-  </Row>
+  
     )
   }else{
     return null;
@@ -495,7 +495,13 @@ function SeñalesRecibidas() {
                            <div className="row">&nbsp;</div>
            
                            <Row className="mb-3">
-               <Form.Group className="mb-3" controlId="dateValue">
+              
+             </Row>
+
+
+                           <Row className="mb-3 col-13">
+                           <div class="col-6">
+                           <Form.Group className="mb-3" controlId="dateValue">
                  <Form.Label>FECHA</Form.Label>
                  <Form.Control  onChange={(e) => handleChangeDatePick(e.target.value)} value={datePick} type="date" 
                                 className={
@@ -514,11 +520,10 @@ function SeñalesRecibidas() {
                    </div>
 
                </Form.Group>
-             </Row>
-
-
-                           <Row className="mb-3">
-               <Form.Group className="mb-3" controlId="timeValue">
+                              
+</div>
+                           <div class="col-6">
+                           <Form.Group className="mb-3" controlId="timeValue">
                  <Form.Label>HORA UTC</Form.Label>
                  <span class="ms-2">
                    <OverlayTrigger trigger="focus" placement="right" overlay={popoverUTC}>
@@ -542,11 +547,15 @@ function SeñalesRecibidas() {
                    </div>
 
                </Form.Group>
+                            </div>
+
+                   
+               
              </Row>
 
              <Row className="mb-3 col-13">
 
-              <div class="col-9">
+              <div class="col-6">
                <Form.Group className="mb-3" controlId="frequencyValue">
                  <Form.Label>FRECUENCIA (en Mhz)</Form.Label>
                  <Form.Control  onChange={handleChangeFreq} value={freq}
@@ -593,9 +602,7 @@ function SeñalesRecibidas() {
 
                </Form.Group>
                </div>
-             </Row>
-              
-             <Row className="mb-3">
+               <div class="col-3">
                <Form.Group className="mb-3" controlId="modeValue">
                  <Form.Label>MODO</Form.Label>
                  
@@ -640,10 +647,13 @@ function SeñalesRecibidas() {
                    </div>
 
                </Form.Group>
+               </div>
+             </Row>
+              
+                 
 
-               </Row>      
-
-            <Row className="mb-3">
+            <Row className="mb-3 col-13">
+            <div class="col-3">
                <Form.Group className="mb-3" controlId="signalValue">
                  <Form.Label>TU SEÑAL DISTINTIVA</Form.Label>
                  <Form.Control  onChange={handleChangeSignal} value={signal}
@@ -663,9 +673,9 @@ function SeñalesRecibidas() {
                    </div>
 
                </Form.Group>
-             </Row>
 
-             <Row className="mb-3">
+               </div>
+               <div class="col-9">
                <Form.Group className="mb-3" controlId="nameValue">
                  <Form.Label>NOMBRE COMPLETO</Form.Label>
                  <Form.Control  onChange={handleChangeName} value={name}
@@ -685,10 +695,15 @@ function SeñalesRecibidas() {
                    </div>
 
                </Form.Group>
+
+               </div>
              </Row>
+
+         
 
 
             <Row className="mb-3 align-middle col-12">
+            
                <Form.Group  className="mb-3" controlId="swlValue">
                  <Form.Label  >SWL</Form.Label>
                  <div class="form-check mb-3">
@@ -723,7 +738,8 @@ function SeñalesRecibidas() {
 
 
 
-            <Row className="mb-3">
+            <Row className="mb-3 col-12">
+              
                <Form.Group className="mb-3" controlId="toCallValue">
                  <Form.Label>SEÑAL DISTINTIVA CORRESPONSAL</Form.Label>
                  <Form.Control  onChange={handleChangeToCall} value={toCall} 
@@ -744,11 +760,19 @@ function SeñalesRecibidas() {
                    </div>
 
                </Form.Group>
+               
              </Row>
 
              {DistintivaCorresponsal2()}
-             {SeñalesEntregadas()}
+
+             <Row className="mb-3 col-12">
+             <div class="col-6">
+              {SeñalesEntregadas()}
+             </div>
+             <div class="col-6">
              {SeñalesRecibidas()}
+             </div>
+             </Row>
              
              
 
