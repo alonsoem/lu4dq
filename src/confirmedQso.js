@@ -232,10 +232,10 @@ import { saveAs } from 'file-saver';
             <Modal.Header closeButton>
             </Modal.Header>
             <Modal.Body>
-                <div class="container vw-100 vh-50 text-center" role="button">
-                    <img  width="80%" class="rounded d-block img-responsive"  
+                <div class="container vw-90 vh-50 text-center" role="button">
+                    <img  class="rounded img-fluid"  
                     src={"http://lu4dq.qrits.com.ar/dinamic-content/"+properties.price}
-                    alt="Certificado de muestra" role="button"
+                    alt="Certificado de muestra" 
                     />
                 </div>
             </Modal.Body>
