@@ -1,6 +1,7 @@
 import React from 'react';
 import { getActivities } from './api/api.js';
 import { useEffect,useState } from 'react';
+import * as DOMPurify from 'dompurify';
 
 
 
@@ -25,7 +26,7 @@ function  ActivitiesBeta () {
         }, []
     )
 
-      
+    
         return (
                             
             <div class="container ">
@@ -38,7 +39,7 @@ function  ActivitiesBeta () {
                                          <img class="card-img-top" src={"/style/"+each.image} height="130x" width="400px" alt={each.title} />
                                          <div class="card-body">
                                             <h5 class="card-title "><a class="link-underline link-underline-opacity-0 text-body" href={"/activities/"+each.id} >{each.title}</a></h5>
-                                            <p class="card-text">{each.description.substring(1,300)+"..."}</p>
+                                            <p class="card-text"> {DOMPurify.sanitize(each.description.substring(0,300))+"..."}</p>
                                             
                                         </div>
                                     </div>
