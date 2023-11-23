@@ -1,13 +1,15 @@
 //import "./styles.css";
 import {Form, Row,Popover, OverlayTrigger} from "react-bootstrap";
 
+import { useEffect } from 'react';
 import { useState } from "react";
 import { format } from "date-fns";
 import {getName, postOneQSO,getBand} from "./api/api";
 import { ToastContainer, toast } from 'react-toastify';
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
+import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
+import { useCookies } from 'react-cookie';
 
 
 
@@ -16,6 +18,7 @@ import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
 
 
 export default function FormRequest(props) {
+  const [cookies, setCookie] = useCookies(['logCallsign']);
   const actual= new Date();
   const dateData = new Date(actual.getUTCFullYear(),actual.getUTCMonth(),actual.getUTCDate(),actual.getUTCHours(),actual.getUTCMinutes());
   const { stationCode } = useParams();
@@ -68,7 +71,7 @@ export default function FormRequest(props) {
     setName(event.target.value);
   };
   const handleChangeSignal  = (event) => {
-    setSignal(event.target.value.toUpperCase());
+    /*setSignal(event.target.value.toUpperCase());
     getName({station:event.target.value})
         .then((response) => {
           setName(response.name);
@@ -76,7 +79,8 @@ export default function FormRequest(props) {
           
       })
       .catch((response) => handleAxiosError(response));
-    
+    */
+   updateFromCallsign(event.target.value);
   };
 
   const handleChangeToCall = (event) => {
@@ -107,6 +111,31 @@ export default function FormRequest(props) {
     notifyError(errorToDisplay);
   }
 */
+
+const updateFromCallsign= (callsign)=>{
+  setSignal(callsign.toUpperCase());
+  getName({station:callsign})
+      .then((response) => {
+        setName(response.name);
+        setEmail(response.mail);
+        
+    })
+    .catch((response) => handleAxiosError(response));
+
+}
+useEffect(() => {
+  console.log("STARTUP - LEO COOKIE");
+  if(cookies["logCallsign"]){
+    //setSignal(cookies["lu4dq-log-callsign"]);
+    updateFromCallsign(cookies["logCallsign"]);
+  }
+  
+  
+  
+  // eslint-disable-next-line
+}, []
+)
+
   const handleAxiosError = (response) => {
     let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
     console.log(response.response.data);
@@ -190,6 +219,7 @@ if (swl){
         
         })       
         .then((response) => {
+            setCookie('logCallsign', signal,{ path: '/' });
             //eslint-disable-next-line
             if (response.qsl.status=="RC Confirmed"){
                 props.qslHook(response.qsl);

@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import {Form, Row} from "react-bootstrap";
 import { saveAs } from 'file-saver';
 import TimeUp from './timeUp';
+import { useCookies } from 'react-cookie';
 
 	function Upload(){
 		
@@ -21,6 +22,8 @@ import TimeUp from './timeUp';
 
 	
 		
+		
+
 
 		useEffect(() => {
 			
@@ -59,7 +62,7 @@ import TimeUp from './timeUp';
 	 
 	
 	const ShowForm = (props) =>{
-
+		const [cookies, setCookie] = useCookies(['logCallsign']);
 		const [ selectedFile, setFile ] = useState(null);
 		const [ filas, setFilas ] = useState([]);
 		const [ response, setResponse ] = useState(false);
@@ -82,7 +85,43 @@ import TimeUp from './timeUp';
 			inputRef.current.value = null;
 			
 		};
+
+		useEffect(() => {
+			console.log("STARTUP - LEO COOKIE");
+			if(cookies['logCallsign']){
+				//setSignal(cookies["lu4dq-log-callsign"]);
+				
+				updateFromCallsign(cookies["logCallsign"]);
+			  }
 			
+			
+			// eslint-disable-next-line
+		  }, []
+		)
+			
+
+		const updateFromCallsign= (callsign)=>{
+			/*	setSignal(event.target.value.toUpperCase());
+		getName({station:event.target.value})
+			.then((response) => {
+			  setName(response.name);
+			  setEmail(response.mail);
+			  
+		  })
+		  .catch((response) => handleAxiosError(response));
+	*/	
+			setSignal(callsign.toUpperCase());
+			getName({station:callsign})
+				.then((response) => {
+				  setName(response.name);
+				  setEmail(response.mail);
+				  
+			  })
+			  .catch((response) => handleAxiosError(response));
+		  
+		  }
+
+		
 
 	const haveFile=()=>{
 		// eslint-disable-next-line
@@ -190,7 +229,8 @@ import TimeUp from './timeUp';
 	  };
 
 	  const handleChangeSignal  = (event) => {
-		setSignal(event.target.value.toUpperCase());
+		updateFromCallsign(event.target.value);
+	/*	setSignal(event.target.value.toUpperCase());
 		getName({station:event.target.value})
 			.then((response) => {
 			  setName(response.name);
@@ -198,7 +238,7 @@ import TimeUp from './timeUp';
 			  
 		  })
 		  .catch((response) => handleAxiosError(response));
-		
+	*/	
 	  };
 	const showResults=(res)=>{
 		setFilas(res.rows);
@@ -353,6 +393,7 @@ import TimeUp from './timeUp';
 		
 		postFile(formData)
 			.then(res=>	{
+							setCookie('logCallsign', signal,{ path: '/' });
 							setLoading(false);
 							showResults(res);
 							
