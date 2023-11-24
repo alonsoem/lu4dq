@@ -184,7 +184,8 @@ import { saveAs } from 'file-saver';
                 </thead>
                 <tbody>
                 {
-                activity.sort((a,b)=>b.station>a.station).map((each) =>{
+                    // eslint-disable-next-line
+                activity.filter(each =>each.qsl.status =='RC Confirmed' || each.qsl.status ==' Confirmed').sort((a,b)=>b.station>a.station).map((each) =>{
                             return ( <tr>
                             <td class="text-center">{each.station.toUpperCase()}</td>
                             
