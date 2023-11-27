@@ -5,6 +5,10 @@ import { getQsoList } from './api/api';
 import {Form, Row} from "react-bootstrap";
 import { saveAs } from 'file-saver';
 import { useParams} from "react-router-dom";
+import {useNavigate} from 'react-router-dom';
+
+
+
 
 
 function QsoList() {
@@ -13,6 +17,14 @@ function QsoList() {
 	const [ qsos, setQsos] = useState([]);
 	const [ callsign, setCallSign ] = useState("");
     const [ loading, setLoading ] = useState(false);
+    const navigate = useNavigate();
+
+
+    const navigateToStationQso = (station) => {
+        if (station){
+            navigate('/qsoList/'+station);
+        }
+    };
 
  
     useEffect(() => {
@@ -122,7 +134,11 @@ function QsoList() {
             {qsos.map((each) =>{
                  return ( 
                     <tr>
-                    <td class="text-center">{each.swl?each.callsign+" - "+each.callsign2:each.callsign}</td>
+                    <td class="text-center">
+                        <badge  onClick={(r)=>navigateToStationQso(each.callsign.match(/[A-Za-z0-9]+/))}>
+                            {each.swl?each.callsign+" - "+each.callsign2:each.callsign}
+                        </badge>
+                    </td>
                     <td class="text-center">{each.date}</td>
                     <td class="text-center">{each.time}</td>
                     <td class="text-center">{each.band}</td>
@@ -140,7 +156,7 @@ function QsoList() {
       }
         
      }
-  
+     
 
     return (
 
