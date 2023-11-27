@@ -182,7 +182,7 @@ import { useCookies } from 'react-cookie';
 							  </tr>
 						</thead>
 						<tbody className="col-12">
-										{filas.map(
+										{filas && filas.map(
 										(r)=>(
 												<tr  className="col-12">
 													<td className="col-2 text-center">{showBadgeMov(r)}</td>
@@ -407,16 +407,19 @@ import { useCookies } from 'react-cookie';
 				setLoading(false);
 
 				
-				
-				// eslint-disable-next-line
-				if (res.response.data.status=="ERROR_UPLOADING"){
-					setResponseError("No se pudo subir el archivo al servidor!");
-				// eslint-disable-next-line
-				}else if (res.response.data.status=="ERROR_PROCESSING"){
-					setResponseError("Ocurrió un error procesando el archivo!");
-				// eslint-disable-next-line
-				}else if (res.response.data.status=="Station not validated" ) {
-					setResponseError("EL CÓDIGO DE ESTACIÓN NO ES CORRECTO. VERIFIQUELO!");
+				if (res){
+					// eslint-disable-next-line
+					if (res.response.data.status=="ERROR_UPLOADING"){
+						setResponseError("No se pudo subir el archivo al servidor!");
+					// eslint-disable-next-line
+					}else if (res.response.data.status=="ERROR_PROCESSING"){
+						setResponseError("Ocurrió un error procesando el archivo!");
+					// eslint-disable-next-line
+					}else if (res.response.data.status=="Station not validated" ) {
+						setResponseError("EL CÓDIGO DE ESTACIÓN NO ES CORRECTO. VERIFIQUELO!");
+					}else{
+						setResponseError("Ocurrió un error inesperado!");
+					}
 				}else{
 					setResponseError("Ocurrió un error inesperado!");
 				}
