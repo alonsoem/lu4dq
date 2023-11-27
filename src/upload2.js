@@ -7,9 +7,7 @@ import { saveAs } from 'file-saver';
 import TimeUp from './timeUp';
 import { useCookies } from 'react-cookie';
 
-	function Upload(){
-		
-
+function Upload(){	
 
 		const [loadingForm, setLoadingForm] = useState(false);
 		const [formEnabled, setFormEnabled] = useState(false);
@@ -18,12 +16,6 @@ import { useCookies } from 'react-cookie';
 		// eslint-disable-next-line
 		const [error, setError] = useState("");
 		
-
-
-	
-		
-		
-
 
 		useEffect(() => {
 			
@@ -42,7 +34,7 @@ import { useCookies } from 'react-cookie';
 
 		
 
-	const handleAxiosErrorFormEnable = (response) => {
+		const handleAxiosErrorFormEnable = (response) => {
 			let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
 			console.log("HANDLEAXIOSERROR");
 			console.log(response);
@@ -58,7 +50,7 @@ import { useCookies } from 'react-cookie';
 		
 			setError(errorToDisplay);
 			//notifyError(errorToDisplay);
-		  }
+		}
 	 
 	
 	const ShowForm = (props) =>{
@@ -123,21 +115,20 @@ import { useCookies } from 'react-cookie';
 
 		
 
-	const haveFile=()=>{
-		// eslint-disable-next-line
-		return selectedFile!=null && response==false;
-	}
-
+		const haveFile=()=>{
+			// eslint-disable-next-line
+			return selectedFile!=null && response==false;
+		}
 
 		const haveReturned=()=>{
 			// eslint-disable-next-line
 			return response==true;
 		}
+
 		const showAnotherBtn=()=>{
 			// eslint-disable-next-line
 			return response==true;
 		}
-		
 		
 		const showLoading=()=>{
 			if (loading){
@@ -151,6 +142,7 @@ import { useCookies } from 'react-cookie';
 				)
 			}
 		}
+
 		const showResultsTable = () => {
 	
 			// eslint-disable-next-line
@@ -213,20 +205,21 @@ import { useCookies } from 'react-cookie';
 		
 		const hasError= (key) => {
 			return errors.indexOf(key) !== -1;
-	  }
-	const handleChangeName = (event) => {
-		setName(event.target.value);
-	  };
-	  const resetForm=()=>{
-		setResponse(false);
-		setFile(null);
-		resetFileInput();
-	}
+	  	}
 
+		const handleChangeName = (event) => {
+			setName(event.target.value);
+	  	};
+	  
+		const resetForm=()=>{
+			setResponse(false);
+			setFile(null);
+			resetFileInput();
+		}
 
-	  const handleChangeEmail = (event) => {
-		setEmail(event.target.value);
-	  };
+		const handleChangeEmail = (event) => {
+			setEmail(event.target.value);
+	  	};
 
 	  const handleChangeSignal  = (event) => {
 		updateFromCallsign(event.target.value);
@@ -240,6 +233,7 @@ import { useCookies } from 'react-cookie';
 		  .catch((response) => handleAxiosError(response));
 	*/	
 	  };
+
 	const showResults=(res)=>{
 		setFilas(res.rows);
 		console.log(res.rows);
@@ -273,47 +267,48 @@ import { useCookies } from 'react-cookie';
 	};
 	
 
-	const showBadgeMov = (reg) => {
-		// eslint-disable-next-line
-		if (reg.insert=="OK"){
-			return <span class="badge bg-success">Aceptado</span>
-		// eslint-disable-next-line
-		}else if (reg.insert=="duplicate"){
-			return <span class="badge bg-warning">{reg.insert}</span>
-		// eslint-disable-next-line
-		}else if (reg.insert=="No Match Station"){
-			return <span class="badge bg-danger" data-toggle="tooltip" data-placement="right" data-title={reg.message} >
-						{reg.message}
-						</span>	
-		// eslint-disable-next-line
-		}else if (reg.insert=="Self Qso"){
-			return <span class="badge bg-danger" data-toggle="tooltip" data-placement="right" data-title={reg.message} >
-				{reg.message}
-				</span>							
-		}else{
-			return <span class="badge bg-danger">{reg.message}</span>
-		}
-	}
-
-	const downloadImage=(url)=>{
-		saveAs(url, 'qsl.jpg');
-	  }
-
-	const qsl = (qsl) =>{
-		// eslint-disable-next-line
-		if (qsl.status=="RC Confirmed"){
-			return (<button className="btn btn-success btn-sm" onClick={r=>
-				downloadImage("http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qsl.document+"&chk="+qsl.chk)}>
-					Descargar QSL
-			</button>	);
-		// eslint-disable-next-line			
-		}else if (qsl.status=="Confirmed"){
-			return "Confirmado";
-		}else{
-			return "-";
+		const showBadgeMov = (reg) => {
+			// eslint-disable-next-line
+			if (reg.insert=="OK"){
+				return <span class="badge bg-success">Aceptado</span>
+			// eslint-disable-next-line
+			}else if (reg.insert=="duplicate"){
+				return <span class="badge bg-warning">{reg.insert}</span>
+			// eslint-disable-next-line
+			}else if (reg.insert=="No Match Station"){
+				return <span class="badge bg-danger" data-toggle="tooltip" data-placement="right" data-title={reg.message} >
+							{reg.message}
+							</span>	
+			// eslint-disable-next-line
+			}else if (reg.insert=="Self Qso"){
+				return <span class="badge bg-danger" data-toggle="tooltip" data-placement="right" data-title={reg.message} >
+					{reg.message}
+					</span>							
+			}else{
+				return <span class="badge bg-danger">{reg.message}</span>
+			}
 		}
 
-	}
+		const downloadImage=(url)=>{
+			saveAs(url, 'qsl.jpg');
+		}
+
+		const qsl = (qsl) =>{
+			// eslint-disable-next-line
+			if (qsl.status=="RC Confirmed"){
+				return (<button className="btn btn-success btn-sm" onClick={r=>
+					downloadImage("http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qsl.document+"&chk="+qsl.chk)}>
+						Descargar QSL
+				</button>	);
+			// eslint-disable-next-line			
+			}else if (qsl.status=="Confirmed"){
+				return "Confirmado";
+			}else{
+				return "-";
+			}
+
+		}
+
 		const handleAxiosError = (response) => {
 			let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
 			console.log("HANDLEAXIOSERROR");
@@ -329,12 +324,9 @@ import { useCookies } from 'react-cookie';
 		
 			//setError(errorToDisplay);
 			notifyError(errorToDisplay);
-		  }
-
-
-
+		}
 		
-		 const notifyError = (message) => {
+		const notifyError = (message) => {
 			toast.error(message, {
 			  position: "top-center",
 			  autoClose: 3000,
@@ -345,7 +337,7 @@ import { useCookies } from 'react-cookie';
 			  progress: undefined,
 			  theme: 'colored',
 			});
-		  }
+		}
 
 		const onFileChange = event => {
 			setFile(event.target.files[0] );
