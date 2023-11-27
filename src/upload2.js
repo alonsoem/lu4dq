@@ -242,6 +242,7 @@ import { useCookies } from 'react-cookie';
 	  };
 	const showResults=(res)=>{
 		setFilas(res.rows);
+		console.log(res.rows);
 		setResponse(true);
 	}
 
@@ -396,11 +397,12 @@ import { useCookies } from 'react-cookie';
 							setCookie('logCallsign', signal,{ path: '/' });
 							setLoading(false);
 							showResults(res);
-							
+							console.log(res);			
 							
 			}
 			)
 			.catch((res)=>{
+				
 				setError(true);
 				setLoading(false);
 
