@@ -1,6 +1,5 @@
 //import "./styles.css";
 import {Form, Row,Popover, OverlayTrigger} from "react-bootstrap";
-
 import { useEffect } from 'react';
 import { useState } from "react";
 import { format } from "date-fns";
@@ -368,8 +367,8 @@ if (swl){
   }
 
 
-
   const popoverEmail = (
+    
     <Popover id="popover-positioned-right"  placement="right" >
       <Popover.Title as="h3">Dirección de email </Popover.Title>
       <Popover.Content>
@@ -377,7 +376,39 @@ if (swl){
       </Popover.Content>
       
     </Popover>
+    
   );
+
+  
+const popoverFrequency = (
+  <Popover id="popover-positioned-right"  placement="right" >
+  <Popover.Title as="h3">Frecuencia</Popover.Title>
+      <Popover.Content>
+        <p>Es la frecuencia en Mhz del contacto. </p>
+        <p>Por ejemplo, si un contacto se hizo en 7100 KHz deberá ingresar 7.1</p>
+      </Popover.Content>
+    </Popover>
+  );
+
+  const popoverDate = (
+    <Popover id="popover-positioned-right"  placement="right" >
+    <Popover.Title as="h3">Fecha</Popover.Title>
+        <Popover.Content>
+          Es la fecha en la que se hizo el contacto
+        </Popover.Content>
+      </Popover>
+    );
+
+    const popoverFullName = (
+      <Popover id="popover-positioned-right"  placement="right" >
+      <Popover.Title as="h3">Nombre Completo</Popover.Title>
+          <Popover.Content>
+            <p>Es el nombre completo asociado a la señal distintiva</p>
+            <p>Se utiliza normalmente para mostrar en los certificados y si fuera necesario puede modificarlo luego de indicar la señal distintiva</p>
+          </Popover.Content>
+        </Popover>
+      );
+  
 
   const popoverRSTSent = (
     <Popover id="popover-positioned-right"  placement="right" >
@@ -447,7 +478,7 @@ function SeñalesRecibidas() {
         <Form.Group  className="mb-3" controlId="rstReceivedValue">
           <Form.Label>SEÑALES RECIBIDAS</Form.Label>
           <span class="ms-2">
-        <OverlayTrigger trigger="focus" placement="right" overlay={popoverRSTReceived}>
+        <OverlayTrigger trigger="hover" placement="right" overlay={popoverRSTReceived}>
                  <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
          </OverlayTrigger>
        </span>
@@ -482,7 +513,7 @@ function SeñalesRecibidas() {
     <Form.Group  className="mb-3" controlId="rstValue">
       <Form.Label>SEÑALES ENTREGADAS</Form.Label>
       <span class="ms-2">
-        <OverlayTrigger trigger="focus" placement="right" overlay={popoverRSTSent}>
+        <OverlayTrigger trigger="hover" placement="right" overlay={popoverRSTSent}>
                  <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
          </OverlayTrigger>
        </span>
@@ -533,6 +564,11 @@ function SeñalesRecibidas() {
                            <div class="col-6">
                            <Form.Group className="mb-3" controlId="dateValue">
                  <Form.Label>FECHA</Form.Label>
+                 <span class="ms-2">
+                 <OverlayTrigger trigger="hover" placement="right" overlay={popoverDate}>
+                            <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
+                    </OverlayTrigger>
+                    </span>
                  <Form.Control  onChange={(e) => handleChangeDatePick(e.target.value)} value={datePick} type="date" 
                                 className={
                                   hasError("date")
@@ -556,7 +592,7 @@ function SeñalesRecibidas() {
                            <Form.Group className="mb-3" controlId="timeValue">
                  <Form.Label>HORA UTC</Form.Label>
                  <span class="ms-2">
-                   <OverlayTrigger trigger="focus" placement="right" overlay={popoverUTC}>
+                   <OverlayTrigger trigger="hover" placement="right" overlay={popoverUTC}>
                             <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
                     </OverlayTrigger>
                   </span>
@@ -588,6 +624,11 @@ function SeñalesRecibidas() {
               <div class="col-6">
                <Form.Group className="mb-3" controlId="frequencyValue">
                  <Form.Label>FRECUENCIA (en Mhz)</Form.Label>
+                 <span class="ms-2">
+                   <OverlayTrigger trigger="hover" placement="right" overlay={popoverFrequency}>
+                            <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
+                    </OverlayTrigger>
+                  </span>
                  <Form.Control  onChange={handleChangeFreq} value={freq}
                                 className={
                                   hasError("freq")
@@ -708,6 +749,11 @@ function SeñalesRecibidas() {
                <div class="col-9">
                <Form.Group className="mb-3" controlId="nameValue">
                  <Form.Label>NOMBRE COMPLETO</Form.Label>
+                 <span class="ms-2">
+                 <OverlayTrigger trigger="hover" placement="right" overlay={popoverFullName}>
+                      <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
+                 </OverlayTrigger>
+                 </span>
                  <Form.Control  onChange={handleChangeName} value={name}
                                 className={
                                   hasError("name")
@@ -810,7 +856,7 @@ function SeñalesRecibidas() {
                <Form.Group className="mb-3" controlId="emailValue">
                  <Form.Label>E-MAIL de CONTACTO</Form.Label>
                  <span class="ms-2">
-                   <OverlayTrigger trigger="focus" placement="right" overlay={popoverEmail}>
+                   <OverlayTrigger trigger="hover" placement="right" overlay={popoverEmail}>
                             <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
                     </OverlayTrigger>
                   </span>
