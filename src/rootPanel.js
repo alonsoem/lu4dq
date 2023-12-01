@@ -13,6 +13,7 @@ import Qso from "./qso.js";
 import QsoList from "./qsoList.js";
 import NavMenu from "./nav.js";
 import AdminView from "./adminView.js";
+import AdminABM from "./adminABM.js";
 import Checker from "./checker.js";
 import CheckerCompare from "./checkerCompare.js";
 
@@ -57,6 +58,7 @@ export default class App extends React.Component {
           <Route path="/cargaMasiva/:stationCode" element={<UploadBis />}></Route>
           <Route path="/cargaManual/:stationCode" element={<QsoUpload />}></Route>
           <Route exact path='/status/blabla' element={<AdminView />}></Route>  
+          <Route exact path='/status/blabla/ABM' element={<AdminABM />}></Route>  
           
           
             
