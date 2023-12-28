@@ -6,6 +6,7 @@ import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
 import Modal from 'react-bootstrap/Modal';
 import {useNavigate} from 'react-router-dom';
 import * as DOMPurify from 'dompurify';
+import {Parser} from "html-to-react";
 
 
 
@@ -302,7 +303,7 @@ const showTable=()=>{
                             </div>
                             
                             <div class="m-4 lh-base" >
-                                {DOMPurify.sanitize(properties.description)}
+                                {Parser().parse(DOMPurify.sanitize(properties.description))}
                             </div>
                             <div class="card m-3">
                                 <div className="card-header subHeader">
@@ -318,7 +319,7 @@ const showTable=()=>{
                                 </div>
                                 </div>
                                 <div className="card-body lh-base" >
-                                    {DOMPurify.sanitize(properties.tecnical)}
+                                    {Parser().parse(DOMPurify.sanitize(properties.tecnical))}
                                 </div>
 
                                 <div class="row p-4">
