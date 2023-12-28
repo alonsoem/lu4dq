@@ -553,7 +553,7 @@ const inputRef = useRef(null);
                                     <Row className="mb-3 align-middle col-12">
                                       
                                       <Form.Group  className="mb-3" controlId="file">
-                                        <Form.Label  >Image para QSL o CERTIFICADO</Form.Label>
+                                        <Form.Label  >Imagen para QSL o CERTIFICADO</Form.Label>
 									                      <input  ref={inputRef} class="form-control" type="file" id="formFile"  onChange={onFileChange} />
                                         {fileData()}
 
