@@ -141,6 +141,11 @@ const submit = () =>{
 			selectedFile,
 			selectedFile.name
 		);
+    formData.append(
+			"docFile",
+			selectedDocFile,
+			selectedDocFile.name
+		);
 		formData.append('enabled', enabled);
 		formData.append('type', type);
 		formData.append('title', title);
@@ -244,9 +249,14 @@ const handleSubmit = (event) => {
 }
 
 const [ selectedFile, setFile ] = useState(null);
+const [ selectedDocFile, setDocFile ] = useState(null);
 
 const onFileChange = event => {
   setFile(event.target.files[0] );
+};
+
+const onDocFileChange = event => {
+  setDocFile(event.target.files[0] );
 };
 
 const fileData = () => {
@@ -266,6 +276,25 @@ const fileData = () => {
     );
   }
 };
+
+const docFileData = () => {
+
+  if (selectedDocFile) {
+    return (
+      
+      <div>
+        <h2>Detalles:</h2>
+        <p>Nombre: {selectedDocFile.name}</p>
+        <p>
+          Tamaño:{" "}
+          {fileSize(selectedDocFile.size)}
+        </p>
+
+      </div>
+    );
+  }
+};
+
 const fileSize=(size)=>{
   if (size/1024/1024>=1){
     return (parseFloat(size/1024/1024).toFixed(2)).toString()+" Mb"
@@ -275,6 +304,7 @@ const fileSize=(size)=>{
 }
 
 const inputRef = useRef(null);
+const docInputRef = useRef(null);
 
 	
 	
@@ -558,6 +588,14 @@ const inputRef = useRef(null);
                                         {fileData()}
 
                                         
+                                      </Form.Group>
+                                    </Row>
+
+                                    <Row className="mb-3 align-middle col-12">
+                                      <Form.Group  className="mb-3" controlId="file">
+                                        <Form.Label  >Documento para condiciones</Form.Label>
+									                      <input  ref={docInputRef} class="form-control" type="File" id="formFile"  onChange={onDocFileChange} />
+                                        {docFileData()}
                                       </Form.Group>
                                     </Row>
 
