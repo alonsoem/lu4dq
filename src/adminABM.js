@@ -212,7 +212,7 @@ const handleSubmit = (event) => {
     errors.push("late_end");
   }
 
-  if (tecnicalDetails.length>10){
+  if (tecnicalDetails.length<10){
     errors.push("tecnicalDetails");
   }
 
@@ -441,7 +441,7 @@ const handleSubmit = (event) => {
                                     
                                         
                                         <Row className="mb-3">
-                                         <Form.Group className="mb-3" controlId="nameValue">
+                                         <Form.Group className="mb-3" controlId="technicalValue">
                                             <Form.Label>DETALLES TECNICOS</Form.Label>
                                             <Form.Control  onChange={handleChangeTecnicalDetails} value={tecnicalDetails}
                                                             className={
@@ -456,7 +456,7 @@ const handleSubmit = (event) => {
                                                           : "visually-hidden"
                                                   }
                                               >
-                                                Escribe al menos 3 caracteres de un nombre
+                                                Los detalles técnicos no puede quedar vacíos
                                               </div>
 
                                           </Form.Group>
