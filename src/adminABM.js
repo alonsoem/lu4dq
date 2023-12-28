@@ -242,10 +242,14 @@ const handleSubmit = (event) => {
                         
                                 <div className="card-body" >
                                     
-                                        <Row className="mb-3">
+                                        <Row className="mb-3 col-3">
                                             <Form.Group className="mb-3" controlId="bandValue">
                                                 <Form.Label>TIPO</Form.Label>
-                                                <select id="activity" onChange={handleChangeType} value={type} >
+                                                <select id="activity" onChange={handleChangeType} value={type} className={
+                                                    hasError("mode")
+                                                          ? "form-select is-invalid "
+                                                          : "form-select " 
+                                                  }>
                                                     <option selected disabled value="">Elija un tipo de actividad...</option>
                                                     
                                                     <option value={0}>CERTIFICADO</option>
