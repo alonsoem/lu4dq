@@ -169,6 +169,11 @@ const handleSubmit = (event) => {
   event.preventDefault();
   var errors = [];
 
+  
+  // Check type
+  if (type.length===0) {
+    errors.push("type");
+  }
   // Check title
   if (title.length<=5) {
       errors.push("title");
@@ -246,7 +251,7 @@ const handleSubmit = (event) => {
                                             <Form.Group className="mb-3" controlId="bandValue">
                                                 <Form.Label>TIPO</Form.Label>
                                                 <select id="activity" onChange={handleChangeType} value={type} className={
-                                                    hasError("mode")
+                                                    hasError("type")
                                                           ? "form-select is-invalid "
                                                           : "form-select " 
                                                   }>
@@ -256,6 +261,15 @@ const handleSubmit = (event) => {
                                                     <option value={1}>QSL ESPECIAL</option>
                                                     
                                                 </select>
+                                                <div
+                                                    className={
+                                                      hasError("type")
+                                                            ? "invalid-feedback"
+                                                            : "visually-hidden"
+                                                    }
+                                                >
+                                                  Seleccione un tipo válido
+                                                </div>
                                             </Form.Group>
                                         </Row>  
                                     <Row class="border mb-3 p-0 ">
@@ -279,7 +293,7 @@ const handleSubmit = (event) => {
                                                           : "visually-hidden"
                                                   }
                                               >
-                                                Escribe al menos 3 caracteres de un nombre
+                                                Escribe al menos 3 caracteres de un Titulo
                                               </div>
 
                                           </Form.Group>
