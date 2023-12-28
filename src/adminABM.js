@@ -5,10 +5,16 @@ import {Form, Row} from "react-bootstrap";
 import { format } from "date-fns";
 import { ToastContainer, toast } from 'react-toastify';
 import {setActivity} from "./api/api";
-
-
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import {  EditorState, convertToRaw } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import {useNavigate} from 'react-router-dom';
+//import { descriptors } from 'chart.js/dist/core/core.defaults';
 
 function AdminABM() {
+
+  const navigate = useNavigate();
 
 	  const actual= new Date();
     const dateData = new Date(actual.getUTCFullYear(),actual.getUTCMonth(),actual.getUTCDate(),actual.getUTCHours(),actual.getUTCMinutes());
@@ -17,7 +23,7 @@ function AdminABM() {
     
     const [errors, setErrors] = useState([]);
     const [title, setTitle ] = useState("");
-    const [description, setDescription ] = useState("");
+    //const [description, setDescription ] = useState("");
     const [tecnicalDetails, setTecnicalDetails ] = useState("");
     const [minContacts, setMinContacts ] = useState(0);
     const [enabled, setEnabled ] = useState(false);
@@ -26,6 +32,16 @@ function AdminABM() {
     const [dateTo, setDateTo] = useState(format(dateData,"yyyy-MM-dd"));
     const [late_end, setLateEnd] = useState(format(dateData,"yyyy-MM-dd"));
 
+    const [editorState, setEditorState] = useState(EditorState.createEmpty());
+
+
+
+    /*const handleChangeDescription=(event)=>{
+      setDescription(event.target.value);
+    }*/
+    const handleChangeDescriptionHtml=(state)=>{
+      setEditorState(state);
+    }
 
     const handleChangeType =(event)=>{
       setType(event.target.value);
@@ -54,9 +70,7 @@ function AdminABM() {
     const handleChangeTitle=(event)=>{
       setTitle(event.target.value);
     }
-    const handleChangeDescription=(event)=>{
-      setDescription(event.target.value);
-    }
+
 
     const handleChangeTecnicalDetails=(event)=>{
       setTecnicalDetails(event.target.value);
@@ -108,22 +122,31 @@ const notifyError = (message) => {
   });
 }
 
+const navigateToAdmin = () => {
+      
+  navigate('/status/admin');    
+
+};
+
 
 const submit = () =>{
-
+  
+  //console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
+  
   setActivity({
       enabled:enabled,
       type:type,
       title: title,
       start:dateFrom.replace(/\D/g, ""),
       end:dateTo.replace(/\D/g, ""),
-      description:description,
+      description:draftToHtml(convertToRaw(editorState.getCurrentContent())),
       late_end:late_end.replace(/\D/g, ""),
       minContacts:minContacts,
       techDetail:tecnicalDetails,
       
       })       
       .then((response) => {
+        navigateToAdmin();
          /* //eslint-disable-next-line
           if (response.qsl.status=="RC Confirmed"){
               
@@ -146,11 +169,19 @@ const handleSubmit = (event) => {
   event.preventDefault();
   var errors = [];
 
-  // Check name of Rule
+  // Check title
   if (title.length<=5) {
       errors.push("title");
   }
+  // Check description
+  if (editorState.length<=10) {
+    errors.push("description");
+  }
 
+  // Check count
+  if (minContacts<1) {
+    errors.push("minContacts");
+  }
   console.log(type);
   /*if (type.length==""){
     errors.push("type");
@@ -158,20 +189,26 @@ const handleSubmit = (event) => {
 
   
 
-  if (description.length < 3) {
+  if (editorState.length < 3) {
     errors.push("description");
   }
 
-  if (dateFrom.length !== 10) {
+  
+  
+  if (dateFrom.getUTCDate<actual.getUTCDate) {
     errors.push("dateFrom");
   }
 
-  if (dateTo.length < 3) {
+  if (dateTo<dateFrom) {
     errors.push("dateTo");
   }
 
-  if (late_end.length < 3) {
+  if (late_end<dateTo) {
     errors.push("late_end");
+  }
+
+  if (tecnicalDetails.length>10){
+    errors.push("tecnicalDetails");
   }
 
   setErrors(errors);
@@ -217,7 +254,10 @@ const handleSubmit = (event) => {
                                                 </select>
                                             </Form.Group>
                                         </Row>  
+                                    <Row class="border mb-3 p-0 ">
                                     
+                                        
+                                    </Row>
                                     
                                         <Row className="mb-3">
                                          <Form.Group className="mb-3" controlId="nameValue">
@@ -245,12 +285,19 @@ const handleSubmit = (event) => {
                                         <Row className="mb-3">
                                          <Form.Group className="mb-3" controlId="nameValue">
                                             <Form.Label>DESCRIPCION</Form.Label>
-                                            <Form.Control  onChange={handleChangeDescription} value={description}
-                                                            className={
-                                                              hasError("description")
-                                                                    ? "form-control is-invalid"
-                                                                    : "form-control"
-                                                            }/>
+                                            <div class="p-2 bg-white">
+                                            <Editor
+                                        
+                                        editorState={editorState}
+                                        toolbarClassName="toolbarClassName"
+                                        wrapperClassName="wrapperClassName"
+                                        editorClassName="editorClassName"
+                                        
+                                        onEditorStateChange={handleChangeDescriptionHtml}
+                                      />
+
+                                      </div>
+                                  
                                               <div
                                                   className={
                                                     hasError("description")
@@ -267,18 +314,18 @@ const handleSubmit = (event) => {
                                                         
                                     <Row className="mb-3 col-13">
                                               <div class="col-4">
-                                              <Form.Group className="mb-3" controlId="dateValue">
+                                              <Form.Group className="mb-3" controlId="dateFrom">
                                     <Form.Label>FECHA INICIO</Form.Label>
                                     
                                     <Form.Control  onChange={(e) => handleChangeDateFrom(e.target.value)} value={dateFrom} type="date" 
                                                     className={
-                                                      hasError("date")
+                                                      hasError("dateFrom")
                                                             ? "form-control is-invalid"
                                                             : "form-control"
                                                     }/>
                                       <div
                                           className={
-                                            hasError("date")
+                                            hasError("dateFrom")
                                                   ? "invalid-feedback"
                                                   : "visually-hidden"
                                           }
@@ -366,7 +413,7 @@ const handleSubmit = (event) => {
                                                           : "visually-hidden"
                                                   }
                                               >
-                                                Escribe al menos 3 caracteres de un nombre
+                                                Se necesita un valor mayor a cero
                                               </div>
 
                                           </Form.Group>
