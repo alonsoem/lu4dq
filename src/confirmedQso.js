@@ -236,7 +236,7 @@ import { saveAs } from 'file-saver';
             <Modal.Body>
                 <div class="container vw-90 vh-50 text-center" role="button">
                     <img  class="rounded img-fluid"  
-                    src={"http://lu4dq.qrits.com.ar/dinamic-content/"+properties.price}
+                    src={"http://lu4dq.qrits.com.ar/api/demoCreator.php?image="+properties.image}
                     alt="Certificado de muestra" 
                     />
                 </div>
@@ -288,7 +288,8 @@ const showTable=()=>{
                             <div class="m-4 lh-base float-middle ">
                                 
                                     <img class="rounded mx-auto d-block cursor-pointer" 
-                                    src={"http://lu4dq.qrits.com.ar/dinamic-content/"+properties.price}
+                                    src={"http://lu4dq.qrits.com.ar/api/demoCreator.php?image="+properties.image}
+                                    
                                     height="15%" width="15%" 
                                     alt="Certificado de muestra"
                                         onClick={handleShow}
