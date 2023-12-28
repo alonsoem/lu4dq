@@ -302,7 +302,7 @@ const showTable=()=>{
                                 
                             </div>
                             
-                            <div class="m-4 lh-base" >
+                            <div class="m-4 lh-lg" >
                                 {Parser().parse(DOMPurify.sanitize(properties.description))}
                             </div>
                             <div class="card m-3">

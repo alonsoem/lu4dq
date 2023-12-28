@@ -1,6 +1,5 @@
 import React from 'react';
-
-import { useState} from 'react';
+import {useRef, useState, } from 'react';
 import {Form, Row} from "react-bootstrap";
 import { format } from "date-fns";
 import { ToastContainer, toast } from 'react-toastify';
@@ -133,7 +132,25 @@ const submit = () =>{
   
   //console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
   
-  setActivity({
+		// Create an object of formData
+		const formData = new FormData();
+
+		// Update the formData object
+		formData.append(
+			"file",
+			selectedFile,
+			selectedFile.name
+		);
+		formData.append('enabled', enabled);
+		formData.append('type', type);
+		formData.append('title', title);
+		formData.append('start', dateFrom.replace(/\D/g, ""));
+    formData.append('end', dateTo.replace(/\D/g, ""));
+    formData.append('description', draftToHtml(convertToRaw(editorState.getCurrentContent())),);
+    formData.append('late_end', late_end.replace(/\D/g, ""));
+    formData.append('minContacts', minContacts);
+    formData.append('techDetail', tecnicalDetails);
+  /*{
       enabled:enabled,
       type:type,
       title: title,
@@ -144,7 +161,8 @@ const submit = () =>{
       minContacts:minContacts,
       techDetail:tecnicalDetails,
       
-      })       
+      }*/
+    setActivity(formData)       
       .then((response) => {
         navigateToAdmin();
          /* //eslint-disable-next-line
@@ -225,7 +243,40 @@ const handleSubmit = (event) => {
   }
 }
 
+const [ selectedFile, setFile ] = useState(null);
 
+const onFileChange = event => {
+  setFile(event.target.files[0] );
+};
+
+const fileData = () => {
+
+  if (selectedFile) {
+    return (
+      
+      <div>
+        <h2>Detalles:</h2>
+        <p>Nombre: {selectedFile.name}</p>
+        <p>
+          Tamaño:{" "}
+          {fileSize(selectedFile.size)}
+        </p>
+
+      </div>
+    );
+  }
+};
+const fileSize=(size)=>{
+  if (size/1024/1024>=1){
+    return (parseFloat(size/1024/1024).toFixed(2)).toString()+" Mb"
+  }else{
+    return (parseFloat(size/1024).toFixed(2)).toString()+" Kb"
+  }
+}
+
+const inputRef = useRef(null);
+
+	
 	
 
 
@@ -257,8 +308,8 @@ const handleSubmit = (event) => {
                                                   }>
                                                     <option selected disabled value="">Elija un tipo de actividad...</option>
                                                     
-                                                    <option value={0}>CERTIFICADO</option>
-                                                    <option value={1}>QSL ESPECIAL</option>
+                                                    <option value={1}>CERTIFICADO</option>
+                                                    <option value={0}>QSL ESPECIAL</option>
                                                     
                                                 </select>
                                                 <div
@@ -272,6 +323,7 @@ const handleSubmit = (event) => {
                                                 </div>
                                             </Form.Group>
                                         </Row>  
+                                        
                                     <Row class="border mb-3 p-0 ">
                                     
                                         
@@ -496,6 +548,20 @@ const handleSubmit = (event) => {
                                           </div>
                                       </Form.Group>
                                     </Row>
+
+
+                                    <Row className="mb-3 align-middle col-12">
+                                      
+                                      <Form.Group  className="mb-3" controlId="file">
+                                        <Form.Label  >Image para QSL o CERTIFICADO</Form.Label>
+									                      <input  ref={inputRef} class="form-control" type="file" id="formFile"  onChange={onFileChange} />
+                                        {fileData()}
+
+                                        
+                                      </Form.Group>
+                                    </Row>
+
+                                    
 
                                     <div className="row">&nbsp;</div>
 

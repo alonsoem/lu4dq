@@ -1,8 +1,10 @@
 import React from 'react';
 
 import { useState,useEffect} from 'react';
-import { getAllActivities } from './api/api';
+import { getAllActivities,setStatus } from './api/api';
 import {useNavigate} from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 
 
@@ -15,11 +17,27 @@ function Admin() {
 	
     const [ loading, setLoading ] = useState(false);
     const [ activities, setActivities ] = useState([]);
+    const [ statusUpdate, setStatusUpdate ] = useState(0);
+    
   
    
 
     useEffect(() => {
         
+        getAllActivities()
+            .then((response) => {
+                setActivities(response.activities);
+                setLoading(false);
+            })
+            .catch((response) => handleAxiosError(response));
+
+        return;
+        
+        // eslint-disable-next-line
+        }, []
+    )
+
+    useEffect(() => {
         getAllActivities()
             .then((response) => {
             
@@ -31,12 +49,25 @@ function Admin() {
 
         return;
         
-        // eslint-disable-next-line
-        }, []
-        )
+        },[statusUpdate]
+    )
 
-   
-   
+    const handleChangeStatus = (id,status)=>{
+        setStatus(
+            {
+                id:id,
+                // eslint-disable-next-line
+                setTo:(status==0?1:0)
+            }
+        )
+        .then((response) => {
+            console.log(response);
+            setStatusUpdate(statusUpdate+1);
+        }
+        
+        )
+        .catch();
+    }
 
    
     const handleAxiosError = (response) => {
@@ -64,12 +95,17 @@ function Admin() {
 
     function ActivityTable(){
 
-        const showEnabled =(enabled)=>{
+        const showEnabled =(id,enabled)=>{
+
           // eslint-disable-next-line
           if (enabled==1){
-            return "SI";
+            return <span  class="text-success" style={{ cursor: 'pointer'}} onClick={() =>handleChangeStatus(id,enabled)}><FontAwesomeIcon   icon={icon({name: 'eye'})}  title="Click para cambiar el estado" 
+            onClick={handleChangeStatus} /></span>;
           }else{
-            return "NO";
+            return <span  class="text-danger " style={{ cursor: 'pointer' }} onClick={()=> handleChangeStatus(id,enabled)}><FontAwesomeIcon   icon={icon({name: 'eye-slash'})}  title="Click para cambiar el estado" 
+                
+            /></span>;
+            
           }
         }
 
@@ -115,7 +151,7 @@ function Admin() {
                  return ( 
                     <tr>
                     <td class="text-center">{each.id}</td>
-                    <td class="text-center">{showEnabled(each.enabled)}</td>
+                    <td class="text-center">{showEnabled(each.id,each.enabled)}</td>
                     <td class="text-center">{showType(each.type)}</td>
                     <td class="text-center">{each.title}</td>
                     </tr>
