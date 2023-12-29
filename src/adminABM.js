@@ -1,6 +1,6 @@
 import React from 'react';
 import {useRef, useState, } from 'react';
-import {Form, Row} from "react-bootstrap";
+import {Form, Row,Col} from "react-bootstrap";
 import { format } from "date-fns";
 import { ToastContainer, toast } from 'react-toastify';
 import {setActivity} from "./api/api";
@@ -522,9 +522,13 @@ const docInputRef = useRef(null);
 
                                     
                                         
-                                        <Row className="mb-3">
-                                         <Form.Group className="mb-3" controlId="technicalValue">
-                                            <Form.Label>DETALLES TECNICOS</Form.Label>
+                                        
+                                        <fieldset class="border p-3 mb-3">
+                                          <legend  class="float-none w-auto t-4">BASES</legend>
+                                          <Row className="mb-3 col-12">
+                                          <Col className="mb-3 align-middle col-6">
+                                          <Form.Group className="mb-3" controlId="technicalValue">
+                                            <Form.Label>Detalle</Form.Label>
                                             <Form.Control  onChange={handleChangeTecnicalDetails} value={tecnicalDetails}
                                                             className={
                                                               hasError("tecnicalDetails")
@@ -542,9 +546,32 @@ const docInputRef = useRef(null);
                                               </div>
 
                                           </Form.Group>
-                                        </Row>  
-                                    
-                                    
+                                          </Col>
+                                          <Col className="mb-3 align-middle col-6">
+                                            <Form.Group  className="mb-3" controlId="file">
+                                              <Form.Label  >Documento (PDF)</Form.Label>
+                                              <input  ref={docInputRef} class="form-control" type="File" id="formFile"  onChange={onDocFileChange} />
+                                              {docFileData()}
+                                            </Form.Group>
+                                          </Col>
+
+                                          </Row>
+                                        </fieldset>
+                                                                             
+
+                                   
+
+
+                                    <Row className="mb-3 align-middle col-12">
+                                      
+                                      <Form.Group  className="mb-3" controlId="file">
+                                        <Form.Label  >Imagen para QSL o CERTIFICADO</Form.Label>
+									                      <input  ref={inputRef} class="form-control" type="file" id="formFile"  onChange={onFileChange} />
+                                        {fileData()}
+
+                                        
+                                      </Form.Group>
+                                    </Row>
 
                                     <Row className="mb-3 align-middle col-12">
                                       
@@ -579,26 +606,7 @@ const docInputRef = useRef(null);
                                       </Form.Group>
                                     </Row>
 
-
-                                    <Row className="mb-3 align-middle col-12">
-                                      
-                                      <Form.Group  className="mb-3" controlId="file">
-                                        <Form.Label  >Imagen para QSL o CERTIFICADO</Form.Label>
-									                      <input  ref={inputRef} class="form-control" type="file" id="formFile"  onChange={onFileChange} />
-                                        {fileData()}
-
-                                        
-                                      </Form.Group>
-                                    </Row>
-
-                                    <Row className="mb-3 align-middle col-12">
-                                      <Form.Group  className="mb-3" controlId="file">
-                                        <Form.Label  >Documento para condiciones</Form.Label>
-									                      <input  ref={docInputRef} class="form-control" type="File" id="formFile"  onChange={onDocFileChange} />
-                                        {docFileData()}
-                                      </Form.Group>
-                                    </Row>
-
+                                   
                                     
 
                                     <div className="row">&nbsp;</div>
