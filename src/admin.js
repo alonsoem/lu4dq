@@ -20,30 +20,11 @@ function Admin() {
     const [ statusUpdate, setStatusUpdate ] = useState(0);
     
   
-   
-
     useEffect(() => {
-        
         getAllActivities()
             .then((response) => {
                 setActivities(response.activities);
                 setLoading(false);
-            })
-            .catch((response) => handleAxiosError(response));
-
-        return;
-        
-        // eslint-disable-next-line
-        }, []
-    )
-
-    useEffect(() => {
-        getAllActivities()
-            .then((response) => {
-            
-                setActivities(response.activities);
-                setLoading(false);
-          
             })
             .catch((response) => handleAxiosError(response));
 
@@ -193,7 +174,7 @@ function Admin() {
                                         <div className="row rowForm">
                                         <div className=" row mb-3 col-10"></div>
                                             <div className=" row mb-3 col-2">
-                                                <button class="btn btn-primary" onClick={navigateAddActivity}> NUEVO</button>
+                                                <button class="btn btn-primary" onClick={navigateAddActivity}>NUEVA ACTIVIDAD</button>
                                             </div>  
                                         </div>
                                     </div>

@@ -23,7 +23,7 @@ function AdminABM() {
     const [errors, setErrors] = useState([]);
     const [title, setTitle ] = useState("");
     //const [description, setDescription ] = useState("");
-    const [tecnicalDetails, setTecnicalDetails ] = useState("");
+    const [tecnicalDetails, setTecnicalDetails ] = useState(EditorState.createEmpty());
     const [minContacts, setMinContacts ] = useState(0);
     const [enabled, setEnabled ] = useState(false);
 
@@ -32,6 +32,7 @@ function AdminABM() {
     const [late_end, setLateEnd] = useState(format(dateData,"yyyy-MM-dd"));
 
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
+    
 
 
 
@@ -71,8 +72,8 @@ function AdminABM() {
     }
 
 
-    const handleChangeTecnicalDetails=(event)=>{
-      setTecnicalDetails(event.target.value);
+    const handleChangeTecnicalDetails=(state)=>{
+      setTecnicalDetails(state);
     }
 
     const hasError= (key) => {
@@ -158,7 +159,7 @@ const submit = () =>{
     formData.append('description', draftToHtml(convertToRaw(editorState.getCurrentContent())),);
     formData.append('late_end', late_end.replace(/\D/g, ""));
     formData.append('minContacts', minContacts);
-    formData.append('techDetail', tecnicalDetails);
+    formData.append('techDetail', draftToHtml(convertToRaw(tecnicalDetails.getCurrentContent())),);
   /*{
       enabled:enabled,
       type:type,
@@ -537,21 +538,28 @@ const docInputRef = useRef(null);
                                           <Col className="mb-3 align-middle col-6">
                                           <Form.Group className="mb-3" controlId="technicalValue">
                                             <Form.Label>Detalle</Form.Label>
-                                            <Form.Control  onChange={handleChangeTecnicalDetails} value={tecnicalDetails}
-                                                            className={
-                                                              hasError("tecnicalDetails")
-                                                                    ? "form-control is-invalid"
-                                                                    : "form-control"
-                                                            }/>
-                                              <div
-                                                  className={
-                                                    hasError("tecnicalDetails")
-                                                          ? "invalid-feedback"
-                                                          : "visually-hidden"
-                                                  }
-                                              >
-                                                Los detalles técnicos no puede quedar vacíos
-                                              </div>
+                                            <div class="p-2 bg-white">
+                                              <Editor
+                                              
+                                              editorState={tecnicalDetails}
+                                              toolbarClassName="toolbarClassName"
+                                              wrapperClassName="wrapperClassName"
+                                              editorClassName="editorClassName"
+                                              
+                                              onEditorStateChange={handleChangeTecnicalDetails}
+                                            />
+
+                                            </div>
+                                        
+                                                    <div
+                                                        className={
+                                                          hasError("tecnicalDetails")
+                                                                ? "invalid-feedback"
+                                                                : "visually-hidden"
+                                                        }
+                                                    >
+                                                      Las bases no pueden quedar vacias!
+                                                    </div>
 
                                           </Form.Group>
                                           </Col>
@@ -576,7 +584,7 @@ const docInputRef = useRef(null);
                                         <Form.Label  >Imagen para QSL o CERTIFICADO (JPG)</Form.Label>
 									                      <input  ref={inputRef} class="form-control" type="file" id="formFile"  onChange={onFileChange} 
                                           className={
-                                                              hasError("tecnicalDetails")
+                                                              hasError("file")
                                                                     ? "form-control is-invalid"
                                                                     : "form-control"
                                                             }
