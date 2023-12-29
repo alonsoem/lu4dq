@@ -72,3 +72,7 @@ code {
   min-width:21rem;
   margin-right:1rem;
 }
+
+legend{
+  font-size: 1em;
+}

@@ -141,11 +141,15 @@ const submit = () =>{
 			selectedFile,
 			selectedFile.name
 		);
-    formData.append(
-			"docFile",
-			selectedDocFile,
-			selectedDocFile.name
-		);
+
+    if (selectedDocFile){
+      formData.append(
+        "docFile",
+        selectedDocFile,
+        selectedDocFile.name
+      );
+    }
+    
 		formData.append('enabled', enabled);
 		formData.append('type', type);
 		formData.append('title', title);
@@ -237,6 +241,10 @@ const handleSubmit = (event) => {
 
   if (tecnicalDetails.length<10){
     errors.push("tecnicalDetails");
+  }
+
+  if (!selectedFile){
+    errors.push("file");
   }
 
   setErrors(errors);
@@ -565,11 +573,25 @@ const docInputRef = useRef(null);
                                     <Row className="mb-3 align-middle col-12">
                                       
                                       <Form.Group  className="mb-3" controlId="file">
-                                        <Form.Label  >Imagen para QSL o CERTIFICADO</Form.Label>
-									                      <input  ref={inputRef} class="form-control" type="file" id="formFile"  onChange={onFileChange} />
+                                        <Form.Label  >Imagen para QSL o CERTIFICADO (JPG)</Form.Label>
+									                      <input  ref={inputRef} class="form-control" type="file" id="formFile"  onChange={onFileChange} 
+                                          className={
+                                                              hasError("tecnicalDetails")
+                                                                    ? "form-control is-invalid"
+                                                                    : "form-control"
+                                                            }
+                                        />
                                         {fileData()}
 
-                                        
+                                        <div
+                                              className={
+                                              hasError("file")
+                                                      ? "invalid-feedback"
+                                                      : "visually-hidden"
+                                              }
+                                          >
+                                          Incluya una imagen para usar como certificado o qsl.
+                                          </div>
                                       </Form.Group>
                                     </Row>
 
