@@ -396,7 +396,7 @@ const docInputRef = useRef(null);
                                             <Form.Label>DESCRIPCION</Form.Label>
                                             <div class="p-2 bg-white">
                                             <Editor
-                                        
+                                        editorStyle={{ height: '400px' }} 
                                         editorState={editorState}
                                         toolbarClassName="toolbarClassName"
                                         wrapperClassName="wrapperClassName"
@@ -540,7 +540,7 @@ const docInputRef = useRef(null);
                                             <Form.Label>Detalle</Form.Label>
                                             <div class="p-2 bg-white">
                                               <Editor
-                                              
+                                              editorStyle={{ height: '200px' }} 
                                               editorState={tecnicalDetails}
                                               toolbarClassName="toolbarClassName"
                                               wrapperClassName="wrapperClassName"
