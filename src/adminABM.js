@@ -33,12 +33,12 @@ function AdminABM() {
 
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     
+    const [ selectedFile, setFile ] = useState(null);
+    const [ selectedDocFile, setDocFile ] = useState(null);
+    const [ frontPageFile, setFrontPageFile ] = useState(null);
 
 
 
-    /*const handleChangeDescription=(event)=>{
-      setDescription(event.target.value);
-    }*/
     const handleChangeDescriptionHtml=(state)=>{
       setEditorState(state);
     }
@@ -150,6 +150,14 @@ const submit = () =>{
         selectedDocFile.name
       );
     }
+
+    if (frontPageFile){
+      formData.append(
+        "frontPageFile",
+        frontPageFile,
+        frontPageFile.name
+      );
+    }
     
 		formData.append('enabled', enabled);
 		formData.append('type', type);
@@ -257,8 +265,7 @@ const handleSubmit = (event) => {
   }
 }
 
-const [ selectedFile, setFile ] = useState(null);
-const [ selectedDocFile, setDocFile ] = useState(null);
+
 
 const onFileChange = event => {
   setFile(event.target.files[0] );
@@ -266,6 +273,10 @@ const onFileChange = event => {
 
 const onDocFileChange = event => {
   setDocFile(event.target.files[0] );
+};
+
+const onFrontPageFileChange = event => {
+  setFrontPageFile(event.target.files[0] );
 };
 
 const fileData = () => {
@@ -304,6 +315,25 @@ const docFileData = () => {
   }
 };
 
+
+const frontPageFileData = () => {
+
+  if (frontPageFile) {
+    return (
+      
+      <div>
+        <h2>Detalles:</h2>
+        <p>Nombre: {frontPageFile.name}</p>
+        <p>
+          Tamaño:{" "}
+          {fileSize(frontPageFile.size)}
+        </p>
+
+      </div>
+    );
+  }
+};
+
 const fileSize=(size)=>{
   if (size/1024/1024>=1){
     return (parseFloat(size/1024/1024).toFixed(2)).toString()+" Mb"
@@ -314,6 +344,7 @@ const fileSize=(size)=>{
 
 const inputRef = useRef(null);
 const docInputRef = useRef(null);
+const frontPageRef =useRef(null);
 
 	
 	
@@ -594,6 +625,31 @@ const docInputRef = useRef(null);
                                         <div
                                               className={
                                               hasError("file")
+                                                      ? "invalid-feedback"
+                                                      : "visually-hidden"
+                                              }
+                                          >
+                                          Incluya una imagen para usar como certificado o qsl.
+                                          </div>
+                                      </Form.Group>
+                                    </Row>
+
+                                    <Row className="mb-3 align-middle col-12">
+                                      
+                                      <Form.Group  className="mb-3" controlId="frontPageFile">
+                                        <Form.Label  >Imagen de PORTADA (JPG)</Form.Label>
+									                      <input  ref={frontPageRef} class="form-control" type="file" id="frontPageformFile"  onChange={onFrontPageFileChange} 
+                                          className={
+                                                              hasError("frontPageFile")
+                                                                    ? "form-control is-invalid"
+                                                                    : "form-control"
+                                                            }
+                                        />
+                                        {frontPageFileData()}
+
+                                        <div
+                                              className={
+                                              hasError("frontPageFile")
                                                       ? "invalid-feedback"
                                                       : "visually-hidden"
                                               }

@@ -223,7 +223,7 @@ import { saveAs } from 'file-saver';
     const downloadImage=()=>{
         const docFile = properties.doc.split('.');
         const fileName=properties.title+"."+docFile[1];
-        saveAs("http://lu4dq.qrits.com.ar/dinamic-content/"+properties.doc, fileName);
+        saveAs("http://lu4dq.qrits.com.ar/dinamic-content/DOC/"+properties.doc, fileName);
       }
 
       const ModalForm=()=>{
