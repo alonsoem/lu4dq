@@ -214,6 +214,9 @@ const submit = () =>{
 			selectedFile.name
 		);
 
+    //if file.size()==0 then notupdate
+    //en php recibe archivo si el size es cero no actualiza y si sino sube el archivo nuevo
+
     if (selectedDocFile){
       formData.append(
         "docFile",
@@ -221,6 +224,7 @@ const submit = () =>{
         selectedDocFile.name
       );
     }
+    
 
     if (frontPageFile){
       formData.append(
