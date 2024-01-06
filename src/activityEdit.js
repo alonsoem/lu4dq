@@ -1,19 +1,51 @@
 import React from 'react';
-import {useRef, useState, } from 'react';
+import { useState,useEffect} from 'react';
+import { useParams} from 'react-router-dom';
 import {Form, Row,Col} from "react-bootstrap";
 import { format } from "date-fns";
 import { ToastContainer, toast } from 'react-toastify';
-import {setActivity} from "./api/api";
-import { Editor } from "react-draft-wysiwyg";
+import {updateActivity,getActivity} from "./api/api";
+import {  Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import {  EditorState, convertToRaw } from 'draft-js';
+import {ContentState,  EditorState, convertToRaw } from 'draft-js';
+
 import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
 import {useNavigate} from 'react-router-dom';
-//import { descriptors } from 'chart.js/dist/core/core.defaults';
+import Modal from 'react-bootstrap/Modal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
+import { saveAs } from 'file-saver';
 
-function AdminABM() {
+function ActivityEdit(params){
 
+  const { id } = useParams(); 
   const navigate = useNavigate();
+  
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = (type,file) => {
+    if (type==="DOC"){
+      //var newFileName = type+"/"+file.name;
+      downloadFile(file);
+      //setShowImage(new File([file.Blob],newFileName,{type: file.type}));
+      
+    }else{
+      var newFileName = type+"/"+file.name;
+      setShowImage(new File([file.Blob],newFileName,{type: file.type}));
+      setShow(true);
+    }
+    
+  }
+
+  const downloadFile=(file)=>{
+    
+    const fileParts = file.name.split('.');
+    const fileName=fileParts[0]+"."+fileParts[1];
+    
+    saveAs("https://lu4dq.qrits.com.ar/dinamic-content/DOC/"+fileName, fileName);
+  }
 
 	  const actual= new Date();
     const dateData = new Date(actual.getUTCFullYear(),actual.getUTCMonth(),actual.getUTCDate(),actual.getUTCHours(),actual.getUTCMinutes());
@@ -22,7 +54,6 @@ function AdminABM() {
     
     const [errors, setErrors] = useState([]);
     const [title, setTitle ] = useState("");
-    //const [description, setDescription ] = useState("");
     const [tecnicalDetails, setTecnicalDetails ] = useState(EditorState.createEmpty());
     const [minContacts, setMinContacts ] = useState(0);
     const [enabled, setEnabled ] = useState(false);
@@ -36,13 +67,23 @@ function AdminABM() {
     const [ selectedFile, setFile ] = useState(null);
     const [ selectedDocFile, setDocFile ] = useState(null);
     const [ frontPageFile, setFrontPageFile ] = useState(null);
-
-
+    const [ showImage , setShowImage ] = useState(null);
+    
+    
+    /*const inputRef = useRef(null);
+    const docInputRef = useRef(null);
+    const frontPageRef =useRef(null);
+*/
+    
 
     const handleChangeDescriptionHtml=(state)=>{
       setEditorState(state);
     }
 
+    const handleRemoveFile =(setFileHook)=>{
+        setFileHook(null);
+    }
+    
     const handleChangeType =(event)=>{
       setType(event.target.value);
     }
@@ -83,26 +124,56 @@ function AdminABM() {
 
   
 
-   
+  useEffect(() => {
+    console.log("ENTRANDO");
+    
+    
+    getActivity({id:id})       
+    .then((response) => {
+      try{
+        console.log(response);  
+        setDateFrom(response.start);
+        setDateTo(response.end);
+        setLateEnd(response.lateEnd);
+        setTitle(response.title);
+        setType(response.type);      
+        setMinContacts(response.minContacts);
+        setEnabled(response.enabled);
+        setEditorState(EditorState.createWithContent(ContentState.createFromBlockArray(htmlToDraft(response.description))));
+        setTecnicalDetails(EditorState.createWithContent(ContentState.createFromBlockArray(htmlToDraft(response.tecnical))));
+        if (response.doc){
+          setDocFile(new File([new Blob()],response.doc,{type: "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"}));
+        }
+        setFile(new File([new Blob()],response.image,{type: "image/jpeg"}));
+        if (response.frontImage){
+          setFrontPageFile(new File([new Blob()],response.frontImage,{type: "image/jpeg"}));
+        }
+        
 
+      }catch(e){
+        console.log(e);
+      }
+        
+         
+    })
+    .catch((response) => handleAxiosError(response));
+
+      return;
+
+      // eslint-disable-next-line
+      },[]
+  )
+
+   
    
 const handleAxiosError = (response) => {
+  console.log(response);   
   let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
-  console.log(response.response.data);
-  console.log("HANDLEAXIOSERROR form");
+  
+  console.log("HANDLEAXIOSERROR form load");
   //console.log(response);
       // eslint-disable-next-line
-  if (response.response.data.code==1062 ) {
-        errorToDisplay = "EL QSO YA EXISTE EN NUESTRA BASE DE DATOS.";
-      }
-  if (response.response.data.status==="Station not validated" ) {
-        errorToDisplay = "EL CODIGO DE ESTACION NO ES CORRECTO. VERIFIQUELO!";
-    }
-  // eslint-disable-next-line
-  if (response.message=="Network Error") {
-    errorToDisplay = "Error de red!. Reintente a la brevedad";
-  }
-
+ 
   //setError(errorToDisplay);
   notifyError(errorToDisplay);
 }
@@ -159,7 +230,9 @@ const submit = () =>{
       );
     }
     
-		formData.append('enabled', enabled);
+		formData.append('id', id);
+		
+    formData.append('enabled', enabled);
 		formData.append('type', type);
 		formData.append('title', title);
 		formData.append('start', dateFrom.replace(/\D/g, ""));
@@ -180,7 +253,7 @@ const submit = () =>{
       techDetail:tecnicalDetails,
       
       }*/
-    setActivity(formData)       
+    updateActivity(formData)       
       .then((response) => {
         navigateToAdmin();
          /* //eslint-disable-next-line
@@ -267,88 +340,72 @@ const handleSubmit = (event) => {
 
 
 
-const onFileChange = event => {
-  setFile(event.target.files[0] );
-};
-
-const onDocFileChange = event => {
-  setDocFile(event.target.files[0] );
-};
-
-const onFrontPageFileChange = event => {
-  setFrontPageFile(event.target.files[0] );
-};
-
-const fileData = () => {
-
-  if (selectedFile) {
-    return (
-      
-      <div>
-        <h2>Detalles:</h2>
-        <p>Nombre: {selectedFile.name}</p>
-        <p>
-          Tamaño:{" "}
-          {fileSize(selectedFile.size)}
-        </p>
-
-      </div>
-    );
-  }
-};
-
-const docFileData = () => {
-
-  if (selectedDocFile) {
-    return (
-      
-      <div>
-        <h2>Detalles:</h2>
-        <p>Nombre: {selectedDocFile.name}</p>
-        <p>
-          Tamaño:{" "}
-          {fileSize(selectedDocFile.size)}
-        </p>
-
-      </div>
-    );
-  }
+const onFileChange = (event,setFileHook) => {
+  setFileHook(event.target.files[0]);
 };
 
 
-const frontPageFileData = () => {
 
-  if (frontPageFile) {
-    return (
-      
-      <div>
-        <h2>Detalles:</h2>
-        <p>Nombre: {frontPageFile.name}</p>
-        <p>
-          Tamaño:{" "}
-          {fileSize(frontPageFile.size)}
-        </p>
+const ModalForm=()=>{
+  return (
+      <Modal
+        size="xl"
+        aria-labelledby="contained-modal-title-vcenter"
+        show={show} onHide={handleClose} animation={false}>
+      <Modal.Header closeButton>
+      </Modal.Header>
+          <Modal.Body>
+              <div class="container vw-90 vh-50 text-center" role="button">
+                  <img  class="rounded img-fluid"  
+                  src={(showImage?"http://lu4dq.qrits.com.ar/dinamic-content/"+showImage.name:"http://lu4dq.qrits.com.ar/dinamic-content/IMG/noimage.jpg")}
+                  alt="Previzualización de imagen" 
+                  />
+              </div>
+          </Modal.Body>
+    </Modal>
 
-      </div>
-    );
-  }
-};
-
-const fileSize=(size)=>{
-  if (size/1024/1024>=1){
-    return (parseFloat(size/1024/1024).toFixed(2)).toString()+" Mb"
-  }else{
-    return (parseFloat(size/1024).toFixed(2)).toString()+" Kb"
-  }
+    
+  );
+  
 }
 
-const inputRef = useRef(null);
-const docInputRef = useRef(null);
-const frontPageRef =useRef(null);
+
 
 	
 	
-
+const Imageconditional = (params) =>{
+  if (!params.file){
+    var accepts ="image/jpeg";
+    if (params.type==="DOC"){
+      accepts="application/msword, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+    }
+    return(
+      <div class="p-4">
+        <input  ref={null} accept={accepts} class="form-control" type="File" id="formFile"  onChange={(e)=>onFileChange(e,params.setFileHook)} />
+      </div>
+    );
+  }else{
+    if (params.file){
+    return(
+      <div class="p-4">
+        <span  onClick={()=>handleShow(params.type,params.file)} style={{ cursor: 'pointer'}} >{params.file.name}</span>
+          <span  onClick={()=>handleRemoveFile(params.setFileHook)} class="text-danger ms-4" style={{ cursor: 'pointer'}} >
+            <FontAwesomeIcon   icon={icon({name: 'rectangle-xmark'})}  title="Click para eliminar este archivo." />
+        </span>
+      </div>
+    )
+    }else{
+      return(
+        <div class="p-4">
+          NO SE PUDO CARGAR LA IMAGEN
+        </div>
+      )
+    }
+    
+  }
+   
+    
+}
 
 
 
@@ -356,11 +413,12 @@ const frontPageRef =useRef(null);
     return (
       <form onSubmit={handleSubmit} className="row g-3 needs-validation">
             <div className="container d-flex ">
+            <ModalForm />
             <ToastContainer />
                 <div className="container-fluid table-scroll-vertical col-11">
                     <div className="card mt-3" >
                         <div className="card-header headerLu4dq">
-                            <span class="display-6 ">NUEVA ACTIVIDAD</span>       
+                            <span class="display-6 ">MODIFICAR ACTIVIDAD</span>       
                         </div>
                         <div className="card-body" >
 
@@ -594,12 +652,15 @@ const frontPageRef =useRef(null);
 
                                           </Form.Group>
                                           </Col>
+
                                           <Col className="mb-3 align-middle col-6">
+                                          <fieldset class="border p-3 mb-3">
+                                            <legend  class="float-none w-auto t-4">Documento (DOC, DOCX, PDF)</legend>
                                             <Form.Group  className="mb-3" controlId="file">
-                                              <Form.Label  >Documento (PDF)</Form.Label>
-                                              <input  ref={docInputRef} class="form-control" type="File" id="formFile"  onChange={onDocFileChange} />
-                                              {docFileData()}
+                                              <Imageconditional type="DOC" file={selectedDocFile} setFileHook={setDocFile}/>
+                                              
                                             </Form.Group>
+                                            </fieldset>
                                           </Col>
 
                                           </Row>
@@ -609,43 +670,35 @@ const frontPageRef =useRef(null);
                                    
 
 
-                                    <Row className="mb-3 align-middle col-12">
-                                      
-                                      <Form.Group  className="mb-3" controlId="file">
-                                        <Form.Label  >Imagen para QSL o CERTIFICADO (JPG)</Form.Label>
-									                      <input  ref={inputRef} accept="image/jpeg" class="form-control" type="file" id="formFile"  onChange={onFileChange} 
-                                          className={
-                                                              hasError("file")
-                                                                    ? "form-control is-invalid"
-                                                                    : "form-control"
-                                                            }
-                                        />
-                                        {fileData()}
+                                    
+                                    <fieldset class="border p-3 mb-3">
+                                      <legend  class="float-none w-auto t-4">Imagen para QSL o CERTIFICADO (JPG)</legend>
+                                      <Row className="mb-3 align-middle col-12">
+                                          
+                                          <Form.Group  className="mb-3" controlId="file">
+                                            
+                                              <Imageconditional type="IMG"  file={selectedFile} setFileHook={setFile}/>
+                                            <div
+                                                  className={
+                                                  hasError("file")
+                                                          ? "invalid-feedback"
+                                                          : "visually-hidden"
+                                                  }
+                                              >
+                                              Incluya una imagen para usar como certificado o qsl.
+                                              </div>
+                                          </Form.Group>
+                                        </Row>
+                                    </fieldset>
+                                    
 
-                                        <div
-                                              className={
-                                              hasError("file")
-                                                      ? "invalid-feedback"
-                                                      : "visually-hidden"
-                                              }
-                                          >
-                                          Incluya una imagen para usar como certificado o qsl.
-                                          </div>
-                                      </Form.Group>
-                                    </Row>
-
+                                    <fieldset class="border p-3 mb-3">
+                                      <legend  class="float-none w-auto t-4">Imagen de PORTADA (JPG)</legend>
                                     <Row className="mb-3 align-middle col-12">
                                       
                                       <Form.Group  className="mb-3" controlId="frontPageFile">
-                                        <Form.Label  >Imagen de PORTADA (JPG)</Form.Label>
-									                      <input  ref={frontPageRef} accept="image/jpeg" class="form-control" type="file" id="frontPageformFile"  onChange={onFrontPageFileChange} 
-                                          className={
-                                                              hasError("frontPageFile")
-                                                                    ? "form-control is-invalid"
-                                                                    : "form-control"
-                                                            }
-                                        />
-                                        {frontPageFileData()}
+                                        
+									                      <Imageconditional type="FRT" file={frontPageFile} setFileHook={setFrontPageFile}/>
 
                                         <div
                                               className={
@@ -658,6 +711,7 @@ const frontPageRef =useRef(null);
                                           </div>
                                       </Form.Group>
                                     </Row>
+                                    </fieldset>
 
                                     <Row className="mb-3 align-middle col-12">
                                       
@@ -668,6 +722,7 @@ const frontPageRef =useRef(null);
                                               type="checkbox"
                                               onChange={handleChangeEnabled}  
                                               defaultChecked={enabled}
+                                              checked ={enabled}
                                               value={enabled}
                                               class={hasError("enabled")
                                                   ? "form-check-input form-control is-invalid"
@@ -727,4 +782,4 @@ const frontPageRef =useRef(null);
         );
 
     }
-    export default AdminABM;
+    export default ActivityEdit;

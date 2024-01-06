@@ -17,6 +17,7 @@ import AdminABM from "./adminABM.js";
 import Checker from "./checker.js";
 import CheckerCompare from "./checkerCompare.js";
 import Admin from "./admin.js";
+import ActivityEdit from "./activityEdit.js";
 
 
 
@@ -60,6 +61,7 @@ export default class App extends React.Component {
           <Route path="/cargaManual/:stationCode" element={<QsoUpload />}></Route>
           <Route exact path='/status/blabla' element={<AdminView />}></Route>  
           <Route exact path='/status/admin/ABM' element={<AdminABM />}></Route>  
+          <Route exact path='/status/admin/editActivity/:id' element={<ActivityEdit />}></Route>  
           <Route exact path='/status/admin' element={<Admin />}></Route>  
           
           

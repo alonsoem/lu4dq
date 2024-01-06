@@ -19,8 +19,14 @@ function Admin() {
     const [ activities, setActivities ] = useState([]);
     const [ statusUpdate, setStatusUpdate ] = useState(0);
     
+
+    const navigateToUrl = (id) => {
+        navigate('editActivity/'+id);
+        
+      };
   
     useEffect(() => {
+        
         getAllActivities()
             .then((response) => {
                 setActivities(response.activities);
@@ -134,10 +140,10 @@ function Admin() {
                     <td class="text-center">{each.id}</td>
                     <td class="text-center">{showEnabled(each.id,each.enabled)}</td>
                     <td class="text-center">{showType(each.type)}</td>
-                    <td class="text-center">{each.title}</td>
+                    <td class="text-center"><span onClick={(r)=>navigateToUrl(each.id)} >{each.title}</span></td>
                     </tr>
                  )
-            
+                 
                 }   )}
         
         </tbody>
