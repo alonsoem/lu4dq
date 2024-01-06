@@ -74,8 +74,8 @@ import { saveAs } from 'file-saver';
         function CellDocument(values){
             
             if (values.info.document){
-            //    return <td><a href={"http://lu4dq.qrits.com.ar/api/certCreator.php?qso="+values.info.document.value+"&chk="+values.info.document.chk}>Descargar!</a></td>
-                var url = "http://lu4dq.qrits.com.ar/api/certCreator.php?qso="+values.info.document.value+"&chk="+values.info.document.chk;
+            //    return <td><a href={"https://lu4dq.qrits.com.ar/api/certCreator.php?qso="+values.info.document.value+"&chk="+values.info.document.chk}>Descargar!</a></td>
+                var url = "https://lu4dq.qrits.com.ar/api/certCreator.php?qso="+values.info.document.value+"&chk="+values.info.document.chk;
                 return (
                         <badge 
                         class="badge text-bg-warning  text-center" role="button" onClick={(r)=>downloadCertificate(url)} title="Click para descargar el certificado" >
@@ -90,7 +90,7 @@ import { saveAs } from 'file-saver';
             
             if (values.info.qsl.document){
             
-                var url = "http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+values.info.qsl.document+"&chk="+values.info.qsl.chk;
+                var url = "https://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+values.info.qsl.document+"&chk="+values.info.qsl.chk;
                 return (
                         <badge 
                         class="badge text-bg-warning  text-center" role="button" onClick={(r)=>downloadCertificate(url)} title="Click para descargar el certificado" >
@@ -223,7 +223,7 @@ import { saveAs } from 'file-saver';
     const downloadImage=()=>{
         const docFile = properties.doc.split('.');
         const fileName=properties.title+"."+docFile[1];
-        saveAs("http://lu4dq.qrits.com.ar/dinamic-content/DOC/"+properties.doc, fileName);
+        saveAs("https://lu4dq.qrits.com.ar/dinamic-content/DOC/"+properties.doc, fileName);
       }
 
       const ModalForm=()=>{
@@ -237,7 +237,7 @@ import { saveAs } from 'file-saver';
             <Modal.Body>
                 <div class="container vw-90 vh-50 text-center" role="button">
                     <img  class="rounded img-fluid"  
-                    src={"http://lu4dq.qrits.com.ar/api/demoCreator.php?image="+properties.image}
+                    src={"https://lu4dq.qrits.com.ar/api/demoCreator.php?image="+properties.image}
                     alt="Certificado de muestra" 
                     />
                 </div>
@@ -289,7 +289,7 @@ const showTable=()=>{
                             <div class="m-4 lh-base float-middle ">
                                 
                                     <img class="rounded mx-auto d-block cursor-pointer" 
-                                    src={"http://lu4dq.qrits.com.ar/api/demoCreator.php?image="+properties.image}
+                                    src={"https://lu4dq.qrits.com.ar/api/demoCreator.php?image="+properties.image}
                                     
                                     height="15%" width="15%" 
                                     alt="Certificado de muestra"

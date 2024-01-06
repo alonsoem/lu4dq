@@ -99,7 +99,7 @@ export default class QsoUpload extends  React.Component {
           const downloadQsl=(qsl)=>{
             // eslint-disable-next-line
             if (qsl.status=="RC Confirmed"){
-                var url = "http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qsl.document+"&chk="+qsl.chk;
+                var url = "https://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qsl.document+"&chk="+qsl.chk;
                 return (
                     <h5>Este contacto fue confirmado. 
 

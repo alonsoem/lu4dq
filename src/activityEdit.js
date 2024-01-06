@@ -357,7 +357,7 @@ const ModalForm=()=>{
           <Modal.Body>
               <div class="container vw-90 vh-50 text-center" role="button">
                   <img  class="rounded img-fluid"  
-                  src={(showImage?"http://lu4dq.qrits.com.ar/dinamic-content/"+showImage.name:"http://lu4dq.qrits.com.ar/dinamic-content/IMG/noimage.jpg")}
+                  src={(showImage?"https://lu4dq.qrits.com.ar/dinamic-content/"+showImage.name:"https://lu4dq.qrits.com.ar/dinamic-content/IMG/noimage.jpg")}
                   alt="Previzualización de imagen" 
                   />
               </div>

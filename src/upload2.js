@@ -297,7 +297,7 @@ function Upload(){
 			// eslint-disable-next-line
 			if (qsl.status=="RC Confirmed"){
 				return (<button className="btn btn-success btn-sm" onClick={r=>
-					downloadImage("http://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qsl.document+"&chk="+qsl.chk)}>
+					downloadImage("https://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qsl.document+"&chk="+qsl.chk)}>
 						Descargar QSL
 				</button>	);
 			// eslint-disable-next-line			
