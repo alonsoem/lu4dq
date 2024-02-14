@@ -11,16 +11,20 @@ import TimeUp from './timeUp.js';
 function  ActivitiesBeta () {
     
 	const [ activities,setActivities] = useState([]);
+    const [ loading,setLoading] = useState(true);
     
     useEffect(() => {
+        
             getActivities()       
             .then((response) => {
                 setActivities(response.activities);
-                    console.log(response.activities);
+                console.log(response.activities);
+                setLoading(false);
             })
             .catch((response) => {
                 //handleAxiosError(response)
                 console.log(response);
+                setLoading(false);
                 }
             );
         
@@ -52,7 +56,7 @@ function  ActivitiesBeta () {
                     } 
                     )}
                 </div>
-                {activities.length===0?<TimeUp />:null}
+                {!loading && activities.length===0?<TimeUp />:null}
             </div>
 
         );
