@@ -30,6 +30,8 @@ function Admin() {
         getAllActivities()
             .then((response) => {
                 setActivities(response.activities);
+                console.log(response);
+                
                 setLoading(false);
             })
             .catch((response) => handleAxiosError(response));
@@ -63,14 +65,14 @@ function Admin() {
         console.log("HANDLEAXIOSERROR");
         console.log(response);
             // eslint-disable-next-line
-        if (response.response.data.code==1062 ) {
+        /*if (response.response.data.code==1062 ) {
               //errorToDisplay = "EL QSO YA EXISTE EN NUESTRA BASE DE DATOS.";
             }
         // eslint-disable-next-line
         if (response.message=="Network Error") {
           //errorToDisplay = "Error de red!. Reintente a la brevedad";
         }
-    
+    */
         //setError(errorToDisplay);
         //notifyError(errorToDisplay);
       }

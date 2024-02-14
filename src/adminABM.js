@@ -1,9 +1,9 @@
 import React from 'react';
-import {useRef, useState, } from 'react';
+import {useRef, useState, useEffect} from 'react';
 import {Form, Row,Col} from "react-bootstrap";
 import { format } from "date-fns";
 import { ToastContainer, toast } from 'react-toastify';
-import {setActivity} from "./api/api";
+import {setActivity,getDocuments} from "./api/api";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import {  EditorState, convertToRaw } from 'draft-js';
@@ -33,9 +33,12 @@ function AdminABM() {
 
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     
-    const [ selectedFile, setFile ] = useState(null);
+    
     const [ selectedDocFile, setDocFile ] = useState(null);
     const [ frontPageFile, setFrontPageFile ] = useState(null);
+
+    const [documents,setDocuments] = useState([]);
+    const [documentId,setDocumentId] = useState(null);
 
 
 
@@ -82,7 +85,23 @@ function AdminABM() {
 
 
   
+    useEffect(
+      () => {
 
+        getDocuments()       
+        .then((response) => {
+          setDocuments(response.documents);
+
+             
+        })
+        .catch((response) => handleAxiosError(response));
+    
+          return;
+  
+        // eslint-disable-next-line
+      },[]
+    )
+  
    
 
    
@@ -137,11 +156,7 @@ const submit = () =>{
 		const formData = new FormData();
 
 		// Update the formData object
-		formData.append(
-			"file",
-			selectedFile,
-			selectedFile.name
-		);
+
 
     if (selectedDocFile){
       formData.append(
@@ -159,7 +174,8 @@ const submit = () =>{
       );
     }
     
-		formData.append('enabled', enabled);
+		formData.append('doc', documentId);
+    formData.append('enabled', enabled);
 		formData.append('type', type);
 		formData.append('title', title);
 		formData.append('start', dateFrom.replace(/\D/g, ""));
@@ -252,8 +268,8 @@ const handleSubmit = (event) => {
     errors.push("tecnicalDetails");
   }
 
-  if (!selectedFile){
-    errors.push("file");
+  if (!document){
+    errors.push("doc");
   }
 
   setErrors(errors);
@@ -267,8 +283,8 @@ const handleSubmit = (event) => {
 
 
 
-const onFileChange = event => {
-  setFile(event.target.files[0] );
+const handleDocumentChange = event => {
+  setDocumentId(event.target.value );
 };
 
 const onDocFileChange = event => {
@@ -279,23 +295,7 @@ const onFrontPageFileChange = event => {
   setFrontPageFile(event.target.files[0] );
 };
 
-const fileData = () => {
 
-  if (selectedFile) {
-    return (
-      
-      <div>
-        <h2>Detalles:</h2>
-        <p>Nombre: {selectedFile.name}</p>
-        <p>
-          Tamaño:{" "}
-          {fileSize(selectedFile.size)}
-        </p>
-
-      </div>
-    );
-  }
-};
 
 const docFileData = () => {
 
@@ -342,7 +342,6 @@ const fileSize=(size)=>{
   }
 }
 
-const inputRef = useRef(null);
 const docInputRef = useRef(null);
 const frontPageRef =useRef(null);
 
@@ -610,28 +609,36 @@ const frontPageRef =useRef(null);
 
 
                                     <Row className="mb-3 align-middle col-12">
-                                      
-                                      <Form.Group  className="mb-3" controlId="file">
-                                        <Form.Label  >Imagen para QSL o CERTIFICADO (JPG)</Form.Label>
-									                      <input  ref={inputRef} accept="image/jpeg" class="form-control" type="file" id="formFile"  onChange={onFileChange} 
-                                          className={
-                                                              hasError("file")
-                                                                    ? "form-control is-invalid"
-                                                                    : "form-control"
-                                                            }
-                                        />
-                                        {fileData()}
 
-                                        <div
+                                      <Form.Group className="mb-3" controlId="modeValue">
+                                        <Form.Label>Imagen para QSL o CERTIFICADO (JPG)</Form.Label>
+                                        
+                                        <select id="doc"  onChange={handleDocumentChange}
+                                          className={
+                                            hasError("doc")
+                                                  ? "form-select is-invalid"
+                                                  : "form-select"
+                                          } >
+                                                                    <option selected disabled value="">Elija un documento...</option>
+                                                                    {
+                                                                      documents.map(doc=>{
+                                                                        return <option value={doc.id}>{doc.description}</option>
+                                                                      })
+                                                                    }
+                                                                    </select>
+                                          <div
                                               className={
-                                              hasError("file")
+                                                hasError("doc")
                                                       ? "invalid-feedback"
                                                       : "visually-hidden"
                                               }
                                           >
-                                          Incluya una imagen para usar como certificado o qsl.
+                                            Seleccione un documento válido
                                           </div>
+
                                       </Form.Group>
+                                      
+                                      
                                     </Row>
 
                                     <Row className="mb-3 align-middle col-12">

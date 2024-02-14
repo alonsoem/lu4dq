@@ -4,7 +4,7 @@ import { useParams} from 'react-router-dom';
 import {Form, Row,Col} from "react-bootstrap";
 import { format } from "date-fns";
 import { ToastContainer, toast } from 'react-toastify';
-import {updateActivity,getActivity} from "./api/api";
+import {updateActivity,getActivity,getDocuments} from "./api/api";
 import {  Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import {ContentState,  EditorState, convertToRaw } from 'draft-js';
@@ -64,7 +64,9 @@ function ActivityEdit(params){
 
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     
-    const [ selectedFile, setFile ] = useState(null);
+    const [ documentId, setDocumentId ] = useState(null);
+    const [ documents, setDocuments ] = useState([]);
+
     const [ selectedDocFile, setDocFile ] = useState(null);
     const [ frontPageFile, setFrontPageFile ] = useState(null);
     const [ showImage , setShowImage ] = useState(null);
@@ -75,6 +77,23 @@ function ActivityEdit(params){
     const frontPageRef =useRef(null);
 */
     
+useEffect(
+  () => {
+
+    getDocuments()       
+    .then((response) => {
+      setDocuments(response.documents);
+
+         
+    })
+    .catch((response) => handleAxiosError(response));
+
+      return;
+
+    // eslint-disable-next-line
+  },[]
+)
+
 
     const handleChangeDescriptionHtml=(state)=>{
       setEditorState(state);
@@ -121,6 +140,9 @@ function ActivityEdit(params){
       return errors.indexOf(key) !== -1;
     }
 
+    const handleDocumentChange=(event)=>{
+      setDocumentId(event.target.value);
+    }
 
   
 
@@ -141,10 +163,15 @@ function ActivityEdit(params){
         setEnabled(response.enabled);
         setEditorState(EditorState.createWithContent(ContentState.createFromBlockArray(htmlToDraft(response.description))));
         setTecnicalDetails(EditorState.createWithContent(ContentState.createFromBlockArray(htmlToDraft(response.tecnical))));
+        
+        //setFile(new File([new Blob()],response.image,{type: "image/jpeg"}));
+        setDocumentId(response.documentId);
+        
         if (response.doc){
           setDocFile(new File([new Blob()],response.doc,{type: "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"}));
         }
-        setFile(new File([new Blob()],response.image,{type: "image/jpeg"}));
+        
+
         if (response.frontImage){
           setFrontPageFile(new File([new Blob()],response.frontImage,{type: "image/jpeg"}));
         }
@@ -207,12 +234,7 @@ const submit = () =>{
 		// Create an object of formData
 		const formData = new FormData();
 
-		// Update the formData object
-		formData.append(
-			"file",
-			selectedFile,
-			selectedFile.name
-		);
+
 
     //if file.size()==0 then notupdate
     //en php recibe archivo si el size es cero no actualiza y si sino sube el archivo nuevo
@@ -235,13 +257,13 @@ const submit = () =>{
     }
     
 		formData.append('id', id);
-		
+		formData.append('doc', documentId);
     formData.append('enabled', enabled);
 		formData.append('type', type);
 		formData.append('title', title);
 		formData.append('start', dateFrom.replace(/\D/g, ""));
     formData.append('end', dateTo.replace(/\D/g, ""));
-    formData.append('description', draftToHtml(convertToRaw(editorState.getCurrentContent())),);
+    formData.append('description', draftToHtml(convertToRaw(editorState.getCurrentContent())));
     formData.append('late_end', late_end.replace(/\D/g, ""));
     formData.append('minContacts', minContacts);
     formData.append('techDetail', draftToHtml(convertToRaw(tecnicalDetails.getCurrentContent())),);
@@ -329,8 +351,8 @@ const handleSubmit = (event) => {
     errors.push("tecnicalDetails");
   }
 
-  if (!selectedFile){
-    errors.push("file");
+  if (!documentId){
+    errors.push("doc");
   }
 
   setErrors(errors);
@@ -679,19 +701,38 @@ const Imageconditional = (params) =>{
                                       <legend  class="float-none w-auto t-4">Imagen para QSL o CERTIFICADO (JPG)</legend>
                                       <Row className="mb-3 align-middle col-12">
                                           
-                                          <Form.Group  className="mb-3" controlId="file">
-                                            
-                                              <Imageconditional type="IMG"  file={selectedFile} setFileHook={setFile}/>
-                                            <div
-                                                  className={
-                                                  hasError("file")
-                                                          ? "invalid-feedback"
-                                                          : "visually-hidden"
-                                                  }
-                                              >
-                                              Incluya una imagen para usar como certificado o qsl.
-                                              </div>
-                                          </Form.Group>
+                                      <Form.Group className="mb-3" controlId="modeValue">
+                                        
+                                        
+                                        <select id="doc"  onChange={handleDocumentChange}
+                                          className={
+                                            hasError("doc")
+                                                  ? "form-select is-invalid"
+                                                  : "form-select"
+                                          } >
+                                                                    
+                                                                    {
+                                                                      documents.map(doc=>{
+                                                                        if (documentId==doc.id){
+                                                                          return <option selected value={doc.id} >{doc.description}</option>
+                                                                        }else{
+                                                                          return <option  value={doc.id} >{doc.description}</option>
+                                                                        }
+                                                                      })
+                                                                    }
+                                                                    </select>
+                                          <div
+                                              className={
+                                                hasError("doc")
+                                                      ? "invalid-feedback"
+                                                      : "visually-hidden"
+                                              }
+                                          >
+                                            Seleccione un documento válido
+                                          </div>
+
+                                      </Form.Group>
+                                      
                                         </Row>
                                     </fieldset>
                                     
