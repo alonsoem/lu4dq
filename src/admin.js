@@ -8,13 +8,8 @@ import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 
 
-
-
 function Admin() {
-  const navigate = useNavigate();
-
-	
-	
+    const navigate = useNavigate();
     const [ loading, setLoading ] = useState(false);
     const [ activities, setActivities ] = useState([]);
     const [ statusUpdate, setStatusUpdate ] = useState(0);
@@ -129,8 +124,9 @@ function Admin() {
                     <tr class="table-primary">
                         <th scope="col" class="text-center">id</th>
                         <th scope="col" class="text-center">Habilitada</th>
-                        <th scope="col" class="text-center">Tipo</th>
                         <th scope="col" class="text-center">Titulo</th>
+                        <th scope="col" class="text-center">Tipo</th>
+                        
                         
                         
                     </tr>
@@ -141,8 +137,9 @@ function Admin() {
                     <tr>
                     <td class="text-center">{each.id}</td>
                     <td class="text-center">{showEnabled(each.id,each.enabled)}</td>
+                    <td class="text-center"><span class="btn-link link-primary link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" onClick={(r)=>navigateToUrl(each.id)} >{each.title}</span></td>
                     <td class="text-center">{showType(each.type)}</td>
-                    <td class="text-center"><span onClick={(r)=>navigateToUrl(each.id)} >{each.title}</span></td>
+                    
                     </tr>
                  )
                  

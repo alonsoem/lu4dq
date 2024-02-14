@@ -268,7 +268,7 @@ const handleSubmit = (event) => {
     errors.push("tecnicalDetails");
   }
 
-  if (!document){
+  if (!documentId){
     errors.push("doc");
   }
 
