@@ -6,7 +6,7 @@ import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
 function NavMenu() {
     return (
-        <ul class="nav justify-content-center mb-3 navLu4dq">
+        <ul class="nav justify-content-center  navLu4dq">
   <li class="nav-item">
     <a class="nav-link active" aria-current="page" href="/activities">ACTIVIDADES</a>
   </li>

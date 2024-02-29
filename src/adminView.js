@@ -4,6 +4,8 @@ import { useState,useEffect} from 'react';
 import { getActivities, getStatsByBand, getStatsByMode, getStatusRank ,getStatsByDate} from './api/api';
 import {Form, Row} from "react-bootstrap";
 import { Pie,Bar } from 'react-chartjs-2';
+import NavAdmin from './navAdmin';
+
 //import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import {
     Chart as ChartJS,
@@ -300,6 +302,9 @@ function AdminView() {
   
 
     return (
+      
+      <div>
+      <NavAdmin />
 
             <div className="container d-flex ">
                 <div className="container-fluid table-scroll-vertical col-11">
@@ -373,6 +378,7 @@ function AdminView() {
             
                 </div>
             </div>
+        </div>
 
         );
 

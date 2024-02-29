@@ -5,6 +5,7 @@ import { getAllActivities,setStatus } from './api/api';
 import {useNavigate} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
+import NavAdmin from './navAdmin';
 
 
 
@@ -164,8 +165,11 @@ function Admin() {
   
 
     return (
-
+            <div>
+                <NavAdmin />
+            
             <div className="container d-flex ">
+            
                 <div className="container-fluid table-scroll-vertical col-11">
                     <div className="card mt-3" >
                         <div className="card-header headerLu4dq">
@@ -190,7 +194,7 @@ function Admin() {
                     </div>
                 </div>
             </div>
-
+</div>
         );
 
     }

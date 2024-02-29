@@ -67,6 +67,20 @@ code {
 .navLu4dq a { color:#abbdc2 !important; }
 .navLu4dq a:hover { color:#abbdc2 !important; }
 .navLu4dq a:visited { color:#abbdc2 !important; }
+
+
+.navLu4dqAdmin{
+  background-color:#0e5a14;
+  color:#abbdc2;
+  font-weight: bold;
+  font-size: large;
+}
+.navLu4dqAdmin a { color:#abbdc2 !important; }
+.navLu4dqAdmin a:hover { color:#abbdc2 !important; }
+.navLu4dqAdmin a:visited { color:#abbdc2 !important; }
+
+
+
 .cardActivity{
   max-width: 21rem;
   min-width:21rem;

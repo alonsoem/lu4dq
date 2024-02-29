@@ -9,6 +9,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 import {useNavigate} from 'react-router-dom';
 //import { descriptors } from 'chart.js/dist/core/core.defaults';
+import NavAdmin from './navAdmin';
 
 function AdminDoc() {
 
@@ -37,11 +38,6 @@ function AdminDoc() {
       return errors.indexOf(key) !== -1;
     }
 
-
-  
-  
-  
-   
 
    
 const handleAxiosError = (response) => {
@@ -224,6 +220,9 @@ const frontPageRef =useRef(null);
 
 
     return (
+      
+      <div>
+      <NavAdmin />
       <form onSubmit={handleSubmit} className="row g-3 needs-validation">
             <div className="container d-flex ">
             <ToastContainer />
@@ -346,6 +345,7 @@ const frontPageRef =useRef(null);
                 </div>
             </div>
       </form>
+      </div>
         );
 
     }

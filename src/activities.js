@@ -36,7 +36,7 @@ function  ActivitiesBeta () {
         return (
                             
             <div class="container ">
-                <div class="row row-cols-3 row-cols-md-3 ">
+                <div class="row row-cols-3 row-cols-md-3 m-4">
                     {activities.length>0 && activities.map((each)=>
                     {    
                         return (
