@@ -18,7 +18,7 @@ import Checker from "./checker.js";
 import CheckerCompare from "./checkerCompare.js";
 import Admin from "./admin.js";
 import ActivityEdit from "./activityEdit.js";
-
+import AdminDoc from "./docAdmin.js";
 
 
 
@@ -60,7 +60,9 @@ export default class App extends React.Component {
           <Route path="/cargaMasiva/:stationCode" element={<UploadBis />}></Route>
           <Route path="/cargaManual/:stationCode" element={<QsoUpload />}></Route>
           <Route exact path='/status/blabla' element={<AdminView />}></Route>  
+          <Route exact path='/status/admin/docABM' element={<AdminDoc />}></Route>  
           <Route exact path='/status/admin/ABM' element={<AdminABM />}></Route>  
+
           <Route exact path='/status/admin/editActivity/:id' element={<ActivityEdit />}></Route>  
           <Route exact path='/status/admin' element={<Admin />}></Route>  
           
