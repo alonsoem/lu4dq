@@ -310,7 +310,7 @@ function AdminView() {
                 <div className="container-fluid table-scroll-vertical col-11">
                     <div className="card mt-3" >
                         <div className="card-header headerLu4dq">
-                            <span class="display-6 ">CONTACTOS POR ACTIVIDAD</span>       
+                            <span class="display-6 ">ESTADISTICAS</span>       
                         </div>
                         <div className="card-body" >
 

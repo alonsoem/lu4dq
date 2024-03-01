@@ -38,7 +38,7 @@ function CheckerCompare() {
 
 
     const handleBack =(event)=>{
-        navigate('/checker/'+station);
+        navigate('/status/checker/'+station);
     }
  
 
