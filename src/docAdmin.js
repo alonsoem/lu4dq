@@ -1,5 +1,5 @@
 import React from 'react';
-import {useRef, useState, useEffect} from 'react';
+import {useRef, useState} from 'react';
 import {Form, Row} from "react-bootstrap";
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -8,7 +8,6 @@ import {postDocument} from "./api/api";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 import {useNavigate} from 'react-router-dom';
-//import { descriptors } from 'chart.js/dist/core/core.defaults';
 import NavAdmin from './navAdmin';
 
 function AdminDoc() {
@@ -129,7 +128,11 @@ const submit = () =>{
           }*/
           console.log(response);         
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        handleAxiosError(error);
+       }
+      );
 
 }
 
@@ -164,23 +167,7 @@ const handleSubmit = (event) => {
 
 
 
-const docFileData = () => {
 
-  if (imageFile) {
-    return (
-      
-      <div>
-        <h2>Detalles:</h2>
-        <p>Nombre: {imageFile.name}</p>
-        <p>
-          Tamaño:{" "}
-          {fileSize(imageFile.size)}
-        </p>
-
-      </div>
-    );
-  }
-};
 
 
 const frontPageFileData = () => {
