@@ -5,7 +5,7 @@ import { getQsoCheck } from './api/api';
 import {Col, Row} from "react-bootstrap";
 import {useNavigate} from 'react-router-dom';
 import { useParams} from "react-router-dom";
-
+import NavAdmin from './navAdmin';
 
 
 function CheckerCompare() {
@@ -161,6 +161,8 @@ function CheckerCompare() {
 
     return (
 
+        <div>
+        <NavAdmin />
             <div className="container d-flex ">
 
                 <div className="container-fluid table-scroll-vertical col-11">
@@ -189,6 +191,7 @@ function CheckerCompare() {
             
                 </div>
             </div>
+        </div>
 
         );
 

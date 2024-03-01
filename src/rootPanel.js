@@ -45,9 +45,7 @@ export default class App extends React.Component {
           <Route exact path='/qsoList' element={<QsoList />}></Route>   
 
 
-          <Route exact path='/checker/:station/:toCallsign' element={<CheckerCompare />}></Route>   
-          <Route exact path='/checker/:station' element={<Checker />}></Route>   
-          <Route exact path='/checker' element={<Checker />}></Route>   
+          
 
 
           <Route exact path='/activities' element={<AllActivities />}></Route>   
@@ -62,6 +60,9 @@ export default class App extends React.Component {
           
           
           
+          <Route exact path='/status/checker/:station/:toCallsign' element={<CheckerCompare />}></Route>   
+          <Route exact path='/status/checker/:station' element={<Checker />}></Route>   
+          <Route exact path='/status/checker' element={<Checker />}></Route>   
           <Route exact path='/status/blabla' element={<AdminView />}></Route>  
           <Route exact path='/status/admin/docABM' element={<AdminDoc />}></Route>  
           <Route exact path='/status/admin/ABM' element={<AdminABM />}></Route>  

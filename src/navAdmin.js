@@ -8,7 +8,7 @@ export default function NavAdmin() {
             <a class="nav-link active" aria-current="page" href="/status/blabla">ESTADISTICAS</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/checker">VALIDADOR DE CONTACTOS</a>
+            <a class="nav-link" href="/status/checker">VALIDADOR DE CONTACTOS</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/status/admin">ACTIVIDADES</a>

@@ -6,6 +6,7 @@ import {Form, Row} from "react-bootstrap";
 import { saveAs } from 'file-saver';
 import { useParams} from "react-router-dom";
 import {useNavigate} from 'react-router-dom';
+import NavAdmin from './navAdmin';
 
 
 function Checker() {
@@ -20,9 +21,9 @@ function Checker() {
 
     const navigateToStationQso = (corresponsal) => {
         if (station){
-            navigate('/checker/'+station+'/'+corresponsal);
+            navigate('/status/hecker/'+station+'/'+corresponsal);
         }else{
-            navigate('/checker/'+callsign+'/'+corresponsal);
+            navigate('/status/checker/'+callsign+'/'+corresponsal);
         }
       };
 
@@ -152,6 +153,9 @@ function Checker() {
   
 
     return (
+        
+      <div>
+      <NavAdmin />
 
             <div className="container d-flex ">
 
@@ -199,6 +203,7 @@ function Checker() {
             
                 </div>
             </div>
+        </div>
 
         );
 
