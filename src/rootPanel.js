@@ -19,6 +19,7 @@ import CheckerCompare from "./checkerCompare.js";
 import Admin from "./admin.js";
 import ActivityEdit from "./activityEdit.js";
 import AdminDoc from "./docAdmin.js";
+import NewDoc from "./docAlta.js";
 
 
 
@@ -65,6 +66,7 @@ export default class App extends React.Component {
           <Route exact path='/status/checker' element={<Checker />}></Route>   
           <Route exact path='/status/blabla' element={<AdminView />}></Route>  
           <Route exact path='/status/admin/docABM' element={<AdminDoc />}></Route>  
+          <Route exact path='/status/admin/doc/new' element={<NewDoc />}></Route>  
           <Route exact path='/status/admin/ABM' element={<AdminABM />}></Route>  
           <Route exact path='/status/admin/editActivity/:id' element={<ActivityEdit />}></Route>  
           <Route exact path='/status/admin' element={<Admin />}></Route>  

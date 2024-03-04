@@ -21,7 +21,7 @@ function Checker() {
 
     const navigateToStationQso = (corresponsal) => {
         if (station){
-            navigate('/status/hecker/'+station+'/'+corresponsal);
+            navigate('/status/checker/'+station+'/'+corresponsal);
         }else{
             navigate('/status/checker/'+callsign+'/'+corresponsal);
         }
