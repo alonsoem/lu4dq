@@ -404,7 +404,9 @@ const Imageconditional = (params) =>{
                                                 {props.map(each=>{
                                                   return(
                                                     <tr>
-                                                      <td>{each.name}</td>
+                                                      <td>
+                                                        <span class="badge text-bg-primary">{each.name}</span>
+                                                      </td>
                                                       <td>{each.row}</td>
                                                       <td>{each.colStart}</td>
                                                       <td>{each.colEnd}</td>
