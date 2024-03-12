@@ -3,7 +3,7 @@ import {useRef, useState, useEffect} from 'react';
 import {Form, Row,Col} from "react-bootstrap";
 import { format } from "date-fns";
 import { ToastContainer, toast } from 'react-toastify';
-import {setActivity,getDocuments} from "./api/api";
+import {setActivity,getDocuments} from "../../api/api";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import {  EditorState, convertToRaw } from 'draft-js';

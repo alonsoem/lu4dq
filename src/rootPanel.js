@@ -12,14 +12,15 @@ import Landing from "./landing.js";
 import Qso from "./qso.js";
 import QsoList from "./qsoList.js";
 import NavMenu from "./nav.js";
-import AdminView from "./adminView.js";
-import AdminABM from "./adminABM.js";
+import AdminView from "./admin/adminView.js";
+import AdminABM from "./admin/activity/adminABM.js";
 import Checker from "./checker.js";
-import CheckerCompare from "./checkerCompare.js";
-import Admin from "./admin.js";
-import ActivityEdit from "./activityEdit.js";
-import AdminDoc from "./docAdmin.js";
-import NewDoc from "./docAlta.js";
+import CheckerCompare from "./admin/checkerCompare.js";
+import Admin from "./admin/activity/admin.js";
+import ActivityEdit from "./admin/activity/activityEdit.js";
+import AdminDoc from "./admin/document/docAdmin.js";
+import NewDoc from "./admin/document/docAlta.js";
+import EditDoc from "./admin/document/docEdit.js";
 
 
 
@@ -65,8 +66,12 @@ export default class App extends React.Component {
           <Route exact path='/status/checker/:station' element={<Checker />}></Route>   
           <Route exact path='/status/checker' element={<Checker />}></Route>   
           <Route exact path='/status/blabla' element={<AdminView />}></Route>  
-          <Route exact path='/status/admin/docABM' element={<AdminDoc />}></Route>  
+
+          
+          <Route exact path='/status/admin/doc' element={<AdminDoc />}></Route>  
           <Route exact path='/status/admin/doc/new' element={<NewDoc />}></Route>  
+          <Route exact path='/status/admin/doc/:id' element={<EditDoc />}></Route>  
+
           <Route exact path='/status/admin/ABM' element={<AdminABM />}></Route>  
           <Route exact path='/status/admin/editActivity/:id' element={<ActivityEdit />}></Route>  
           <Route exact path='/status/admin' element={<Admin />}></Route>  

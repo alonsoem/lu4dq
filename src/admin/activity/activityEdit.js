@@ -4,7 +4,7 @@ import { useParams} from 'react-router-dom';
 import {Form, Row,Col} from "react-bootstrap";
 import { format } from "date-fns";
 import { ToastContainer, toast } from 'react-toastify';
-import {updateActivity,getActivity,getDocuments} from "./api/api";
+import {updateActivity,getActivity,getDocuments} from "../../api/api";
 import {  Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import {ContentState,  EditorState, convertToRaw } from 'draft-js';
@@ -25,6 +25,7 @@ function ActivityEdit(params){
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
+
   const handleShow = (type,file) => {
     if (type==="DOC"){
       //var newFileName = type+"/"+file.name;
@@ -400,26 +401,29 @@ const ModalForm=()=>{
 	
 	
 const Imageconditional = (params) =>{
+  console.log(params);
   if (!params.file){
     var accepts ="image/jpeg";
     if (params.type==="DOC"){
       accepts="application/msword, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document";
     }
+
     return(
       <div class="p-4">
         <input  ref={null} accept={accepts} class="form-control" type="File" id="formFile"  onChange={(e)=>onFileChange(e,params.setFileHook)} />
       </div>
     );
+
   }else{
     if (params.file){
-    return(
-      <div class="p-4">
-        <span  onClick={()=>handleShow(params.type,params.file)} style={{ cursor: 'pointer'}} >{params.file.name}</span>
-          <span  onClick={()=>handleRemoveFile(params.setFileHook)} class="text-danger ms-4" style={{ cursor: 'pointer'}} >
-            <FontAwesomeIcon   icon={icon({name: 'rectangle-xmark'})}  title="Click para eliminar este archivo." />
-        </span>
-      </div>
-    )
+      return(
+        <div class="p-4">
+          <span  onClick={()=>handleShow(params.type,params.file)} style={{ cursor: 'pointer'}} >{params.file.name}</span>
+            <span  onClick={()=>handleRemoveFile(params.setFileHook)} class="text-danger ms-4" style={{ cursor: 'pointer'}} >
+              <FontAwesomeIcon   icon={icon({name: 'rectangle-xmark'})}  title="Click para eliminar este archivo." />
+          </span>
+        </div>
+      )
     }else{
       return(
         <div class="p-4">

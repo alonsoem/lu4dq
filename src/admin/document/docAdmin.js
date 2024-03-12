@@ -1,59 +1,41 @@
 import React from 'react';
 
 import { useState,useEffect} from 'react';
-import { getAllActivities,setStatus } from './api/api';
+import { getDocuments } from '../../api/api';
 import {useNavigate} from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
-import NavAdmin from './navAdmin';
+import NavAdmin from '../navAdmin';
 
 
 
-function Admin() {
+export default function DocAdmin() {
     const navigate = useNavigate();
     const [ loading, setLoading ] = useState(false);
-    const [ activities, setActivities ] = useState([]);
-    const [ statusUpdate, setStatusUpdate ] = useState(0);
+    const [ items, setItems ] = useState([]);
+    
     
 
     const navigateToUrl = (id) => {
-        navigate('editActivity/'+id);
+        navigate(''+id);
         
       };
   
     useEffect(() => {
         
-        getAllActivities()
+        getDocuments()
             .then((response) => {
-                setActivities(response.activities);
+                setItems(response.documents);
                 console.log(response);
                 
                 setLoading(false);
             })
-            .catch((response) => handleAxiosError(response));
+            .catch((error) => handleAxiosError(error));
 
         return;
         
-        },[statusUpdate]
+        },[]
     )
 
-    const handleChangeStatus = (id,status)=>{
-        setStatus(
-            {
-                id:id,
-                // eslint-disable-next-line
-                setTo:(status==0?1:0)
-            }
-        )
-        .then((response) => {
-            console.log(response);
-            setStatusUpdate(statusUpdate+1);
-        }
-        
-        )
-        .catch();
-    }
-
+  
    
     const handleAxiosError = (response) => {
         setLoading(false);
@@ -78,31 +60,8 @@ function Admin() {
 
 
 
-    function ActivityTable(){
-
-        const showEnabled =(id,enabled)=>{
-
-          // eslint-disable-next-line
-          if (enabled==1){
-            return <span  class="text-success" style={{ cursor: 'pointer'}} onClick={() =>handleChangeStatus(id,enabled)}><FontAwesomeIcon   icon={icon({name: 'eye'})}  title="Click para cambiar el estado" 
-            onClick={handleChangeStatus} /></span>;
-          }else{
-            return <span  class="text-danger " style={{ cursor: 'pointer' }} onClick={()=> handleChangeStatus(id,enabled)}><FontAwesomeIcon   icon={icon({name: 'eye-slash'})}  title="Click para cambiar el estado" 
-                
-            /></span>;
-            
-          }
-        }
-
-        const showType =(type)=>{
-        // eslint-disable-next-line
-          if (type==1){
-            return "CERTIFICADO";
-          }else{
-            return "QSL ESPECIAL";
-          }
-        }
-        
+    function Table(){
+      
         if (loading){
                 return (<div class="card p-5 mt-3">
                     <div class="text-center">
@@ -113,7 +72,7 @@ function Admin() {
                     </div>
                     </div>);
         }else{
-            if (activities.length===0){
+            if (items.length===0){
                 return (<div class="card p-5 mt-3">
                             <h5>NO HAY NADA POR EL MOMENTO...</h5>
                         </div>);
@@ -123,23 +82,20 @@ function Admin() {
             <table class="table striped hover bordered responsive mt-3 border">
                 <thead>
                     <tr class="table-primary">
-                        <th scope="col" class="text-center">id</th>
-                        <th scope="col" class="text-center">Habilitada</th>
-                        <th scope="col" class="text-center">Titulo</th>
-                        <th scope="col" class="text-center">Tipo</th>
-                        
-                        
-                        
+                        <th scope="col" class="text-center">ID</th>
+                        <th scope="col" class="text-center">TITULO</th>
                     </tr>
                 </thead>
             <tbody>
-            {activities.map((each) =>{
+            {items.map((each) =>{
                  return ( 
                     <tr>
                     <td class="text-center">{each.id}</td>
-                    <td class="text-center">{showEnabled(each.id,each.enabled)}</td>
-                    <td class="text-center"><span class="btn-link link-primary link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" onClick={(r)=>navigateToUrl(each.id)} >{each.title}</span></td>
-                    <td class="text-center">{showType(each.type)}</td>
+                    <td class="text-center">
+                        <span class="btn-link link-primary link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" onClick={(r)=>navigateToUrl(each.id)} >
+                            {each.description}
+                        </span>
+                    </td>
                     
                     </tr>
                  )
@@ -157,9 +113,9 @@ function Admin() {
     
     
 
-     const navigateAddActivity = () => {
+     const navigateAdd = () => {
       
-          navigate('/status/admin/ABM');    
+          navigate('/status/admin/doc/new');    
       
     };
   
@@ -173,7 +129,7 @@ function Admin() {
                 <div className="container-fluid table-scroll-vertical col-11">
                     <div className="card mt-3" >
                         <div className="card-header headerLu4dq">
-                            <span class="display-6 ">ADMINISTRACION DE ACTIVIDADES</span>       
+                            <span class="display-6 ">ADMINISTRACION DE DOCUMENTOS</span>       
                         </div>
                         <div className="card-body" >
 
@@ -183,13 +139,13 @@ function Admin() {
                                         <div className="row rowForm">
                                         <div className=" row mb-3 col-10"></div>
                                             <div className=" row mb-3 col-2">
-                                                <button class="btn btn-primary" onClick={navigateAddActivity}>NUEVA ACTIVIDAD</button>
+                                                <button class="btn btn-primary" onClick={navigateAdd}>NUEVO DOCUMENTO</button>
                                             </div>  
                                         </div>
                                     </div>
                                 </div>
                   
-                          <ActivityTable />
+                          <Table />
                         </div>
                     </div>
                 </div>
@@ -198,4 +154,3 @@ function Admin() {
         );
 
     }
-    export default Admin;

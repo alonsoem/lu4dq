@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useState,useEffect} from 'react';
-import { getActivities, getStatsByBand, getStatsByMode, getStatusRank ,getStatsByDate} from './api/api';
+import { getActivities, getStatsByBand, getStatsByMode, getStatusRank ,getStatsByDate} from '../api/api';
 import {Form, Row} from "react-bootstrap";
 import { Pie,Bar } from 'react-chartjs-2';
 import NavAdmin from './navAdmin';

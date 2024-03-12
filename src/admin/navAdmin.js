@@ -14,7 +14,7 @@ export default function NavAdmin() {
             <a class="nav-link" href="/status/admin">ACTIVIDADES</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/status/admin/docABM">DOCUMENTOS</a>
+            <a class="nav-link" href="/status/admin/doc">DOCUMENTOS</a>
           </li>
           
         </ul>

@@ -6,7 +6,7 @@ import {Form, Row} from "react-bootstrap";
 import { saveAs } from 'file-saver';
 import { useParams} from "react-router-dom";
 import {useNavigate} from 'react-router-dom';
-import NavAdmin from './navAdmin';
+import NavAdmin from './admin/navAdmin';
 
 
 function Checker() {

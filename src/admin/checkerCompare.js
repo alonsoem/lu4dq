@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useState,useEffect} from 'react';
-import { getQsoCheck } from './api/api';
+import { getQsoCheck } from '../api/api';
 import {Col, Row} from "react-bootstrap";
 import {useNavigate} from 'react-router-dom';
 import { useParams} from "react-router-dom";
