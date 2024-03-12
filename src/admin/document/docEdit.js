@@ -1,6 +1,6 @@
 import React from 'react';
 import {useState,useEffect} from 'react';
-import {Form, Row,Table} from "react-bootstrap";
+import {Form, Row} from "react-bootstrap";
 
 import { ToastContainer, toast } from 'react-toastify';
 import {getDocumentById, putDocument} from "../../api/api";
