@@ -1,6 +1,6 @@
 import React from 'react';
 import {useState,useEffect} from 'react';
-import {Form, Row} from "react-bootstrap";
+import {Form, Row,Table} from "react-bootstrap";
 
 import { ToastContainer, toast } from 'react-toastify';
 import {getDocumentById, putDocument} from "../../api/api";
@@ -21,6 +21,8 @@ export default function EditDoc() {
 
   const navigate = useNavigate();
   const [errors, setErrors] = useState([]);
+
+  const [props, setProps] = useState([]);
   
   const [title, setTitle ] = useState("");
   
@@ -81,6 +83,8 @@ const setItem= (item) =>{
   setTitle(item.description);
   setImageFT8File(item.imageFT8);
   setImageFile(item.image);
+  setProps(item.props);
+
   if (item.image){
     setImageFile(new File([new Blob()],item.image,{type: "image/jpeg"}));
   }
@@ -322,7 +326,7 @@ const Imageconditional = (params) =>{
                         
                                 <div className="card-body" >
                                     
-                                        <Row className="mb-3">
+                                        <Row className="m-4">
                                          <Form.Group className="mb-3" controlId="nameValue">
                                             <Form.Label>TITULO</Form.Label>
                                             <Form.Control  onChange={handleChangeTitle} value={title}
@@ -344,22 +348,26 @@ const Imageconditional = (params) =>{
                                           </Form.Group>
                                         </Row>  
                                     
-                                    <Row className="mb-3 align-middle col-12">
+                                    <Row className="m-4 ">
+                                    <fieldset class="border p-3 mb-3">
+                                          <legend  class="float-none w-auto t-4">Imagen para QSL o CERTIFICADO (JPG)</legend>
+                                      
 
                                       <Form.Group className="mb-3" controlId="modeValue">
-                                        <Form.Label>Imagen para QSL o CERTIFICADO (JPG)</Form.Label>
                                         <Imageconditional type="IMG" file={imageFile} setFileHook={setImageFile} updateFileHook={setUpdateImageFile}/>
                                        
 
                                       </Form.Group>
                                       
-                                      
+                                      </fieldset>
                                     </Row>
 
-                                    <Row className="mb-3 align-middle col-12">
+                                    <Row className="m-4 ">
+                                    <fieldset class="border p-3 mb-3">
+                                          <legend  class="float-none w-auto t-4">Imagen para QSL o CERTIFICADO FT8 (JPG)</legend>
                                       
                                       <Form.Group  className="mb-3" controlId="frontPageFile">
-                                        <Form.Label  >Imagen para QSL o CERTIFICADO FT8 (JPG)</Form.Label>
+                                        
                                         <Imageconditional type="IMG" file={imageFt8File} setFileHook={setImageFT8File} updateFileHook={setUpdateImageFileFT8}/>
 									                      
                                         
@@ -374,13 +382,44 @@ const Imageconditional = (params) =>{
                                           Incluya una imagen para usar como certificado o qsl.
                                           </div>
                                       </Form.Group>
+                                      </fieldset>
                                     </Row>
 
-                                   
 
-                                   
-                                    
+                                    <Row className="m-4 ">
+                                    <fieldset class="border p-3 mb-3">
+                                          <legend  class="float-none w-auto t-4">PARAMETRÍA</legend>
+                                      
+                                          <table class="table table-bordered " >
+                                            <thead class="table-success" >
+                                            <tr>
+                                              <th>Nombre</th>
+                                              <th>Fila</th>
+                                              <th>Col Inicio</th>
+                                              <th>Col Fin</th>
+                                              <th>Tamaño Fuente</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                                {props.map(each=>{
+                                                  return(
+                                                    <tr>
+                                                      <td>{each.name}</td>
+                                                      <td>{each.row}</td>
+                                                      <td>{each.colStart}</td>
+                                                      <td>{each.colEnd}</td>
+                                                      <td>{each.fontSize}</td>
+                                                    </tr>
+                                                  );
+                                                })
+                                                }
+                                              
 
+                                            </tbody>
+                                          </table>
+                                        </fieldset>
+                                    </Row>
+                                  
                                     <div className="row">&nbsp;</div>
 
                                     <div className="row">
