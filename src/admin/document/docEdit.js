@@ -1,5 +1,5 @@
 import React from 'react';
-import {useRef, useState,useEffect} from 'react';
+import {useState,useEffect} from 'react';
 import {Form, Row} from "react-bootstrap";
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -93,15 +93,7 @@ const handleChangeTitle=(event)=>{
   setTitle(event.target.value);
 }
 
-const onImageFileChange = event => {
-  setImageFile(event.target.files[0] );
-};
 
-
-
-const onImageFT8FileChange = event => {
-  setImageFT8File(event.target.files[0] );
-};
 
 
 const hasError= (key) => {
@@ -235,31 +227,6 @@ const handleSubmit = (event) => {
 }
 
 
-const frontPageFileData = () => {
-
-  if (imageFt8File) {
-    return (
-      
-      <div>
-        <h2>Detalles:</h2>
-        <p>Nombre: {imageFt8File.name}</p>
-        <p>
-          Tamaño:{" "}
-          {fileSize(imageFt8File.size)}
-        </p>
-
-      </div>
-    );
-  }
-};
-
-const fileSize=(size)=>{
-  if (size/1024/1024>=1){
-    return (parseFloat(size/1024/1024).toFixed(2)).toString()+" Mb"
-  }else{
-    return (parseFloat(size/1024).toFixed(2)).toString()+" Kb"
-  }
-}
 
 const handleRemoveFile =(setFileHook, updateFileHook =null)=>{
   setFileHook(null);
