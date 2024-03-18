@@ -98,8 +98,10 @@ function Admin() {
         // eslint-disable-next-line
           if (type==1){
             return "CERTIFICADO";
+            // eslint-disable-next-line
           }else if (type==0){
             return "QSL ESPECIAL";
+            // eslint-disable-next-line
           }else if (type==2){ 
             return "CERTIFICADO POR LETRAS";
 
