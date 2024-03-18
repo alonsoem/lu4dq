@@ -51,10 +51,11 @@ function ActivityEdit(params){
 	  const actual= new Date();
     const dateData = new Date(actual.getUTCFullYear(),actual.getUTCMonth(),actual.getUTCDate(),actual.getUTCHours(),actual.getUTCMinutes());
    
-    const [type, setType ] = useState("");
+    const [type, setType ] = useState(0);
     
     const [errors, setErrors] = useState([]);
     const [title, setTitle ] = useState("");
+    const [word, setWord ] = useState("");
     const [tecnicalDetails, setTecnicalDetails ] = useState(EditorState.createEmpty());
     const [minContacts, setMinContacts ] = useState(0);
     const [enabled, setEnabled ] = useState(false);
@@ -94,6 +95,10 @@ useEffect(
     // eslint-disable-next-line
   },[]
 )
+
+const handleChangeWord = (event)=>{
+  setWord(event.target.value);
+}
 
 
     const handleChangeDescriptionHtml=(state)=>{
@@ -159,7 +164,8 @@ useEffect(
         setDateTo(response.end);
         setLateEnd(response.lateEnd);
         setTitle(response.title);
-        setType(response.type);      
+        setType(response.type);  
+        setWord(response.word);    
         setMinContacts(response.minContacts);
         setEnabled(response.enabled);
         setEditorState(EditorState.createWithContent(ContentState.createFromBlockArray(htmlToDraft(response.description))));
@@ -261,6 +267,7 @@ const submit = () =>{
 		formData.append('doc', documentId);
     formData.append('enabled', enabled);
 		formData.append('type', type);
+    formData.append('word', word);
 		formData.append('title', title);
 		formData.append('start', dateFrom.replace(/\D/g, ""));
     formData.append('end', dateTo.replace(/\D/g, ""));
@@ -268,18 +275,7 @@ const submit = () =>{
     formData.append('late_end', late_end.replace(/\D/g, ""));
     formData.append('minContacts', minContacts);
     formData.append('techDetail', draftToHtml(convertToRaw(tecnicalDetails.getCurrentContent())),);
-  /*{
-      enabled:enabled,
-      type:type,
-      title: title,
-      start:dateFrom.replace(/\D/g, ""),
-      end:dateTo.replace(/\D/g, ""),
-      description:draftToHtml(convertToRaw(editorState.getCurrentContent())),
-      late_end:late_end.replace(/\D/g, ""),
-      minContacts:minContacts,
-      techDetail:tecnicalDetails,
-      
-      }*/
+  
     updateActivity(formData)       
       .then((response) => {
         navigateToAdmin();
@@ -319,15 +315,17 @@ const handleSubmit = (event) => {
     errors.push("description");
   }
 
-  // Check count
-  if (minContacts<1) {
-    errors.push("minContacts");
-  }
-  console.log(type);
-  /*if (type.length==""){
-    errors.push("type");
-  }*/
 
+  console.log(type);
+
+  // eslint-disable-next-line
+if (type==2 && word.length<=1) {
+  errors.push("word");
+}
+// eslint-disable-next-line
+if (type==1 && minContacts<1) {
+  errors.push("minContacts");
+}
   
 
   if (editorState.length < 3) {
@@ -438,6 +436,72 @@ const Imageconditional = (params) =>{
 }
 
 
+
+const minimumContactsComponent=()=>{
+  // eslint-disable-next-line
+if (type==1){
+  return (
+  <Row className="mb-3">
+                                         <Form.Group className="mb-3" controlId="nameValue">
+                                            <Form.Label>CONTACTOS MINIMOS</Form.Label>
+                                            <Form.Control  onChange={handleChangeMinContacts} value={minContacts} type="number"
+                                                            className={
+                                                              hasError("minContacts")
+                                                                    ? "form-control is-invalid"
+                                                                    : "form-control"
+                                                            }/>
+                                              <div
+                                                  className={
+                                                    hasError("minContacts")
+                                                          ? "invalid-feedback"
+                                                          : "visually-hidden"
+                                                  }
+                                              >
+                                                Se necesita un valor mayor a cero
+                                              </div>
+
+                                          </Form.Group>
+                                        </Row>  );
+}else{
+  return null;
+}
+
+
+}
+
+const wordComponent =()=>{
+  // eslint-disable-next-line
+  if (type==2){
+    
+    return (
+      <Row className="mb-3">
+      <Form.Group className="mb-3" controlId="wordValue">
+         <Form.Label>PALABRA A COMPLETAR</Form.Label>
+         <Form.Control  onChange={handleChangeWord} value={word} type="text"
+                         className={
+                           hasError("word")
+                                 ? "form-control is-invalid"
+                                 : "form-control"
+                         }/>
+           <div
+               className={
+                 hasError("word")
+                       ? "invalid-feedback"
+                       : "visually-hidden"
+               }
+           >
+             Se necesita un texto mayor a 1 caracter
+           </div>
+
+       </Form.Group>
+     </Row>  
+    );
+  }else{
+    return null;
+  }
+  
+  
+  }
 
 
     return (
@@ -625,29 +689,9 @@ const Imageconditional = (params) =>{
 
                                    
 
-                                    
-                                        <Row className="mb-3">
-                                         <Form.Group className="mb-3" controlId="nameValue">
-                                            <Form.Label>CONTACTOS MINIMOS</Form.Label>
-                                            <Form.Control  onChange={handleChangeMinContacts} value={minContacts} type="number"
-                                                            className={
-                                                              hasError("minContacts")
-                                                                    ? "form-control is-invalid"
-                                                                    : "form-control"
-                                                            }/>
-                                              <div
-                                                  className={
-                                                    hasError("minContacts")
-                                                          ? "invalid-feedback"
-                                                          : "visually-hidden"
-                                                  }
-                                              >
-                                                Se necesita un valor mayor a cero
-                                              </div>
-
-                                          </Form.Group>
-                                        </Row>  
-                                    
+                                {minimumContactsComponent()}
+                                {wordComponent()}
+                                       
 
                                     
                                         
