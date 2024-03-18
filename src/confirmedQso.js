@@ -163,6 +163,82 @@ import { saveAs } from 'file-saver';
        
     }
 
+    
+
+    function activityByLettersTable(){
+        if (loadingMatch){
+            return (
+            <div class="text-center p-5 mt-3">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+                <p class="m-2"> Aguarde un instante...</p>
+            </div>
+            );
+
+        }else{
+            return (<table class="table striped hover bordered responsive border">
+                <thead>
+                    <tr class="table-primary">
+                    <th scope="col" class="text-center">Posición</th>
+                    <th scope="col" class="text-center">Indicativo</th>
+                    <th scope="col" class="text-center">Contactos</th>
+                    <th scope="col" class="text-center">Letras</th>
+                    <th scope="col" class="text-center">Certificado</th>
+                    
+                    <th scope="col" class="text-center">Estaciones contactadas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {
+                activity.sort((a,b)=>b.callsigns.length-a.callsigns.length).map((each) =>{
+                            return ( <tr>
+                            <th scope="row" class="text-center">{ activity.indexOf(each)+1}</th>
+                            <td class="text-center">
+                                <badge class="badge text-bg-primary  text-center" role="button" title="Click para ver los comunicados y sus QSL" onClick={(r)=>navigateToStationQso(each.station)}  >
+                                    {each.station.toUpperCase()}
+                                </badge>
+                            </td>
+                            <td class="text-center">{each.callsigns.length}</td>
+                            <td class="text-center">
+                                <div class="container-fluid">
+                                    {each.letters.map(each=>{
+                                
+                                        if (each.gotIt){
+                                            return <span class="letters fw-bold">{each.letter}</span>;
+                                        }else{
+                                            return <span class="letters ">{each.letter}</span>;
+                                        }
+                                
+                            })}
+                            </div></td>
+                            
+                            <td class="text-center">
+                                <CellDocument info={each} />
+                            </td>
+                            
+                            <td class="text-center">
+
+                                {each.callsigns.join(" ").toUpperCase()}
+                            
+                            </td>
+                        </tr>
+                            )
+                    })
+             }
+            </tbody>
+            </table>
+            );
+       
+       
+       
+       }
+       
+
+
+       
+    }
+
     function activityQslTable(){
         if (loadingMatch){
             return (
@@ -252,8 +328,12 @@ const showTable=()=>{
     // eslint-disable-next-line
      if (properties.type==0){
         return activityQslTable() ;
-    }else{
+        // eslint-disable-next-line
+    }else if (properties.type==1){
         return activityTable() ;
+        // eslint-disable-next-line
+    }else if (properties.type==2){     
+        return activityByLettersTable();   
     }
 }
       const navLoad = () =>{

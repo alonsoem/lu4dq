@@ -379,6 +379,7 @@ const frontPageRef =useRef(null);
                                                     
                                                     <option value={1}>CERTIFICADO</option>
                                                     <option value={0}>QSL ESPECIAL</option>
+                                                    <option value={2}>CERTIFICADO POR LETRAS </option>              
                                                     
                                                 </select>
                                                 <div

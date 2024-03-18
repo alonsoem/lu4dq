@@ -90,3 +90,7 @@ code {
 legend{
   font-size: 1em;
 }
+
+span.letters{
+  margin-right: 0.2em;
+}
