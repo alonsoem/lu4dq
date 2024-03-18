@@ -18,10 +18,11 @@ function AdminABM() {
 	  const actual= new Date();
     const dateData = new Date(actual.getUTCFullYear(),actual.getUTCMonth(),actual.getUTCDate(),actual.getUTCHours(),actual.getUTCMinutes());
    
-    const [type, setType ] = useState("");
+    const [type, setType ] = useState(null);
     
     const [errors, setErrors] = useState([]);
     const [title, setTitle ] = useState("");
+    const [word, setWord ] = useState("");
     //const [description, setDescription ] = useState("");
     const [tecnicalDetails, setTecnicalDetails ] = useState(EditorState.createEmpty());
     const [minContacts, setMinContacts ] = useState(0);
@@ -42,6 +43,9 @@ function AdminABM() {
 
 
 
+    const handleChangeWord = (event)=>{
+      setWord(event.target.value);
+    }
     const handleChangeDescriptionHtml=(state)=>{
       setEditorState(state);
     }
@@ -184,6 +188,7 @@ const submit = () =>{
     formData.append('late_end', late_end.replace(/\D/g, ""));
     formData.append('minContacts', minContacts);
     formData.append('techDetail', draftToHtml(convertToRaw(tecnicalDetails.getCurrentContent())),);
+    formData.append('word', word);
   /*{
       enabled:enabled,
       type:type,
@@ -223,7 +228,7 @@ const handleSubmit = (event) => {
 
   
   // Check type
-  if (type.length===0) {
+  if (!type) {
     errors.push("type");
   }
   // Check title
@@ -235,15 +240,17 @@ const handleSubmit = (event) => {
     errors.push("description");
   }
 
-  // Check count
-  if (minContacts<1) {
-    errors.push("minContacts");
-  }
-  console.log(type);
-  /*if (type.length==""){
-    errors.push("type");
-  }*/
 
+  console.log(type);
+
+// eslint-disable-next-line
+if (type==2 && word.length<=1) {
+  errors.push("word");
+}
+// eslint-disable-next-line
+if (type==1 && minContacts<1) {
+  errors.push("minContacts");
+}
   
 
   if (editorState.length < 3) {
@@ -345,13 +352,73 @@ const fileSize=(size)=>{
 const docInputRef = useRef(null);
 const frontPageRef =useRef(null);
 
+const minimumContactsComponent=()=>{
+  // eslint-disable-next-line
+if (type==1){
+  return (
+  <Row className="mb-3">
+                                         <Form.Group className="mb-3" controlId="nameValue">
+                                            <Form.Label>CONTACTOS MINIMOS</Form.Label>
+                                            <Form.Control  onChange={handleChangeMinContacts} value={minContacts} type="number"
+                                                            className={
+                                                              hasError("minContacts")
+                                                                    ? "form-control is-invalid"
+                                                                    : "form-control"
+                                                            }/>
+                                              <div
+                                                  className={
+                                                    hasError("minContacts")
+                                                          ? "invalid-feedback"
+                                                          : "visually-hidden"
+                                                  }
+                                              >
+                                                Se necesita un valor mayor a cero
+                                              </div>
+
+                                          </Form.Group>
+                                        </Row>  );
+}else{
+  return null;
+}
+
+
+}
+
+const wordComponent =()=>{
+  // eslint-disable-next-line
+  if (type==2){
+    
+    return (
+      <Row className="mb-3">
+      <Form.Group className="mb-3" controlId="wordValue">
+         <Form.Label>PALABRA A COMPLETAR</Form.Label>
+         <Form.Control  onChange={handleChangeWord} value={word.word} type="text"
+                         className={
+                           hasError("word")
+                                 ? "form-control is-invalid"
+                                 : "form-control"
+                         }/>
+           <div
+               className={
+                 hasError("word")
+                       ? "invalid-feedback"
+                       : "visually-hidden"
+               }
+           >
+             Se necesita un texto mayor a 1 caracter
+           </div>
+
+       </Form.Group>
+     </Row>  
+    );
+  }else{
+    return null;
+  }
+  
+  
+  }
+
 	
-	
-
-
-
-
-
     return (
       <form onSubmit={handleSubmit} className="row g-3 needs-validation">
             <div className="container d-flex ">
@@ -534,30 +601,11 @@ const frontPageRef =useRef(null);
                                 </Row>
 
 
-                                   
-
+                                          {wordComponent()}
                                     
-                                        <Row className="mb-3">
-                                         <Form.Group className="mb-3" controlId="nameValue">
-                                            <Form.Label>CONTACTOS MINIMOS</Form.Label>
-                                            <Form.Control  onChange={handleChangeMinContacts} value={minContacts} type="number"
-                                                            className={
-                                                              hasError("minContacts")
-                                                                    ? "form-control is-invalid"
-                                                                    : "form-control"
-                                                            }/>
-                                              <div
-                                                  className={
-                                                    hasError("minContacts")
-                                                          ? "invalid-feedback"
-                                                          : "visually-hidden"
-                                                  }
-                                              >
-                                                Se necesita un valor mayor a cero
-                                              </div>
-
-                                          </Form.Group>
-                                        </Row>  
+                                    
+                                        {minimumContactsComponent()}
+                                      
                                     
 
                                     

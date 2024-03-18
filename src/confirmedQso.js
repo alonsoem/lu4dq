@@ -74,7 +74,6 @@ import { saveAs } from 'file-saver';
         function CellDocument(values){
             
             if (values.info.document){
-            //    return <td><a href={"https://lu4dq.qrits.com.ar/api/certCreator.php?qso="+values.info.document.value+"&chk="+values.info.document.chk}>Descargar!</a></td>
                 var url = "https://lu4dq.qrits.com.ar/api/certCreator.php?qso="+values.info.document.value+"&chk="+values.info.document.chk;
                 return (
                         <badge 

@@ -147,7 +147,6 @@ export default class QsoUpload extends  React.Component {
             // eslint-disable-next-line
             if (props.state.formState==false){
                 return <PreviewPanel showForm={props.resetForm} qsl={props.state.qsl} showActivities={props.gotoActivities} />;
-        
             }else{
                 if (props.state.isLoading){
                     return (            
