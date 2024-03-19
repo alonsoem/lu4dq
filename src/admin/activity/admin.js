@@ -25,11 +25,13 @@ function Admin() {
         
         getAllActivities()
             .then((response) => {
-                console.log(response);
+                
+                //var o = JSON.parse(response);
+                console.log(response.activities);
                 setActivities(response.activities);
                 
                 
-                //setLoading(false);
+                setLoading(false);
             })
             .catch((response) => handleAxiosError(response));
 
