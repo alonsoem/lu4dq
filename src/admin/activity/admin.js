@@ -26,8 +26,6 @@ function Admin() {
         getAllActivities()
             .then((response) => {
                 
-                //var o = JSON.parse(response);
-                console.log(response.activities);
                 setActivities(response.activities);
                 
                 

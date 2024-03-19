@@ -37,7 +37,7 @@ function  ActivitiesBeta () {
                             
             <div class="container ">
                 <div class="row row-cols-3 row-cols-md-3 m-4">
-                    {activities.length>0 && activities.map((each)=>
+                    {activities && activities.map((each)=>
                     {    
                         return (
                             <div class="col mb-4">
@@ -56,7 +56,7 @@ function  ActivitiesBeta () {
                     } 
                     )}
                 </div>
-                {!loading && activities.length===0?<TimeUp />:null}
+                {!loading && !activities?<TimeUp />:null}
             </div>
 
         );
