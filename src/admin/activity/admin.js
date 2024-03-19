@@ -25,10 +25,11 @@ function Admin() {
         
         getAllActivities()
             .then((response) => {
-                setActivities(response.activities);
                 console.log(response);
+                setActivities(response.activities);
                 
-                setLoading(false);
+                
+                //setLoading(false);
             })
             .catch((response) => handleAxiosError(response));
 
@@ -118,7 +119,7 @@ function Admin() {
                     </div>
                     </div>);
         }else{
-            if (activities.length===0){
+            if (activities && activities.length===0){
                 return (<div class="card p-5 mt-3">
                             <h5>NO HAY NADA POR EL MOMENTO...</h5>
                         </div>);
@@ -138,7 +139,7 @@ function Admin() {
                     </tr>
                 </thead>
             <tbody>
-            {activities.map((each) =>{
+            {activities && activities.map((each) =>{
                  return ( 
                     <tr>
                     <td class="text-center">{each.id}</td>
