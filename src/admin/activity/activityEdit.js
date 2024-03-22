@@ -4,7 +4,7 @@ import { useParams} from 'react-router-dom';
 import {Form, Row,Col,Tabs,Tab} from "react-bootstrap";
 import { format } from "date-fns";
 import { ToastContainer, toast } from 'react-toastify';
-import {updateActivity,getActivity,getDocuments} from "../../api/api";
+import {updateActivity,getActivity,getDocuments, addNewStation,getActivityStations} from "../../api/api";
 import {  Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import {ContentState,  EditorState, convertToRaw } from 'draft-js';
@@ -73,12 +73,12 @@ function ActivityEdit(params){
     const [ frontPageFile, setFrontPageFile ] = useState(null);
     const [ showImage , setShowImage ] = useState(null);
     const [stations, setStations] = useState([]);
+    const [newStation,setNewStation]=useState("");
+    const [newLetter,setNewLetter]=useState("");
+    const [newReq,setNewReq]=useState(false);
     
     
-    /*const inputRef = useRef(null);
-    const docInputRef = useRef(null);
-    const frontPageRef =useRef(null);
-*/
+ 
     
 useEffect(
   () => {
@@ -101,6 +101,43 @@ const handleChangeWord = (event)=>{
   setWord(event.target.value);
 }
 
+const handleAddStation = (event) =>{
+  
+  
+  addNewStation({
+    activityId:id,
+    station:newStation,
+    letter:newLetter,
+    required:newReq?1:0
+  })
+  .then(response=>{
+    setNewReq(false);
+    setNewLetter("");
+    setNewStation("");
+    updateStationList()
+
+  }
+
+    
+
+  )
+  .catch(error=>{
+    console.log(error);
+    }
+  )
+
+}
+
+const updateStationList=()=>{
+  getActivityStations({id:id})
+  .then(response=>{
+      setStations(response.stations);
+    }
+  ).catch(error=>{
+    console.log(error);
+  }
+  )
+}
 
     const handleChangeDescriptionHtml=(state)=>{
       setEditorState(state);
@@ -151,7 +188,15 @@ const handleChangeWord = (event)=>{
       setDocumentId(event.target.value);
     }
 
-  
+    const handleChangeNewReq = (event)=>{
+      setNewReq(event.target.value);
+    }
+    const handleChangeNewLetter = (event)=>{
+      setNewLetter(event.target.value);
+    }
+    const handleChangeNewStation = (event)=>{
+      setNewStation(event.target.value);
+    }
 
   useEffect(() => {
     console.log("ENTRANDO");
@@ -507,7 +552,7 @@ const wordComponent =()=>{
 
 
     return (
-      <form onSubmit={handleSubmit} className="row g-3 needs-validation">
+      
             <div className="container d-flex ">
             <ModalForm />
             <ToastContainer />
@@ -869,11 +914,77 @@ const wordComponent =()=>{
             {minimumContactsComponent()}
             {wordComponent()}
                                 
-        <div class="col-3">
+            <div class="col-12">
+       
           <Row className="m-3">
           <fieldset class="border p-3 mb-3">
             <legend  class="float-none w-auto t-4">ESTACIONES</legend>
-              <ul class="list-group">
+
+            <div class="col-12">
+            <Row className="m-3 col-3">
+                  <Form.Group className="mb-3 col-3" controlId="stationValue">
+                  <Form.Label>ESTACION</Form.Label>
+                  <Form.Control  onChange={handleChangeNewStation} value={newStation} type="text"
+                                  className={
+                                    hasError("station")
+                                          ? "form-control is-invalid"
+                                          : "form-control"
+                                  }/>
+                    <div
+                        className={
+                          hasError("station")
+                                ? "invalid-feedback"
+                                : "visually-hidden"
+                        }
+                    >
+                      Se necesita un texto mayor a 1 caracter
+                    </div>
+
+                </Form.Group>
+
+                <Form.Group className="mb-3 col-3" controlId="letterValue">
+         <Form.Label>LETRA</Form.Label>
+         <Form.Control  onChange={handleChangeNewLetter} value={newLetter} type="text"
+                         className={
+                           hasError("letter")
+                                 ? "form-control is-invalid"
+                                 : "form-control"
+                         }/>
+           <div
+               className={
+                 hasError("letter")
+                       ? "invalid-feedback"
+                       : "visually-hidden"
+               }
+           >
+             Se necesita un texto mayor a 1 caracter
+           </div>
+
+       </Form.Group>
+
+       <Form.Group  className="mb-3 col-3" controlId="swlValue">
+          <Form.Label  >REQUERIDA</Form.Label>
+          <div class="form-check mb-3">
+            <input
+                type="checkbox"
+                onChange={handleChangeNewReq}  
+                defaultChecked={newReq}
+                checked ={newReq}
+                value={newReq}
+                class={"form-check-input form-control"}
+                id="swlCheckRequired"
+            />
+
+          </div>               
+
+         
+        </Form.Group>
+
+       <button type="button"  class="btn btn-primary" onClick={handleAddStation} >AGREGAR</button> 
+       
+        </Row>
+            </div>
+              <ul class="list-group col-4">
               {stations.map(each=>{
                 return(
                   <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -909,7 +1020,9 @@ const wordComponent =()=>{
 
                                     <div className="row">
                                       <div className="col-12 text-right">
+                                      <form onSubmit={handleSubmit} className="row g-3 needs-validation">
                                         <button type="submit" className="btn btn-success">Confirmar</button>
+                                        </form>
                                       </div>
                                     </div>
 
@@ -933,7 +1046,7 @@ const wordComponent =()=>{
             
                 </div>
             </div>
-      </form>
+      
         );
 
     }
