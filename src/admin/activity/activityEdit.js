@@ -72,6 +72,7 @@ function ActivityEdit(params){
     const [ selectedDocFile, setDocFile ] = useState(null);
     const [ frontPageFile, setFrontPageFile ] = useState(null);
     const [ showImage , setShowImage ] = useState(null);
+    const [stations, setStations] = useState([]);
     
     
     /*const inputRef = useRef(null);
@@ -170,6 +171,7 @@ const handleChangeWord = (event)=>{
         setEnabled(response.enabled);
         setEditorState(EditorState.createWithContent(ContentState.createFromBlockArray(htmlToDraft(response.description))));
         setTecnicalDetails(EditorState.createWithContent(ContentState.createFromBlockArray(htmlToDraft(response.tecnical))));
+        setStations(response.stations);
         
         //setFile(new File([new Blob()],response.image,{type: "image/jpeg"}));
         setDocumentId(response.documentId);
@@ -553,6 +555,8 @@ const wordComponent =()=>{
                                     </Row>
                                     
                                         <Row className="mb-3">
+                                        <div class="col-9">
+                                        <Row className="mb-3">
                                          <Form.Group className="mb-3" controlId="nameValue">
                                             <Form.Label>TITULO</Form.Label>
                                             <Form.Control  onChange={handleChangeTitle} value={title}
@@ -572,10 +576,8 @@ const wordComponent =()=>{
                                               </div>
 
                                           </Form.Group>
-                                        </Row>  
-                                    
-                                    
-                                        <Row className="mb-3">
+                                            </Row>
+                                            <Row className="mb-3">
                                          <Form.Group className="mb-3" controlId="nameValue">
                                             <Form.Label>DESCRIPCION</Form.Label>
                                             <div class="p-2 bg-white">
@@ -603,6 +605,43 @@ const wordComponent =()=>{
 
                                           </Form.Group>
                                         </Row>  
+
+                                          </div>
+                                          <div class="col-3">
+                                              <Row className="m-3">
+                                              <fieldset class="border p-3 mb-3">
+                                                <legend  class="float-none w-auto t-4">ESTACIONES</legend>
+                                                  <ul class="list-group">
+                                                  {stations.map(each=>{
+                                                    return(
+                                                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                      {each.station}
+                                                      
+                                                      {each.required?
+                                                        <span class="badge bg-primary rounded-pill">REQUERIDA</span>
+                                                        :
+                                                        null
+                                                      }
+                                                    </li>  
+                                                    )
+                                                  }
+                                                  )}
+                                                
+                                               
+                                              </ul>
+                                              </fieldset>
+                                            </Row>  
+                                        
+
+
+                                          </div>
+                                        </Row>  
+
+
+                                       
+                                    
+                                    
+                                        
                                     
                                                         
                                     <Row className="mb-3 col-13">
