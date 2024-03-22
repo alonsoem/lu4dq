@@ -192,10 +192,10 @@ const updateStationList=()=>{
       setNewReq(event.target.value);
     }
     const handleChangeNewLetter = (event)=>{
-      setNewLetter(event.target.value);
+      setNewLetter(event.target.value.toUpperCase());
     }
     const handleChangeNewStation = (event)=>{
-      setNewStation(event.target.value);
+      setNewStation(event.target.value.toUpperCase());
     }
 
   useEffect(() => {
@@ -921,10 +921,10 @@ const wordComponent =()=>{
             <legend  class="float-none w-auto t-4">ESTACIONES</legend>
 
             <div class="col-12">
-            <Row className="m-3 col-3">
+            <Row className="m-3 col-6">
                   <Form.Group className="mb-3 col-3" controlId="stationValue">
                   <Form.Label>ESTACION</Form.Label>
-                  <Form.Control  onChange={handleChangeNewStation} value={newStation} type="text"
+                  <Form.Control  onChange={handleChangeNewStation} value={newStation} type="text" size="10" maxlength="10"
                                   className={
                                     hasError("station")
                                           ? "form-control is-invalid"
@@ -944,7 +944,7 @@ const wordComponent =()=>{
 
                 <Form.Group className="mb-3 col-3" controlId="letterValue">
          <Form.Label>LETRA</Form.Label>
-         <Form.Control  onChange={handleChangeNewLetter} value={newLetter} type="text"
+         <Form.Control  onChange={handleChangeNewLetter} value={newLetter} type="char" size="1" maxlength="1"
                          className={
                            hasError("letter")
                                  ? "form-control is-invalid"
@@ -980,7 +980,7 @@ const wordComponent =()=>{
          
         </Form.Group>
 
-       <button type="button"  class="btn btn-primary" onClick={handleAddStation} >AGREGAR</button> 
+       <button type="button"  class="btn btn-sm btn-primary col-3" onClick={handleAddStation} >AGREGAR</button> 
        
         </Row>
             </div>
