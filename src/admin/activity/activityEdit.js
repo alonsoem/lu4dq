@@ -990,6 +990,11 @@ const wordComponent =()=>{
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                   {each.station}
                   
+                  {each.letter?
+                    <span class="badge bg-success rounded-pill">{each.letter}</span>
+                    :
+                    null
+                  }
                   {each.required?
                     <span class="badge bg-primary rounded-pill">REQUERIDA</span>
                     :
