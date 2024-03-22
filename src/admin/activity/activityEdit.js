@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState,useEffect} from 'react';
 import { useParams} from 'react-router-dom';
-import {Form, Row,Col} from "react-bootstrap";
+import {Form, Row,Col,Tabs,Tab} from "react-bootstrap";
 import { format } from "date-fns";
 import { ToastContainer, toast } from 'react-toastify';
 import {updateActivity,getActivity,getDocuments} from "../../api/api";
@@ -443,7 +443,7 @@ const minimumContactsComponent=()=>{
   // eslint-disable-next-line
 if (type==1){
   return (
-  <Row className="mb-3">
+  <Row className="m-3">
                                          <Form.Group className="mb-3" controlId="nameValue">
                                             <Form.Label>CONTACTOS MINIMOS</Form.Label>
                                             <Form.Control  onChange={handleChangeMinContacts} value={minContacts} type="number"
@@ -476,7 +476,7 @@ const wordComponent =()=>{
   if (type==2){
     
     return (
-      <Row className="mb-3">
+      <Row className="m-3">
       <Form.Group className="mb-3" controlId="wordValue">
          <Form.Label>PALABRA A COMPLETAR</Form.Label>
          <Form.Control  onChange={handleChangeWord} value={word} type="text"
@@ -512,6 +512,8 @@ const wordComponent =()=>{
             <ModalForm />
             <ToastContainer />
                 <div className="container-fluid table-scroll-vertical col-11">
+                
+  
                     <div className="card mt-3" >
                         <div className="card-header headerLu4dq">
                             <span class="display-6 ">MODIFICAR ACTIVIDAD</span>       
@@ -521,8 +523,15 @@ const wordComponent =()=>{
                             <div className="card mt-3" style={{'background-color': 'rgba(181,181,181,0.1)'}}>
                         
                                 <div className="card-body" >
-                                    
-                                        <Row className="mb-3 col-3">
+                                <Tabs
+      defaultActiveKey="home"
+      id="uncontrolled-tab-example"
+      className="mb-3"
+    >
+      <Tab eventKey="home" title="Principal">
+        
+        
+          <Row className="mb-3 col-3">
                                             <Form.Group className="mb-3" controlId="bandValue">
                                                 <Form.Label>TIPO</Form.Label>
                                                 <select id="activity" onChange={handleChangeType} value={type} className={
@@ -554,8 +563,7 @@ const wordComponent =()=>{
                                         
                                     </Row>
                                     
-                                        <Row className="mb-3">
-                                        <div class="col-9">
+                                        
                                         <Row className="mb-3">
                                          <Form.Group className="mb-3" controlId="nameValue">
                                             <Form.Label>TITULO</Form.Label>
@@ -577,6 +585,7 @@ const wordComponent =()=>{
 
                                           </Form.Group>
                                             </Row>
+
                                             <Row className="mb-3">
                                          <Form.Group className="mb-3" controlId="nameValue">
                                             <Form.Label>DESCRIPCION</Form.Label>
@@ -605,37 +614,7 @@ const wordComponent =()=>{
 
                                           </Form.Group>
                                         </Row>  
-
-                                          </div>
-                                          <div class="col-3">
-                                              <Row className="m-3">
-                                              <fieldset class="border p-3 mb-3">
-                                                <legend  class="float-none w-auto t-4">ESTACIONES</legend>
-                                                  <ul class="list-group">
-                                                  {stations.map(each=>{
-                                                    return(
-                                                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                      {each.station}
-                                                      
-                                                      {each.required?
-                                                        <span class="badge bg-primary rounded-pill">REQUERIDA</span>
-                                                        :
-                                                        null
-                                                      }
-                                                    </li>  
-                                                    )
-                                                  }
-                                                  )}
-                                                
-                                               
-                                              </ul>
-                                              </fieldset>
-                                            </Row>  
-                                        
-
-
-                                          </div>
-                                        </Row>  
+ 
 
 
                                        
@@ -728,8 +707,6 @@ const wordComponent =()=>{
 
                                    
 
-                                {minimumContactsComponent()}
-                                {wordComponent()}
                                        
 
                                     
@@ -880,7 +857,51 @@ const wordComponent =()=>{
                                           </div>
                                       </Form.Group>
                                     </Row>
+        
 
+
+
+
+
+
+      </Tab>
+      <Tab eventKey="profile" title="Estaciones y Contactos">
+            {minimumContactsComponent()}
+            {wordComponent()}
+                                
+        <div class="col-3">
+          <Row className="m-3">
+          <fieldset class="border p-3 mb-3">
+            <legend  class="float-none w-auto t-4">ESTACIONES</legend>
+              <ul class="list-group">
+              {stations.map(each=>{
+                return(
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                  {each.station}
+                  
+                  {each.required?
+                    <span class="badge bg-primary rounded-pill">REQUERIDA</span>
+                    :
+                    null
+                  }
+                </li>  
+                )
+              }
+              )}
+            
+            
+          </ul>
+          </fieldset>
+        </Row>  
+    
+
+
+      </div>
+</Tab>
+    </Tabs>
+    
+                                    
+                                       
                                    
                                     
 
