@@ -27,7 +27,7 @@ function Admin() {
             .then((response) => {
                 
                 setActivities(response.activities);
-                
+                console.log(response.activities);
                 
                 setLoading(false);
             })
