@@ -427,9 +427,29 @@ const showTable=()=>{
                                         {stations.map((each)=>{
                                                                         
                                                                             if (each.required){
-                                                                                return (<span class="me-2"><b>{each.station.toUpperCase()}</b></span>);
+                                                                                return (
+                                                                                    <span class="mb-2 me-2 badge even-larger-badge  text-dark">
+                                                                                        {(each.letter===""?
+                                                                                        <b>{each.station.toUpperCase()}
+
+                                                                                        </b>
+
+                                                                                        
+                                                                                        :
+                                                                                        <b>
+                                                                                        {each.station.toUpperCase()}
+                                                                                            <span class=" ms-2 badge rounded-pill bg-info text-dark">
+                                                                                                {"Letra "+ each.letter}
+                                                                                            </span>
+                                                                              
+                                                                                            
+                                                                                        </b>
+                                                                                        )}
+                                                                                        
+                                                                                    </span>
+                                                                                    );
                                                                             }else{
-                                                                                return (<span class="me-2">{each.station.toUpperCase()}</span>);
+                                                                                return (<span class="mb-2 me-2  badge even-larger-badge  text-dark">{each.station.toUpperCase()}</span>);
                                                                             }
                                                                             
                                                                         
