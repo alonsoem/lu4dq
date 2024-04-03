@@ -186,7 +186,7 @@ useEffect(() => {
  const notifyError = (message) => {
     toast.error(message, {
       position: "top-center",
-      autoClose: 3000,
+      autoClose: 4000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -355,6 +355,7 @@ if (swl){
     setErrors(errors);
 
     if (errors.length > 0) {
+        notifyError("VERIFIQUE LOS DATOS CARGADOS EN EL FORMULARIO!");
         return false;
     } else {
         submit();
