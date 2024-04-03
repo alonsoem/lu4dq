@@ -54,9 +54,10 @@ export default function FormRequest(props) {
   };
 
   const handleChangeFreq = (event) => {
-    setFrequency(event.target.value);
+    var frequency=event.target.value.replace(",",".");
+    setFrequency(frequency);
     setBand("");
-    getBand({freq:event.target.value})
+    getBand({freq:frequency})
         .then((response) => {
           setBand(response.name);
       })
