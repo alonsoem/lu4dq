@@ -324,10 +324,10 @@ if (swl){
         errors.push("toCall2");
       }
     }else{
-      if (rst.length<2) {
+      if (rst.length<2 ) {
         errors.push("rst");
       }
-      if (rstReceived.length<2) {
+      if (rstReceived.length<2 ) {
           errors.push("rstReceived");
       }
 
