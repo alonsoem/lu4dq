@@ -35,13 +35,13 @@ function  ActivitiesBeta () {
     
         return (
                             
-            <div class="container ">
-                <div class="row row-cols-3 row-cols-md-3 m-4">
+            <div class="container-fluid ">
+                <div class="mt-4 m-auto row row-cols-1 row-cols-xs-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 row-cols-xxl-3 col-xxl-10 col-12 col-xl-10 col-md-12 col-lg-8 ">
                     {activities && activities.map((each)=>
                     {    
                         return (
-                            <div class="col mb-4">
-                            <div class="card cardActivity" >
+                            <div class="col mb-4 ">
+                            <div class="card cardActivity m-auto" >
                                     <img class="card-img-top" src={(each.image?"/dinamic-content/FRT/"+each.image:"/static/defaultFrontImage.jpg")} height="130x" width="400px" alt={each.title} />
                                     <div class="card-body">
                                     <h5 class="card-title "><a class="link-underline link-underline-opacity-0 text-body" href={"/activities/"+each.id} >{each.title}</a></h5>

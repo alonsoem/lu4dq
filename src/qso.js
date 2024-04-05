@@ -4,8 +4,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import FormRequest from './formRequest';
 import { saveAs } from 'file-saver';
 
-
-
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
@@ -19,21 +17,21 @@ export default class Qso extends  React.Component {
             qsl:null,//aca va una imagen de precarga
         };            
     }
+
     setQsl=(value)=>{
         this.setState({qsl:value})
         this.setState({formState:false})
-        console.log("PASO POR ACA");
     }
-      resetForm=()=>{
-        this.setState({formState:true});
-      }
 
+    resetForm=()=>{
+        this.setState({formState:true});
+    }
        
     render() {
 
         const downloadImage=(url)=>{
             saveAs(url, 'qsl.jpg');
-          }
+        }
        
         function PreviewPanel(props){
             return <div className="container">
@@ -81,13 +79,9 @@ export default class Qso extends  React.Component {
       
         return (
             <div className="container d-flex gap-3 p-3">
-
                 <div className="container-fluid table-scroll-vertical gap-3">
-                
-
-            
-                <p>&nbsp;</p>
-                    <div style={{ 'height': '100%'}} className="container col-10">
+                    <p>&nbsp;</p>
+                    <div style={{ 'height': '100%'}} className="container col-12">
                         
                         <div className="card" style={{'background-color': 'rgba(181,181,181,0.1)'}}>
                         

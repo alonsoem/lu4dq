@@ -118,15 +118,15 @@ function QsoList() {
             }else{
         
                 return (
-            <table class="table striped hover bordered responsive mt-3 border">
+            <table class="table block striped hover bordered responsive mt-3 border">
                 <thead>
                     <tr class="table-primary">
                         <th scope="col" class="text-center">Indicativo</th>
                         <th scope="col" class="text-center">Fecha</th>
-                        <th scope="col" class="text-center">Hora</th>
-                        <th scope="col" class="text-center">Banda</th>
-                        <th scope="col" class="text-center">Modo</th>
-                        <th scope="col" class="text-center">Swl</th>
+                        <th scope="col" class="text-center d-none d-sm-table-cell">Hora</th>
+                        <th scope="col" class="text-center ">Banda</th>
+                        <th scope="col" class="text-center d-none d-lg-table-cell">Modo</th>
+                        <th scope="col" class="text-center d-none d-lg-table-cell ">Swl</th>
                         <th scope="col" class="text-center">Qso / Qsl</th>
                     </tr>
                 </thead>
@@ -140,10 +140,10 @@ function QsoList() {
                         </badge>
                     </td>
                     <td class="text-center">{each.date}</td>
-                    <td class="text-center">{each.time}</td>
+                    <td class="text-center d-none d-sm-table-cell">{each.time}</td>
                     <td class="text-center">{each.band}</td>
-                    <td class="text-center">{each.mode}</td>
-                    <td class="text-center">{each.swl?"SI":"-"}</td>
+                    <td class="text-center d-none d-lg-table-cell">{each.mode}</td>
+                    <td class="text-center d-none d-lg-table-cell">{each.swl?"SI":"-"}</td>
                     <td class="text-center">{qsl(each.qsl)}</td>
                   </tr>
                  )
@@ -160,13 +160,13 @@ function QsoList() {
 
     return (
 
-            <div className="container d-flex ">
+            <div className="container-fluid d-flex ">
 
-                <div className="container-fluid table-scroll-vertical col-11">
+                <div className="container-fluid table-scroll-vertical col-12">
                 <div className="card mt-3" >
-                <div className="card-header headerLu4dq">
+                    <div className="card-header headerLu4dq ">
                             <span class="display-6 ">CONSULTA DE CONTACTOS</span>       
-                            <span class="lead fs-2 text">  y descarga de QSL</span>       
+                            <span class="lead fs-3 text text-break">  y descarga de QSL</span>       
                     </div>
                         <div className="card-body" >
 

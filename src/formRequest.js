@@ -547,7 +547,7 @@ function SeñalesRecibidas() {
   return (
 
        <form onSubmit={handleSubmit} className="row g-3 needs-validation">
-           <div>
+           <div class="">
            <ToastContainer />
                <div className="row rowForm">
                                <div className="col-12">
@@ -726,7 +726,7 @@ function SeñalesRecibidas() {
                  
 
             <Row className="mb-3 col-13">
-            <div class="col-3">
+            <div class="col-5">
                <Form.Group className="mb-3" controlId="signalValue">
                  <Form.Label>TU SEÑAL DISTINTIVA</Form.Label>
                  <Form.Control  onChange={handleChangeSignal} value={signal}
@@ -748,7 +748,7 @@ function SeñalesRecibidas() {
                </Form.Group>
 
                </div>
-               <div class="col-9">
+               <div class="col-7">
                <Form.Group className="mb-3" controlId="nameValue">
                  <Form.Label>NOMBRE COMPLETO</Form.Label>
                  <span class="ms-2">

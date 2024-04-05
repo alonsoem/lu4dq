@@ -539,7 +539,6 @@ function Upload(){
 			);
 		
 		}else{
-			console.log(props.enabled);
 			if (props.enabled){
 				return <ShowForm   />
 			}else{
@@ -550,8 +549,8 @@ function Upload(){
 
 	}
 		return (
-			<div className="container d-flex gap-3 p-3">
-				<div className="container col-10">
+			<div className="container-fluid  gap-3 p-3">
+				<div className="container-fluid  m-auto  col-lg-10 col-md-10 col-sm-10 col-xs-12 col-12">
 
 					<div className="card" style={{'background-color': 'rgba(181,181,181,0.1)'}}>
 						<div className="card-header headerLu4dq">

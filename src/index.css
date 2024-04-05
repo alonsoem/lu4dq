@@ -27,7 +27,7 @@ code {
   background-position: top right;
   background-size: auto;
   background-repeat: no-repeat;
-  height: 4.0em;
+  min-height: 4.0em;
   background-color: #26abd3;
 }
 
@@ -59,7 +59,7 @@ code {
   
 }
 .navLu4dq{
-  background-color:#092f3a;
+  background-color:#092f3a!important;
   color:#abbdc2;
   font-weight: bold;
   font-size: large;
@@ -98,3 +98,24 @@ span.letters{
   font-size: 1.2em;
   background-color: rgb(233, 235, 236);
 }
+
+.navbar .container{
+  text-align: center!important;
+  display:table!important;
+  
+}
+
+
+.navbar-custom{
+    height:2em;
+    display : flex;
+    justify-content: center!important;
+  
+}
+
+.navmenu { margin: 0 auto }
+.navlink { display: flex; justify-content: center }
+
+
+
+  
