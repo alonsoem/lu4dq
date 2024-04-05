@@ -1,17 +1,14 @@
 import 'react-bootstrap-typeahead/css/Typeahead.css';
-import {React,useState} from "react";
+import {React} from "react";
 
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import {Container} from 'react-bootstrap';
 
 
-//import "react-datepicker/dist/react-datepicker.css";
-//import 'react-datepicker/dist/react-datepicker-cssmodules.css';
-
 function NavMenu() {
 
-  const [expanded, setExpanded] = useState(false);
+  
 
     return (
       <div class="justify-content-center">
