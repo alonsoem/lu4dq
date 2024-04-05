@@ -334,9 +334,9 @@ if (swl){
       if (isNaN(rstReceived)){
         errors.push("rstReceived");
       }else{
-        if (rstReceived>59 || rstReceived<11 ) {
+        /*if (rstReceived>59 || rstReceived<11 ) {
           errors.push("rstReceived");
-        }
+        }*/
       }
 
       if (isNaN(rst)){
