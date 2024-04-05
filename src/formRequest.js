@@ -342,9 +342,9 @@ if (swl){
       if (isNaN(rst)){
         errors.push("rst");
       }else{
-        if (rst>59 || rst<11 ) {
+        /*if (rst>59 || rst<11 ) {
           errors.push("rst");
-        }
+        }*/
       }
 
       
