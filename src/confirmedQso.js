@@ -120,7 +120,7 @@ import { saveAs } from 'file-saver';
                     <th scope="col" class="text-center">Indicativo</th>
                     <th scope="col" class="text-center">Contactos</th>
                     <th scope="col" class="text-center">Certificado</th>
-                    <th scope="col" class="text-center">Estaciones contactadas</th>
+                    <th scope="col" class="text-center d-none d-lg-table-cell">Estaciones contactadas</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -138,7 +138,7 @@ import { saveAs } from 'file-saver';
                             <td class="text-center">
                                 <CellDocument info={each} />
                             </td>
-                            <td class="text-center">
+                            <td class="text-center d-none d-lg-table-cell">
 
                                 {each.callsigns.join(" ").toUpperCase()}
                             
@@ -179,11 +179,11 @@ import { saveAs } from 'file-saver';
                     <tr class="table-primary">
                     <th scope="col" class="text-center">Posición</th>
                     <th scope="col" class="text-center">Indicativo</th>
-                    <th scope="col" class="text-center">Contactos</th>
-                    <th scope="col" class="text-center">Letras</th>
+                    <th scope="col" class="text-center d-none d-lg-table-cell">Contactos</th>
+                    <th scope="col" class="text-center d-none d-sm-table-cell">Letras</th>
                     <th scope="col" class="text-center">Certificado</th>
                     
-                    <th scope="col" class="text-center">Estaciones contactadas</th>
+                    <th scope="col" class="text-center d-none d-lg-table-cell">Estaciones contactadas</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -196,8 +196,8 @@ import { saveAs } from 'file-saver';
                                     {each.station.toUpperCase()}
                                 </badge>
                             </td>
-                            <td class="text-center">{each.callsigns.length}</td>
-                            <td class="text-center">
+                            <td class="text-center d-none d-lg-table-cell">{each.callsigns.length}</td>
+                            <td class="text-center d-none d-sm-table-cell">
                                 <div class="container-fluid">
                                     {each.letters.map(each=>{
                                 
@@ -214,7 +214,7 @@ import { saveAs } from 'file-saver';
                                 <CellDocument info={each} />
                             </td>
                             
-                            <td class="text-center">
+                            <td class="text-center d-none d-lg-table-cell">
 
                                 {each.callsigns.join(" ").toUpperCase()}
                             
