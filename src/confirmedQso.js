@@ -349,29 +349,28 @@ const showTable=()=>{
         return(
        
             
-            <div className="container d-flex   ">
-                
-                <div className="container-fluid " >
             
-                    <div style={{ 'height': '100%'}} className="container col-12 m-4">
+                
+                <div className="container-fluid col-sm-12 col-12" >
+            
+                    <div style={{ 'height': '100%'}} className="container col-12 mt-4">
 
                 
                         
-                        <div className="card col-12 " style={{'background-color': 'rgba(181,181,181,0.1)'}}>
+                        <div className="card  " style={{'background-color': 'rgba(181,181,181,0.1)'}}>
                             
                         <div className="card-header headerLu4dq">
                             <span class="display-6 ">{properties.title}</span>
                         </div>
 
-                            <div class="m-4 lh-base float-middle ">
+                            <div class="mt-4 m-auto w-25 h-25 ">
                                 
-                                    <img class="rounded mx-auto d-block cursor-pointer" 
-                                    src={"https://lu4dq.qrits.com.ar/api/demoCreator.php?image="+properties.image}
-                                    
-                                    height="15%" width="15%" 
-                                    alt="Certificado de muestra"
+                                    <img class="rounded cursor-pointer img-fluid " 
+                                        src={"https://lu4dq.qrits.com.ar/api/demoCreator.php?image="+properties.image}
+                                        alt="Certificado de muestra"
                                         onClick={handleShow}
-                                        />
+                                        
+                                    />
                                 
                                     <ModalForm />
                                         
@@ -498,7 +497,7 @@ const showTable=()=>{
                     </div>
                 </div>
             
-           </div>
+           
         );
 
     
