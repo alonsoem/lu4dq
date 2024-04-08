@@ -246,6 +246,12 @@ if (swl){
     if (signal.length<=3) {
         errors.push("signal");
     }
+    if (hasWhiteSpace(signal)){
+      errors.push("signal")
+    }
+    if (hasWhiteSpace(station)){
+      errors.push("station")
+    }
 
 /*
     if (isNaN(rst)){
@@ -361,6 +367,10 @@ if (swl){
     } else {
         submit();
     }
+  }
+
+  const hasWhiteSpace = (s) =>{
+    return /\s/g.test(s);
   }
 
    
