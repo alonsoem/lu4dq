@@ -474,7 +474,7 @@ const popoverFrequency = (
                                : "visually-hidden"
                        }
                    >
-                    Escribe al menos 3 caracteres de una señal distintiva
+                    Escribe una señal distintiva válida
                    </div>
 
                </Form.Group>
