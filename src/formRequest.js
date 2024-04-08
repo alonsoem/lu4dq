@@ -80,16 +80,16 @@ export default function FormRequest(props) {
       })
       .catch((response) => handleAxiosError(response));
     */
-   updateFromCallsign(event.target.value);
+   updateFromCallsign(event.target.value.trim());
   };
 
   const handleChangeToCall = (event) => {
-    setToCall(event.target.value.toUpperCase());
+    setToCall(event.target.value.toUpperCase().trim());
   };
 
 
   const handleChangeToCall2= (event) => {
-    setToCall2(event.target.value.toUpperCase());
+    setToCall2(event.target.value.toUpperCase().trim());
   };
   const handleChangeMode  = (event) => {
     setMode(event.target.value.toUpperCase());
@@ -240,6 +240,7 @@ if (swl){
     
     event.preventDefault();
     var errors = [];
+
 
     
     // Check name of Rule
@@ -755,7 +756,7 @@ function SeñalesRecibidas() {
                                : "visually-hidden"
                        }
                    >
-                    Escribir al menos 3 caracteres de un indicativo válido
+                    Escriba un indicativo válido
                    </div>
 
                </Form.Group>
@@ -847,7 +848,7 @@ function SeñalesRecibidas() {
                                : "visually-hidden"
                        }
                    >
-                    Escribe al menos 3 caracteres de una señal distintiva
+                    Escriba una señal distintiva válida
                    </div>
 
                </Form.Group>
