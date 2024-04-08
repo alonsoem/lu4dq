@@ -249,8 +249,8 @@ if (swl){
     if (hasWhiteSpace(signal)){
       errors.push("signal")
     }
-    if (hasWhiteSpace(station)){
-      errors.push("station")
+    if (hasWhiteSpace(toCall)){
+      errors.push("toCall")
     }
 
 /*
@@ -328,6 +328,9 @@ if (swl){
     if (swl){
       if (toCall2.length < 3) {
         errors.push("toCall2");
+      }
+      if (hasWhiteSpace(toCall2)){
+        errors.push("toCall2")
       }
     }else{
       if (rst.length<2 ) {
