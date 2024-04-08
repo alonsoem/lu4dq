@@ -42,3 +42,5 @@ export const putDocument = (form) => foreignPost('https://lu4dq.qrits.com.ar/api
 export const getDocumentById = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getDocumentById.php',params,{'Content-Type':'Content-Type: application/json'});
 
 export const addNewStation = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/core/addNewStationToActivity.php',params,{'Content-Type':'Content-Type: application/json'});
+
+export const postStatistics = (params) => foreignRequest('get', 'https://lu4dq.qrits.com.ar/api/preQsoStatistics.php',params,{'Content-Type':'Content-Type: text/html'});

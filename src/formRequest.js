@@ -3,7 +3,7 @@ import {Form, Row,Popover, OverlayTrigger} from "react-bootstrap";
 import { useEffect } from 'react';
 import { useState } from "react";
 import { format } from "date-fns";
-import {getName, postOneQSO,getBand} from "./api/api";
+import {getName, postOneQSO,getBand, postStatistics} from "./api/api";
 import { ToastContainer, toast } from 'react-toastify';
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -240,6 +240,26 @@ if (swl){
     
     event.preventDefault();
     var errors = [];
+
+    postStatistics({
+      signal: signal,
+      date:datePick.replace(/\D/g, ""),
+      time:timePick.replace(/\D/g, ""),
+      band:band,
+      mode:mode,
+      rstS:rst,
+      rstR:rstReceived,
+      name:name,
+      toCall:toCall,
+      stationCode:stationCode,
+      email:email,
+      toCall2:toCall2,
+      isSwl:swl
+      
+      })
+      .then()
+      .catch()
+
 
 
     
