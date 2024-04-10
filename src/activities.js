@@ -18,7 +18,6 @@ function  ActivitiesBeta () {
             getActivities()       
             .then((response) => {
                 setActivities(response.activities);
-                console.log(response.activities);
                 setLoading(false);
             })
             .catch((response) => {
@@ -32,6 +31,19 @@ function  ActivitiesBeta () {
         }, []
     )
 
+    const getExpiredBadge = (endDate)=>{
+        if (endDate){
+            var endDateParts=endDate.split("-");
+            var activityendDate= new Date(endDateParts[0],endDateParts[1]-1,endDateParts[2])
+            if (activityendDate< new Date()){
+                return <span class="badge bg-danger ms-2">FINALIZADA</span>
+            }
+            
+        }
+        
+        
+    }
+
     
         return (
                             
@@ -44,7 +56,12 @@ function  ActivitiesBeta () {
                             <div class="card cardActivity m-auto" >
                                     <img class="card-img-top" src={(each.image?"/dinamic-content/FRT/"+each.image:"/static/defaultFrontImage.jpg")} height="130x" width="400px" alt={each.title} />
                                     <div class="card-body">
-                                    <h5 class="card-title "><a class="link-underline link-underline-opacity-0 text-body" href={"/activities/"+each.id} >{each.title}</a></h5>
+                                    <h5 class="card-title ">
+                                        
+                                        <a class="link-underline link-underline-opacity-0 text-body" href={"/activities/"+each.id} >{each.title}</a>
+                                        { getExpiredBadge(each.endDate)}
+                                        
+                                    </h5>
                                     <p class="card-text"> {Parser().parse(DOMPurify.sanitize(each.description.substring(0,300)).toString()+"...")}</p>
                                     
                                 </div>

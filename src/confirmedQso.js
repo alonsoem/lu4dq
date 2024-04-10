@@ -346,6 +346,19 @@ const showTable=()=>{
                 downloadImage()}>Descargar Bases</button>);
             }
       }
+
+      const getExpiredBadge = (endDate)=>{
+        if (endDate){
+            var endDateParts=endDate.split("-");
+            var activityendDate= new Date(endDateParts[0],endDateParts[1]-1,endDateParts[2])
+            if (activityendDate< new Date()){
+                return <span class="badge bg-danger ms-2">ACTIVIDAD FINALIZADA</span>
+            }
+            
+        }
+        
+        
+    }
         return(
        
             
@@ -361,6 +374,8 @@ const showTable=()=>{
                             
                         <div className="card-header headerLu4dq">
                             <span class="display-6 ">{properties.title}</span>
+                            {getExpiredBadge(properties.end)}
+                            
                         </div>
 
                             <div class="mt-4 m-auto w-25 h-25 ">
