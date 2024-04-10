@@ -4,6 +4,7 @@ import { useEffect,useState } from 'react';
 import * as DOMPurify from 'dompurify';
 import {Parser} from "html-to-react";
 import TimeUp from './timeUp.js';
+import { format } from "date-fns";
 
 
 
@@ -35,7 +36,7 @@ function  ActivitiesBeta () {
         if (endDate){
             var endDateParts=endDate.split("-");
             var activityendDate= new Date(endDateParts[0],endDateParts[1]-1,endDateParts[2])
-            if (activityendDate< new Date()){
+            if (format(activityendDate,"yyyy-MM-dd")< format(new Date(),"yyyy-MM-dd")){
                 return <span class="badge bg-danger ms-2">FINALIZADA</span>
             }
             

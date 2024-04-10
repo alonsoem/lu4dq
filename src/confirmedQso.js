@@ -7,6 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 import {useNavigate} from 'react-router-dom';
 import * as DOMPurify from 'dompurify';
 import {Parser} from "html-to-react";
+import { format } from "date-fns";
 
 
 
@@ -351,7 +352,7 @@ const showTable=()=>{
         if (endDate){
             var endDateParts=endDate.split("-");
             var activityendDate= new Date(endDateParts[0],endDateParts[1]-1,endDateParts[2])
-            if (activityendDate< new Date()){
+            if (format(activityendDate,"yyyy-MM-dd")< format(new Date(),"yyyy-MM-dd")){
                 return <span class="badge bg-danger ms-2">ACTIVIDAD FINALIZADA</span>
             }
             
