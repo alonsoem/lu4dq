@@ -3,7 +3,7 @@ import {Form, Row,Popover, OverlayTrigger} from "react-bootstrap";
 import { useEffect } from 'react';
 import { useState } from "react";
 import { format } from "date-fns";
-import {getName, postOneQSO,getBand, postStatistics} from "./api/api";
+import {getName, postOneQSO, postStatistics} from "./api/api";
 import { ToastContainer, toast } from 'react-toastify';
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
