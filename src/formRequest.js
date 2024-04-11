@@ -40,30 +40,63 @@ export default function FormRequest(props) {
   const [errors, setErrors] = useState([]);
   
 
+  const preloadFrequency = (band) => {
+    switch(band){
+      case "160m":
+          return "1.845";
+      case "80m":
+          return "3.650";
+      case "60m":
+        return "5.365";
+      case "40m":
+        return "7.100";
+      case "30m":
+        return "10.010";
+      case "20m":
+        return "14.200";
+      case "17m":
+        return "18.100";
+      case "15m":
+        return "21.220";
+      case "12m":
+        return "24.950";
+      case "10m":
+          return "28.400";        
+      case "6m":
+        return "50.100";
+      case "2m":
+        return "144.500";
+      case "70cm":
+        return "431.500";
+      case "VOIP":
+        default:
+          return "";
+    }
+    
+  }
   const handleChangeDatePick = (value) => {
     setDate(value);
   };
 
-  const handleChangeSwl =(event)=>{
-    console.log(event.target.checked);
-      setSwl(event.target.checked);
-    
+  const handleChangeBand = (event)=>{
+    setBand(event.target.value.toUpperCase());
+    setFrequency(preloadFrequency(event.target.value));
   }
+  const handleChangeFreq = (event) => {
+    
+    setFrequency(event.target.value);
+    
+  };
+
+  const handleChangeSwl =(event)=>{
+      setSwl(event.target.checked);  
+  }
+
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
   };
 
-  const handleChangeFreq = (event) => {
-    var frequency=event.target.value.replace(",",".");
-    setFrequency(frequency);
-    setBand("");
-    getBand({freq:frequency})
-        .then((response) => {
-          setBand(response.name);
-      })
-      .catch((response) => setBand(""));
 
-  };
   const handleChangeTime = (event) => {
     setTime(event.target.value);
   };
@@ -208,6 +241,7 @@ if (swl){
         time:timePick.replace(/\D/g, ""),
         band:band,
         mode:mode,
+        freq:freq,
         rstS:rst,
         rstR:rstReceived,
         name:name,
@@ -247,6 +281,7 @@ if (swl){
       time:timePick.replace(/\D/g, ""),
       band:band,
       mode:mode,
+      freq:freq,
       rstS:rst,
       rstR:rstReceived,
       name:name,
@@ -657,7 +692,51 @@ function SeñalesRecibidas() {
 
              <Row className="mb-3 col-13">
 
-              <div class="col-6">
+             
+               <div class="col-3">
+             
+   
+
+               <Form.Group className="mb-3" controlId="bandValue">
+                 <Form.Label>BANDA</Form.Label>
+                 
+                  <select id="band" onChange={handleChangeBand}
+                  className={
+                    hasError("band")
+                          ? "form-select is-invalid"
+                          : "form-select"
+                  } >
+                                            <option selected disabled value="">Elija una banda...</option>
+                                            <option value="160m">160 m</option>
+                                            <option value="80m">80 m</option>
+                                            <option value="60m">60 m</option>
+                                            <option value="40m">40 m</option>
+                                            <option value="30m">30 m</option>
+                                            <option value="20m">20 m</option>
+                                            <option value="17m">17 m</option>
+                                            <option value="15m">15 m</option>
+                                            <option value="12m">12 m</option>
+                                            <option value="10m">10 m</option>
+                                            <option value="6m">6 m</option>
+                                            <option value="2m">2 m</option>
+                                            <option value="1.2m">1,2 m</option>
+                                            <option value="70cm">70 cm</option>
+                                            <option value="VOIP">VOIP</option>
+                                            </select>
+                   <div
+                       className={
+                        hasError("band")
+                               ? "invalid-feedback"
+                               : "visually-hidden"
+                       }
+                   >
+                    Seleccione una banda válida
+                   </div>
+
+               </Form.Group>
+               </div>
+
+               <div class="col-6">
                <Form.Group className="mb-3" controlId="frequencyValue">
                  <Form.Label>FRECUENCIA (en Mhz)</Form.Label>
                  <span class="ms-2">
@@ -683,31 +762,7 @@ function SeñalesRecibidas() {
                    </div>
 
                </Form.Group>
-             
-               </div>
-               <div class="col-3">
-             
-   
-
-               <Form.Group className="mb-3" controlId="bandValue">
-                 <Form.Label>BANDA</Form.Label>
-                 <Form.Control  readonly  value={band}
-                                className={
-                                  hasError("band")
-                                        ? "form-control is-invalid"
-                                        : "form-control"
-                                }/>
-                   <div
-                       className={
-                        hasError("band")
-                               ? "invalid-feedback"
-                               : "visually-hidden"
-                       }
-                   >
-                    Indique una frecuencia que corresponda a una banda válida
-                   </div>
-
-               </Form.Group>
+    
                </div>
                <div class="col-3">
                <Form.Group className="mb-3" controlId="modeValue">
