@@ -86,7 +86,7 @@ function QsoList() {
             		var url ="https://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qso.qsl.document+"&chk="+qso.qsl.chk;
 			
 			const fileName=qso.station+"_"+qso.callsign+"_"+qso.date.replace(/-/gi,"")+"_"+qso.time.replace(/:/gi,"")+".jpg";
-			console.log (fileName2);
+			console.log (fileName);
 			
 			return (
                 <badge class="badge text-bg-warning  text-center" role="button" onClick={()=>downloadImage(url,fileName)} >
