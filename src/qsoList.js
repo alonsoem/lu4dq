@@ -85,8 +85,9 @@ function QsoList() {
 		if (qso.qsl.status=="RC Confirmed"){
             		var url ="https://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qso.qsl.document+"&chk="+qso.qsl.chk;
 			const fileName='qsl.jpg';
-			console.log (qso.date.replace(/-/gi,""))
-			console.log (qso.time.replace(/-/gi,""))
+			const fileName2=qso.station+"_"+qso.callsign+"_"+qso.date.replace(/-/gi,"")+"_"+qso.time.replace(/:/gi,"")+".jpg";
+			console.log (fileName2);
+			
 			return (
                 <badge class="badge text-bg-warning  text-center" role="button" onClick={()=>downloadImage(url,fileName)} >
                         Descargar QSL
