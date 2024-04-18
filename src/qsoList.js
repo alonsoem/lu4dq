@@ -84,8 +84,8 @@ function QsoList() {
 		// eslint-disable-next-line
 		if (qso.qsl.status=="RC Confirmed"){
             		var url ="https://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qso.qsl.document+"&chk="+qso.qsl.chk;
-			const fileName='qsl.jpg';
-			const fileName2=qso.station+"_"+qso.callsign+"_"+qso.date.replace(/-/gi,"")+"_"+qso.time.replace(/:/gi,"")+".jpg";
+			
+			const fileName=qso.station+"_"+qso.callsign+"_"+qso.date.replace(/-/gi,"")+"_"+qso.time.replace(/:/gi,"")+".jpg";
 			console.log (fileName2);
 			
 			return (
