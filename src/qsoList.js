@@ -85,7 +85,8 @@ function QsoList() {
 		if (qso.qsl.status=="RC Confirmed"){
             		var url ="https://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qso.qsl.document+"&chk="+qso.qsl.chk;
 			const fileName='qsl.jpg';
-			console.log (qso.date.replace("-",""))
+			console.log (qso.date.replace(/-/gi,""))
+			console.log (qso.time.replace(/-/gi,""))
 			return (
                 <badge class="badge text-bg-warning  text-center" role="button" onClick={()=>downloadImage(url,fileName)} >
                         Descargar QSL
