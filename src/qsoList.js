@@ -76,21 +76,23 @@ function QsoList() {
         //notifyError(errorToDisplay);
       }
     
-    const downloadImage=(url)=>{
-		saveAs(url, 'qsl.jpg');
+    const downloadImage=(url,fileName)=>{
+		saveAs(url, fileName);
 	}
 
-	const qsl = (qsl) =>{
+	const qsl = (qso) =>{
 		// eslint-disable-next-line
-		if (qsl.status=="RC Confirmed"){
-            var url ="https://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qsl.document+"&chk="+qsl.chk;
+		if (qso.qsl.status=="RC Confirmed"){
+            		var url ="https://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qso.qsl.document+"&chk="+qso.qsl.chk;
+			const fileName='qsl.jpg';
+			console.log (qso.date.replace("-",""))
 			return (
-                <badge class="badge text-bg-warning  text-center" role="button" onClick={()=>downloadImage(url)} >
+                <badge class="badge text-bg-warning  text-center" role="button" onClick={()=>downloadImage(url,fileName)} >
                         Descargar QSL
                 </badge>
             	);
         // eslint-disable-next-line
-        }else if (qsl.status=="Confirmed"){
+        }else if (qso.qsl.status=="Confirmed"){
             return ("Confirmado");
 		}else{
 			return "-";
@@ -144,7 +146,7 @@ function QsoList() {
                     <td class="text-center">{each.band}</td>
                     <td class="text-center d-none d-lg-table-cell">{each.mode}</td>
                     <td class="text-center d-none d-lg-table-cell">{each.swl?"SI":"-"}</td>
-                    <td class="text-center">{qsl(each.qsl)}</td>
+                    <td class="text-center">{qsl(each)}</td>
                   </tr>
                  )
             
