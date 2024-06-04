@@ -1,4 +1,4 @@
-name: 🚀 Deploy website on push on Develop
+name: 🚀 Deploy website on push on Main
 on:
  push:
   branches:
@@ -6,7 +6,7 @@ on:
  
 jobs:
   web-deploy:
-    name: 🎉 Deploy on Dev
+    name: 🎉 Deploy on Main
     runs-on: ubuntu-latest
     steps:
     - name: 🚚 Get latest code
