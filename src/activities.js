@@ -60,7 +60,9 @@ function  ActivitiesBeta () {
                                     <h5 class="card-title ">
                                         
                                         <a class="link-underline link-underline-opacity-0 text-body" href={"/wp/logs/activities/"+each.id} >{each.title}</a>
+                                        
                                         { getExpiredBadge(each.endDate)}
+
                                         
                                     </h5>
                                     <p class="card-text"> {Parser().parse(DOMPurify.sanitize(each.description.substring(0,300)).toString()+"...")}</p>
