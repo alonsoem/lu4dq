@@ -18,11 +18,11 @@ function NavMenu() {
             <Navbar.Toggle  aria-controls="responsive-navbar-nav"  />
             <Navbar.Collapse id="responsive-navbar-nav " >
               <Nav className="me-auto">
-                    <Nav.Link class="navlink" href="/activities">ACTIVIDADES</Nav.Link>
+                    <Nav.Link class="navlink" href="/wp/logs/activities">ACTIVIDADES</Nav.Link>
                   
-                    <Nav.Link class="navlink" href="/">CARGA DE CONTACTOS</Nav.Link>  
+                    <Nav.Link class="navlink" href="/wp/logs/">CARGA DE CONTACTOS</Nav.Link>  
                 
-                    <Nav.Link class="navlink" href="/qsoList">VER CONTACTOS</Nav.Link>
+                    <Nav.Link class="navlink" href="/wp/logs/qsoList">VER CONTACTOS</Nav.Link>
               </Nav>
             </Navbar.Collapse>
           </Container>
