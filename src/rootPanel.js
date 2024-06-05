@@ -38,21 +38,21 @@ export default class App extends React.Component {
         <NavMenu />
           <Routes>
             
-          <Route exact path="/" element={<Landing />}></Route>
+          <Route  path="/" element={<Landing />}></Route>
           
-          <Route exact path='/cargaMasiva' element={<UploadBis />}></Route>
-          <Route exact path='/cargaManual' element={<QsoUpload />}></Route>
+          <Route  path='/cargaMasiva' element={<UploadBis />}></Route>
+          <Route  path='/cargaManual' element={<QsoUpload />}></Route>
 
-          <Route exact path='/qsoList/:station' element={<QsoList />}></Route>   
-          <Route exact path='/qsoList' element={<QsoList />}></Route>   
+          <Route  path='/qsoList/:station' element={<QsoList />}></Route>   
+          <Route  path='/qsoList' element={<QsoList />}></Route>   
 
 
           
 
 
-          <Route exact path='/activities' element={<AllActivities />}></Route>   
+          <Route  path='/activities' element={<AllActivities />}></Route>   
 
-          <Route exact path='/qsoTest' element={<Qso />}></Route>   
+          <Route  path='/qsoTest' element={<Qso />}></Route>   
           
           <Route path='/activities/:idAct' element={<Activities />}></Route>   
           
@@ -75,6 +75,8 @@ export default class App extends React.Component {
           <Route exact path='/status/admin/ABM' element={<AdminABM />}></Route>  
           <Route exact path='/status/admin/editActivity/:id' element={<ActivityEdit />}></Route>  
           <Route exact path='/status/admin' element={<Admin />}></Route>  
+
+          
           
           
             
