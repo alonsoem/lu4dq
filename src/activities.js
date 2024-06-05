@@ -59,7 +59,7 @@ function  ActivitiesBeta () {
                                     <div class="card-body">
                                     <h5 class="card-title ">
                                         
-                                        <a class="link-underline link-underline-opacity-0 text-body" href={"/activities/"+each.id} >{each.title}</a>
+                                        <a class="link-underline link-underline-opacity-0 text-body" href={"/wp/logs/activities/"+each.id} >{each.title}</a>
                                         { getExpiredBadge(each.endDate)}
                                         
                                     </h5>
