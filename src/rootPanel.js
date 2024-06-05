@@ -34,7 +34,7 @@ export default class App extends React.Component {
     render() {
       return (
         
-        <BrowserRouter basename='/wp/logs' >
+        <BrowserRouter  >
         <NavMenu />
           <Routes>
             
