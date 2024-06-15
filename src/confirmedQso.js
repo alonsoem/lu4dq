@@ -59,7 +59,7 @@ import { saveAs } from 'file-saver';
         setLoadingMatch(true);
         getResumedActivities({id: idAct})       
             .then((response) => {
-                    console.log(response);
+                    
                     setActivity(response.confirmed);
                     setLoadingMatch(false);
             })
@@ -88,9 +88,9 @@ import { saveAs } from 'file-saver';
         }
         function CellQslDocument(values){
             
-            if (values.info.qsl.document){
+            if (values.info.qsl[0].document){
             
-                var url = "https://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+values.info.qsl.document+"&chk="+values.info.qsl.chk;
+                var url = "https://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+values.info.qsl[0].document+"&chk="+values.info.qsl[0].chk;
                 return (
                         <badge 
                         class="badge text-bg-warning  text-center" role="button" onClick={(r)=>downloadCertificate(url)} title="Click para descargar el certificado" >
@@ -103,6 +103,7 @@ import { saveAs } from 'file-saver';
         }
 
     function activityTable(){
+        
         if (loadingMatch){
             return (
             <div class="text-center p-5 mt-3">
@@ -188,6 +189,7 @@ import { saveAs } from 'file-saver';
                     </tr>
                 </thead>
                 <tbody>
+                    
                 {
                 activity.sort((a,b)=>b.callsigns.length-a.callsigns.length).map((each) =>{
                             return ( <tr>
@@ -260,7 +262,8 @@ import { saveAs } from 'file-saver';
                 <tbody>
                 {
                     // eslint-disable-next-line
-                activity.filter(each =>each.qsl.status =='RC Confirmed' || each.qsl.status ==' Confirmed').sort((a,b)=>b.station>a.station).map((each) =>{
+                    
+                activity.filter(each =>each.qsl[0].status =='RC Confirmed' || each.qsl[0].status ==' Confirmed').sort((a,b)=>b.station>a.station).map((each) =>{
                             return ( <tr>
                             <td class="text-center">{each.station.toUpperCase()}</td>
                             
@@ -323,7 +326,7 @@ import { saveAs } from 'file-saver';
         
       }
 const showTable=()=>{
-    // eslint-disable-next-line
+        // eslint-disable-next-line
      if (properties.type==0){
         return activityQslTable() ;
         // eslint-disable-next-line
