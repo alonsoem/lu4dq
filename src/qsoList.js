@@ -80,25 +80,37 @@ function QsoList() {
 		saveAs(url, fileName);
 	}
 
-	const qsl = (qso) =>{
+	function qsl (qsli,qso){
+        
 		// eslint-disable-next-line
-		if (qso.qsl.status=="RC Confirmed"){
-            		var url ="https://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qso.qsl.document+"&chk="+qso.qsl.chk;
-			
-			const fileName=qso.station+"_"+qso.callsign+"_"+qso.date.replace(/-/gi,"")+"_"+qso.time.replace(/:/gi,"")+".jpg";
-			console.log (fileName);
-			
-			return (
+		if (qsli.status=="RC Confirmed"){
+            
+            
+            const fileName=qso.station+"_"+qso.callsign+"_"+qso.date.replace(/-/gi,"")+"_"+qso.time.replace(/:/gi,"")+".jpg";
+            var url ="https://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qsli.document+"&chk="+qsli.chk;
+            return (
+                <p>
                 <badge class="badge text-bg-warning  text-center" role="button" onClick={()=>downloadImage(url,fileName)} >
                         Descargar QSL
                 </badge>
-            	);
+                </p>
+            );
+
+            
+                
         // eslint-disable-next-line
-        }else if (qso.qsl.status=="Confirmed"){
+        }else if (qsl.status=="Confirmed"){
             return ("Confirmado");
-		}else{
-			return "-";
-		}
+        }else{
+            return ("-");
+        }
+    }
+
+    function allQsl(qso){
+        return  qso.qsl.map((each)=>{            
+            console.log(qso.date);
+            return qsl(each,qso);
+        });
     }
 
 
@@ -148,7 +160,10 @@ function QsoList() {
                     <td class="text-center">{each.band}</td>
                     <td class="text-center d-none d-lg-table-cell">{each.mode}</td>
                     <td class="text-center d-none d-lg-table-cell">{each.swl?"SI":"-"}</td>
-                    <td class="text-center">{qsl(each)}</td>
+                    <td class="text-center">
+                        
+                        {allQsl(each)}
+                    </td>
                   </tr>
                  )
             
