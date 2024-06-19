@@ -263,15 +263,15 @@ import { saveAs } from 'file-saver';
                 {
 
                 // eslint-disable-next-line
-                activity.filter(each =>each.qsl[0].status =='RC Confirmed' || each.qsl[0].status ==' Confirmed').sort((a,b)=>b.station>a.station).map((each) =>{
+                activity.filter(each =>each.qsl[0].status =='RC Confirmed' || each.qsl[0].status =='Confirmed').sort((a,b)=>b.callsign>a.callsign).map((each) =>{
                             return ( <tr>
-                            <td class="text-center">{each.station.toUpperCase()}</td>
+                            <td class="text-center">{each.callsign.toUpperCase()}</td>
                             
                             <td class="text-center">
                                 <CellQslDocument info={each} />
                             </td>
                             <td class="text-center">
-                                <badge class="badge text-bg-primary  text-center" role="button" title="Click para ver los comunicados y sus QSL" onClick={(r)=>navigateToStationQso(each.station)}  >
+                                <badge class="badge text-bg-primary  text-center" role="button" title="Click para ver los comunicados y sus QSL" onClick={(r)=>navigateToStationQso(each.callsign)}  >
                                         Ver
                                 </badge>
                             </td>
