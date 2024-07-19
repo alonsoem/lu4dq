@@ -31,6 +31,8 @@ export default function FormRequest(props) {
   const [email, setEmail] = useState("");
   const [rst, setRST] = useState("");
   const [rstReceived, setRSTReceived] = useState("");
+  const [message, setMessage] = useState("");
+  
 
   
   const [swl, setSwl] = useState(false);
@@ -95,6 +97,12 @@ export default function FormRequest(props) {
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
   };
+
+  
+  const handleChangeMessage = (event) => {
+    setMessage(event.target.value);
+  };
+  
 
 
   const handleChangeTime = (event) => {
@@ -249,7 +257,8 @@ if (swl){
         stationCode:stationCode,
         email:email,
         toCall2:toCall2,
-        isSwl:swl
+        isSwl:swl,
+        message:message
         
         })       
         .then((response) => {
@@ -415,6 +424,9 @@ if (swl){
       
     }
 
+    if (message.length >=255) {
+      errors.push("message");
+    }
 
     
 
@@ -450,6 +462,19 @@ if (swl){
     
   );
 
+  const popoverMessage = (
+    
+    <Popover id="popover-positioned-right"  placement="right" >
+      <Popover.Title as="h3">Mensaje </Popover.Title>
+      <Popover.Content>
+          Este campo es util, por ejemplo, para incluir referencias solicitadas por el Radio Club!
+      </Popover.Content>
+      
+    </Popover>
+    
+  );
+
+  
   
 const popoverFrequency = (
   <Popover id="popover-positioned-right"  placement="right" >
@@ -970,6 +995,37 @@ function SeñalesRecibidas() {
 
                </Form.Group>
              </Row>
+             
+
+             
+             <Row className="mb-3">
+               <Form.Group className="mb-3" controlId="messageValue">
+                 <Form.Label>MENSAJE</Form.Label>
+                 <span class="ms-2">
+                   <OverlayTrigger trigger="hover" placement="right" overlay={popoverMessage}>
+                            <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
+                    </OverlayTrigger>
+                  </span>
+                  <textarea class="form-control" rows="4" onChange={handleChangeMessage} value={message} 
+                                className={
+                                  hasError("message")
+                                        ? "form-control is-invalid"
+                                        : "form-control"
+                                } ></textarea>
+                 
+                   <div
+                       className={
+                        hasError("message")
+                               ? "invalid-feedback"
+                               : "visually-hidden"
+                       }
+                   >
+                    El texto excede la máxima cantidad de caracteres
+                   </div>
+
+               </Form.Group>
+             </Row>
+
              
                          
 
