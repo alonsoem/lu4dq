@@ -4,7 +4,7 @@ import { useParams} from 'react-router-dom';
 import {Form, Row,Col,Tabs,Tab} from "react-bootstrap";
 import { format } from "date-fns";
 import { ToastContainer, toast } from 'react-toastify';
-import {updateActivity,getActivity,getDocuments, addNewStation,getActivityStations} from "../../api/api";
+import {updateActivity,getActivity,getDocuments, addNewStation,getActivityStations, removeStation} from "../../api/api";
 import {  Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import {ContentState,  EditorState, convertToRaw } from 'draft-js';
@@ -280,6 +280,26 @@ const navigateToAdmin = () => {
 
 };
 
+const handleRemoveStation = (id) =>{
+  
+  
+  removeStation({
+    id:id
+  })
+  .then(response=>{
+    updateStationList()
+
+  }
+
+    
+
+  )
+  .catch(error=>{
+    console.log(error);
+    }
+  )
+
+}
 
 const submit = () =>{
   
@@ -943,24 +963,24 @@ const wordComponent =()=>{
                 </Form.Group>
 
                 <Form.Group className="mb-3 col-3" controlId="letterValue">
-         <Form.Label>LETRA</Form.Label>
-         <Form.Control  onChange={handleChangeNewLetter} value={newLetter} type="char" size="1" maxlength="1"
-                         className={
-                           hasError("letter")
-                                 ? "form-control is-invalid"
-                                 : "form-control"
-                         }/>
-           <div
-               className={
-                 hasError("letter")
-                       ? "invalid-feedback"
-                       : "visually-hidden"
-               }
-           >
-             Se necesita un texto mayor a 1 caracter
-           </div>
+                  <Form.Label>LETRA</Form.Label>
+                  <Form.Control  onChange={handleChangeNewLetter} value={newLetter} type="char" size="1" maxlength="1"
+                                  className={
+                                    hasError("letter")
+                                          ? "form-control is-invalid"
+                                          : "form-control"
+                                  }/>
+                    <div
+                        className={
+                          hasError("letter")
+                                ? "invalid-feedback"
+                                : "visually-hidden"
+                        }
+                    >
+                      Se necesita un texto mayor a 1 caracter
+                    </div>
 
-       </Form.Group>
+                </Form.Group>
 
        <Form.Group  className="mb-3 col-3" controlId="swlValue">
           <Form.Label  >REQUERIDA</Form.Label>
@@ -988,7 +1008,12 @@ const wordComponent =()=>{
               {stations.map(each=>{
                 return(
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                  {each.station}
+                    <span  class="text-danger " style={{ cursor: 'pointer' }} onClick={()=> handleRemoveStation(each.id)}>
+                        <FontAwesomeIcon   icon={icon({name: 'trash-can'})}  title="Click para cambiar el estado" />
+                        <span class="text-black ms-4">{each.station}</span>
+                    </span>
+                    <span class="align-items-left bg-danger"></span>
+                  
                   
                   {each.letter?
                     <span class="badge bg-success rounded-pill">{each.letter}</span>
