@@ -457,7 +457,7 @@ const showTable=()=>{
                                                                                         <b>
                                                                                         {each.station.toUpperCase()}
                                                                                             <span class=" ms-2 badge rounded-pill bg-info text-dark">
-                                                                                                {"Letra "+ each.letter}
+                                                                                                { each.letter}
                                                                                             </span>
                                                                               
                                                                                             
