@@ -640,16 +640,13 @@ const wordComponent =()=>{
                                 </Row>
 
 
-                                          {wordComponent()}
+                                        {wordComponent()}
                                     
                                     
                                         {minimumContactsComponent()}
                                         {cwContactsComponent()}
                                       
                                     
-
-                                    
-                                        
                                         
                                         <fieldset class="border p-3 mb-3">
                                           <legend  class="float-none w-auto t-4">BASES</legend>
