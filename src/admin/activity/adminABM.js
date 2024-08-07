@@ -472,8 +472,8 @@ const wordComponent =()=>{
                         
                                 <div className="card-body" >
                                     
-                                        <Row className="mb-3 col-3">
-                                            <Form.Group className="mb-3" controlId="bandValue">
+                                        <Row className="mb-6 col-6">
+                                            <Form.Group className="mb-6" controlId="bandValue">
                                                 <Form.Label>TIPO</Form.Label>
                                                 <select id="activity" onChange={handleChangeType} value={type} className={
                                                     hasError("type")
