@@ -247,19 +247,18 @@ const handleSubmit = (event) => {
   }
 
 
-  console.log(type);
-
-// eslint-disable-next-line
-if (type==2 && word.length<=1) {
-  errors.push("word");
-}
-// eslint-disable-next-line
-if (type==1 && minContacts<1) {
-  errors.push("minContacts");
-}
-if (type==2 && cwContacts<1) {
-  errors.push("cwContacts");
-}
+  // eslint-disable-next-line
+  if (type==2 && word.length<=1) {
+    errors.push("word");
+  }
+  // eslint-disable-next-line
+  if (type==1 && minContacts<1) {
+    errors.push("minContacts");
+  }
+  // eslint-disable-next-line
+  if (type==2 && cwContacts<1) {
+    errors.push("cwContacts");
+  }
   
 
   if (editorState.length < 3) {
