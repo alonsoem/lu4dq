@@ -211,7 +211,6 @@ const updateStationList=()=>{
     getActivity({id:id})       
     .then((response) => {
       try{
-        console.log(response);  
         setDateFrom(response.start);
         setDateTo(response.end);
         setLateEnd(response.lateEnd);
@@ -236,6 +235,7 @@ const updateStationList=()=>{
         if (response.frontImage){
           setFrontPageFile(new File([new Blob()],response.frontImage,{type: "image/jpeg"}));
         }
+        
         
 
       }catch(e){
@@ -519,7 +519,8 @@ const cwContactsComponent=()=>{
   // eslint-disable-next-line
 if (type==2){
   return (
-  <Row className="mb-3">
+    <div class="col-3">
+  
                                          <Form.Group className="mb-3" controlId="nameValue">
                                             <Form.Label>CW - CONTACTOS MINIMOS</Form.Label>
                                             <Form.Control  onChange={handleChangeCwcontacts} value={cwContacts} type="number"
@@ -539,7 +540,7 @@ if (type==2){
                                               </div>
 
                                           </Form.Group>
-                                        </Row>  );
+                                      </div> );
 }else{
   return null;
 }
@@ -553,7 +554,7 @@ const minimumContactsComponent=()=>{
   // eslint-disable-next-line
 if (type==1){
   return (
-  <Row className="m-3">
+    <div class="col-3">
                                          <Form.Group className="mb-3" controlId="nameValue">
                                             <Form.Label>CONTACTOS MINIMOS</Form.Label>
                                             <Form.Control  onChange={handleChangeMinContacts} value={minContacts} type="number"
@@ -573,7 +574,7 @@ if (type==1){
                                               </div>
 
                                           </Form.Group>
-                                        </Row>  );
+                                          </div> );
 }else{
   return null;
 }
@@ -586,7 +587,7 @@ const wordComponent =()=>{
   if (type==2){
     
     return (
-      <Row className="m-3">
+      <div class="col-3">
       <Form.Group className="mb-3" controlId="wordValue">
          <Form.Label>PALABRA A COMPLETAR</Form.Label>
          <Form.Control  onChange={handleChangeWord} value={word} type="text"
@@ -606,7 +607,7 @@ const wordComponent =()=>{
            </div>
 
        </Form.Group>
-     </Row>  
+       </div>
     );
   }else{
     return null;
@@ -976,9 +977,12 @@ const wordComponent =()=>{
 
       </Tab>
       <Tab eventKey="profile" title="Estaciones y Contactos">
-            {minimumContactsComponent()}
-            {cwContactsComponent()}
-            {wordComponent()}
+            <Row className="mb-6 m-3"> 
+              {minimumContactsComponent()}
+              {cwContactsComponent()}
+              {wordComponent()}
+            </Row>  
+            
                                 
             <div class="col-12">
        
