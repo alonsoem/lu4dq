@@ -26,6 +26,8 @@ function AdminABM() {
     //const [description, setDescription ] = useState("");
     const [tecnicalDetails, setTecnicalDetails ] = useState(EditorState.createEmpty());
     const [minContacts, setMinContacts ] = useState(0);
+    const [cwContacts, setcwContacts ] = useState(0);
+
     const [enabled, setEnabled ] = useState(false);
 
     const [dateFrom, setDateFrom] = useState(format(dateData,"yyyy-MM-dd"));
@@ -46,6 +48,10 @@ function AdminABM() {
     const handleChangeWord = (event)=>{
       setWord(event.target.value);
     }
+    const handleChangeCwcontacts=(event)=>{
+      setcwContacts(event.target.value);
+    }
+
     const handleChangeDescriptionHtml=(state)=>{
       setEditorState(state);
     }
@@ -187,6 +193,7 @@ const submit = () =>{
     formData.append('description', draftToHtml(convertToRaw(editorState.getCurrentContent())),);
     formData.append('late_end', late_end.replace(/\D/g, ""));
     formData.append('minContacts', minContacts);
+    formData.append('cwContacts', cwContacts);
     formData.append('techDetail', draftToHtml(convertToRaw(tecnicalDetails.getCurrentContent())),);
     formData.append('word', word);
   /*{
@@ -250,6 +257,10 @@ if (type==2 && word.length<=1) {
 // eslint-disable-next-line
 if (type==1 && minContacts<1) {
   errors.push("minContacts");
+}
+ // eslint-disable-next-line
+ if (type==2 && cwContacts<1) {
+  errors.push("cwContacts");
 }
   
 
@@ -351,6 +362,43 @@ const fileSize=(size)=>{
 
 const docInputRef = useRef(null);
 const frontPageRef =useRef(null);
+
+
+  
+
+const cwContactsComponent=()=>{
+  // eslint-disable-next-line
+if (type==2){
+  return (
+  <Row className="mb-3">
+                                         <Form.Group className="mb-3" controlId="nameValue">
+                                            <Form.Label>CW - CONTACTOS MINIMOS</Form.Label>
+                                            <Form.Control  onChange={handleChangeCwcontacts} value={cwContacts} type="number"
+                                                            className={
+                                                              hasError("cwContacts")
+                                                                    ? "form-control is-invalid"
+                                                                    : "form-control"
+                                                            }/>
+                                              <div
+                                                  className={
+                                                    hasError("cwContacts")
+                                                          ? "invalid-feedback"
+                                                          : "visually-hidden"
+                                                  }
+                                              >
+                                                Se necesita un valor mayor a cero
+                                              </div>
+
+                                          </Form.Group>
+                                        </Row>  );
+}else{
+  return null;
+}
+
+
+}
+
+
 
 const minimumContactsComponent=()=>{
   // eslint-disable-next-line
@@ -605,6 +653,7 @@ const wordComponent =()=>{
                                     
                                     
                                         {minimumContactsComponent()}
+                                        {cwContactsComponent()}
                                       
                                     
 
