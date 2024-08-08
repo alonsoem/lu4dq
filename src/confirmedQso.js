@@ -182,7 +182,7 @@ import { saveAs } from 'file-saver';
                     <th scope="col" class="text-center">Posición</th>
                     <th scope="col" class="text-center">Indicativo</th>
                     <th scope="col" class="text-center d-none d-lg-table-cell">Contactos</th>
-                    <th scope="col" class="text-center d-none d-sm-table-cell">Letras</th>
+                    <th scope="col" class="text-center d-none d-sm-table-cell">Grupos/Letras</th>
                     <th scope="col" class="text-center">Certificado</th>
                     
                     <th scope="col" class="text-center d-none d-lg-table-cell">Estaciones contactadas</th>
