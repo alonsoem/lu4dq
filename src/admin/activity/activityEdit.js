@@ -536,7 +536,7 @@ if (type==2 || type==1){
                                                           : "visually-hidden"
                                                   }
                                               >
-                                                Se necesita un valor mayor a cero
+                                                Se necesita un valor mayor o igual a cero
                                               </div>
 
                                           </Form.Group>

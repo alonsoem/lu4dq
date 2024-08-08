@@ -410,7 +410,7 @@ const cwContactsComponent=()=>{
                                                           : "visually-hidden"
                                                   }
                                               >
-                                                Se necesita un valor mayor a cero
+                                                Se necesita un valor mayor o igual a cero
                                               </div>
 
                                           </Form.Group>
