@@ -256,7 +256,7 @@ const handleSubmit = (event) => {
     errors.push("minContacts");
   }
   // eslint-disable-next-line
-  if ((type==2 || type==1) && cwContacts<1) {
+  if ((type==2 || type==1) && cwContacts<0) {
     errors.push("cwContacts");
   }
   
