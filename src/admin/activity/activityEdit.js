@@ -587,7 +587,7 @@ const wordComponent =()=>{
   if (type==2){
     
     return (
-      <div class="col-3">
+      <div class="col-6">
       <Form.Group className="mb-3" controlId="wordValue">
          <Form.Label>PALABRA A COMPLETAR</Form.Label>
          <Form.Control  onChange={handleChangeWord} value={word} type="text"
@@ -977,7 +977,7 @@ const wordComponent =()=>{
 
       </Tab>
       <Tab eventKey="profile" title="Estaciones y Contactos">
-            <Row className="mb-6 m-3"> 
+            <Row className="mb-9 m-3"> 
               {minimumContactsComponent()}
               {cwContactsComponent()}
               {wordComponent()}

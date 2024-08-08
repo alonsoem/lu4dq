@@ -428,7 +428,7 @@ const wordComponent =()=>{
     
     return (
       <Row className="mb-3">
-      <Form.Group className="mb-3" controlId="wordValue">
+      <Form.Group className="mb-6" controlId="wordValue">
          <Form.Label>PALABRA A COMPLETAR</Form.Label>
          <Form.Control  onChange={handleChangeWord} value={word.word} type="text"
                          className={
