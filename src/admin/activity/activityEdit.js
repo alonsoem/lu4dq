@@ -402,7 +402,7 @@ if (type==1 && minContacts<1) {
   errors.push("minContacts");
 }
  // eslint-disable-next-line
- if (type==2 && cwContacts<1) {
+ if ((type==2 || type==1) && cwContacts<1) {
   errors.push("cwContacts");
 }
   
@@ -517,7 +517,7 @@ const Imageconditional = (params) =>{
 
 const cwContactsComponent=()=>{
   // eslint-disable-next-line
-if (type==2){
+if (type==2 || type==1){
   return (
     <div class="col-3">
   

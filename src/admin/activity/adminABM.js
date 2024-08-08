@@ -256,7 +256,7 @@ const handleSubmit = (event) => {
     errors.push("minContacts");
   }
   // eslint-disable-next-line
-  if (type==2 && cwContacts<1) {
+  if ((type==2 || type==1) && cwContacts<1) {
     errors.push("cwContacts");
   }
   
@@ -392,7 +392,7 @@ if (type==1){
 }
 const cwContactsComponent=()=>{
   // eslint-disable-next-line
-if (type==2){
+  if (type==2 || type==1){
   return (
   <Row className="mb-3">
                                          <Form.Group className="mb-3" controlId="nameValue">
