@@ -982,8 +982,7 @@ const wordComponent =()=>{
               {cwContactsComponent()}
               {wordComponent()}
             </Row>  
-            
-                                
+                                            
             <div class="col-12">
        
           <Row className="m-3">
