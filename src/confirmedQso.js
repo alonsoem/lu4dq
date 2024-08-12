@@ -444,35 +444,26 @@ const showTable=()=>{
                                     <p class="m-2">
                                         {stations.map((each)=>{
                                                                         
-                                                                            if (each.required){
-                                                                                return (
-                                                                                    <span class="mb-2 me-2 badge even-larger-badge  text-dark">
-                                                                                        {(each.letter===""?
-                                                                                        <b>{each.station.toUpperCase()}
-
-                                                                                        </b>
-
-                                                                                        
-                                                                                        :
-                                                                                        <b>
-                                                                                        {each.station.toUpperCase()}
-                                                                                            <span class=" ms-2 badge rounded-pill bg-info text-dark">
-                                                                                                { each.letter}
-                                                                                            </span>
-                                                                              
-                                                                                            
-                                                                                        </b>
-                                                                                        )}
-                                                                                        
+                                                            return (
+                                                                    
+                                                                    <span class={"mb-2 me-2 badge even-larger-badge text-dark "+(each.required?"bg-warning":"")}>
+                                                                        {(each.letter===""?
+                                                                            <b>{each.station.toUpperCase()}</b>
+                                                                        :
+                                                                            <b>
+                                                                                {each.station.toUpperCase()}
+                                                                                    <span class=" ms-2 badge rounded-pill bg-info text-dark">
+                                                                                        { each.letter}
                                                                                     </span>
-                                                                                    );
-                                                                            }else{
-                                                                                return (<span class="mb-2 me-2  badge even-larger-badge  text-dark">{each.station.toUpperCase()}</span>);
-                                                                            }
+                                                                            </b>
+                                                                        )}
+                                                                        
+                                                                    </span>
+                                                                    );
                                                                             
                                                                         
-                                                                    }
-                                                                )
+                                                            }
+                                                    )
                                         }
                                     </p>
                                 </div>
