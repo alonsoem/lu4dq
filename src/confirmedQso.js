@@ -122,6 +122,7 @@ import { saveAs } from 'file-saver';
                     <th scope="col" class="text-center">Indicativo</th>
                     <th scope="col" class="text-center">Contactos</th>
                     <th scope="col" class="text-center">Certificado</th>
+                    <th scope="col" class="text-center">Qsl</th>
                     <th scope="col" class="text-center d-none d-lg-table-cell">Estaciones contactadas</th>
                     </tr>
                 </thead>
@@ -131,15 +132,21 @@ import { saveAs } from 'file-saver';
                             return ( <tr>
                             <th scope="row" class="text-center">{ activity.indexOf(each)+1}</th>
                             <td class="text-center">
-                                <badge class="badge text-bg-primary  text-center" role="button" title="Click para ver los comunicados y sus QSL" onClick={(r)=>navigateToStationQso(each.station)}  >
+                                
                                     {each.station.toUpperCase()}
-                                </badge>
+                                
                             </td>
                             <td class="text-center">{each.callsigns.length}</td>
                             
                             <td class="text-center">
                                 <CellDocument info={each} />
                             </td>
+                            <td class="text-center">
+                                <badge class="badge text-bg-primary  text-center" role="button" title="Click para ver los comunicados y sus QSL" onClick={(r)=>navigateToStationQso(each.station)}  >
+                                    Ver
+                                </badge>
+                            </td>
+                            
                             <td class="text-center d-none d-lg-table-cell">
 
                                 {each.callsigns.join(" ").toUpperCase()}
@@ -184,6 +191,7 @@ import { saveAs } from 'file-saver';
                     <th scope="col" class="text-center d-none d-lg-table-cell">Contactos</th>
                     <th scope="col" class="text-center d-none d-sm-table-cell">Grupos/Letras</th>
                     <th scope="col" class="text-center">Certificado</th>
+                    <th scope="col" class="text-center">Qsl</th>
                     
                     <th scope="col" class="text-center d-none d-lg-table-cell">Estaciones contactadas</th>
                     </tr>
@@ -195,9 +203,7 @@ import { saveAs } from 'file-saver';
                             return ( <tr>
                             <th scope="row" class="text-center">{ activity.indexOf(each)+1}</th>
                             <td class="text-center">
-                                <badge class="badge text-bg-primary  text-center" role="button" title="Click para ver los comunicados y sus QSL" onClick={(r)=>navigateToStationQso(each.station)}  >
                                     {each.station.toUpperCase()}
-                                </badge>
                             </td>
                             <td class="text-center d-none d-lg-table-cell">{each.callsigns.length}</td>
                             <td class="text-center d-none d-sm-table-cell">
@@ -215,6 +221,11 @@ import { saveAs } from 'file-saver';
                             
                             <td class="text-center">
                                 <CellDocument info={each} />
+                            </td>
+                            <td class="text-center">
+                                <badge class="badge text-bg-primary  text-center" role="button" title="Click para ver los comunicados y sus QSL" onClick={(r)=>navigateToStationQso(each.station)}  >
+                                    Ver
+                                </badge>
                             </td>
                             
                             <td class="text-center d-none d-lg-table-cell">
