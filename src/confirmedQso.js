@@ -499,7 +499,7 @@ const showTable=()=>{
                                     </div>
                                     <div class="container mt-2">
                                         <button class="btn btn-success float-end mb-3" onClick={navLoad}>Cargar Contactos</button>
-                                        <button class="btn btn-success float-end mb-3 me-3" onClick={navView}>Ver contactos</button>
+                                        <button class="btn btn-primary float-end mb-3 me-3" onClick={navView}>Ver contactos</button>
                                     </div>
                                     <div class="card col-12">
 
