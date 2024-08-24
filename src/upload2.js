@@ -401,13 +401,13 @@ function Upload(){
 				
 				if (res){
 					// eslint-disable-next-line
-					if (res.response.request.status=="ERROR_UPLOADING"){
+					if (res.response.data.status=="ERROR_UPLOADING"){
 						setResponseError("No se pudo subir el archivo al servidor!");
 					// eslint-disable-next-line
-					}else if (res.response.request.status=="ERROR_PROCESSING"){
+					}else if (res.response.data.status=="ERROR_PROCESSING"){
 						setResponseError("Ocurrió un error procesando el archivo!");
 					// eslint-disable-next-line
-					}else if (res.response.request.status=="Station not validated" ) {
+					}else if (res.response.data.status=="Station not validated" ) {
 						setResponseError("EL CÓDIGO DE ESTACIÓN NO ES CORRECTO. VERIFIQUELO!");
 					}else{
 						setResponseError("Ocurrió un error inesperado!");
