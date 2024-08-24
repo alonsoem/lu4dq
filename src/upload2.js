@@ -178,9 +178,9 @@ function Upload(){
 										(r)=>(
 												<tr  className="col-12">
 													<td className="col-2 text-center">{showBadgeMov(r)}</td>
-													<td className="col-4 text-center">{r.data.callsign}</td>
-													<td className="col-2 text-center">{r.data.date}</td>
-													<td className="col-2 text-center">{r.data.time}</td>
+													<td className="col-4 text-center">{r.request.callsign}</td>
+													<td className="col-2 text-center">{r.request.date}</td>
+													<td className="col-2 text-center">{r.request.time}</td>
 													<td className="col-2 text-center">		
 														 {qsl(r.qsl)}										
 														
