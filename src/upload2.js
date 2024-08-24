@@ -273,7 +273,7 @@ function Upload(){
 				return <span class="badge bg-success">Aceptado</span>
 			// eslint-disable-next-line
 			}else if (reg.response=="duplicate"){
-				return <span class="badge bg-warning">{reg.insert}</span>
+				return <span class="badge bg-warning">{reg.response}</span>
 			// eslint-disable-next-line
 			}else if (reg.response=="No Match Station"){
 				return <span class="badge bg-danger" data-toggle="tooltip" data-placement="right" data-title={reg.message} >
