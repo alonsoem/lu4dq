@@ -48,9 +48,15 @@ function QsoList() {
         
         getQsoList({station:callsign,page:page})
         .then((response) => {
-            if (response.qsos.length>0){
+            // eslint-disable-next-line
+            if (response.qsos.length>0 && response.qsos.length==100){
                 setQsos(qsos.concat(response.qsos));
                 setPage(page+1);
+                setHasMore(true);
+            
+            }else if (response.qsos.length>0 && response.qsos.length<100){
+                setQsos(qsos.concat(response.qsos));
+                setHasMore(false);
             }else{
                 setHasMore(false);
             }
@@ -68,6 +74,11 @@ function QsoList() {
         setLoading(true);
         getQsoList({station:callId,page:1})
         .then((response) => {
+            if (response.qsos.length>0 && response.qsos.length==100){
+                setHasMore(true);
+            }else{
+                setHasMore(false);
+            }
             
             setQsos(response.qsos);
             setLoading(false);
@@ -161,7 +172,6 @@ function QsoList() {
                     dataLength={qsos.length} //This is important field to render the next data
                     next={getMoreData}
                     hasMore={hasMore}
-                    
                     loader={
                         <div class="text-center">
                             <div class="spinner-border" role="status">
