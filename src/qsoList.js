@@ -6,7 +6,7 @@ import {Form, Row} from "react-bootstrap";
 import { saveAs } from 'file-saver';
 import { useParams} from "react-router-dom";
 import {useNavigate} from 'react-router-dom';
-
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 
 
@@ -16,6 +16,7 @@ function QsoList() {
     const {station} = useParams();
 	const [ qsos, setQsos] = useState([]);
 	const [ callsign, setCallSign ] = useState("");
+    const [ page, setPage ] = useState(1);
     const [ loading, setLoading ] = useState(false);
     const navigate = useNavigate();
 
@@ -39,6 +40,20 @@ function QsoList() {
 
     const handleSearch =()=>{
         loadData(callsign);
+    }
+
+    const getMoreData=()=>{
+        
+        getQsoList({station:callsign,page:page})
+        .then((response) => {
+            
+            setQsos(qsos.concat(response.qsos));
+            setPage(page+1);
+            
+          
+      })
+      .catch((response) =>null);
+       
     }
 
     const loadData =(callId)=> {
@@ -134,6 +149,30 @@ function QsoList() {
             }else{
         
                 return (
+                    <div  >
+                    <InfiniteScroll
+                    dataLength={qsos.length} //This is important field to render the next data
+                    next={getMoreData}
+                    hasMore={true}
+                    loader={
+                        <div class="text-center">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Cargando más...</span>
+                            </div>
+                            <p class="m-2"> Aguarde un instante...</p>
+                        </div>
+                        }
+                    endMessage={
+                        <p style={{ textAlign: 'center' }}>
+                        <b>Eso es todo por ahora...</b>
+                        </p>
+                        
+                    }
+                    style={{ height: "100%", overflow:"hidden" }}
+                    
+                    // below props only if you need pull down functionality
+                   
+                    >
             <table class="table block striped hover bordered responsive mt-3 border">
                 <thead>
                     <tr class="table-primary">
@@ -147,7 +186,8 @@ function QsoList() {
                     </tr>
                 </thead>
             <tbody>
-            {qsos.map((each) =>{
+           
+                {qsos.map((each) =>{
                  return ( 
                     <tr>
                     <td class="text-center">
@@ -168,9 +208,14 @@ function QsoList() {
                  )
             
                 }   )}
+            
+
+            
         
         </tbody>
-      </table>);
+      </table>
+      </InfiniteScroll>
+      </div>);
             }
       }
         
@@ -217,6 +262,7 @@ function QsoList() {
 
                     
                             <ActivityTable />
+                            
                     
                     
                     
