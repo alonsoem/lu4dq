@@ -64,6 +64,7 @@ function QsoList() {
 
     const loadData =(callId)=> {
         setHasMore(true);
+        setPage(2);
         setLoading(true);
         getQsoList({station:callId,page:1})
         .then((response) => {
