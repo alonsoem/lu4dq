@@ -16,7 +16,7 @@ function QsoList() {
     const {station} = useParams();
 	const [ qsos, setQsos] = useState([]);
 	const [ callsign, setCallSign ] = useState("");
-    const [ page, setPage ] = useState(1);
+    const [ page, setPage ] = useState(2);
     const [ loading, setLoading ] = useState(false);
     const navigate = useNavigate();
 
@@ -59,7 +59,7 @@ function QsoList() {
     const loadData =(callId)=> {
         
         setLoading(true);
-        getQsoList({station:callId})
+        getQsoList({station:callId,page:1})
         .then((response) => {
             
             setQsos(response.qsos);
