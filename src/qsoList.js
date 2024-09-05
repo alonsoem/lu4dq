@@ -74,6 +74,7 @@ function QsoList() {
         setLoading(true);
         getQsoList({station:callId,page:1})
         .then((response) => {
+            // eslint-disable-next-line
             if (response.qsos.length>0 && response.qsos.length==100){
                 setHasMore(true);
             }else{
