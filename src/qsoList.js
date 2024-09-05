@@ -7,6 +7,7 @@ import { saveAs } from 'file-saver';
 import { useParams} from "react-router-dom";
 import {useNavigate} from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -17,6 +18,7 @@ function QsoList() {
 	const [ qsos, setQsos] = useState([]);
 	const [ callsign, setCallSign ] = useState("");
     const [ page, setPage ] = useState(2);
+    const [ hasMore, setHasMore] = useState(true);
     const [ loading, setLoading ] = useState(false);
     const navigate = useNavigate();
 
@@ -46,9 +48,13 @@ function QsoList() {
         
         getQsoList({station:callsign,page:page})
         .then((response) => {
-            
-            setQsos(qsos.concat(response.qsos));
-            setPage(page+1);
+            if (response.qsos.length>0){
+                setQsos(qsos.concat(response.qsos));
+                setPage(page+1);
+            }else{
+                setHasMore(false);
+            }
+
             
           
       })
@@ -57,7 +63,7 @@ function QsoList() {
     }
 
     const loadData =(callId)=> {
-        
+        setHasMore(true);
         setLoading(true);
         getQsoList({station:callId,page:1})
         .then((response) => {
@@ -153,7 +159,8 @@ function QsoList() {
                     <InfiniteScroll
                     dataLength={qsos.length} //This is important field to render the next data
                     next={getMoreData}
-                    hasMore={true}
+                    hasMore={hasMore}
+                    
                     loader={
                         <div class="text-center">
                             <div class="spinner-border" role="status">
