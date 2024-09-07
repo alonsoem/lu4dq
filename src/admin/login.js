@@ -23,6 +23,7 @@ export default function LoginForm(props) {
     const [password, setPassword] = useState("");
     const [errorVisible, setErrorVisible] = useState(false);
     const [error, setError] = useState("");
+    // eslint-disable-next-line
     const [errors, setErrors] = useState("");
 
     const navigate = useNavigate();

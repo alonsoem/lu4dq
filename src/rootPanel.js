@@ -11,7 +11,6 @@ import QsoUpload from "./qsoUpload.js";
 import Landing from "./landing.js";
 import Qso from "./qso.js";
 import QsoList from "./qsoList.js";
-import NavMenu from "./nav.js";
 import AdminView from "./admin/adminView.js";
 import AdminABM from "./admin/activity/adminABM.js";
 import Checker from "./checker.js";
