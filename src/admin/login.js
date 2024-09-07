@@ -57,7 +57,17 @@ export default function LoginForm(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        postLogin({ username: email, password: password })
+
+        
+	    const formData = new FormData();
+
+		formData.append('username',email);
+        formData.append('password',password);
+    
+    
+		
+    
+        postLogin(formData)
         .then((response) => {
             sessionStorage.setItem("token", response.token);
             sessionStorage.setItem("userId", response.id);

@@ -47,4 +47,4 @@ export const removeStation = (params) => foreignRequest('get','https://lu4dq.qri
 
 export const postStatistics = (params) => foreignRequest('get', 'https://lu4dq.qrits.com.ar/api/preQsoStatistics.php',params,{'Content-Type':'Content-Type: text/html'});
 
-export const postLogin = (body) => foreignPost("https://lu4dq.qrits.com.ar/api/authenticate.php", body, {headers: { "Content-Type": "application/json" }});
+export const postLogin = (body) => foreignPost("https://lu4dq.qrits.com.ar/api/authenticate.php", body);
