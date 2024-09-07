@@ -12,6 +12,7 @@ import {
 
 import { postLogin } from "../api/api";
 import login_back from "../login_back.png";
+import { useNavigate } from 'react-router-dom'
 //import "./loginform.css";
 
 
@@ -24,6 +25,7 @@ export default function LoginForm(props) {
     const [error, setError] = useState("");
     const [errors, setErrors] = useState("");
 
+    const navigate = useNavigate();
   
     const handleChangeEmail =(event)=>{
         setEmail(event.target.value);  
@@ -59,7 +61,8 @@ export default function LoginForm(props) {
             sessionStorage.setItem("token", response.token);
             sessionStorage.setItem("userId", response.id);
             sessionStorage.setItem("username", email);
-            props.history.push("/status/admin");
+            //props.history.push("/status/admin");
+            navigate('/');
         })
         .catch((responseError) => handleAPIError(responseError));
     };
