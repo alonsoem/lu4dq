@@ -6,6 +6,7 @@ import {Col, Row} from "react-bootstrap";
 import {useNavigate} from 'react-router-dom';
 import { useParams} from "react-router-dom";
 import NavAdmin from './navAdmin';
+import NavMenu from '../nav';
 
 
 function CheckerCompare() {
@@ -162,6 +163,7 @@ function CheckerCompare() {
     return (
 
         <div>
+            <NavMenu />
         <NavAdmin />
             <div className="container d-flex ">
 

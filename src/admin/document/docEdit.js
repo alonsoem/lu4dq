@@ -14,6 +14,7 @@ import Modal from 'react-bootstrap/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { saveAs } from 'file-saver';
+import NavMenu from '../../nav';
 
 export default function EditDoc() {
 
@@ -310,6 +311,7 @@ const Imageconditional = (params) =>{
     return (
       
       <div>
+        <NavMenu />
       <ModalForm />
       <NavAdmin />
       <form onSubmit={handleSubmit} className="row g-3 needs-validation">

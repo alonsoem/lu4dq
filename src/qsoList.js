@@ -6,7 +6,11 @@ import {Form, Row} from "react-bootstrap";
 import { saveAs } from 'file-saver';
 import { useParams} from "react-router-dom";
 import {useNavigate} from 'react-router-dom';
+
 import InfiniteScroll from 'react-infinite-scroll-component';
+
+import NavMenu from './nav';
+
 
 
 
@@ -242,7 +246,8 @@ function QsoList() {
      
 
     return (
-
+        <div>
+            <NavMenu />
             <div className="container-fluid d-flex ">
 
                 <div className="container-fluid table-scroll-vertical col-12">
@@ -291,6 +296,7 @@ function QsoList() {
             
                 </div>
             </div>
+        </div>
 
         );
 

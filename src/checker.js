@@ -7,6 +7,7 @@ import { saveAs } from 'file-saver';
 import { useParams} from "react-router-dom";
 import {useNavigate} from 'react-router-dom';
 import NavAdmin from './admin/navAdmin';
+import NavMenu from './nav.js';
 
 
 function Checker() {
@@ -155,6 +156,7 @@ function Checker() {
     return (
         
       <div>
+        <NavMenu />
       <NavAdmin />
 
             <div className="container d-flex ">

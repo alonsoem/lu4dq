@@ -9,6 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
 import TimeUp from './timeUp';
+import NavMenu from './nav';
 
 
 export default class QsoUpload extends  React.Component {
@@ -173,7 +174,8 @@ export default class QsoUpload extends  React.Component {
       
         return (
 
-            
+            <div>
+            <NavMenu />
             
 
                    <div  className="mt-4 " >
@@ -204,7 +206,7 @@ export default class QsoUpload extends  React.Component {
                         </div>
                     </div>
 
-         
+         </div>
     
 
         );

@@ -6,6 +6,7 @@ import {Form, Row} from "react-bootstrap";
 import { saveAs } from 'file-saver';
 import TimeUp from './timeUp';
 import { useCookies } from 'react-cookie';
+import NavMenu from "./nav";
 
 function Upload(){	
 
@@ -423,6 +424,7 @@ function Upload(){
 		
 			
 		return (
+			
 			<div className="card-body " >
 								<ToastContainer />
 								<h1>Incluir un archivo ADIF</h1>
@@ -549,6 +551,8 @@ function Upload(){
 
 	}
 		return (
+			<div>
+            <NavMenu />
 			<div className="container-fluid  gap-3 p-3">
 				<div className="container-fluid  m-auto  col-lg-10 col-md-10 col-sm-10 col-xs-12 col-12">
 
@@ -561,6 +565,7 @@ function Upload(){
 							</div>
 					</div>
 				</div>
+			</div>
 			</div>
 		);
 	

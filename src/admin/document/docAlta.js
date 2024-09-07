@@ -9,6 +9,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 import {useNavigate} from 'react-router-dom';
 import NavAdmin from '../navAdmin';
+import NavMenu from '../../nav';
 
 function AdminDoc() {
 
@@ -209,6 +210,7 @@ const frontPageRef =useRef(null);
     return (
       
       <div>
+        <NavMenu />
       <NavAdmin />
       <form onSubmit={handleSubmit} className="row g-3 needs-validation">
             <div className="container d-flex ">

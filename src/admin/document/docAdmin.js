@@ -4,6 +4,7 @@ import { useState,useEffect} from 'react';
 import { getDocuments } from '../../api/api';
 import {useNavigate} from 'react-router-dom';
 import NavAdmin from '../navAdmin';
+import NavMenu from '../../nav';
 
 
 
@@ -122,6 +123,7 @@ export default function DocAdmin() {
 
     return (
             <div>
+                <NavMenu />
                 <NavAdmin />
             
             <div className="container d-flex ">

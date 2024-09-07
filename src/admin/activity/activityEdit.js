@@ -16,6 +16,7 @@ import Modal from 'react-bootstrap/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { saveAs } from 'file-saver';
+import NavMenu from '../../nav';
 
 function ActivityEdit(params){
 
@@ -619,6 +620,8 @@ const wordComponent =()=>{
 
     return (
       
+      <div>
+            <NavMenu />
             <div className="container d-flex ">
             <ModalForm />
             <ToastContainer />
@@ -1125,6 +1128,7 @@ const wordComponent =()=>{
             
                 </div>
             </div>
+          </div>
       
         );
 

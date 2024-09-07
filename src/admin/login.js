@@ -59,12 +59,13 @@ export default function LoginForm(props) {
             sessionStorage.setItem("token", response.token);
             sessionStorage.setItem("userId", response.id);
             sessionStorage.setItem("username", email);
-            props.history.push("/");
+            props.history.push("/status/admin");
         })
         .catch((responseError) => handleAPIError(responseError));
     };
 
     const handleAPIError = (responseError) =>{
+        console.log(responseError);
         let errorToDisplay = "SE PRODUJO UN ERROR INESPERADO";
 
         if (responseError.request && responseError.request.status === 0) {

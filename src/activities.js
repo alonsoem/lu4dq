@@ -5,6 +5,7 @@ import * as DOMPurify from 'dompurify';
 import {Parser} from "html-to-react";
 import TimeUp from './timeUp.js';
 import { format } from "date-fns";
+import NavMenu from './nav.js';
 
 
 
@@ -47,7 +48,8 @@ function  ActivitiesBeta () {
 
     
         return (
-                            
+            <div>
+            <NavMenu />
             <div class="container-fluid ">
                 <div class="mt-4 m-auto row row-cols-1 row-cols-xs-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 row-cols-xxl-3 col-xxl-10 col-12 col-xl-10 col-md-12 col-lg-8 ">
                     {activities && activities.map((each)=>
@@ -75,6 +77,7 @@ function  ActivitiesBeta () {
                     )}
                 </div>
                 {!loading && !activities?<TimeUp />:null}
+            </div>
             </div>
 
         );

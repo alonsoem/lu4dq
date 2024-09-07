@@ -1,6 +1,7 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
 import { useParams } from "react-router-dom";
+import NavMenu from './nav';
 
 export default function Landing(props) {
     
@@ -25,6 +26,8 @@ export default function Landing(props) {
 
       
     return (
+        <div>
+            <NavMenu />
             <div className="container d-flex ">
 
                 <div className="container-fluid table-scroll-vertical ">
@@ -53,6 +56,7 @@ export default function Landing(props) {
                     </div>
                 </div>
             
+         </div>
          </div>
         
 

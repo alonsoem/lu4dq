@@ -8,6 +8,7 @@ import {useNavigate} from 'react-router-dom';
 import * as DOMPurify from 'dompurify';
 import {Parser} from "html-to-react";
 import { format } from "date-fns";
+import NavMenu from './nav.js';
 
 
 
@@ -377,7 +378,8 @@ const showTable=()=>{
         return(
        
             
-            
+            <div>
+            <NavMenu />
                 
                 <div className="container-fluid col-sm-12 col-12" >
             
@@ -517,6 +519,7 @@ const showTable=()=>{
 
                     </div>
                 </div>
+            </div>
             
            
         );

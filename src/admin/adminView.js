@@ -5,6 +5,7 @@ import { getActivities, getStatsByBand, getStatsByMode, getStatusRank ,getStatsB
 import {Form, Row} from "react-bootstrap";
 import { Pie,Bar } from 'react-chartjs-2';
 import NavAdmin from './navAdmin';
+import NavMenu from '../nav';
 
 //import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import {
@@ -304,6 +305,7 @@ function AdminView() {
     return (
       
       <div>
+        <NavMenu />
       <NavAdmin />
 
             <div className="container d-flex ">

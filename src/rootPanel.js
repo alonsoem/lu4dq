@@ -21,6 +21,7 @@ import ActivityEdit from "./admin/activity/activityEdit.js";
 import AdminDoc from "./admin/document/docAdmin.js";
 import NewDoc from "./admin/document/docAlta.js";
 import EditDoc from "./admin/document/docEdit.js";
+import LoginForm  from "./admin/login.js";
 
 
 
@@ -35,7 +36,7 @@ export default class App extends React.Component {
       return (
         
         <BrowserRouter >
-        <NavMenu />
+        
           <Routes>
             
           <Route exact path="/" element={<Landing />}></Route>
@@ -44,10 +45,7 @@ export default class App extends React.Component {
           <Route exact path='/cargaManual' element={<QsoUpload />}></Route>
 
           <Route exact path='/qsoList/:station' element={<QsoList />}></Route>   
-          <Route exact path='/qsoList' element={<QsoList />}></Route>   
-
-
-          
+          <Route exact path='/qsoList' element={<QsoList />}></Route>         
 
 
           <Route exact path='/activities' element={<AllActivities />}></Route>   
@@ -59,8 +57,6 @@ export default class App extends React.Component {
           <Route path="/:stationCode" element={<Landing />}></Route>
           <Route path="/cargaMasiva/:stationCode" element={<UploadBis />}></Route>
           <Route path="/cargaManual/:stationCode" element={<QsoUpload />}></Route>
-          
-          
           
           <Route exact path='/status/checker/:station/:toCallsign' element={<CheckerCompare />}></Route>   
           <Route exact path='/status/checker/:station' element={<Checker />}></Route>   
@@ -75,6 +71,9 @@ export default class App extends React.Component {
           <Route exact path='/status/admin/ABM' element={<AdminABM />}></Route>  
           <Route exact path='/status/admin/editActivity/:id' element={<ActivityEdit />}></Route>  
           <Route exact path='/status/admin' element={<Admin />}></Route>  
+
+
+          <Route exact path='/admintest' element={<LoginForm />}></Route>  
           
           
             

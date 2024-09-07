@@ -9,6 +9,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import {  EditorState, convertToRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import {useNavigate} from 'react-router-dom';
+import NavMenu from '../../nav';
 //import { descriptors } from 'chart.js/dist/core/core.defaults';
 
 function AdminABM() {
@@ -458,6 +459,9 @@ const wordComponent =()=>{
 
 	
     return (
+      <div>
+        <NavMenu />
+      
       <form onSubmit={handleSubmit} className="row g-3 needs-validation">
             <div className="container d-flex ">
             <ToastContainer />
@@ -816,6 +820,7 @@ const wordComponent =()=>{
                 </div>
             </div>
       </form>
+      </div>
         );
 
     }
