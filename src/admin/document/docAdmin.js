@@ -116,7 +116,7 @@ export default function DocAdmin() {
 
      const navigateAdd = () => {
       
-          navigate('/status/admin/doc/new');    
+          navigate('/rcpanel/doc/new');    
       
     };
   

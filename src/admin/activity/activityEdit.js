@@ -284,7 +284,7 @@ const notifyError = (message) => {
 
 const navigateToAdmin = () => {
       
-  navigate('/status/admin');    
+  navigate('/rcpanel');    
 
 };
 

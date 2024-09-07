@@ -57,22 +57,22 @@ export default class App extends React.Component {
           <Route path="/cargaMasiva/:stationCode" element={<UploadBis />}></Route>
           <Route path="/cargaManual/:stationCode" element={<QsoUpload />}></Route>
           
-          <Route exact path='/status/checker/:station/:toCallsign' element={<CheckerCompare />}></Route>   
-          <Route exact path='/status/checker/:station' element={<Checker />}></Route>   
-          <Route exact path='/status/checker' element={<Checker />}></Route>   
-          <Route exact path='/status/blabla' element={<AdminView />}></Route>  
+          <Route exact path='/rcpanel/qsoChecker/:station/:toCallsign' element={<CheckerCompare />}></Route>   
+          <Route exact path='/rcpanel/qsoChecker/:station' element={<Checker />}></Route>   
+          <Route exact path='/rcpanel/qsoChecker' element={<Checker />}></Route>   
+          <Route exact path='/rcpanel/stats' element={<AdminView />}></Route>  
 
           
-          <Route exact path='/status/admin/doc' element={<AdminDoc />}></Route>  
-          <Route exact path='/status/admin/doc/new' element={<NewDoc />}></Route>  
-          <Route exact path='/status/admin/doc/:id' element={<EditDoc />}></Route>  
+          <Route exact path='/rcpanel/doc' element={<AdminDoc />}></Route>  
+          <Route exact path='/rcpanel/doc/new' element={<NewDoc />}></Route>  
+          <Route exact path='/rcpanel/doc/:id' element={<EditDoc />}></Route>  
 
-          <Route exact path='/status/admin/ABM' element={<AdminABM />}></Route>  
-          <Route exact path='/status/admin/editActivity/:id' element={<ActivityEdit />}></Route>  
-          <Route exact path='/status/admin' element={<Admin />}></Route>  
+          <Route exact path='/rcpanel/ABM' element={<AdminABM />}></Route>  
+          <Route exact path='/rcpanel/editActivity/:id' element={<ActivityEdit />}></Route>  
+          <Route exact path='/rcpanel' element={<Admin />}></Route>  
 
 
-          <Route exact path='/admintest' element={<LoginForm />}></Route>  
+          <Route exact path='/login' element={<LoginForm />}></Route>  
           
           
             

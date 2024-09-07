@@ -167,7 +167,7 @@ function Admin() {
 
      const navigateAddActivity = () => {
       
-          navigate('/status/admin/ABM');    
+          navigate('/rcpanel/ABM');    
       
     };
   

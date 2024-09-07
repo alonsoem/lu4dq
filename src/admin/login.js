@@ -69,11 +69,11 @@ export default function LoginForm(props) {
     
         postLogin(formData)
         .then((response) => {
+            console.log(response.token);
             sessionStorage.setItem("token", response.token);
-            sessionStorage.setItem("userId", response.id);
             sessionStorage.setItem("username", email);
             //props.history.push("/status/admin");
-            navigate('/');
+            navigate('/rcpanel');
         })
         .catch((responseError) => handleAPIError(responseError));
     };

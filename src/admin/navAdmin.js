@@ -9,14 +9,21 @@ export default function NavAdmin(props) {
     
     
     let session = sessionStorage.getItem("token");
-
+console.log("TOKEN");
+console.log(session);
     if (!session) {
-      navigate("/admintest");
+      console.log("NO HAY TOKEN");
+      navigate("/login");
     } else {
+      console.log("SIII HAY TOKEN");
+      
       const jwt_Token_decoded = jwtDecode(session);
-
+      console.log("JWT:"+JSON.stringify(jwt_Token_decoded));
+      console.log(jwt_Token_decoded.exp);
+      console.log(Date.now());
       if (jwt_Token_decoded.exp * 1000 < Date.now()) {
-        return navigate("/admintest");
+        console.log("EXPIRO");
+        navigate("/login");
       }
     }
     
@@ -28,19 +35,19 @@ export default function NavAdmin(props) {
     return (
         <ul class="nav justify-content-center navLu4dqAdmin">        
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/status/blabla">ESTADISTICAS</a>
+            <a class="nav-link active" aria-current="page" href="/rcpanel/stats">ESTADISTICAS</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="/status/checker">VALIDADOR DE CONTACTOS</a>
+            <a class="nav-link" href="/rcpanel/qsoChecker">VALIDADOR DE CONTACTOS</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="/status/admin">ACTIVIDADES</a>
+            <a class="nav-link" href="/rcpanel">ACTIVIDADES</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="/status/admin/doc">DOCUMENTOS</a>
+            <a class="nav-link" href="/rcpanel/doc">DOCUMENTOS</a>
           </li>
           
         </ul>
