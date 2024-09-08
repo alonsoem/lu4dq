@@ -25,7 +25,7 @@ function Checker() {
 
     const navigateToStationQso = (corresponsal) => {
         if (station){
-            navigate('/rcpanel/qsoChecker'+station+'/'+corresponsal);
+            navigate('/rcpanel/qsoChecker/'+station+'/'+corresponsal);
         }else{
             navigate('/rcpanel/qsoChecker/'+callsign+'/'+corresponsal);
         }
