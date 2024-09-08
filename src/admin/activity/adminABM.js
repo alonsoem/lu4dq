@@ -461,6 +461,7 @@ const wordComponent =()=>{
     return (
       <div>
         <NavMenu />
+        <NavAdmin />
       
       <form onSubmit={handleSubmit} className="row g-3 needs-validation">
             <div className="container d-flex ">
