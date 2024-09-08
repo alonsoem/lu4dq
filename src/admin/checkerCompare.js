@@ -39,7 +39,7 @@ function CheckerCompare() {
 
 
     const handleBack =(event)=>{
-        navigate('/status/checker/'+station);
+        navigate('/rcpanel/qsoChecker/'+station);
     }
  
 

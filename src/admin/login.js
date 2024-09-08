@@ -72,7 +72,6 @@ export default function LoginForm(props) {
             console.log(response.token);
             sessionStorage.setItem("token", response.token);
             sessionStorage.setItem("username", email);
-            //props.history.push("/status/admin");
             navigate('/rcpanel');
         })
         .catch((responseError) => handleAPIError(responseError));

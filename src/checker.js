@@ -8,6 +8,7 @@ import { useParams} from "react-router-dom";
 import {useNavigate} from 'react-router-dom';
 import NavAdmin from './admin/navAdmin';
 import NavMenu from './nav.js';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 
 function Checker() {
@@ -15,6 +16,8 @@ function Checker() {
     const {station} = useParams();
 	const [ qsos, setQsos] = useState([]);
 	const [ callsign, setCallSign ] = useState("");
+    const [ page, setPage ] = useState(2);
+    const [ hasMore, setHasMore] = useState(true);
     const [ loading, setLoading ] = useState(false);
     const navigate = useNavigate();
 
@@ -22,9 +25,9 @@ function Checker() {
 
     const navigateToStationQso = (corresponsal) => {
         if (station){
-            navigate('/status/checker/'+station+'/'+corresponsal);
+            navigate('/rcpanel/qsoChecker'+station+'/'+corresponsal);
         }else{
-            navigate('/status/checker/'+callsign+'/'+corresponsal);
+            navigate('/rcpanel/qsoChecker/'+callsign+'/'+corresponsal);
         }
       };
 
@@ -42,11 +45,42 @@ function Checker() {
         loadData(callsign);
     }
 
-    const loadData =(callId)=> {
+    const getMoreData=()=>{
         
-        setLoading(true);
-        getQsoList({station:callId})
+        getQsoList({station:callsign,page:page})
         .then((response) => {
+            // eslint-disable-next-line
+            if (response.qsos.length>0 && response.qsos.length==100){
+                setQsos(qsos.concat(response.qsos));
+                setPage(page+1);
+                setHasMore(true);
+            
+            }else if (response.qsos.length>0 && response.qsos.length<100){
+                setQsos(qsos.concat(response.qsos));
+                setHasMore(false);
+            }else{
+                setHasMore(false);
+            }
+
+            
+          
+      })
+      .catch((response) =>null);
+       
+    }
+
+    const loadData =(callId)=> {
+        setHasMore(true);
+        setPage(2);
+        setLoading(true);
+        getQsoList({station:callId,page:1})
+        .then((response) => {
+            // eslint-disable-next-line
+            if (response.qsos.length>0 && response.qsos.length==100){
+                setHasMore(true);
+            }else{
+                setHasMore(false);
+            }
             
             setQsos(response.qsos);
             setLoading(false);
@@ -54,6 +88,7 @@ function Checker() {
       })
       .catch((response) => handleAxiosError(response));
     }
+
     const handleChangeCallsign = (event) => {
         setCallSign(event.target.value);
         
@@ -119,6 +154,30 @@ function Checker() {
             }else{
         
                 return (
+                    <div>
+                         <InfiniteScroll
+                    dataLength={qsos.length} //This is important field to render the next data
+                    next={getMoreData}
+                    hasMore={hasMore}
+                    loader={
+                        <div class="text-center">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Cargando más...</span>
+                            </div>
+                            <p class="m-2"> Aguarde un instante...</p>
+                        </div>
+                        }
+                    endMessage={
+                        <p style={{ textAlign: 'center' }}>
+                        <b>Eso es todo por ahora...</b>
+                        </p>
+                        
+                    }
+                    style={{ height: "100%", overflow:"hidden" }}
+                    
+                    // below props only if you need pull down functionality
+                   
+                    >
             <table class="table striped hover bordered responsive mt-3 border">
                 <thead>
                     <tr class="table-primary">
@@ -146,7 +205,9 @@ function Checker() {
                 }   )}
         
         </tbody>
-      </table>);
+      </table>
+      </InfiniteScroll>
+                    </div>);
             }
       }
         
