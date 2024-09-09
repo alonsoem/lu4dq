@@ -146,7 +146,6 @@ function QsoList() {
 
     function allQsl(qso){
         return  qso.qsl.map((each)=>{            
-            console.log(qso.date);
             return qsl(each,qso);
         });
     }
@@ -205,7 +204,7 @@ function QsoList() {
                         <th scope="col" class="text-center ">Banda</th>
                         <th scope="col" class="text-center d-none d-lg-table-cell">Modo</th>
                         <th scope="col" class="text-center d-none d-lg-table-cell ">Swl</th>
-                        <th scope="col" class="text-center">Qso / Qsl</th>
+                        <th scope="col" class="text-center">Qsl</th>
                     </tr>
                 </thead>
             <tbody>
