@@ -140,7 +140,7 @@ function QsoList() {
         }else if (qsl.status=="Confirmed"){
             return ("Confirmado");
         }else{
-            return ("-");
+            return ("La estación no confirmó el contacto.");
         }
     }
 
