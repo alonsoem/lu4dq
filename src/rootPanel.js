@@ -21,6 +21,7 @@ import AdminDoc from "./admin/document/docAdmin.js";
 import NewDoc from "./admin/document/docAlta.js";
 import EditDoc from "./admin/document/docEdit.js";
 import LoginForm  from "./admin/login.js";
+import StationsList  from "./admin/stations/panel.js";
 
 
 
@@ -62,7 +63,7 @@ export default class App extends React.Component {
           <Route exact path='/rcpanel/qsoChecker' element={<Checker />}></Route>   
           <Route exact path='/rcpanel/stats' element={<AdminView />}></Route>  
 
-          
+          <Route exact path='/rcpanel/stations' element={<StationsList />}></Route>  
           <Route exact path='/rcpanel/doc' element={<AdminDoc />}></Route>  
           <Route exact path='/rcpanel/doc/new' element={<NewDoc />}></Route>  
           <Route exact path='/rcpanel/doc/:id' element={<EditDoc />}></Route>  
