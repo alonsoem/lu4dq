@@ -205,7 +205,8 @@ function StationsList() {
                                             </div>
                                             <div className="col-7">
                                                 { 
-                                                searchType===1?
+                                                // eslint-disable-next-line 
+                                                searchType==1?
                                                     <Form.Group className="mb-3" controlId="toCall2Value">
                                                         <Form.Label>Tipo de busqueda</Form.Label>
                                                         <select onChange={handleChangeSearchByActivity} className={"form-select"}>
