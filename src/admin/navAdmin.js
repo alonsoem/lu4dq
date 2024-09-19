@@ -50,7 +50,7 @@ console.log(session);
             <a class="nav-link" href="/rcpanel/doc">DOCUMENTOS</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/rcpanel/stations">ESTACIONES (EN PROCESO)</a>
+            <a class="nav-link" href="/rcpanel/stations">ESTACIONES</a>
           </li>
           
         </ul>

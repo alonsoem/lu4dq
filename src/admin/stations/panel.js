@@ -1,11 +1,10 @@
 import React from 'react';
 
 import { useState,useEffect} from 'react';
-import { getStations,setStatus } from '../../api/api';
+import { getAllActivities, getStations } from '../../api/api';
 import {useNavigate} from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
-import {Form,Row} from "react-bootstrap";
+
+import {Form} from "react-bootstrap";
 import NavAdmin from '../navAdmin';
 import NavMenu from '../../nav';
 
@@ -16,30 +15,44 @@ function StationsList() {
     const navigate = useNavigate();
     const [ loading, setLoading ] = useState(false);
     const [ dataList, setDataList ] = useState([]);
-    const [ statusUpdate, setStatusUpdate ] = useState(0);
     const [searchType, setSearchType] = useState(0);
     const [searchValue, setSearchValue] = useState("");
+    const [activities, setActivities] = useState([]);
+    
     
     
 
-    const navigateToUrl = (id) => {
+    /*const navigateToUrl = (id) => {
         navigate('stations/'+id);
         
       };
-  
+  */
     useEffect(() => {
         
         updateData();
         return;
+        // eslint-disable-next-line
+        },[searchValue]
+    )
+
+    useEffect(() => {
+        getAllActivities()
+            .then((response) => {
+                setActivities(response.activities);
+            })
+            .catch((response) => {
+                handleAxiosError(response);
+            });
+        return;
         
-        },[statusUpdate]
+        },[]
     )
 
     const updateData=()=>{
         setLoading(true);
         getStations({type:searchType,value:searchValue})
             .then((response) => {
-                console.log(response.stations);
+                
                 setDataList(response.stations);
                 setLoading(false);
             })
@@ -48,34 +61,20 @@ function StationsList() {
                 setLoading(false);
             });
     }
+
     const handleChangeSearchType= (event)=>{
+        setSearchValue("");
+        setDataList([]);
         setSearchType(event.target.value);
-        updateData();
     }
+
     const handleChangeSearchValue=(event)=>{
         setSearchValue(event.target.value);
-        updateData();
     }
 
-
-    const handleChangeStatus = (id,status)=>{
-        setStatus(
-            {
-                id:id,
-                // eslint-disable-next-line
-                setTo:(status==0?1:0)
-            }
-        )
-        .then((response) => {
-            console.log(response);
-            setStatusUpdate(statusUpdate+1);
-        }
-        
-        )
-        .catch();
+    const handleChangeSearchByActivity=(event)=>{
+        setSearchValue(event.target.value);
     }
-
-
    
     const handleAxiosError = (response) => {
         setLoading(false);
@@ -102,19 +101,7 @@ function StationsList() {
 
     function ActivityTable(){
 
-        const showEnabled =(id,enabled)=>{
-
-          // eslint-disable-next-line
-          if (enabled==1){
-            return <span  class="text-success" style={{ cursor: 'pointer'}} onClick={() =>handleChangeStatus(id,enabled)}><FontAwesomeIcon   icon={icon({name: 'eye'})}  title="Click para cambiar el estado" 
-            onClick={handleChangeStatus} /></span>;
-          }else{
-            return <span  class="text-danger " style={{ cursor: 'pointer' }} onClick={()=> handleChangeStatus(id,enabled)}><FontAwesomeIcon   icon={icon({name: 'eye-slash'})}  title="Click para cambiar el estado" 
-                
-            /></span>;
-            
-          }
-        }
+        
 
    
         
@@ -156,7 +143,7 @@ function StationsList() {
                     <td class="text-center">{each.name}</td>
                     <td class="text-center">{each.email}</td>
                     <td class="text-center">{each.grid}</td>
-                    <td class="text-center">{each.updateable=="true"?"SI":"NO"}</td>
+                    <td class="text-center">{each.updateable==="true"?"SI":"NO"}</td>
                     
                     </tr>
                  )
@@ -217,6 +204,25 @@ function StationsList() {
                                                 
                                             </div>
                                             <div className="col-7">
+                                                { 
+                                                searchType===1?
+                                                    <Form.Group className="mb-3" controlId="toCall2Value">
+                                                        <Form.Label>Tipo de busqueda</Form.Label>
+                                                        <select onChange={handleChangeSearchByActivity} className={"form-select"}>
+                                                            <option selected disabled value="">Elija una actividad...</option>
+                                                            {activities && activities.map(each=>{
+                                                                return(
+                                                                <option value={each.id}>{each.title}</option>    
+                                                                );
+                                                                })
+                                                            }
+                                                        
+                                                        
+                                                        </select>
+                                                    </Form.Group>
+                                                
+                                                    
+                                                :
                                                 <Form.Group className="mb-3" controlId="toCall2Value">
                                                     <Form.Label>Valor a buscar</Form.Label>
                                                     <Form.Control  onChange={handleChangeSearchValue} value={searchValue} 
@@ -224,7 +230,12 @@ function StationsList() {
                                                                     />
                                                     
 
-                                                </Form.Group>
+                                                    </Form.Group>
+                                                    
+                                                }
+                                                
+
+                                                
                                             </div>
                                         </div>
                                         <div className="col-2">
