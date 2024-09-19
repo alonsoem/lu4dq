@@ -204,11 +204,13 @@ function StationsList() {
                                                 
                                             </div>
                                             <div className="col-7">
+                                                <Form.Group className="mb-3" controlId="toCall2Value">
+                                                <Form.Label>Valor a buscar</Form.Label>
                                                 { 
+                                                
                                                 // eslint-disable-next-line 
                                                 searchType==1?
-                                                    <Form.Group className="mb-3" controlId="toCall2Value">
-                                                        <Form.Label>Tipo de busqueda</Form.Label>
+                                                    
                                                         <select onChange={handleChangeSearchByActivity} className={"form-select"}>
                                                             <option selected disabled value="">Elija una actividad...</option>
                                                             {activities && activities.map(each=>{
@@ -220,21 +222,20 @@ function StationsList() {
                                                         
                                                         
                                                         </select>
-                                                    </Form.Group>
+                                                    
                                                 
                                                     
                                                 :
-                                                <Form.Group className="mb-3" controlId="toCall2Value">
-                                                    <Form.Label>Valor a buscar</Form.Label>
+                                                
                                                     <Form.Control  onChange={handleChangeSearchValue} value={searchValue} 
                                                                     className={"form-control"}
                                                                     />
                                                     
 
-                                                    </Form.Group>
+                                                 
                                                     
                                                 }
-                                                
+                                                </Form.Group>
 
                                                 
                                             </div>
