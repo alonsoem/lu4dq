@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useState,useEffect} from 'react';
 import { getAllActivities, getStations } from '../../api/api';
-import {useNavigate} from 'react-router-dom';
+//import {useNavigate} from 'react-router-dom';
 
 import {Form} from "react-bootstrap";
 import NavAdmin from '../navAdmin';
@@ -12,7 +12,7 @@ import NavMenu from '../../nav';
 
 
 function StationsList() {
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
     const [ loading, setLoading ] = useState(false);
     const [ dataList, setDataList ] = useState([]);
     const [searchType, setSearchType] = useState(0);
@@ -162,11 +162,11 @@ function StationsList() {
     
     
 
-     const navigateAddActivity = () => {
+     /*const navigateAddActivity = () => {
       
           navigate('/rcpanel/ABM');    
       
-    };
+    };*/
   
 
     return (
@@ -241,7 +241,8 @@ function StationsList() {
                                             </div>
                                         </div>
                                         <div className="col-2">
-                                            <button class="btn btn-primary" onClick={navigateAddActivity}>NUEVA ESTACIÓN</button>
+                                            &nbsp;
+                                            {/*<button class="btn btn-primary" onClick={navigateAddActivity}>NUEVA ESTACIÓN</button>*/}
                                         </div>  
                                     </div>
                                         
