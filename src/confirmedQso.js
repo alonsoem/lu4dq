@@ -267,6 +267,7 @@ import { saveAs } from 'file-saver';
                 <thead>
                     <tr class="table-primary">
                     <th scope="col" class="text-center">Indicativo</th>
+                    <th scope="col" class="text-center">Corresponsal</th>
                     <th scope="col" class="text-center">QSL</th>
                     <th scope="col" class="text-center">Contactos</th>
                     </tr>
@@ -278,6 +279,7 @@ import { saveAs } from 'file-saver';
                 activity.filter(each =>each.qsl[0].status =='RC Confirmed' || each.qsl[0].status =='Confirmed').sort((a,b)=>b.station>a.station).map((each) =>{
                             return ( <tr>
                             <td class="text-center">{each.station.toUpperCase()}</td>
+                            <td class="text-center">{each.callsign.toUpperCase()}</td>
                             
                             <td class="text-center">
                                 <CellQslDocument info={each} />
