@@ -3,7 +3,7 @@ import {useRef, useState, useEffect} from 'react';
 import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import {Form, Row} from "react-bootstrap";
-import { saveAs } from 'file-saver';
+//import { saveAs } from 'file-saver';
 import TimeUp from './timeUp';
 import { useCookies } from 'react-cookie';
 import NavMenu from "./nav";
@@ -286,10 +286,10 @@ function Upload(){
 			}
 		}
 
-		const downloadImage=(url)=>{
+	/*	const downloadImage=(url)=>{
 			saveAs(url, 'qsl.jpg');
 		}
-
+*/
 		/*const qsl = (qsl) =>{
 			// eslint-disable-next-line
 			if (qsl.status=="RC Confirmed"){

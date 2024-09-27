@@ -1,6 +1,6 @@
 import React from 'react';
 import FormRequest from './formRequest';
-import { saveAs } from 'file-saver';
+//import { saveAs } from 'file-saver';
 import { getEnabledActivities } from './api/api';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -92,12 +92,12 @@ export default class QsoUpload extends  React.Component {
     render() {
 
         
-
+/*
         const downloadImage=(url)=>{
             saveAs(url, 'qsl.jpg');
           }
-          
-          const downloadQsl=(qsl)=>{
+  */        
+         /* const downloadQsl=(qsl)=>{
             // eslint-disable-next-line
             if (qsl.status=="RC Confirmed"){
                 var url = "https://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qsl.document+"&chk="+qsl.chk;
@@ -121,7 +121,7 @@ export default class QsoUpload extends  React.Component {
             }
             
             
-          }
+          }*/
        
         function PreviewPanel(props){
             return <div className="container">
