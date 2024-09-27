@@ -130,7 +130,7 @@ export default class QsoUpload extends  React.Component {
 
                             <h5>Podrás seguir la confirmación de contactos desde el sitio de la actividad. <a class="btn btn-success m-3" href="/activities/">Ir a las actividades</a></h5>
                         
-                            {downloadQsl(props.qsl)}
+                            
                         </div>
 
                                          

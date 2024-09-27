@@ -171,7 +171,7 @@ function Upload(){
 								<th class="text-center">Contraparte</th>
 								<th class="text-center">Fecha</th>
 								<th class="text-center">Hora</th>
-								<th class="text-center">Confirmación</th>
+								
 							  </tr>
 						</thead>
 						<tbody className="col-12">
@@ -182,11 +182,7 @@ function Upload(){
 													<td className="col-4 text-center">{r.request.callsign}</td>
 													<td className="col-2 text-center">{r.request.date}</td>
 													<td className="col-2 text-center">{r.request.time}</td>
-													<td className="col-2 text-center">		
-														 {qsl(r.qsl)}										
-														
-													</td>
-	
+									
 													
 													</tr>
 										)
@@ -294,7 +290,7 @@ function Upload(){
 			saveAs(url, 'qsl.jpg');
 		}
 
-		const qsl = (qsl) =>{
+		/*const qsl = (qsl) =>{
 			// eslint-disable-next-line
 			if (qsl.status=="RC Confirmed"){
 				return (<button className="btn btn-success btn-sm" onClick={r=>
@@ -308,7 +304,7 @@ function Upload(){
 				return "-";
 			}
 
-		}
+		}*/
 
 		const handleAxiosError = (response) => {
 			let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
