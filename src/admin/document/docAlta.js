@@ -15,7 +15,7 @@ function AdminDoc() {
 
   const navigate = useNavigate();
     const [errors, setErrors] = useState([]);
-  
+    const [type, setType ] = useState(null);
     const [title, setTitle ] = useState("");
     const [imageFile, setImageFile ] = useState(null);
     const [imageFt8File, setImageFT8File ] = useState(null);
@@ -23,6 +23,10 @@ function AdminDoc() {
    
     const handleChangeTitle=(event)=>{
       setTitle(event.target.value);
+    }
+
+    const handleChangeType=(event)=>{
+      setType(event.target.value);
     }
 
     const onImageFileChange = event => {
@@ -111,6 +115,7 @@ const submit = () =>{
     
 		
     formData.append('description', title);
+    formData.append('type', type);
 		
     
     
@@ -148,6 +153,11 @@ const handleSubmit = (event) => {
   // Check title
   if (title.length<=5) {
       errors.push("title");
+  }
+
+
+  if (!type) {
+    errors.push("type");
   }
   if (!imageFile){
     errors.push("imageFile");
@@ -247,8 +257,35 @@ const frontPageRef =useRef(null);
 
                                           </Form.Group>
                                         </Row>  
+
+                                        <Row className="mb-3 align-middle col-12">
+                                            <Form.Group className="mb-6" controlId="bandValue">
+                                                <Form.Label>TIPO</Form.Label>
+                                                <select id="activity" onChange={handleChangeType} value={type} className={
+                                                    hasError("type")
+                                                          ? "form-select is-invalid "
+                                                          : "form-select " 
+                                                  }>
+                                                    <option selected disabled value="">Elija un tipo de documento...</option>
+                                                    
+                                                    <option value={0}>QSL</option>
+                                                    <option value={1}>CERTIFICADO</option>
+                                                    
+                                                </select>
+                                                <div
+                                                    className={
+                                                      hasError("type")
+                                                            ? "invalid-feedback"
+                                                            : "visually-hidden"
+                                                    }
+                                                >
+                                                  Seleccione un tipo de documento válido
+                                                </div>
+                                            </Form.Group>
+                                        </Row>  
+                                        
                                     
-                                    <Row className="mb-3 align-middle col-12">
+                                    <Row className="mt-5 mb-3 align-middle col-12">
 
                                       <Form.Group className="mb-3" controlId="modeValue">
                                         <Form.Label>Imagen para QSL o CERTIFICADO (JPG)</Form.Label>
