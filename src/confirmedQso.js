@@ -103,6 +103,7 @@ import { saveAs } from 'file-saver';
             }
         }
 
+        
     function activityTable(){
         
         if (loadingMatch){
@@ -116,9 +117,9 @@ import { saveAs } from 'file-saver';
             );
 
         }else{
-            return (<table class="table striped hover bordered responsive border">
+            return (<table class="table striped hover bordered responsive ">
                 <thead>
-                    <tr class="table-primary">
+                    <tr class="table-primary ">
                     <th scope="col" class="text-center">Posición</th>
                     <th scope="col" class="text-center">Indicativo</th>
                     <th scope="col" class="text-center">Contactos</th>
@@ -129,6 +130,16 @@ import { saveAs } from 'file-saver';
                 </thead>
                 <tbody>
                 {
+                    activity.length==0?
+                        <tr > 
+                            <td class="text-center" colspan="6">
+                                <div class="card p-5 mt-3">
+                                <h5>NO HAY NADA POR EL MOMENTO...</h5>
+                                <p>Volvé en breve para ver las actualizaciones!</p></div>
+                                    
+                            </td>
+                        </tr>
+                    :
                 activity.sort((a,b)=>b.callsigns.length-a.callsigns.length).map((each) =>{
                             return ( <tr>
                             <th scope="row" class="text-center">{ activity.indexOf(each)+1}</th>
