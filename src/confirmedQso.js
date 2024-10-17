@@ -130,7 +130,7 @@ import { saveAs } from 'file-saver';
                 </thead>
                 <tbody>
                 {
-                    activity.length==0?
+                    activity.length===0?
                         <tr > 
                             <td class="text-center" colspan="6">
                                 <div class="card p-5 mt-3">
