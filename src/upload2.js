@@ -406,6 +406,9 @@ function Upload(){
 					// eslint-disable-next-line
 					}else if (res.response.data.status=="Station not validated" ) {
 						setResponseError("EL CÓDIGO DE ESTACIÓN NO ES CORRECTO. VERIFIQUELO!");
+					// eslint-disable-next-line
+					}else if (res.response.data.status=="DIRECTERROR" ) {
+						setResponseError(res.response.data.detail);
 					}else{
 						setResponseError("Ocurrió un error inesperado!");
 					}
