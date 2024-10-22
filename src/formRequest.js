@@ -810,6 +810,7 @@ function SeñalesRecibidas() {
                                             <option value="RTTY">RTTY</option>
                                             <option value="FM">FM</option>
                                             <option value="FT8">FT 8</option>
+                                            <option value="FT4">FT 4</option>
                                             <option value="PSK">PSK</option>
                                             <option value="JT9">JT9</option>
                                             <option value="OLIVIA">Olivia</option>
