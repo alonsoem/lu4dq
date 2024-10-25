@@ -656,12 +656,12 @@ const wordComponent =()=>{
                                         <fieldset class="border p-3 mb-3">
                                           <legend  class="float-none w-auto t-4">BASES</legend>
                                           <Row className="mb-3 col-12">
-                                          <Col className="mb-3 align-middle col-6">
+                                          
                                           <Form.Group className="mb-3" controlId="technicalValue">
                                             <Form.Label>Detalle</Form.Label>
                                             <div class="p-2 bg-white">
                                               <Editor
-                                              editorStyle={{ height: '200px' }} 
+                                              editorStyle={{ height: '300px' }} 
                                               editorState={tecnicalDetails}
                                               toolbarClassName="toolbarClassName"
                                               wrapperClassName="wrapperClassName"
@@ -683,14 +683,14 @@ const wordComponent =()=>{
                                                     </div>
 
                                           </Form.Group>
-                                          </Col>
-                                          <Col className="mb-3 align-middle col-6">
+                                          <Row className="m-2 ">
+                                          
                                             <Form.Group  className="mb-3" controlId="file">
                                               <Form.Label  >Documento (PDF)</Form.Label>
                                               <input  ref={docInputRef} class="form-control" type="File" id="formFile"  onChange={onDocFileChange} />
                                               {docFileData()}
                                             </Form.Group>
-                                          </Col>
+                                          </Row>
 
                                           </Row>
                                         </fieldset>
