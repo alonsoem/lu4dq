@@ -137,7 +137,7 @@ function QsoList() {
             
                 
         // eslint-disable-next-line
-        }else if (qsl.status=="Confirmed"){
+        }else if (qsli.status=="Confirmed"){
             return ("Confirmado");
         }else{
             return ("La estación no confirmó el contacto.");
