@@ -1,6 +1,6 @@
 import React from 'react';
 import {useRef, useState, useEffect} from 'react';
-import {Form, Row,Col} from "react-bootstrap";
+import {Form, Row} from "react-bootstrap";
 import { format } from "date-fns";
 import { ToastContainer, toast } from 'react-toastify';
 import {setActivity,getDocuments} from "../../api/api";

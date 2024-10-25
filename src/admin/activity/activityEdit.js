@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState,useEffect} from 'react';
 import { useParams} from 'react-router-dom';
-import {Form, Row,Col,Tabs,Tab} from "react-bootstrap";
+import {Form, Row,Tabs,Tab} from "react-bootstrap";
 import { format } from "date-fns";
 import { ToastContainer, toast } from 'react-toastify';
 import {updateActivity,getActivity,getDocuments, addNewStation,getActivityStations, removeStation} from "../../api/api";
