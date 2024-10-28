@@ -1,6 +1,7 @@
 import {React,useEffect,useState} from 'react';
 import { getResumedActivities ,getActivity, getActivityStations} from './api/api';
 import { useParams} from 'react-router-dom';
+import {Form} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
 import Modal from 'react-bootstrap/Modal';
@@ -23,6 +24,8 @@ import { saveAs } from 'file-saver';
     const [properties,setProps] = useState({});
     const [show, setShow] = useState(false);
     const [loadingMatch, setLoadingMatch] = useState(false);
+
+    const [filter,setFilter] = useState("");
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -72,6 +75,10 @@ import { saveAs } from 'file-saver';
             );
         }, [idAct]
         )
+
+        const onChangeFilter = (event)=>{
+            setFilter(event.target.value.toUpperCase());
+        }
 
         function CellDocument(values){
             
@@ -141,8 +148,9 @@ import { saveAs } from 'file-saver';
                         </tr>
                     :
                 activity.sort((a,b)=>b.callsigns.length-a.callsigns.length).map((each) =>{
+                            if (filter==="" || each.station.includes(filter.toUpperCase())){
                             return ( <tr>
-                            <th scope="row" class="text-center">{ activity.indexOf(each)+1}</th>
+                            <th scope="row" class="text-center">{activity.indexOf(each)+1}</th>
                             <td class="text-center">
                                 
                                     {each.station.toUpperCase()}
@@ -166,6 +174,7 @@ import { saveAs } from 'file-saver';
                             </td>
                         </tr>
                             )
+                        }
                     })
              }
             </tbody>
@@ -212,6 +221,7 @@ import { saveAs } from 'file-saver';
                     
                 {
                 activity.sort((a,b)=>b.callsigns.length-a.callsigns.length).map((each) =>{
+                    if (filter==="" || each.station.includes(filter.toUpperCase())){
                             return ( <tr>
                             <th scope="row" class="text-center">{ activity.indexOf(each)+1}</th>
                             <td class="text-center">
@@ -247,6 +257,7 @@ import { saveAs } from 'file-saver';
                             </td>
                         </tr>
                             )
+                        }
                     })
              }
             </tbody>
@@ -288,6 +299,7 @@ import { saveAs } from 'file-saver';
 
                 // eslint-disable-next-line
                 activity.filter(each =>each.qsl[0].status =='RC Confirmed' || each.qsl[0].status =='Confirmed').sort((a,b)=>b.station>a.station).map((each) =>{
+                    if (filter==="" || each.station.includes(filter.toUpperCase())){
                             return ( <tr>
                             <td class="text-center">{each.station.toUpperCase()}</td>
                             <td class="text-center">{each.callsign.toUpperCase()}</td>
@@ -303,6 +315,7 @@ import { saveAs } from 'file-saver';
     
                         </tr>
                             )
+                        }
                     })
              }
             </tbody>
@@ -515,6 +528,15 @@ const showTable=()=>{
                                     <div class="container mt-2">
                                         <button class="btn btn-success float-end mb-3" onClick={navLoad}>Cargar Contactos</button>
                                         <button class="btn btn-primary float-end mb-3 me-3" onClick={navView}>Ver contactos</button>
+                                    </div>
+                                    <div class="container row m-0">
+                                            <Form.Group className="mb-4 " controlId="signalValue">
+                                                <Form.Label>BUSCAR INDICATIVO</Form.Label>
+                                                <Form.Control  onChange={onChangeFilter} value={filter}
+                                                                className={"form-control"} />
+                                                
+                                            </Form.Group>
+                                        
                                     </div>
                                     <div class="card col-12">
 
