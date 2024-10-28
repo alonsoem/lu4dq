@@ -147,8 +147,10 @@ import { saveAs } from 'file-saver';
                             </td>
                         </tr>
                     :
-                activity.sort((a,b)=>b.callsigns.length-a.callsigns.length).map((each) =>{
-                            if (filter==="" || each.station.includes(filter.toUpperCase())){
+                    activity.filter(each=>each.station.includes(filter.toUpperCase()))
+                            .sort((a,b)=>b.callsigns.length-a.callsigns.length)
+                            .map((each) =>{
+                            
                             return ( <tr>
                             <th scope="row" class="text-center">{activity.indexOf(each)+1}</th>
                             <td class="text-center">
@@ -174,7 +176,7 @@ import { saveAs } from 'file-saver';
                             </td>
                         </tr>
                             )
-                        }
+                        
                     })
              }
             </tbody>
@@ -220,8 +222,11 @@ import { saveAs } from 'file-saver';
                 <tbody>
                     
                 {
-                activity.sort((a,b)=>b.callsigns.length-a.callsigns.length).map((each) =>{
-                    if (filter==="" || each.station.includes(filter.toUpperCase())){
+
+                        activity.filter(each=>each.station.includes(filter.toUpperCase()))
+                                .sort((a,b)=>b.callsigns.length-a.callsigns.length)
+                                .map((each) =>{
+                    
                             return ( <tr>
                             <th scope="row" class="text-center">{ activity.indexOf(each)+1}</th>
                             <td class="text-center">
@@ -257,7 +262,7 @@ import { saveAs } from 'file-saver';
                             </td>
                         </tr>
                             )
-                        }
+                        
                     })
              }
             </tbody>
@@ -297,9 +302,11 @@ import { saveAs } from 'file-saver';
                 <tbody>
                 {
 
+            //activity.filter(each =>each.qsl[0].status =='RC Confirmed' || each.qsl[0].status =='Confirmed').sort((a,b)=>b.station>a.station).map((each) =>{                
                 // eslint-disable-next-line
-                activity.filter(each =>each.qsl[0].status =='RC Confirmed' || each.qsl[0].status =='Confirmed').sort((a,b)=>b.station>a.station).map((each) =>{
-                    if (filter==="" || each.station.includes(filter.toUpperCase())){
+                activity.filter(each=>each.qsl[0].status =='RC Confirmed' && each.station.includes(filter.toUpperCase()))
+                        .sort((a,b)=>b.station>a.station)
+                        .map((each) =>{
                             return ( <tr>
                             <td class="text-center">{each.station.toUpperCase()}</td>
                             <td class="text-center">{each.callsign.toUpperCase()}</td>
@@ -315,7 +322,7 @@ import { saveAs } from 'file-saver';
     
                         </tr>
                             )
-                        }
+                        
                     })
              }
             </tbody>
@@ -532,7 +539,7 @@ const showTable=()=>{
                                     <div class="container row m-0">
                                             <Form.Group className="mb-4 " controlId="signalValue">
                                                 <Form.Label>BUSCAR INDICATIVO</Form.Label>
-                                                <Form.Control  onChange={onChangeFilter} value={filter}
+                                                <Form.Control  type="search" placeholder="Indique una señal distintiva a buscar" onChange={onChangeFilter} value={filter}
                                                                 className={"form-control"} />
                                                 
                                             </Form.Group>
