@@ -4,7 +4,7 @@ import { useParams} from 'react-router-dom';
 import {Form, Row,Tabs,Tab} from "react-bootstrap";
 import { format } from "date-fns";
 import { ToastContainer, toast } from 'react-toastify';
-import {updateActivity,getActivity,getDocuments, addNewStation,getActivityStations, removeStation} from "../../api/api";
+import {updateActivity,getActivity,getDocuments, addNewStation,addNewMode, getActivityStations, removeStation} from "../../api/api";
 import {  Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import {ContentState,  EditorState, convertToRaw } from 'draft-js';
@@ -42,6 +42,10 @@ function ActivityEdit(params){
     
   }
 
+  const handleChangeMode  = (event) => {
+    setMode(event.target.value.toUpperCase());
+  };
+
   const downloadFile=(file)=>{
     
     const fileParts = file.name.split('.');
@@ -58,6 +62,7 @@ function ActivityEdit(params){
     const [errors, setErrors] = useState([]);
     const [title, setTitle ] = useState("");
     const [word, setWord ] = useState("");
+    const [mode, setMode ] = useState("");
     const [tecnicalDetails, setTecnicalDetails ] = useState(EditorState.createEmpty());
     const [minContacts, setMinContacts ] = useState(0);
     const [cwContacts, setCwcontacts ] = useState(0);
@@ -123,6 +128,34 @@ const handleAddStation = (event) =>{
     setNewLetter("");
     setNewStation("");
     updateStationList()
+
+  }
+
+    
+
+  )
+  .catch(error=>{
+    console.log(error);
+    }
+  )
+
+}
+
+const resetModeForm = () =>{
+  setMode(null);
+
+}
+
+const handleAddMode = (event) =>{
+  
+  
+  addNewMode({
+    activityId:id,
+    mode:mode,
+    
+  })
+  .then(response=>{
+    resetModeForm()
 
   }
 
@@ -1097,6 +1130,107 @@ const wordComponent =()=>{
 
       </div>
 </Tab>
+<Tab eventKey="modes" title="Modos">
+            <Row className="mb-9 m-3"> 
+              {minimumContactsComponent()}
+              {cwContactsComponent()}
+              {wordComponent()}
+            </Row>  
+                                            
+            <div class="col-12">
+       
+          <Row className="m-3">
+          <fieldset class="border p-3 mb-3">
+            <legend  class="float-none w-auto t-4">ESTACIONES</legend>
+
+            <div class="col-12">
+            <Row className="m-3 col-12">
+                <Form.Group className="mb-3 col-4" controlId="modeValue">
+                    <Form.Label>MODO</Form.Label>
+                    
+                    <select id="mode"  onChange={handleChangeMode}
+                      className={
+                        hasError("mode")
+                              ? "form-select is-invalid"
+                              : "form-select"
+                      } >
+                                                <option selected disabled value="">Elija un modo...</option>
+                                                <option value="cw">CW</option>
+                                                <option value="am">AM</option>
+                                                <option value="ssb">SSB</option>
+                                                <option value="atv">ATV</option>
+                                                <option value="sstv">SSTV</option>
+                                                <option value="PACKET">PACKET</option>
+                                                <option value="APRS">APRS</option>
+                                                <option value="RTTY">RTTY</option>
+                                                <option value="FM">FM</option>
+                                                <option value="FT8">FT 8</option>
+                                                <option value="FT4">FT 4</option>
+                                                <option value="PSK">PSK</option>
+                                                <option value="JT9">JT9</option>
+                                                <option value="OLIVIA">Olivia</option>
+                                                <option value="ECHO">Echo</option>
+                                                <option value="JT65">JT65</option>
+                                                <option value="HELL">HELL</option>
+                                                <option value="FAX">FAX</option>
+                                                <option value="DV">DV</option>
+                                                <option value="SATCW">Sat CW</option>
+                                                <option value="SATFM">Sat FM</option>
+                                                <option value="SATSSB">Sat SSB</option>
+                                                <option value="SIM31">SIM31</option>
+                                                </select>
+                      <div
+                          className={
+                            hasError("mode")
+                                  ? "invalid-feedback"
+                                  : "visually-hidden"
+                          }
+                      >
+                        Seleccione un modo válido
+                      </div>
+
+                </Form.Group>
+              
+
+             <button type="button"  class="btn btn-sm btn-primary col-2" onClick={handleAddMode} >AGREGAR</button> 
+       
+          </Row>
+            </div>
+              <ul class="list-group col-4">
+              {stations.map(each=>{
+                return(
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span  class="text-danger " style={{ cursor: 'pointer' }} onClick={()=> handleRemoveStation(each.id)}>
+                        <FontAwesomeIcon   icon={icon({name: 'trash-can'})}  title="Click para cambiar el estado" />
+                        <span class="text-black ms-4">{each.station}</span>
+                    </span>
+                    <span class="align-items-left bg-danger"></span>
+                  
+                  
+                  {each.letter?
+                    <span class="badge bg-success rounded-pill">{each.letter}</span>
+                    :
+                    null
+                  }
+                  {each.required?
+                    <span class="badge bg-primary rounded-pill">REQUERIDA</span>
+                    :
+                    null
+                  }
+                </li>  
+                )
+              }
+              )}
+            
+            
+          </ul>
+          </fieldset>
+        </Row>  
+    
+
+
+      </div>
+  </Tab>
     </Tabs>
     
                                     
