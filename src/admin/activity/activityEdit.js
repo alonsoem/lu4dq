@@ -4,7 +4,7 @@ import { useParams} from 'react-router-dom';
 import {Form, Row,Tabs,Tab} from "react-bootstrap";
 import { format } from "date-fns";
 import { ToastContainer, toast } from 'react-toastify';
-import {updateActivity,getActivity,getDocuments, addNewStation,addNewMode, getActivityStations, removeStation} from "../../api/api";
+import {updateActivity,getActivity,getDocuments, addNewStation,addMode,removeMode, getActivityModes, getActivityStations, removeStation} from "../../api/api";
 import {  Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import {ContentState,  EditorState, convertToRaw } from 'draft-js';
@@ -27,6 +27,42 @@ function ActivityEdit(params){
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
+
+  const actual= new Date();
+  const dateData = new Date(actual.getUTCFullYear(),actual.getUTCMonth(),actual.getUTCDate(),actual.getUTCHours(),actual.getUTCMinutes());
+ 
+  const [type, setType ] = useState(0);
+  
+  const [errors, setErrors] = useState([]);
+  const [title, setTitle ] = useState("");
+  const [word, setWord ] = useState("");
+  const [mode, setMode ] = useState("");
+  const [modeList, setModeList] = useState([]);
+  const [tecnicalDetails, setTecnicalDetails ] = useState(EditorState.createEmpty());
+  const [minContacts, setMinContacts ] = useState(0);
+  const [cwContacts, setCwcontacts ] = useState(0);
+
+  const [enabled, setEnabled ] = useState(false);
+
+  const [dateFrom, setDateFrom] = useState(format(dateData,"yyyy-MM-dd"));
+  const [dateTo, setDateTo] = useState(format(dateData,"yyyy-MM-dd"));
+  const [late_end, setLateEnd] = useState(format(dateData,"yyyy-MM-dd"));
+
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  
+  const [ documentId, setDocumentId ] = useState(null);
+  const [ documents, setDocuments ] = useState([]);
+
+  const [ selectedDocFile, setDocFile ] = useState(null);
+  const [ frontPageFile, setFrontPageFile ] = useState(null);
+  const [ showImage , setShowImage ] = useState(null);
+  const [stations, setStations] = useState([]);
+  const [newStation,setNewStation]=useState("");
+  const [newLetter,setNewLetter]=useState("");
+  const [newReq,setNewReq]=useState(false);
+  
+  
+
 
   const handleShow = (type,file) => {
     if (type==="DOC"){
@@ -54,40 +90,7 @@ function ActivityEdit(params){
     saveAs("https://lu4dq.qrits.com.ar/dinamic-content/DOC/"+fileName, fileName);
   }
 
-	  const actual= new Date();
-    const dateData = new Date(actual.getUTCFullYear(),actual.getUTCMonth(),actual.getUTCDate(),actual.getUTCHours(),actual.getUTCMinutes());
-   
-    const [type, setType ] = useState(0);
-    
-    const [errors, setErrors] = useState([]);
-    const [title, setTitle ] = useState("");
-    const [word, setWord ] = useState("");
-    const [mode, setMode ] = useState("");
-    const [tecnicalDetails, setTecnicalDetails ] = useState(EditorState.createEmpty());
-    const [minContacts, setMinContacts ] = useState(0);
-    const [cwContacts, setCwcontacts ] = useState(0);
-
-    const [enabled, setEnabled ] = useState(false);
-
-    const [dateFrom, setDateFrom] = useState(format(dateData,"yyyy-MM-dd"));
-    const [dateTo, setDateTo] = useState(format(dateData,"yyyy-MM-dd"));
-    const [late_end, setLateEnd] = useState(format(dateData,"yyyy-MM-dd"));
-
-    const [editorState, setEditorState] = useState(EditorState.createEmpty());
-    
-    const [ documentId, setDocumentId ] = useState(null);
-    const [ documents, setDocuments ] = useState([]);
-
-    const [ selectedDocFile, setDocFile ] = useState(null);
-    const [ frontPageFile, setFrontPageFile ] = useState(null);
-    const [ showImage , setShowImage ] = useState(null);
-    const [stations, setStations] = useState([]);
-    const [newStation,setNewStation]=useState("");
-    const [newLetter,setNewLetter]=useState("");
-    const [newReq,setNewReq]=useState(false);
-    
-    
- 
+	
     
 useEffect(
   () => {
@@ -149,13 +152,14 @@ const resetModeForm = () =>{
 const handleAddMode = (event) =>{
   
   
-  addNewMode({
+  addMode({
     activityId:id,
     mode:mode,
     
   })
   .then(response=>{
-    resetModeForm()
+    resetModeForm();
+    updateModeList();
 
   }
 
@@ -173,6 +177,16 @@ const updateStationList=()=>{
   getActivityStations({id:id})
   .then(response=>{
       setStations(response.stations);
+    }
+  ).catch(error=>{
+    console.log(error);
+  }
+  )
+}
+const updateModeList=()=>{
+  getActivityModes({id:id})
+  .then(response=>{
+      setModeList(response.modes);
     }
   ).catch(error=>{
     console.log(error);
@@ -240,8 +254,6 @@ const updateStationList=()=>{
     }
 
   useEffect(() => {
-    console.log("ENTRANDO");
-    
     
     getActivity({id:id})       
     .then((response) => {
@@ -258,6 +270,7 @@ const updateStationList=()=>{
         setEditorState(EditorState.createWithContent(ContentState.createFromBlockArray(htmlToDraft(response.description))));
         setTecnicalDetails(EditorState.createWithContent(ContentState.createFromBlockArray(htmlToDraft(response.tecnical))));
         setStations(response.stations);
+        setModeList(response.modes);
         
         //setFile(new File([new Blob()],response.image,{type: "image/jpeg"}));
         setDocumentId(response.documentId);
@@ -330,6 +343,27 @@ const handleRemoveStation = (id) =>{
   })
   .then(response=>{
     updateStationList()
+
+  }
+
+    
+
+  )
+  .catch(error=>{
+    console.log(error);
+    }
+  )
+
+}
+
+const handleRemoveMode = (id) =>{
+  
+  
+  removeMode({
+    id:id
+  })
+  .then(response=>{
+    updateModeList()
 
   }
 
@@ -1131,17 +1165,13 @@ const wordComponent =()=>{
       </div>
 </Tab>
 <Tab eventKey="modes" title="Modos">
-            <Row className="mb-9 m-3"> 
-              {minimumContactsComponent()}
-              {cwContactsComponent()}
-              {wordComponent()}
-            </Row>  
+  
                                             
             <div class="col-12">
        
           <Row className="m-3">
           <fieldset class="border p-3 mb-3">
-            <legend  class="float-none w-auto t-4">ESTACIONES</legend>
+            <legend  class="float-none w-auto t-4">MODOS</legend>
 
             <div class="col-12">
             <Row className="m-3 col-12">
@@ -1197,26 +1227,15 @@ const wordComponent =()=>{
           </Row>
             </div>
               <ul class="list-group col-4">
-              {stations.map(each=>{
+              {modeList.map(each=>{
                 return(
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <span  class="text-danger " style={{ cursor: 'pointer' }} onClick={()=> handleRemoveStation(each.id)}>
+                    <span  class="text-danger " style={{ cursor: 'pointer' }} onClick={()=> handleRemoveMode(each.id)}>
                         <FontAwesomeIcon   icon={icon({name: 'trash-can'})}  title="Click para cambiar el estado" />
-                        <span class="text-black ms-4">{each.station}</span>
+                        <span class="text-black ms-4">{each.mode}</span>
                     </span>
                     <span class="align-items-left bg-danger"></span>
                   
-                  
-                  {each.letter?
-                    <span class="badge bg-success rounded-pill">{each.letter}</span>
-                    :
-                    null
-                  }
-                  {each.required?
-                    <span class="badge bg-primary rounded-pill">REQUERIDA</span>
-                    :
-                    null
-                  }
                 </li>  
                 )
               }
