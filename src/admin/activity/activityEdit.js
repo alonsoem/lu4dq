@@ -660,6 +660,7 @@ const wordComponent =()=>{
                                                     <option value={1}>CERTIFICADO</option>
                                                     <option value={0}>QSL ESPECIAL</option>
                                                     <option value={2}>CERTIFICADO POR LETRAS</option>
+                                                    <option value={3}>CONCURSO</option>
                                                     
                                                 </select>
                                                 <div
