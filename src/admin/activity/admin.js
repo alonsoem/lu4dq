@@ -107,7 +107,8 @@ function Admin() {
             // eslint-disable-next-line
           }else if (type==2){ 
             return "CERTIFICADO POR LETRAS";
-
+        }else if (type==3){ 
+            return "CONCURSO";
           }
         }
         
