@@ -98,17 +98,18 @@ function Admin() {
         }
 
         const showType =(type)=>{
-        // eslint-disable-next-line
-          if (type==1){
-            return "CERTIFICADO";
             // eslint-disable-next-line
-          }else if (type==0){
-            return "QSL ESPECIAL";
+            if (type==1){
+                return "CERTIFICADO";
             // eslint-disable-next-line
-          }else if (type==2){ 
-            return "CERTIFICADO POR LETRAS";
-        }else if (type==3){ 
-            return "CONCURSO";
+            }else if (type==0){
+                return "QSL ESPECIAL";
+            // eslint-disable-next-line
+            }else if (type==2){ 
+                return "CERTIFICADO POR LETRAS";
+            // eslint-disable-next-line
+            }else if (type==3){ 
+                return "CONCURSO";
           }
         }
         
