@@ -380,6 +380,9 @@ const showTable=()=>{
         // eslint-disable-next-line
     }else if (properties.type==2){     
         return activityByLettersTable();   
+    // eslint-disable-next-line
+    }else if (properties.type==3){     
+        return activityTable();   
     }
 }
       const navLoad = () =>{
