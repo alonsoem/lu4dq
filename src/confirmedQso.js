@@ -224,7 +224,7 @@ import { saveAs } from 'file-saver';
                 {
 
                         activity.filter(each=>each.station.includes(filter.toUpperCase()))
-                                .sort((a,b)=>b.position-a.position)
+                                
                                 .map((each) =>{
                     
                             return ( <tr>
