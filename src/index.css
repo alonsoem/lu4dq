@@ -87,6 +87,10 @@ code {
   margin-right:1rem;
 }
 
+.cardActivity .card-text{
+  line-height: 1.1em!important;
+}
+
 legend{
   font-size: 1em;
 }
@@ -117,5 +121,7 @@ span.letters{
 .navlink { display: flex; justify-content: center }
 
 
-
+.tableNoBorder{
+  border-collapse: collapse!important;
+}
   
