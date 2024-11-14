@@ -129,6 +129,8 @@ function StationsList() {
                         <th scope="col" class="text-center">TITULAR</th>
                         <th scope="col" class="text-center">EMAIL</th>
                         <th scope="col" class="text-center">GRID LOCATOR</th>
+                        <th scope="col" class="text-center">ITU</th>
+                        <th scope="col" class="text-center">CQ ZONE</th>
                         <th scope="col" class="text-center">¿ES ACTUALIZABLE?</th>
                         
                         
@@ -143,6 +145,8 @@ function StationsList() {
                     <td class="text-center">{each.name}</td>
                     <td class="text-center">{each.email}</td>
                     <td class="text-center">{each.grid}</td>
+                    <td class="text-center">{each.itu}</td>
+                    <td class="text-center">{each.cqzone}</td>
                     <td class="text-center">{each.updateable==="true"?"SI":"NO"}</td>
                     
                     </tr>
