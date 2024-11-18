@@ -23,7 +23,7 @@ import EditDoc from "./admin/document/docEdit.js";
 import LoginForm  from "./admin/login.js";
 import StationsList  from "./admin/stations/panel.js";
 import StationEdit from "./admin/stations/stationEdit.js";
-import MapImage from "./admin/document/mapImage.js";
+//import MapImage from "./admin/document/mapImage.js";
 
 
 
