@@ -57,7 +57,9 @@ function  ActivitiesBeta () {
                         return (
                             <div class="col mb-4 ">
                             <div class="card cardActivity m-auto" >
-                                    <img class="card-img-top" src={(each.image?"/dinamic-content/FRT/"+each.image:"/static/defaultFrontImage.jpg")} height="130x" width="400px" alt={each.title} />
+                                    <a href={"/activities/"+each.id}>
+                                        <img class="card-img-top" src={(each.image?"/dinamic-content/FRT/"+each.image:"/static/defaultFrontImage.jpg")} height="130x" width="400px" alt={each.title} />
+                                    </a>
                                     <div class="card-body">
                                     <h5 class="card-title ">
                                         
