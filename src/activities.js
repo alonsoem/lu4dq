@@ -33,12 +33,23 @@ function  ActivitiesBeta () {
         }, []
     )
 
-    const getExpiredBadge = (endDate)=>{
-        if (endDate){
+    const getBadge = (item)=>{
+        if (item.endDate && item.startDate){
             var endDateParts=endDate.split("-");
+            var startDateParts=startDate.split("-");
             var activityendDate= new Date(endDateParts[0],endDateParts[1]-1,endDateParts[2])
+            var activitystartDate= new Date(startDateParts[0],startDateParts[1]-1,startDateParts[2])
+            
             if (format(activityendDate,"yyyy-MM-dd")< format(new Date(),"yyyy-MM-dd")){
                 return <span class="badge bg-danger ms-2">FINALIZADA</span>
+            }
+            
+            if (format(activityendDate,"yyyy-MM-dd")>= format(new Date(),"yyyy-MM-dd") && format(activitystartDate,"yyyy-MM-dd")<= format(new Date(),"yyyy-MM-dd")){
+                return <span class="badge bg-success ms-2">AHORA</span>
+            }
+
+            if (format(activitystartDate,"yyyy-MM-dd")> format(new Date(),"yyyy-MM-dd")){
+                return <span class="badge bg-warning ms-2">PROXIMAMENTE</span>
             }
             
         }
@@ -63,7 +74,7 @@ function  ActivitiesBeta () {
                                     <h5 class="card-title ">
                                         
                                         <a class="link-underline link-underline-opacity-0 text-body stretched-link" href={"/activities/"+each.id} >{each.title}</a>
-                                        { getExpiredBadge(each.endDate)}
+                                        { getBadge(each)}
                                         
                                     </h5>
                                     <p class="card-text"> {Parser().parse(DOMPurify.sanitize(each.description.substring(0,300)).toString()+"...")}</p>
