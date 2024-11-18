@@ -64,7 +64,8 @@ export default class App extends React.Component {
           <Route exact path='/rcpanel/qsoChecker' element={<Checker />}></Route>   
           <Route exact path='/rcpanel/stats' element={<AdminView />}></Route>  
 
-          <Route exact path='/rcpanel/doc/map' element={<MapImage />}></Route>  
+          
+
           <Route exact path='/rcpanel/stations' element={<StationsList />}></Route>  
           <Route exact path='/rcpanel/stations/:stationId' element={<StationEdit />}></Route>  
           <Route exact path='/rcpanel/doc' element={<AdminDoc />}></Route>  
