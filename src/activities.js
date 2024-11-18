@@ -57,13 +57,12 @@ function  ActivitiesBeta () {
                         return (
                             <div class="col mb-4 ">
                             <div class="card cardActivity m-auto" >
-                                    <a href={"/activities/"+each.id}>
-                                        <img class="card-img-top" src={(each.image?"/dinamic-content/FRT/"+each.image:"/static/defaultFrontImage.jpg")} height="130x" width="400px" alt={each.title} />
-                                    </a>
+                                    <img class="card-img-top" src={(each.image?"/dinamic-content/FRT/"+each.image:"/static/defaultFrontImage.jpg")} height="130x" width="400px" alt={each.title} />
+                                    
                                     <div class="card-body">
                                     <h5 class="card-title ">
                                         
-                                        <a class="link-underline link-underline-opacity-0 text-body" href={"/activities/"+each.id} >{each.title}</a>
+                                        <a class="link-underline link-underline-opacity-0 text-body stretched-link" href={"/activities/"+each.id} >{each.title}</a>
                                         { getExpiredBadge(each.endDate)}
                                         
                                     </h5>
