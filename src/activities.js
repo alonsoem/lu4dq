@@ -35,8 +35,8 @@ function  ActivitiesBeta () {
 
     const getBadge = (item)=>{
         if (item.endDate && item.startDate){
-            var endDateParts=endDate.split("-");
-            var startDateParts=startDate.split("-");
+            var endDateParts=item.endDate.split("-");
+            var startDateParts=item.startDate.split("-");
             var activityendDate= new Date(endDateParts[0],endDateParts[1]-1,endDateParts[2])
             var activitystartDate= new Date(startDateParts[0],startDateParts[1]-1,startDateParts[2])
             
