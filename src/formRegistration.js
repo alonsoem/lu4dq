@@ -57,8 +57,8 @@ const updateFromCallsign= (callsign)=>{
       .then((response) => {
         setName(response.name);
         setEmail(response.mail);
-        setItu(response.itu==0?null:response.itu);
-        setGridLocator(response.grid==0?null:response.grid);
+        setItu(response.itu===0?null:response.itu);
+        setGridLocator(response.grid===0?null:response.grid);
         setCqZone(response.cqZone);
         
     })
