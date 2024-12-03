@@ -2,7 +2,7 @@
 import {Form, Row,Popover, OverlayTrigger} from "react-bootstrap";
 import { useEffect } from 'react';
 import { useState } from "react";
-import {checkName, putName} from "./api/api";
+import {getName, putName} from "./api/api";
 import { ToastContainer, toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
@@ -18,7 +18,6 @@ export default function FormRequest(props) {
   const [gridLocator, setGridLocator] = useState("");
   const [cqZone, setCqZone] = useState("");
   const [errors, setErrors] = useState([]);
-  const [formEnabled,setFormEnabled]= useState(false);
   
 
   const handleChangeEmail = (event) => {
@@ -54,19 +53,17 @@ export default function FormRequest(props) {
 
 const updateFromCallsign= (callsign)=>{
   setSignal(callsign.toUpperCase());
-  checkName({station:callsign})
+  getName({station:callsign})
       .then((response) => {
-          //si existe una estacion con ese dato
-          console.log(response);
-          if (response.result==="true"){
-            setFormEnabled(false);
-          }else{
-            setFormEnabled(true);
-          }
+        setName(response.name);
+        setEmail(response.mail);
+        setItu(response.itu===0?null:response.itu);
+        setGridLocator(response.grid===0?null:response.grid);
+        setCqZone(response.cqZone);
         
     })
-    //.catch((response) =>null );
-  //handleAxiosError(response)
+    .catch((response) => handleAxiosError(response));
+
 }
 useEffect(() => {
   console.log("STARTUP - LEO COOKIE");
@@ -117,6 +114,8 @@ useEffect(() => {
     formData.append('cqZone',cqZone?cqZone:null);
     formData.append('grid',gridLocator);
 
+   
+
     putName(formData)       
         .then((response) => {
             props.qslHook();
@@ -162,6 +161,7 @@ useEffect(() => {
   const hasError= (key) => {
         return errors.indexOf(key) !== -1;
   }
+
 
   const popoverEmail = (
     
@@ -228,6 +228,10 @@ const popoverItu = (
                     <h5>Esos datos seran utilizados para imprimir los certificados y para validar los contactos que cargues!</h5>
                   </div>
                 </div>
+                
+             
+
+                 
 
             <Row className="mb-3 col-13">
             <div class="col-5">
@@ -344,7 +348,7 @@ const popoverItu = (
 
                </div>
                <div class="col-3">
-               <Form.Group className="mb-3" controlId="nameValue" disabled={!formEnabled} >
+               <Form.Group className="mb-3" controlId="nameValue">
                  <Form.Label>CQ ZONE</Form.Label>
                  <span class="ms-2">
                  <OverlayTrigger trigger="hover" placement="right" overlay={popoverCqZone}>

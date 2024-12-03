@@ -23,6 +23,7 @@ import EditDoc from "./admin/document/docEdit.js";
 import LoginForm  from "./admin/login.js";
 import StationsList  from "./admin/stations/panel.js";
 import StationEdit from "./admin/stations/stationEdit.js";
+import UserProfile from "./userProfile.js";
 //import MapImage from "./admin/document/mapImage.js";
 
 
@@ -46,6 +47,7 @@ export default class App extends React.Component {
           <Route exact path='/cargaMasiva' element={<UploadBis />}></Route>
           <Route exact path='/cargaManual' element={<QsoUpload />}></Route>
           <Route exact path='/registrar' element={<Register />}></Route>
+          <Route exact path='/profile' element={<UserProfile />}></Route>
 
           <Route exact path='/qsoList/:station' element={<QsoList />}></Route>   
           <Route exact path='/qsoList' element={<QsoList />}></Route>         
