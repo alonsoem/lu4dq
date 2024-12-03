@@ -7,7 +7,7 @@ const foreignRequest = (type, fullPath,params,config) => axios
 
 const foreignPost = (fullPath, formData )=> 
     axios
-        .post(fullPath, formData)
+        .post(fullPath, formData,{'Control-Allow-Origin':'*'})
         .then(req => req.data);
 
 

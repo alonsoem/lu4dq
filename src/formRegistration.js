@@ -116,16 +116,6 @@ useEffect(() => {
         })       
         .then((response) => {
             props.qslHook();
-            /*//eslint-disable-next-line
-            if (response.qsl.status=="RC Confirmed"){
-                props.qslHook(response.qsl);
-            //eslint-disable-next-line
-            }else if (response.qsl.status=="Confirmed"){
-                props.qslHook(response.qsl);
-            }else{
-                props.qslHook(response.qsl);
-                //handleAPIError(response);
-            } */        
         })
         .catch((response) => handleAxiosError(response));
 
@@ -136,11 +126,6 @@ useEffect(() => {
     
     event.preventDefault();
     var errors = [];
-
-    
-
-
-
     
     // Check name of Rule
     if (signal.length<=3) {
@@ -149,13 +134,10 @@ useEffect(() => {
     if (hasWhiteSpace(signal)){
       errors.push("signal")
     }
-    
-
+  
     if (name.length < 3) {
       errors.push("name");
     }
-
-     
 
     setErrors(errors);
 
@@ -164,6 +146,7 @@ useEffect(() => {
         return false;
     } else {
         submit();
+        
     }
   }
 
