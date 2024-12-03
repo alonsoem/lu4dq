@@ -23,26 +23,16 @@ export default function  UserRegistration(props) {
         navigate('/');    
     }
 
-    
-
-
-      function PreviewPanel(props){
+    function PreviewPanel(props){
         return <div className="container">
                     <div class="col-md-12 text-left">
                         <h3>Tu registro se realizó con éxito!</h3>
-
                         <h5>En breve te enviaremos un código a tu direccion de email para que puedas validar los contactos que cargues.</h5>
-                    
-                        
                     </div>
-
-                                     
-                
                      <button type="button" className="btn btn-primary mt-3" onClick={props.gotoQsoForms} >Vamos a cargar contactos!</button>
                      
                      
                 </div>
-                
     }
 
     function ConditionalForm(props){

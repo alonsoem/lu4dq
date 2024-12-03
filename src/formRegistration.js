@@ -1,16 +1,12 @@
 //import "./styles.css";
 import {Form, Row,Popover, OverlayTrigger} from "react-bootstrap";
-import { useEffect } from 'react';
 import { useState } from "react";
 import {checkName, putName} from "./api/api";
 import { ToastContainer, toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
-import { useCookies } from 'react-cookie';
 
 export default function FormRequest(props) {
-  const [cookies] = useCookies(['logCallsign']);
- 
   const [signal, setSignal] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -29,16 +25,7 @@ export default function FormRequest(props) {
   };
 
   const handleChangeSignal  = (event) => {
-    /*setSignal(event.target.value.toUpperCase());
-    getName({station:event.target.value})
-        .then((response) => {
-          setName(response.name);
-          setEmail(response.mail);
-          
-      })
-      .catch((response) => handleAxiosError(response));
-    */
-   updateFromCallsign(event.target.value.trim());
+    updateFromCallsign(event.target.value.trim());
   };
 
   const handleChangeItu  = (event) => {
@@ -58,27 +45,27 @@ const updateFromCallsign= (callsign)=>{
       .then((response) => {
           //si existe una estacion con ese dato
           console.log(response);
-          if (response.result==="true"){
+          if (response.result==true){
             setFormEnabled(false);
+            console.log("F");
           }else{
             setFormEnabled(true);
+            console.log("T");
           }
+          resetForm();
         
     })
     //.catch((response) =>null );
   //handleAxiosError(response)
 }
-useEffect(() => {
-  console.log("STARTUP - LEO COOKIE");
-  if(cookies["logCallsign"]){
-    updateFromCallsign(cookies["logCallsign"]);
+
+  const resetForm = () =>{
+    setCqZone("");
+    setEmail("");
+    setGridLocator("");
+    setItu("");
+    setName("");
   }
-  
-  
-  
-  // eslint-disable-next-line
-}, []
-)
 
   const handleAxiosError = (response) => {
     let errorToDisplay = "OCURRIO UN ERROR INESPERADO!";
@@ -251,8 +238,8 @@ const popoverItu = (
 
                </Form.Group>
 
-               </div>
-               <div class="col-7">
+            </div>
+            <div class="col-7">
                <Form.Group className="mb-3" controlId="nameValue">
                  <Form.Label>NOMBRE COMPLETO</Form.Label>
                  <span class="ms-2">
@@ -260,7 +247,7 @@ const popoverItu = (
                       <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
                  </OverlayTrigger>
                  </span>
-                 <Form.Control  onChange={handleChangeName} value={name}
+                 <Form.Control  onChange={handleChangeName} value={name} disabled={!formEnabled}
                                 className={
                                   hasError("name")
                                         ? "form-control is-invalid"
@@ -278,13 +265,9 @@ const popoverItu = (
 
                </Form.Group>
 
-               </div>
-             </Row>
+            </div>
+          </Row>
 
-         
-
-
-           
 
              <Row className="mb-3">
                <Form.Group className="mb-3" controlId="emailValue">
@@ -294,7 +277,7 @@ const popoverItu = (
                             <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
                     </OverlayTrigger>
                   </span>
-                 <Form.Control  onChange={handleChangeEmail} value={email} 
+                 <Form.Control  onChange={handleChangeEmail} value={email}  disabled={!formEnabled}
                                 className={
                                   hasError("email")
                                         ? "form-control is-invalid"
@@ -322,7 +305,7 @@ const popoverItu = (
                  <OverlayTrigger trigger="hover" placement="right" overlay={popoverItu}>
                       <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
                  </OverlayTrigger>
-                 <Form.Control  onChange={handleChangeItu} value={itu} 
+                 <Form.Control  onChange={handleChangeItu} value={itu}  disabled={!formEnabled}
                                 className={"form-control"}/>
 
                </Form.Group>
@@ -336,7 +319,7 @@ const popoverItu = (
                       <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
                  </OverlayTrigger>
                  </span>
-                 <Form.Control  onChange={handleChangeGridLocator} value={gridLocator}
+                 <Form.Control  onChange={handleChangeGridLocator} value={gridLocator} disabled={!formEnabled}
                                 className={"form-control"}/>
 
 
@@ -344,7 +327,7 @@ const popoverItu = (
 
                </div>
                <div class="col-3">
-               <Form.Group className="mb-3" controlId="nameValue" disabled={!formEnabled} >
+               <Form.Group className="mb-3" controlId="nameValue"  >
                  <Form.Label>CQ ZONE</Form.Label>
                  <span class="ms-2">
                  <OverlayTrigger trigger="hover" placement="right" overlay={popoverCqZone}>
@@ -352,7 +335,7 @@ const popoverItu = (
                  </OverlayTrigger>
                  </span>
                  <Form.Control  onChange={handleChangeCqZone} value={cqZone}
-                                className={"form-control"}/>
+                                className={"form-control"} disabled={!formEnabled}/>
 
                </Form.Group>
 
@@ -364,7 +347,12 @@ const popoverItu = (
 
                            <div className="row">
                                <div className="col-12 text-right">
-                                       <button type="submit" className="btn btn-success">Confirmar</button>
+                                       <button type="submit" 
+                                              class={formEnabled?"btn btn-success m-2" :"btn btn-outline-success m-2"}
+
+                                                disabled={!formEnabled}
+
+                                       >Confirmar</button>
                                </div>
                            </div>
            </div>
