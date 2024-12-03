@@ -1,119 +1,66 @@
 import React from 'react';
 import Form from './formRegistration';
-import { ToastContainer, toast } from 'react-toastify';
-
+import { ToastContainer } from 'react-toastify';
+import {useNavigate} from 'react-router-dom';
+import { useState } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
 
+
 import NavMenu from './nav';
 
 
-export default class QsoUpload extends  React.Component {
-    
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            formState:true,
-            qsl:null,
-            enabled:false,
-            isLoading:true,
-            
-        };            
+export default function  UserRegistration(props) {
+    const navigate = useNavigate();
+    const [formState,setFormState] = useState(true);
+  
+    const setQsl = ()=>{
+        setFormState(false);
     }
-    
-
-
-
-    setQsl=(value)=>{
-        this.setState({qsl:value})
-        this.setState({formState:false})
-    }
-
-    resetForm=()=>{
-        this.setState({formState:true});
-    }
-
-    gotoActivities=()=>{
-        this.setState({formState:true});
+    const gotoQsoUpload=()=>{
+        navigate('/');    
     }
 
     
 
-    notifyError = (message) => {
-        toast.error(message, {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-          theme: 'colored',
-        });
+
+      function PreviewPanel(props){
+        return <div className="container">
+                    <div class="col-md-12 text-left">
+                        <h3>Tu registro se realizó con éxito!</h3>
+
+                        <h5>En breve te enviaremos un código a tu direccion de email para que puedas validar los contactos que cargues.</h5>
+                    
+                        
+                    </div>
+
+                                     
+                
+                     <button type="button" className="btn btn-primary mt-3" onClick={props.gotoQsoForms} >Vamos a cargar contactos!</button>
+                     
+                     
+                </div>
+                
     }
 
-     handleAxiosError = (response) => {
-        this.setState({isLoading:false});
-        console.log(response);
-        let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
-        console.log("HANDLEAXIOSERROR");
-        
-            // eslint-disable-next-line
-        if (response.response.data.code==1062 ) {
-              errorToDisplay = "EL QSO YA EXISTE EN NUESTRA BASE DE DATOS.";
-            }
+    function ConditionalForm(props){
 
         // eslint-disable-next-line
-        if (response.message=="Network Error") {
-          errorToDisplay = "Error de red!. Reintente a la brevedad";
+        if (formState){
+            return <Form qslHook={props.qslHook} />
+        }else{
+            return <PreviewPanel gotoQsoForms={props.gotoQsoUpload} />
         }
+    }   
+
     
-        //setError(errorToDisplay);
-        this.notifyError(errorToDisplay);
-      }
-
-
-           
-    render() {
-
-        
-
-        function PreviewPanel(props){
-            return <div className="container">
-                        <div class="col-md-12 text-left">
-                            <h3>Tu contacto se cargó con éxito!</h3>
-
-                            <h5>Podrás seguir la confirmación de contactos desde el sitio de la actividad. <a class="btn btn-success m-3" href="/activities/">Ir a las actividades</a></h5>
-                        
-                            
-                        </div>
-
-                                         
-                    
-                         <button type="button" className="btn btn-primary mt-3" onClick={props.showForm}>Subir otro contacto</button>
-                         
-                         
-                    </div>
-                    
-        }
-
-
-       
-        
-
-   
-      
-        return (
-
+    return (
             <div>
             <NavMenu />
             
-
-                   <div  className="mt-4 " >
-                   
+                   <div  className="mt-4 " >                 
                     
                     <div class="container-fluid  ">
                     <div class="row ">
@@ -124,7 +71,8 @@ export default class QsoUpload extends  React.Component {
                             </div>
                         
                             <div className="card-body" >
-                                <Form qslHook={this.setQsl} />
+                                <ConditionalForm qslHook={setQsl}  gotoQsoUpload={gotoQsoUpload} />
+                                
                             </div>
                             
                         </div>
@@ -141,7 +89,7 @@ export default class QsoUpload extends  React.Component {
         );
 
 
-    }
+    
 
 
 }

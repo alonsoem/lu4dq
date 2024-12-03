@@ -4,13 +4,12 @@ import { useEffect } from 'react';
 import { useState } from "react";
 import {getName, putName} from "./api/api";
 import { ToastContainer, toast } from 'react-toastify';
-import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { useCookies } from 'react-cookie';
 
 export default function FormRequest(props) {
-  const [cookies, setCookie] = useCookies(['logCallsign']);
+  const [cookies] = useCookies(['logCallsign']);
  
   const [signal, setSignal] = useState("");
   const [name, setName] = useState("");
@@ -79,52 +78,17 @@ useEffect(() => {
 )
 
   const handleAxiosError = (response) => {
-    let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
-    console.log(response.response.data);
-    console.log("HANDLEAXIOSERROR form");
-    //console.log(response);
-        // eslint-disable-next-line
-    if (response.response.data.code==1062 ) {
-          errorToDisplay = "EL QSO YA EXISTE EN NUESTRA BASE DE DATOS.";
-        }
-    if (response.response.data.status==="Station not validated" ) {
-          errorToDisplay = "EL CODIGO DE ESTACION NO ES CORRECTO. VERIFIQUELO!";
-      }
+    let errorToDisplay = "OCURRIO UN ERROR INESPERADO!";
+    
     // eslint-disable-next-line
     if (response.message=="Network Error") {
-      errorToDisplay = "Error de red!. Reintente a la brevedad";
+      errorToDisplay = "OCURRIÓ UN ERROR EN LA COMUNICACIÓN. Reintente a la brevedad";
     }
 
     //setError(errorToDisplay);
     notifyError(errorToDisplay);
   }
 
-
-  const handleAxiosErrorB = (response) => {
-    let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
-    console.log ("ERROR");
-    console.log (response.response.data.detail);
-  
-
-    // eslint-disable-next-line
-    if (response.response.data.code==2 ) {
-      errorToDisplay = response.response.data.detail;
-    }
-        // eslint-disable-next-line
-    if (response.response.data.code==1062 ) {
-          errorToDisplay = "EL QSO YA EXISTE EN NUESTRA BASE DE DATOS.";
-        }
-    if (response.response.data.status==="Station not validated" ) {
-          errorToDisplay = "EL CODIGO DE ESTACION NO ES CORRECTO. VERIFIQUELO!";
-      }
-    // eslint-disable-next-line
-    if (response.message=="Network Error") {
-      errorToDisplay = "Error de red!. Reintente a la brevedad";
-    }
-
-    //setError(errorToDisplay);
-    notifyError(errorToDisplay);
-  }
 
  const notifyError = (message) => {
     toast.error(message, {
@@ -151,7 +115,8 @@ useEffect(() => {
         grid:gridLocator        
         })       
         .then((response) => {
-            //eslint-disable-next-line
+            props.qslHook();
+            /*//eslint-disable-next-line
             if (response.qsl.status=="RC Confirmed"){
                 props.qslHook(response.qsl);
             //eslint-disable-next-line
@@ -160,9 +125,9 @@ useEffect(() => {
             }else{
                 props.qslHook(response.qsl);
                 //handleAPIError(response);
-            }         
+            } */        
         })
-        .catch((response) => handleAxiosErrorB(response));
+        .catch((response) => handleAxiosError(response));
 
   }
 
@@ -412,16 +377,6 @@ const popoverItu = (
                </div>
              </Row>
 
-             
-             
-
-             
-            
-
-             
-                         
-
-                           
                        
                            <div className="row">&nbsp;</div>
 
