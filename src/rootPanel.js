@@ -29,6 +29,7 @@ import StationEdit from "./admin/stations/stationEdit.js";
 
 
 //import '../node_modules/bootstrap-css-only/css/bootstrap.css';
+import Register from "./registration.js";
 
 
 
@@ -44,6 +45,7 @@ export default class App extends React.Component {
           
           <Route exact path='/cargaMasiva' element={<UploadBis />}></Route>
           <Route exact path='/cargaManual' element={<QsoUpload />}></Route>
+          <Route exact path='/registrar' element={<Register />}></Route>
 
           <Route exact path='/qsoList/:station' element={<QsoList />}></Route>   
           <Route exact path='/qsoList' element={<QsoList />}></Route>         
