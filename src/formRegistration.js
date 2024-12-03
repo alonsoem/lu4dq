@@ -41,16 +41,19 @@ export default function FormRequest(props) {
 
 const updateFromCallsign= (callsign)=>{
   setSignal(callsign.toUpperCase());
+  var errors=[];
+  
   checkName({station:callsign})
       .then((response) => {
           //si existe una estacion con ese dato
           console.log(response);
-          if (response.result==true){
+          if (response.result===true){
+            errors.push("signal");
+            setErrors(errors);
             setFormEnabled(false);
-            console.log("F");
           }else{
+            setErrors(errors);
             setFormEnabled(true);
-            console.log("T");
           }
           resetForm();
         
@@ -233,7 +236,7 @@ const popoverItu = (
                                : "visually-hidden"
                        }
                    >
-                    Escriba un indicativo válido
+                    Esta señal distintiva ya fue registrada.
                    </div>
 
                </Form.Group>
@@ -302,9 +305,11 @@ const popoverItu = (
             <div class="col-3">
                <Form.Group className="mb-3" controlId="signalValue">
                  <Form.Label>ITU</Form.Label>
+                 <span class="ms-2">
                  <OverlayTrigger trigger="hover" placement="right" overlay={popoverItu}>
                       <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
                  </OverlayTrigger>
+                 </span>
                  <Form.Control  onChange={handleChangeItu} value={itu}  disabled={!formEnabled}
                                 className={"form-control"}/>
 
