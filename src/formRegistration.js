@@ -57,8 +57,8 @@ const updateFromCallsign= (callsign)=>{
       .then((response) => {
         setName(response.name);
         setEmail(response.mail);
-        setItu(response.itu);
-        setGridLocator(response.grid);
+        setItu(response.itu==0?null:response.itu);
+        setGridLocator(response.grid==0?null:response.grid);
         setCqZone(response.cqZone);
         
     })
@@ -105,15 +105,18 @@ useEffect(() => {
 
 
   const submit = () =>{
+    const formData = new FormData();
 
-    putName({
-        station: signal,
-        name:name,
-        email:email,
-        itu:itu,
-        cqZone:cqZone,
-        grid:gridLocator        
-        })       
+		formData.append('station',signal);
+    formData.append('name',name);
+    formData.append('email',email);
+    formData.append('itu',itu?itu:null);
+    formData.append('cqZone',cqZone?cqZone:null);
+    formData.append('grid',gridLocator);
+
+   
+
+    putName(formData)       
         .then((response) => {
             props.qslHook();
         })
