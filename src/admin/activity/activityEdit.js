@@ -45,7 +45,9 @@ function ActivityEdit(params){
   const [enabled, setEnabled ] = useState(false);
 
   const [dateFrom, setDateFrom] = useState(format(dateData,"yyyy-MM-dd"));
+  const [timeFrom, setTimeFrom] = useState(format(dateData,"H:i"));
   const [dateTo, setDateTo] = useState(format(dateData,"yyyy-MM-dd"));
+  const [timeTo, setTimeTo] = useState(format(dateData,"H:i"));
   const [late_end, setLateEnd] = useState(format(dateData,"yyyy-MM-dd"));
 
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -213,9 +215,16 @@ const updateModeList=()=>{
     const handleChangeDateFrom = (value) => {
       setDateFrom(value);
     };
+    const handleChangeTimeFrom = (value) => {
+      setTimeFrom(value);
+    };
+    
 
     const handleChangeDateTo = (value) => {
       setDateTo(value);
+    };
+    const handleChangeTimeTo = (value) => {
+      setTimeTo(value);
     };
 
     const handleChangeLateEnd = (value) => {
@@ -259,7 +268,9 @@ const updateModeList=()=>{
     .then((response) => {
       try{
         setDateFrom(response.start);
+        setTimeFrom(response.startTime);
         setDateTo(response.end);
+        setTimeTo(response.endTime);
         setLateEnd(response.lateEnd);
         setTitle(response.title);
         setType(response.type);  
@@ -413,7 +424,9 @@ const submit = () =>{
     formData.append('word', word);
 		formData.append('title', title);
 		formData.append('start', dateFrom.replace(/\D/g, ""));
+    formData.append('startTime', timeFrom);
     formData.append('end', dateTo.replace(/\D/g, ""));
+    formData.append('endTime', timeTo);
     formData.append('description', draftToHtml(convertToRaw(editorState.getCurrentContent())));
     formData.append('late_end', late_end.replace(/\D/g, ""));
     formData.append('minContacts', minContacts);
@@ -807,10 +820,10 @@ const wordComponent =()=>{
                                         
                                     
                                                         
-                                    <Row className="mb-3 col-13">
+                                    <Row className="mb-3 col-9">
                                               <div class="col-4">
                                               <Form.Group className="mb-3" controlId="dateFrom">
-                                    <Form.Label>FECHA INICIO</Form.Label>
+                                    <Form.Label>FECHA UTC INICIO</Form.Label>
                                     
                                     <Form.Control  onChange={(e) => handleChangeDateFrom(e.target.value)} value={dateFrom} type="date" 
                                                     className={
@@ -831,9 +844,34 @@ const wordComponent =()=>{
                                   </Form.Group>
                                                   
                     </div>
+                    <div class="col-4">
+                                              <Form.Group className="mb-3" controlId="dateFrom">
+                                    <Form.Label>HORA UTC INICIO</Form.Label>
+                                    
+                                    <Form.Control  onChange={(e) => handleChangeTimeFrom(e.target.value)} value={timeFrom} type="time" 
+                                                    className={
+                                                      hasError("timeFrom")
+                                                            ? "form-control is-invalid"
+                                                            : "form-control"
+                                                    }/>
+                                      <div
+                                          className={
+                                            hasError("timeFrom")
+                                                  ? "invalid-feedback"
+                                                  : "visually-hidden"
+                                          }
+                                      >
+                                        Indicar una fecha correcta
+                                      </div>
+
+                                  </Form.Group>
+                                                  
+                    </div>
+                    </Row>
+                    <Row className="mb-3 col-9">
                                               <div class="col-4">
                                               <Form.Group className="mb-3" controlId="timeValue">
-                                    <Form.Label>FECHA FINAL</Form.Label>
+                                    <Form.Label>FECHA UTC FINAL</Form.Label>
                                     
                                       <Form.Control  onChange={(e) => handleChangeDateTo(e.target.value)} value={dateTo} type="date" 
                                                     className={
@@ -855,6 +893,29 @@ const wordComponent =()=>{
 
                                   
                                                 </div>
+                                                <div class="col-4">
+                                              <Form.Group className="mb-3" controlId="dateFrom">
+                                    <Form.Label>HORA UTC FINAL</Form.Label>
+                                    
+                                    <Form.Control  onChange={(e) => handleChangeTimeTo(e.target.value)} value={timeTo} type="time" 
+                                                    className={
+                                                      hasError("timeTo")
+                                                            ? "form-control is-invalid"
+                                                            : "form-control"
+                                                    }/>
+                                      <div
+                                          className={
+                                            hasError("timeTo")
+                                                  ? "invalid-feedback"
+                                                  : "visually-hidden"
+                                          }
+                                      >
+                                        Indicar una fecha correcta
+                                      </div>
+
+                                  </Form.Group>
+                                                  
+                    </div>
 
                                       
                          
