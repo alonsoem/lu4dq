@@ -11,7 +11,7 @@ import {
 } from "react-bootstrap";
 
 import { postLogin } from "../api/api";
-import login_back from "../login_back.png";
+import login_back from "../logo.png";
 import { useNavigate } from 'react-router-dom'
 //import "./loginform.css";
 
