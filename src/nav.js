@@ -3,7 +3,7 @@ import {React} from "react";
 
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import {Container} from 'react-bootstrap';
+import logo from  "./logo.png";
 
 
 function NavMenu() {
@@ -12,12 +12,20 @@ function NavMenu() {
 
     return (
       <div class="justify-content-center">
-        <Navbar   className="p-3 navbar nav navbar-dark bg-dark navmenu navLu4dq justify-content-center" expand="sm"  >
-          <Container>
-            
+        <Navbar   className="p-1 navbar nav navbar-dark bg-dark navmenu navLu4dq justify-content-center" expand="sm"  >
+  
+          <div class="container-fluid">
+          <a class="navbar-brand" href="#">
+                <img src={logo} alt="" width="125" height="50" />
+              </a>
+
             <Navbar.Toggle  aria-controls="responsive-navbar-nav"  />
+           
             <Navbar.Collapse id="responsive-navbar-nav " >
-              <Nav className="me-auto">
+   
+         
+              <Nav className="ms-auto">
+             
                     <Nav.Link class="navlink" href="/activities">ACTIVIDADES</Nav.Link>
                   
                     <Nav.Link class="navlink" href="/">CARGA DE CONTACTOS</Nav.Link>  
@@ -25,7 +33,9 @@ function NavMenu() {
                     <Nav.Link class="navlink" href="/qsoList">VER CONTACTOS</Nav.Link>
               </Nav>
             </Navbar.Collapse>
-          </Container>
+            
+          </div>
+
         </Navbar>
       </div>
 
