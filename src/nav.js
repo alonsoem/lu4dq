@@ -15,7 +15,7 @@ function NavMenu() {
         <Navbar   className="p-1 navbar nav navbar-dark bg-dark navmenu navLu4dq justify-content-center" expand="sm"  >
   
           <div class="container-fluid">
-          <a class="navbar-brand" href="#">
+          <a class="navbar-brand" href="/">
                 <img src={logo} alt="" width="125" height="50" />
               </a>
 
