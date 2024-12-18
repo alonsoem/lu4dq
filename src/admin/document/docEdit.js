@@ -68,7 +68,7 @@ const ModalForm=()=>{
           <Modal.Body>
               <div class="container vw-90 vh-50 text-center" role="button">
                   <img  class="rounded img-fluid"  
-                  src={(showImage?"https://lu4dq.qrits.com.ar/dinamic-content/"+showImage.name:"https://lu4dq.qrits.com.ar/dinamic-content/IMG/noimage.jpg")}
+                  src={(showImage?"https://lu4dq.qrits.com.ar/"+showImage.name:"https://lu4dq.qrits.com.ar/dinamic-content/IMG/noimage.jpg")}
                   alt="Previzualización de imagen" 
                   />
               </div>
@@ -240,6 +240,12 @@ const handleRemoveFile =(setFileHook, updateFileHook =null)=>{
   }
 }
 
+const handleShowPreview=(documentId)=> {
+  
+  setShowImage(new File([new Blob()],"api/qslPreview.php?id="+documentId,{type: "image/jpeg"}));
+  setShow(true);
+}
+
 const handleShow = (type,file) => {
   if (type==="DOC"){
     //var newFileName = type+"/"+file.name;
@@ -249,7 +255,7 @@ const handleShow = (type,file) => {
   }else{
     var newFileName = type+"/"+file.name;
     console.log(newFileName);
-    setShowImage(new File([file.Blob],newFileName,{type: file.type}));
+    setShowImage(new File([file.Blob],"dinamic-content/"+newFileName,{type: file.type}));
     setShow(true);
   }
   
@@ -421,14 +427,22 @@ const Imageconditional = (params) =>{
 
                                             </tbody>
                                           </table>
+                                          <div className="row ms-auto">
+                                      <div className=" col-12 ms-auto">
+                                        <button type="button" onClick={()=>handleShowPreview(id)} style={{ cursor: 'pointer'}}  className="btn btn-success">Ver Impresión</button>
+                                      </div>
+                                    </div>
                                         </fieldset>
+                                        
                                     </Row>
+                              
                                   
                                     <div className="row">&nbsp;</div>
 
                                     <div className="row">
                                       <div className="col-12 text-right">
                                         <button type="submit" className="btn btn-success">Guardar</button>
+                                        
                                       </div>
                                     </div>
 
