@@ -242,7 +242,7 @@ const handleRemoveFile =(setFileHook, updateFileHook =null)=>{
 
 const handleShowPreview=(documentId)=> {
   
-  setShowImage(new File([new Blob()],"api/qslPreview.php?id="+documentId,{type: "image/jpeg"}));
+  setShowImage(new File([new Blob()],"api/qslPreview.php?id="+documentId + "&rnd="+Math.floor(Math.random() * (1000)) + 1,{type: "image/jpeg"}));
   setShow(true);
 }
 
