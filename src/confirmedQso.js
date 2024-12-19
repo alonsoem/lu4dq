@@ -411,6 +411,45 @@ const showTable=()=>{
         
         
     }
+
+    const WorkingStations = () =>{
+        
+        if (properties.type===3){
+            return ("¡TODAS LAS ESTACIONES PARTICIPAN!");
+        }else{
+            return (       
+                <div>
+            <p>Las estaciones que entregan contacto son: </p>
+                <p class="m-2">
+                    {stations.map((each)=>{
+                                                    
+                                                    return (
+                                                            
+                                                            <span class={"mb-2 me-2 badge even-larger-badge text-dark "+(each.required?"bg-warning":"")}>
+                                                                {(each.letter===""?
+                                                                    <b>{each.station.toUpperCase()}</b>
+                                                                :
+                                                                    <b>
+                                                                        {each.station.toUpperCase()}
+                                                                            <span class=" ms-2 badge rounded-pill bg-info text-dark">
+                                                                                { each.letter}
+                                                                            </span>
+                                                                    </b>
+                                                                )}
+                                                                
+                                                            </span>
+                                                            );
+                                                                    
+                                                                
+                                                    }
+                                            )
+                                }
+                </p>
+                </div>                 
+            )
+        }
+                                    
+    }
         return(
        
             
@@ -489,32 +528,8 @@ const showTable=()=>{
                                 </div>
                                 </div>
                                 <div className="card-body" >
-                                    <p>Las estaciones que entregan contacto son: </p>
-                                    <p class="m-2">
-                                        {stations.map((each)=>{
-                                                                        
-                                                            return (
-                                                                    
-                                                                    <span class={"mb-2 me-2 badge even-larger-badge text-dark "+(each.required?"bg-warning":"")}>
-                                                                        {(each.letter===""?
-                                                                            <b>{each.station.toUpperCase()}</b>
-                                                                        :
-                                                                            <b>
-                                                                                {each.station.toUpperCase()}
-                                                                                    <span class=" ms-2 badge rounded-pill bg-info text-dark">
-                                                                                        { each.letter}
-                                                                                    </span>
-                                                                            </b>
-                                                                        )}
-                                                                        
-                                                                    </span>
-                                                                    );
-                                                                            
-                                                                        
-                                                            }
-                                                    )
-                                        }
-                                    </p>
+                                    <WorkingStations />
+                                    
                                 </div>
                             </div>
                         
