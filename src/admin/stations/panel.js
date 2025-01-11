@@ -1,12 +1,16 @@
 import React from 'react';
 
 import { useState,useEffect} from 'react';
-import { getAllActivities, getStations } from '../../api/api';
+import { getAllActivities, getStations, putRecoveryOnQueueWithGet } from '../../api/api';
 //import {useNavigate} from 'react-router-dom';
 
 import {Form} from "react-bootstrap";
 import NavAdmin from '../navAdmin';
 import NavMenu from '../../nav';
+import { ToastContainer, toast } from 'react-toastify';
+
+
+
 
 
 
@@ -95,8 +99,22 @@ function StationsList() {
       }
     
 
-	
+//nuevo
+const handleRecovery = (station)=>{
+    putRecoveryOnQueueWithGet(
+            {
+                station: station   }
+        )
+        .then((response) => {
+            console.log(response);
+            
+        }
+        
+        )
+        .catch();
+    }
 
+   
 
 
     function ActivityTable(){
@@ -132,6 +150,7 @@ function StationsList() {
                         <th scope="col" class="text-center">ITU</th>
                         <th scope="col" class="text-center">CQ ZONE</th>
                         <th scope="col" class="text-center">¿ES ACTUALIZABLE?</th>
+                        <th scope="col" class="text-center">RECUPERO</th>
                         
                         
                         
@@ -148,7 +167,13 @@ function StationsList() {
                     <td class="text-center">{each.itu}</td>
                     <td class="text-center">{each.cqzone}</td>
                     <td class="text-center">{each.updateable==="true"?"SI":"NO"}</td>
-                    
+                    <td class="text-center">
+                        <span  class="text-success" 
+                                style={{ cursor: 'pointer'}} 
+                                onClick={() =>handleRecovery(each.station)}>
+                                    ENVIAR
+                        </span>
+                    </td>
                     </tr>
                  )
                  
