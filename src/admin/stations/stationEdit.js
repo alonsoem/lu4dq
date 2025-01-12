@@ -3,7 +3,7 @@ import {useState,useEffect} from 'react';
 import {Form, Row} from "react-bootstrap";
 
 import { ToastContainer, toast } from 'react-toastify';
-import {getDocumentById, putDocument} from "../../api/api";
+import { getStations,putName} from "../../api/api";
 
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
@@ -32,9 +32,9 @@ export default function EditStation() {
   
 
   useEffect(() => {
-    getDocumentById({})       
+    getStations({type:0,value:stationId})       
     .then((response) => {
-        setItem(response.document);
+        setItem(response.stations[0]);
 //        setLoading(false);
     })
     .catch((response) => {
@@ -51,7 +51,14 @@ export default function EditStation() {
 
 
 const setItem= (item) =>{
-  //setTitle(item.description);
+
+  setName(item.name);
+  setEmail(item.email);
+  setCqZone(item.cqzone);
+  setEditable(item.updateable==="true"?true:false);
+  setGrid(item.grid);
+  setItu(item.itu);
+
 
 }
    
@@ -129,38 +136,23 @@ const navigateToAdmin = () => {
 
 const submit = () =>{
   
-  //console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
-  
-		// Create an object of formData
-		const formData = new FormData();
-
-		// Update the formData object
-
+ const formData = new FormData();
+ 
+    formData.append('station',stationId);
+     formData.append('name',name);
+     formData.append('email',email);
+     formData.append('itu',itu?itu:null);
+     formData.append('cqZone',cqZone?cqZone:null);
+     formData.append('grid',grid);
+ 
     
-    //formData.append('id',id);
-    
-    
-    
-    putDocument(formData)       
-      .then((response) => {
-        navigateToAdmin();
-         /* //eslint-disable-next-line
-          if (response.qsl.status=="RC Confirmed"){
-              
-          //eslint-disable-next-line
-          }else if (response.qsl.status=="Confirmed"){
-              
-          }else{
-              
-              //handleAPIError(response);
-          }*/
-          console.log(response);         
-      })
-      .catch((error) => {
-        console.log(error);
-        handleAxiosError(error);
-       }
-      );
+ 
+     putName(formData)       
+         .then((response) => {
+             navigateToAdmin();
+         })
+         .catch((response) => handleAxiosError(response));
+ 
 
 }
 

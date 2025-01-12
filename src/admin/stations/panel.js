@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useState,useEffect} from 'react';
 import { getAllActivities, getStations, putRecoveryOnQueueWithGet } from '../../api/api';
-//import {useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 import {Form} from "react-bootstrap";
 import NavAdmin from '../navAdmin';
@@ -16,7 +16,8 @@ import NavMenu from '../../nav';
 
 
 function StationsList() {
-    //const navigate = useNavigate();
+    const navigate = useNavigate();
+    
     const [ loading, setLoading ] = useState(false);
     const [ dataList, setDataList ] = useState([]);
     const [searchType, setSearchType] = useState(0);
@@ -115,7 +116,11 @@ const handleRecovery = (station)=>{
     }
 
    
-
+    const navigateToUrl = (id) => {
+        navigate(id);
+        
+      };
+  
 
     function ActivityTable(){
 
@@ -143,7 +148,10 @@ const handleRecovery = (station)=>{
             <table class="table striped hover bordered responsive mt-3 border">
                 <thead>
                     <tr class="table-primary">
-                        <th scope="col" class="text-center">ESTACION</th>
+                        <th scope="col" class="text-center">
+                            ESTACION
+                        </th>
+                        
                         <th scope="col" class="text-center">TITULAR</th>
                         <th scope="col" class="text-center">EMAIL</th>
                         <th scope="col" class="text-center">GRID LOCATOR</th>
@@ -160,7 +168,9 @@ const handleRecovery = (station)=>{
             {dataList && dataList.map((each) =>{
                 return ( 
                     <tr>
-                    <td class="text-center">{each.station}</td>
+                    <td class="text-center">
+                        <span class="btn-link link-primary link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" onClick={(r)=>navigateToUrl(each.station)} >{each.station}</span>
+                    </td>
                     <td class="text-center">{each.name}</td>
                     <td class="text-center">{each.email}</td>
                     <td class="text-center">{each.grid}</td>
