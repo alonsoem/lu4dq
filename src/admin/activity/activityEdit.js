@@ -995,7 +995,7 @@ const wordComponent =()=>{
                                           <Row className=" mb-3  col-12">
                                           
                                           <fieldset class="border p-3 m-3 mb-3">
-                                            <legend  class="float-none w-auto t-4">Documento (DOC, DOCX, PDF)</legend>
+                                            <legend  class="float-none w-auto t-4">Documento de texto (DOC, DOCX, PDF)</legend>
                                             <Form.Group  className="mb-3" controlId="file">
                                               <Imageconditional type="DOC" file={selectedDocFile} setFileHook={setDocFile}/>
                                               
@@ -1011,7 +1011,7 @@ const wordComponent =()=>{
 
                                     
                                     <fieldset class="border p-3 mb-3">
-                                      <legend  class="float-none w-auto t-4">Imagen para QSL o CERTIFICADO (JPG)</legend>
+                                      <legend  class="float-none w-auto t-4">Documento Imagen para imprimir</legend>
                                       <Row className="mb-3 align-middle col-12">
                                           
                                       <Form.Group className="mb-3" controlId="modeValue">

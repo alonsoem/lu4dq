@@ -687,7 +687,7 @@ const wordComponent =()=>{
                                           <Row className="m-2 ">
                                           
                                             <Form.Group  className="mb-3" controlId="file">
-                                              <Form.Label  >Documento (PDF)</Form.Label>
+                                              <Form.Label  >Documento de texto (DOC, DOCX, PDF)</Form.Label>
                                               <input  ref={docInputRef} class="form-control" type="File" id="formFile"  onChange={onDocFileChange} />
                                               {docFileData()}
                                             </Form.Group>
@@ -703,7 +703,7 @@ const wordComponent =()=>{
                                     <Row className="mb-3 align-middle col-12">
 
                                       <Form.Group className="mb-3" controlId="modeValue">
-                                        <Form.Label>Imagen para QSL o CERTIFICADO (JPG)</Form.Label>
+                                        <Form.Label>Documento Imagen para imprimir</Form.Label>
                                         
                                         <select id="doc"  onChange={handleDocumentChange}
                                           className={
