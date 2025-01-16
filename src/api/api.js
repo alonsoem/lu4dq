@@ -31,6 +31,12 @@ export const getStatusRank = (params) => foreignRequest('get','https://lu4dq.qri
 export const getStatsByMode = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getStatsByMode.php',params,{'Content-Type':'Content-Type: application/json'});
 export const getStatsByBand = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getStatsByBand.php',params,{'Content-Type':'Content-Type: application/json'});
 export const getStatsByDate = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getStatsByDate.php',params,{'Content-Type':'Content-Type: application/json'});
+
+export const getGlobalStatusRank = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getGlobalStatusRank.php',params,{'Content-Type':'Content-Type: application/json'});
+export const getGlobalStatsByMode = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getGlobalStatsByMode.php',params,{'Content-Type':'Content-Type: application/json'});
+export const getGlobalStatsByBand = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getGlobalStatsByBand.php',params,{'Content-Type':'Content-Type: application/json'});
+
+
 export const getEnabledActivities = () => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getEnabledActivities.php',null,{'Content-Type':'Content-Type: application/json'});
 
 export const getQsoCheck = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getQsoCheck.php',params,{'Content-Type':'Content-Type: application/json'});

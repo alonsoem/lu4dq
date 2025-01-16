@@ -25,6 +25,7 @@ import StationsList  from "./admin/stations/panel.js";
 import StationEdit from "./admin/stations/stationEdit.js";
 import UserProfile from "./userProfile.js";
 import Recovery  from "./recovery.js";
+import PublicRanking from "./publicRanking.js";
 //import MapImage from "./admin/document/mapImage.js";
 
 
@@ -56,6 +57,7 @@ export default class App extends React.Component {
 
 
           <Route exact path='/activities' element={<AllActivities />}></Route>   
+          <Route exact path='/ranking' element={<PublicRanking />}></Route>   
 
           <Route exact path='/qsoTest' element={<Qso />}></Route>   
           
