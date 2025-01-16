@@ -2,8 +2,8 @@ import React from 'react';
 
 import { useState,useEffect} from 'react';
 import { getGlobalStatsByBand, getGlobalStatsByMode, getGlobalStatusRank} from './api/api';
-import {Form, Row} from "react-bootstrap";
-import { Pie,Bar } from 'react-chartjs-2';
+import {Row} from "react-bootstrap";
+import { Pie } from 'react-chartjs-2';
 import NavMenu from './nav';
 
 //import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
@@ -32,15 +32,11 @@ function AdminView() {
 	const [ rank, setRank] = useState([]);
 	
     const [ loading, setLoading ] = useState(false);
-    const [ activities, setActivities ] = useState([]);
-    const [ activity, setActivity ] = useState(null);
     const [ modeLabels, setModeLabels ] = useState([]);
     const [ modeData, setModes ] = useState([]);
     const [ bandLabels, setBandLabels ] = useState([]);
     const [ bandData, setBands ] = useState([]);
     
-    const [ dateLabels, setDateLabels ] = useState([]);
-    const [ dateData, setDates ] = useState([]);
 
     const dataModes = {
         labels: modeLabels,
@@ -96,47 +92,10 @@ function AdminView() {
         ],
       };
      
-      const dataDates = {
-        labels: dateLabels,
-        datasets: [
-          {
-            label: 'Cantidad de Contactos por día',
-            data: dateData,
-            backgroundColor: [
-              
-              'rgba(54, 162, 235, 0.2)',
-              
-            ],
-            borderColor: [
-              
-              'rgba(54, 162, 235, 1)',
-              
-            ],
-            borderWidth: 1,
-          },
-        ],
-      };
+     
 
      
-      const barOptions = {
-        responsive: true,
-        legend: {
-          display: false
-        },
-        type: "bar",
-        scales: {
-          xAxes: [
-            {
-              stacked: true
-            }
-          ],
-          yAxes: [
-            {
-              stacked: true
-            }
-          ]
-        }
-      };
+     
 
   
     useEffect(() => {
@@ -151,11 +110,7 @@ function AdminView() {
     )        
 
 
-    const handleChangeActivity=(event)=>{
-            console.log(event.target.value);
-            setActivity(event.target.value);
-
-    }
+    
 
     const loadData =(activityId)=> {
         console.log(activityId);
@@ -244,19 +199,22 @@ function AdminView() {
             <table class="table striped hover bordered responsive mt-3 border">
                 <thead>
                     <tr class="table-primary">
+                        <th scope="col" class="text-center">Posición</th>
                         <th scope="col" class="text-center">Indicativo</th>
-                        <th scope="col" class="text-center">Cantidad Total</th>
-                        <th scope="col" class="text-center">Cantidad entre Fechas</th>
+                        <th scope="col" class="text-center">Nombre</th>
+                        <th scope="col" class="text-center">QSOs</th>
                         
                     </tr>
                 </thead>
             <tbody>
             {rank.map((each) =>{
+              
                  return ( 
                     <tr>
+                      <td class="text-center">-</td>
                     <td class="text-center">{each.station}</td>
+                    <td class="text-center">{each.name}</td>
                     <td class="text-center">{each.qty}</td>
-                    <td class="text-center">{each.actQty}</td>
                     </tr>
                  )
             
