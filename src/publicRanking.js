@@ -191,8 +191,8 @@ function AdminView() {
         }else{
             if (rank.length===0){
                 return (<div class="card p-5 mt-3">
-                            <h5>NO HAY NADA POR EL MOMENTO...</h5>
-                            <p>Busca un indicativo para ver los contactos cargados!</p></div>);
+                            <h5>NO PUDIMOS CARGAR LOS DATOS EN ESTE MOMENTO...</h5>
+                            <p>Intentá en un breve momento de tiempo.</p></div>);
             }else{
         
                 return (
@@ -211,7 +211,7 @@ function AdminView() {
               
                  return ( 
                     <tr>
-                      <td class="text-center">-</td>
+                      <td class="text-center">{each.position}</td>
                     <td class="text-center">{each.station}</td>
                     <td class="text-center">{each.name}</td>
                     <td class="text-center">{each.qty}</td>
