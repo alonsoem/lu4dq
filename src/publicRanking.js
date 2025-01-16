@@ -40,6 +40,7 @@ function AdminView() {
 
     const dataModes = {
         labels: modeLabels,
+        
         datasets: [
           {
             label: 'Cantidad',
@@ -64,8 +65,11 @@ function AdminView() {
           },
         ],
       };
+      
 
       const dataBands = {
+       
+       
         labels: bandLabels,
         datasets: [
           {
@@ -90,6 +94,7 @@ function AdminView() {
             borderWidth: 1,
           },
         ],
+
       };
      
      
@@ -247,22 +252,33 @@ function AdminView() {
                             <ActivityTable />
                     
                     
-                            <div class="card p-5 mt-3">
-                                <Row class="">
-                                    <div class="text-center">
-                                        <Pie data={dataModes} />
+                            <div class="card mt-3">
+                              <div className="card-header ">
+                                <span class="display-6 ">Otras Estadísticas</span>       
+                              </div>
+                              
+                                <Row class="col-12 container flex">
+                                    <div class="text-center col-6 p-4 ">
+                                        <div class="card mt-3">
+                                            <div className="card-header ">
+                                              <span class="display-10 ">Distribución por modos</span>       
+                                            </div>
+                                            <Pie data={dataModes} />
+                                       </div>
+                                    </div>
+                                    <div class="text-center col-6 p-4">
+                                    <div class="card mt-3">
+                                    <div className="card-header ">
+                                          <span class="display-10 ">Distribución por bandas</span>       
+                                            
+                                            </div>
+                                            <Pie data={dataBands} />
+                                        </div>
                                     </div>
                                 </Row>
                             </div>
 
-                            <div class="card p-5 mt-3">
-                                <Row class="">
-                                    <div class="text-center">
-                                        <Pie data={dataBands} />
-                                    </div>
-                                </Row>
-                            </div>
-
+                            
                           
                     
                     </div>
