@@ -33,7 +33,8 @@ import { saveAs } from 'file-saver';
 
     const navigateToStationQso = (station) => {
         if (station){
-            navigate('/qsoList/'+station);
+            const myArray = station.split("/");
+            navigate('/qsoList/'+myArray[0]);
         }
       };
 
