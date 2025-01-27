@@ -214,7 +214,7 @@ function QsoList() {
                 {qsos.map((each) =>{
                  return ( 
                     <tr>
-			<th scope="col" class="text-center d-none d-sm-table-cell">{each.station}</th>
+			<td scope="col" class="text-center d-none d-sm-table-cell">{each.station}</td>
                     <td class="text-center">
                         <badge  onClick={(r)=>navigateToStationQso(each.callsign.match(/[A-Za-z0-9]+/))}>
                             {each.swl?each.callsign+" - "+each.callsign2:each.callsign}
