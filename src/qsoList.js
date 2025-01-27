@@ -199,7 +199,8 @@ function QsoList() {
             <table class="table block striped hover bordered responsive mt-3 border">
                 <thead>
                     <tr class="table-primary">
-                        <th scope="col" class="text-center">Indicativo</th>
+			<th scope="col" class="text-center d-none d-sm-table-cell">Estación</th>
+                        <th scope="col" class="text-center">Corrresponsal</th>
                         <th scope="col" class="text-center">Fecha</th>
                         <th scope="col" class="text-center d-none d-sm-table-cell">Hora</th>
                         <th scope="col" class="text-center ">Banda</th>
@@ -213,6 +214,7 @@ function QsoList() {
                 {qsos.map((each) =>{
                  return ( 
                     <tr>
+			<th scope="col" class="text-center d-none d-sm-table-cell">{each.station}</th>
                     <td class="text-center">
                         <badge  onClick={(r)=>navigateToStationQso(each.callsign.match(/[A-Za-z0-9]+/))}>
                             {each.swl?each.callsign+" - "+each.callsign2:each.callsign}
