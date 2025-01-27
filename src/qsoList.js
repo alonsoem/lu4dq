@@ -200,7 +200,7 @@ function QsoList() {
                 <thead>
                     <tr class="table-primary">
 			<th scope="col" class="text-center d-none d-sm-table-cell">Estación</th>
-                        <th scope="col" class="text-center">Corrresponsal</th>
+                        <th scope="col" class="text-center">Corresponsal</th>
                         <th scope="col" class="text-center">Fecha</th>
                         <th scope="col" class="text-center d-none d-sm-table-cell">Hora</th>
                         <th scope="col" class="text-center ">Banda</th>
