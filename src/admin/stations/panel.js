@@ -117,7 +117,7 @@ const handleRecovery = (station)=>{
 
    
     const navigateToUrl = (id) => {
-        navigate(id);
+        navigate(encodeURIComponent(id));
         
       };
   
