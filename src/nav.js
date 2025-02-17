@@ -3,6 +3,7 @@ import {React} from "react";
 
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { NavDropdown } from 'react-bootstrap';
 import logo from  "./logo.png";
 
 
@@ -31,6 +32,14 @@ function NavMenu() {
                     <Nav.Link class="navlink" href="/">CARGA DE CONTACTOS</Nav.Link>  
                 
                     <Nav.Link class="navlink" href="/qsoList">VER CONTACTOS</Nav.Link>
+                    
+                    <NavDropdown title="AUTOGESTIÓN" id="basic-nav-dropdown">
+                      <NavDropdown.Item href="/registrar">Registrarse</NavDropdown.Item>
+                      <NavDropdown.Item href="/recupero">
+                        Recuperar código
+                      </NavDropdown.Item>
+                      
+                  </NavDropdown>
               </Nav>
             </Navbar.Collapse>
             
