@@ -6,10 +6,10 @@ import {getName, putProfile} from "./api/api";
 import { ToastContainer, toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
-import { useCookies } from 'react-cookie';
+//import { useCookies } from 'react-cookie';
 
 export default function FormRequest(props) {
-  const [cookies] = useCookies(['logCallsign']);
+  //const [cookies] = useCookies(['logCallsign']);
  
   const [signal, setSignal] = useState("");
   const [name, setName] = useState("");

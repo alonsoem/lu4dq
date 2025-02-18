@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import Landing from "./landing";
 //import "./loginform.css";
 import { useLocation } from 'react-router-dom';
-import QsoList from "./qsoList";
+
 
 
 export default function LoginForm(props) {
@@ -62,7 +62,7 @@ export default function LoginForm(props) {
 
     const handleAPIError = (responseError) =>{
         console.log(responseError);
-        let errorToDisplay = "SE PRODUJO UN ERROR INESPERADO";
+       /* let errorToDisplay = "SE PRODUJO UN ERROR INESPERADO";
 
         if (responseError.request && responseError.request.status === 0) {
         errorToDisplay = "COMUNICATION ERRORS";
@@ -71,7 +71,7 @@ export default function LoginForm(props) {
         errorToDisplay = "INVALID CREDENTIALS";
         }
         //setError(errorToDisplay);
-        
+        */
     }
 
     
@@ -79,7 +79,7 @@ export default function LoginForm(props) {
     
 
     return (
-        <QsoList />
+        <Landing />
     );
   
 }
