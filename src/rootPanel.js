@@ -50,7 +50,7 @@ export default class App extends React.Component {
           <Route exact path='/cargaMasiva' element={<UploadBis />}></Route>
           <Route exact path='/cargaManual' element={<QsoUpload />}></Route>
           <Route exact path='/registrar' element={<Register />}></Route>
-          <Route exact path='/profile' element={<UserProfile />}></Route>
+          <Route exact path='/profile' element={<UserProfile />}></Route>F
           <Route exact path='/recupero' element={<Recovery />}></Route>
 
           <Route exact path='/qsoList/:station' element={<QsoList />}></Route>   
