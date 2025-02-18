@@ -9,7 +9,8 @@ import logo from  "./logo.png";
 
 
 const ConditionalItem = (props) =>{
-  if (props.session.getItem("userLoginOK") && props.session.getItem("userLoginOK")===1){
+  // eslint-disable-next-line
+  if (props.session.getItem("userLoginOK") && props.session.getItem("userLoginOK")==1){
     return <NavDropdown.Item href="/profile">{props.session.getItem("userStation").toUpperCase()}</NavDropdown.Item>
   }else{
     return null;
