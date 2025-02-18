@@ -26,6 +26,7 @@ import StationEdit from "./admin/stations/stationEdit.js";
 import UserProfile from "./userProfile.js";
 import Recovery  from "./recovery.js";
 import PublicRanking from "./publicRanking.js";
+import AutoLogin from "./magicLogin.js";
 //import MapImage from "./admin/document/mapImage.js";
 
 
@@ -87,6 +88,7 @@ export default class App extends React.Component {
 
 
           <Route exact path='/login' element={<LoginForm />}></Route>  
+          <Route exact path='/autoLogin' element={<AutoLogin />}></Route>  
           
           
             

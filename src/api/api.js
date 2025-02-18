@@ -24,6 +24,8 @@ export const postFile = (form) => foreignPost('https://lu4dq.qrits.com.ar/api/po
 export const getName = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getNames.php',params,{'Content-Type':'Content-Type: application/json'});
 export const putName = (form) => foreignPost('https://lu4dq.qrits.com.ar/api/putName.php',form);
 
+export const putProfile = (form) => foreignPost('https://lu4dq.qrits.com.ar/api/putProfile.php',form);
+
 export const checkName = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/checkName.php',params,{'Content-Type':'Content-Type: application/json'});
 
 export const getQsoList = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getQsos.php',params,{'Content-Type':'Content-Type: application/json'});
@@ -57,6 +59,8 @@ export const removeStation = (params) => foreignRequest('get','https://lu4dq.qri
 export const postStatistics = (params) => foreignRequest('get', 'https://lu4dq.qrits.com.ar/api/preQsoStatistics.php',params,{'Content-Type':'Content-Type: text/html'});
 
 export const postLogin = (body) => foreignPost("https://lu4dq.qrits.com.ar/api/authenticate.php", body);
+
+export const postAutoLogin = (body) => foreignPost("https://lu4dq.qrits.com.ar/api/autoLogin.php", body);
 
 export const getStations = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getStationDetails.php',params,{'Content-Type':'Content-Type: application/json'});
 

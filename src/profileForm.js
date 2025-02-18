@@ -2,7 +2,7 @@
 import {Form, Row,Popover, OverlayTrigger} from "react-bootstrap";
 import { useEffect } from 'react';
 import { useState } from "react";
-import {getName, putName} from "./api/api";
+import {getName, putProfile} from "./api/api";
 import { ToastContainer, toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
@@ -28,8 +28,8 @@ export default function FormRequest(props) {
   };
 
   const handleChangeSignal  = (event) => {
-    /*setSignal(event.target.value.toUpperCase());
-    getName({station:event.target.value})
+    setSignal(event.target.value.toUpperCase());
+   /* getName({station:event.target.value})
         .then((response) => {
           setName(response.name);
           setEmail(response.mail);
@@ -37,7 +37,9 @@ export default function FormRequest(props) {
       })
       .catch((response) => handleAxiosError(response));
     */
+   /*}
    updateFromCallsign(event.target.value.trim());
+   */
   };
 
   const handleChangeItu  = (event) => {
@@ -66,10 +68,10 @@ const updateFromCallsign= (callsign)=>{
 
 }
 useEffect(() => {
-  console.log("STARTUP - LEO COOKIE");
-  if(cookies["logCallsign"]){
-    updateFromCallsign(cookies["logCallsign"]);
-  }
+    /*if(cookies["logCallsign"]){
+      updateFromCallsign(cookies["logCallsign"]);
+    }*/
+    updateFromCallsign(sessionStorage.getItem("userStation"));
   
   
   
@@ -108,6 +110,7 @@ useEffect(() => {
     const formData = new FormData();
 
 		formData.append('station',signal);
+    formData.append('token',sessionStorage.getItem("userToken"));
     formData.append('name',name);
     formData.append('email',email);
     formData.append('itu',itu?itu:null);
@@ -116,7 +119,7 @@ useEffect(() => {
 
    
 
-    putName(formData)       
+    putProfile(formData)       
         .then((response) => {
             props.qslHook();
         })

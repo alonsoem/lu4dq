@@ -7,6 +7,17 @@ import { NavDropdown } from 'react-bootstrap';
 import logo from  "./logo.png";
 
 
+
+const ConditionalItem = (props) =>{
+  if (props.session.getItem("userLoginOK") && props.session.getItem("userLoginOK")==1){
+    return <NavDropdown.Item href="/profile">{props.session.getItem("userStation").toUpperCase()}</NavDropdown.Item>
+  }{
+    return null;
+  }
+  
+
+}
+
 function NavMenu() {
 
   
@@ -38,6 +49,7 @@ function NavMenu() {
                       <NavDropdown.Item href="/recupero">
                         Recuperar código
                       </NavDropdown.Item>
+                      <ConditionalItem session={sessionStorage} />
                       
                   </NavDropdown>
               </Nav>
