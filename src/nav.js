@@ -7,7 +7,19 @@ import { NavDropdown } from 'react-bootstrap';
 import logo from  "./logo.png";
 
 
-
+const ConditionalItems = (props) =>{
+  if (props.session.getItem("userLoginOK") && props.session.getItem("userLoginOK")==1){
+    return null;
+  }else{
+    return (
+      <div>
+      <NavDropdown.Item href="/registrar">Registrarse</NavDropdown.Item>
+      <NavDropdown.Item href="/recupero">Recuperar código</NavDropdown.Item>
+      </div>
+    );
+  }
+  
+}
 const ConditionalItem = (props) =>{
   // eslint-disable-next-line
   if (props.session.getItem("userLoginOK") && props.session.getItem("userLoginOK")==1){
@@ -17,6 +29,18 @@ const ConditionalItem = (props) =>{
   }
   
 
+}
+
+const ConditionalLogout = (props) =>{
+  if (props.session.getItem("userLoginOK") && props.session.getItem("userLoginOK")==1){
+    return (
+      <NavDropdown.Item href="/logout">Salir</NavDropdown.Item>
+    );
+  }else{
+    return null;
+    
+  }
+  
 }
 
 function NavMenu() {
@@ -46,11 +70,9 @@ function NavMenu() {
                     <Nav.Link class="navlink" href="/qsoList">VER CONTACTOS</Nav.Link>
                     
                     <NavDropdown title="AUTOGESTIÓN" id="basic-nav-dropdown">
-                      <NavDropdown.Item href="/registrar">Registrarse</NavDropdown.Item>
-                      <NavDropdown.Item href="/recupero">
-                        Recuperar código
-                      </NavDropdown.Item>
+                      <ConditionalItems session={sessionStorage} />
                       <ConditionalItem session={sessionStorage} />
+                      <ConditionalLogout session={sessionStorage} />
                       
                   </NavDropdown>
               </Nav>

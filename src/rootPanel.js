@@ -28,6 +28,7 @@ import Recovery  from "./recovery.js";
 import PublicRanking from "./publicRanking.js";
 import AutoLogin from "./magicLogin.js";
 //import MapImage from "./admin/document/mapImage.js";
+import Logout from "./logout.js";
 
 
 
@@ -89,6 +90,7 @@ export default class App extends React.Component {
 
           <Route exact path='/login' element={<LoginForm />}></Route>  
           <Route exact path='/autoLogin' element={<AutoLogin />}></Route>  
+          <Route exact path='/logout' element={<Logout />}></Route>  
           
           
             
