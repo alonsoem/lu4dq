@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { useCookies } from 'react-cookie';
-
+import TokenField from "./tokenField.js"
 
 
 
@@ -17,10 +17,14 @@ import { useCookies } from 'react-cookie';
 
 
 export default function FormRequest(props) {
-  const [cookies, setCookie] = useCookies(['logCallsign']);
+  
   const actual= new Date();
   const dateData = new Date(actual.getUTCFullYear(),actual.getUTCMonth(),actual.getUTCDate(),actual.getUTCHours(),actual.getUTCMinutes());
+  
+  const [cookies, setCookie] = useCookies(['logCallsign']);
   const { stationCode } = useParams();
+  const [token,setToken] = useState("");
+
   const [datePick, setDate] = useState(format(dateData,"yyyy-MM-dd"));
   const [timePick, setTime] = useState(format(dateData,"HH:mm"));
   const [signal, setSignal] = useState("");
@@ -32,9 +36,7 @@ export default function FormRequest(props) {
   const [rst, setRST] = useState("");
   const [rstReceived, setRSTReceived] = useState("");
   const [message, setMessage] = useState("");
-  
 
-  
   const [swl, setSwl] = useState(false);
   
   const [toCall, setToCall] = useState("");
@@ -42,6 +44,7 @@ export default function FormRequest(props) {
   const [errors, setErrors] = useState([]);
   
 
+  
   const preloadFrequency = (band) => {
     switch(band){
       case "160m":
@@ -84,74 +87,59 @@ export default function FormRequest(props) {
     setBand(event.target.value.toUpperCase());
     setFrequency(preloadFrequency(event.target.value));
   }
+  
   const handleChangeFreq = (event) => {
-    
     setFrequency(event.target.value);
-    
   };
 
   const handleChangeSwl =(event)=>{
-      setSwl(event.target.checked);  
+    setSwl(event.target.checked);  
   }
 
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
   };
-
   
   const handleChangeMessage = (event) => {
     setMessage(event.target.value);
   };
-  
-
-
+ 
   const handleChangeTime = (event) => {
     setTime(event.target.value);
   };
+
   const handleChangeName = (event) => {
     setName(event.target.value);
   };
+
+  const handleChangeToken = (event) => {
+    setToken(event.target.value);
+  };
+
   const handleChangeSignal  = (event) => {
-    /*setSignal(event.target.value.toUpperCase());
-    getName({station:event.target.value})
-        .then((response) => {
-          setName(response.name);
-          setEmail(response.mail);
-          
-      })
-      .catch((response) => handleAxiosError(response));
-    */
-   updateFromCallsign(event.target.value.trim());
+    updateFromCallsign(event.target.value.trim());
   };
 
   const handleChangeToCall = (event) => {
     setToCall(event.target.value.toUpperCase().trim());
   };
 
-
   const handleChangeToCall2= (event) => {
     setToCall2(event.target.value.toUpperCase().trim());
   };
+
   const handleChangeMode  = (event) => {
     setMode(event.target.value.toUpperCase());
   };
+
   const handleChangeRST  = (event) => {
     setRST(event.target.value);
   };
+
   const handleChangeRSTReceived  = (event) => {
     setRSTReceived(event.target.value);
   };
   
-  /*const handleAPIError= (responseJson)=> {
-    let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
-    console.log("HANDLEAPIERROR");
-    
-
-
-    //setError(errorToDisplay);
-    notifyError(errorToDisplay);
-  }
-*/
 
 const updateFromCallsign= (callsign)=>{
   setSignal(callsign.toUpperCase());
@@ -164,15 +152,28 @@ const updateFromCallsign= (callsign)=>{
     .catch((response) => handleAxiosError(response));
 
 }
+
 useEffect(() => {
-  console.log("STARTUP - LEO COOKIE");
-  if(cookies["logCallsign"]){
-    //setSignal(cookies["lu4dq-log-callsign"]);
-    updateFromCallsign(cookies["logCallsign"]);
+  
+  // eslint-disable-next-line
+  if (sessionStorage.getItem("userLoginOK")==1){
+    updateFromCallsign(sessionStorage.getItem("userStation"));
+    setToken(sessionStorage.getItem("userToken"));
+  }else{
+
+    if(cookies["logCallsign"]){
+      updateFromCallsign(cookies["logCallsign"]);
+    }
+  
+    if (stationCode){
+      setToken(stationCode);
+    }
+  
   }
+
+ 
   
-  
-  
+
   // eslint-disable-next-line
 }, []
 )
@@ -254,7 +255,7 @@ if (swl){
         rstR:rstReceived,
         name:name,
         toCall:toCall,
-        stationCode:stationCode,
+        stationCode:token,
         email:email,
         toCall2:toCall2,
         isSwl:swl,
@@ -450,6 +451,8 @@ if (swl){
   }
 
 
+
+  
   const popoverEmail = (
     
     <Popover id="popover-positioned-right"  placement="right" >
@@ -636,6 +639,9 @@ function SeñalesRecibidas() {
     return null;
   }
 }
+
+
+
 
 
   return (
@@ -1026,6 +1032,10 @@ function SeñalesRecibidas() {
 
                </Form.Group>
              </Row>
+
+
+             <TokenField handler={handleChangeToken} value={token} show={token} />
+               
 
              
                          

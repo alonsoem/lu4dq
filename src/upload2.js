@@ -7,6 +7,7 @@ import {Form, Row} from "react-bootstrap";
 import TimeUp from './timeUp';
 import { useCookies } from 'react-cookie';
 import NavMenu from "./nav";
+import TokenField from "./tokenField";
 
 function Upload(){	
 
@@ -56,6 +57,9 @@ function Upload(){
 	
 	const ShowForm = (props) =>{
 		const [cookies, setCookie] = useCookies(['logCallsign']);
+  		const [token, setToken] = useState("");
+		const { stationCode } = useParams();
+
 		const [ selectedFile, setFile ] = useState(null);
 		const [ filas, setFilas ] = useState([]);
 		const [ response, setResponse ] = useState(false);
@@ -70,7 +74,7 @@ function Upload(){
 
 
 
-		const { stationCode } = useParams();
+		
 		const inputRef = useRef(null);
 
 		const resetFileInput = () => {
@@ -80,13 +84,22 @@ function Upload(){
 		};
 
 		useEffect(() => {
-			console.log("STARTUP - LEO COOKIE");
-			if(cookies['logCallsign']){
-				//setSignal(cookies["lu4dq-log-callsign"]);
-				
-				updateFromCallsign(cookies["logCallsign"]);
-			  }
+
+			// eslint-disable-next-line
+			if (sessionStorage.getItem("userLoginOK")==1){
+				updateFromCallsign(sessionStorage.getItem("userStation"));
+				setToken(sessionStorage.getItem("userToken"));
+			}
 			
+			if(cookies["logCallsign"]){
+				updateFromCallsign(cookies["logCallsign"]);
+			}
+			
+			if (stationCode){
+				setToken(stationCode);
+			}
+
+
 			
 			// eslint-disable-next-line
 		  }, []
@@ -207,6 +220,9 @@ function Upload(){
 		const handleChangeName = (event) => {
 			setName(event.target.value);
 	  	};
+		  const handleChangeToken = (event) => {
+			setToken(event.target.value);
+		  };
 	  
 		const resetForm=()=>{
 			setResponse(false);
@@ -376,7 +392,7 @@ function Upload(){
 			selectedFile,
 			selectedFile.name
 		);
-		formData.append('stationCode', stationCode);
+		formData.append('stationCode', token);
 		formData.append('station', signal);
 		formData.append('name', name);
 		formData.append('email', email);
@@ -495,6 +511,8 @@ function Upload(){
 
 									</Form.Group>
 									</Row>
+
+									<TokenField handler={handleChangeToken} value={token} />
 								</div>
 								
 									
