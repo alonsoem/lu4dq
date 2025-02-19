@@ -8,6 +8,7 @@ import logo from  "./logo.png";
 
 
 const ConditionalItems = (props) =>{
+  // eslint-disable-next-line
   if (props.session.getItem("userLoginOK") && props.session.getItem("userLoginOK")==1){
     return null;
   }else{
@@ -32,6 +33,7 @@ const ConditionalItem = (props) =>{
 }
 
 const ConditionalLogout = (props) =>{
+  // eslint-disable-next-line
   if (props.session.getItem("userLoginOK") && props.session.getItem("userLoginOK")==1){
     return (
       <NavDropdown.Item href="/logout">Salir</NavDropdown.Item>
