@@ -38,7 +38,8 @@ useEffect(() => {
     console.log (response);
     let errorToDisplay="";
     if (response.code==="ERR_BAD_REQUEST"){
-      if (response.request.error_message="Duplicado"){
+       // eslint-disable-next-line
+      if (response.request.error_message=="Duplicado"){
         errorToDisplay = "¡YA ESTAS REGISTRADO!";    
       }else{
         errorToDisplay = response.request.error_message;    
@@ -50,7 +51,7 @@ useEffect(() => {
     
     // eslint-disable-next-line
     if (response.message=="Network Error") {
-      let errorToDisplay = "OCURRIÓ UN ERROR EN LA COMUNICACIÓN. Reintente a la brevedad";
+       errorToDisplay = "OCURRIÓ UN ERROR EN LA COMUNICACIÓN. Reintente a la brevedad";
     }
 
     //setError(errorToDisplay);
