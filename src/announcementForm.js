@@ -40,7 +40,7 @@ useEffect(() => {
     if (response.code==="ERR_BAD_REQUEST"){
        // eslint-disable-next-line
       if (response.response.data.error_message=="Duplicated"){
-        errorToDisplay = "¡YA ESTAS REGISTRADO!";    
+        errorToDisplay = "¡YA ESTAS ANUNCIADO!";    
       }else{
         errorToDisplay = response.request.error_message;    
       }
@@ -62,7 +62,7 @@ useEffect(() => {
  const notifyError = (message) => {
     toast.error(message, {
       position: "top-center",
-      autoClose: 4000,
+      autoClose: 6000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
