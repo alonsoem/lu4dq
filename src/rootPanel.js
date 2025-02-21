@@ -93,7 +93,7 @@ export default class App extends React.Component {
           <Route exact path='/autoLogin' element={<AutoLogin />}></Route>  
           <Route exact path='/logout' element={<Logout />}></Route>  
 
-          <Route exact path='/announcement' element={<Announcement />}></Route>
+          <Route exact path='/anunciarme' element={<Announcement />}></Route>
           
           
             
