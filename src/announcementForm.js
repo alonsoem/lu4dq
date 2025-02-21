@@ -35,11 +35,22 @@ useEffect(() => {
 )
 
   const handleAxiosError = (response) => {
-    let errorToDisplay = "OCURRIO UN ERROR INESPERADO!";
+    console.log (response);
+    let errorToDisplay="";
+    if (response.code==="ERR_BAD_REQUEST"){
+      if (response.request.error_message="Duplicado"){
+        errorToDisplay = "¡YA ESTAS REGISTRADO!";    
+      }else{
+        errorToDisplay = response.request.error_message;    
+      }
+    }else{
+      errorToDisplay = "OCURRIO UN ERROR INESPERADO!";
+    }
+  
     
     // eslint-disable-next-line
     if (response.message=="Network Error") {
-      errorToDisplay = "OCURRIÓ UN ERROR EN LA COMUNICACIÓN. Reintente a la brevedad";
+      let errorToDisplay = "OCURRIÓ UN ERROR EN LA COMUNICACIÓN. Reintente a la brevedad";
     }
 
     //setError(errorToDisplay);

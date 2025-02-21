@@ -3,6 +3,7 @@ import {useNavigate} from 'react-router-dom';
 import { useParams } from "react-router-dom";
 import {Alert} from "react-bootstrap";
 import NavMenu from './nav';
+import AnnouncementMod from './announcementMod';
 
 export default function Landing(props) {
     
@@ -79,8 +80,10 @@ export default function Landing(props) {
                              </div>
                             
                         </div>
+                        <div class="mt-4 p-0">
+                            <AnnouncementMod />
 
-                       
+                        </div>
                     </div>
                 </div>
             
