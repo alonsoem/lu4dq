@@ -70,3 +70,5 @@ export const getActivityModes = (params) => foreignRequest('get','https://lu4dq.
 
 export const putRecoveryOnQueue = (body) => foreignPost("https://lu4dq.qrits.com.ar/api/putStationToRecovery.php", body);
 export const putRecoveryOnQueueWithGet = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/putStationToRecoveryAdmin.php',params,{'Content-Type':'Content-Type: application/json'});
+
+export const putAnnouncement = (form) => foreignPost('https://lu4dq.qrits.com.ar/api/putAnnouncement.php',form);

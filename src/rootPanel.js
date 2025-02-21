@@ -29,12 +29,13 @@ import PublicRanking from "./publicRanking.js";
 import AutoLogin from "./magicLogin.js";
 //import MapImage from "./admin/document/mapImage.js";
 import Logout from "./logout.js";
-
+import Announcement from "./announcement.js";
 
 
 
 //import '../node_modules/bootstrap-css-only/css/bootstrap.css';
 import Register from "./registration.js";
+
 
 
 
@@ -91,6 +92,8 @@ export default class App extends React.Component {
           <Route exact path='/login' element={<LoginForm />}></Route>  
           <Route exact path='/autoLogin' element={<AutoLogin />}></Route>  
           <Route exact path='/logout' element={<Logout />}></Route>  
+
+          <Route exact path='/announcement' element={<Announcement />}></Route>
           
           
             
