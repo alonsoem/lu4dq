@@ -169,7 +169,7 @@ useEffect(() => {
                       }>
                         <option selected disabled value="">Elija una categoría...</option>
                         
-                        <option value={0}>OPERADOOR ÚNICO</option>
+                        <option value={0}>OPERADOR ÚNICO</option>
                         <option value={1}>RADIOESCUCHA</option>
                         <option value={2}>RADIOCLUB / GRUPO</option>                                      
                     </select>
