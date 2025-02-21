@@ -1,10 +1,9 @@
-import {Form, Row,Popover, OverlayTrigger} from "react-bootstrap";
+import {Form, Row} from "react-bootstrap";
 import { useEffect } from 'react';
 import { useState } from "react";
 import { putAnnouncement} from "./api/api";
 import { ToastContainer, toast } from 'react-toastify';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
+
 
 
 export default function FormRequest(props) {
@@ -26,6 +25,7 @@ export default function FormRequest(props) {
   
 
 useEffect(() => {
+  // eslint-disable-next-line
     if (sessionStorage.getItem("userLoginOK") && sessionStorage.getItem("userLoginOK")==1){
       setSignal(sessionStorage.getItem("userStation").toUpperCase());
     }
