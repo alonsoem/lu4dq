@@ -39,7 +39,7 @@ useEffect(() => {
     let errorToDisplay="";
     if (response.code==="ERR_BAD_REQUEST"){
        // eslint-disable-next-line
-      if (response.request.error_message=="Duplicated"){
+      if (response.response.data.error_message=="Duplicated"){
         errorToDisplay = "¡YA ESTAS REGISTRADO!";    
       }else{
         errorToDisplay = response.request.error_message;    
