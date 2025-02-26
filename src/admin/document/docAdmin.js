@@ -73,7 +73,7 @@ export default function DocAdmin() {
                     </div>
                     </div>);
         }else{
-            if (items.length===0){
+            if (items && items.length===0){
                 return (<div class="card p-5 mt-3">
                             <h5>NO HAY NADA POR EL MOMENTO...</h5>
                         </div>);
@@ -88,7 +88,7 @@ export default function DocAdmin() {
                     </tr>
                 </thead>
             <tbody>
-            {items.map((each) =>{
+            {items && items.map((each) =>{
                  return ( 
                     <tr>
                     <td class="text-center">{each.id}</td>

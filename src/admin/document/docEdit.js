@@ -402,10 +402,13 @@ const Imageconditional = (params) =>{
                                             <thead class="table-success" >
                                             <tr>
                                               <th>Nombre</th>
-                                              <th>Fila</th>
-                                              <th>Col Inicio</th>
-                                              <th>Col Fin</th>
+                                              <th>Fila Inicio</th>
+                                              <th>Fila Fin</th>
+                                              <th>Col. Inicio</th>
+                                              <th>Col. Fin</th>
                                               <th>Tamaño Fuente</th>
+                                              <th>Color Fuente</th>
+                                              <th>Ángulo</th>
                                               </tr>
                                             </thead>
                                             <tbody>
@@ -416,9 +419,12 @@ const Imageconditional = (params) =>{
                                                         <span class="badge text-bg-primary">{each.name}</span>
                                                       </td>
                                                       <td>{each.row}</td>
+                                                      <td>{each.rowEnd}</td>
                                                       <td>{each.colStart}</td>
                                                       <td>{each.colEnd}</td>
                                                       <td>{each.fontSize}</td>
+                                                      <td>{each.fontColor}</td>
+                                                      <td>{each.angle}</td>
                                                     </tr>
                                                   );
                                                 })
