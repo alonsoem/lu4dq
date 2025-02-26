@@ -356,6 +356,9 @@ import { saveAs } from 'file-saver';
             aria-labelledby="contained-modal-title-vcenter"
             show={show} onHide={handleClose} animation={false}>
             <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">
+          Muestra
+        </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <div class="container vw-90 vh-50 text-center" role="button">

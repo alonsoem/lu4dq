@@ -11,6 +11,7 @@ import {useNavigate} from 'react-router-dom';
 import { useParams} from 'react-router-dom';
 import NavAdmin from '../navAdmin';
 import Modal from 'react-bootstrap/Modal';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { saveAs } from 'file-saver';
@@ -64,6 +65,9 @@ const ModalForm=()=>{
         aria-labelledby="contained-modal-title-vcenter"
         show={show} onHide={handleClose} animation={false}>
       <Modal.Header closeButton>
+      <Modal.Title id="contained-modal-title-vcenter">
+          Muestra de documento
+        </Modal.Title>
       </Modal.Header>
           <Modal.Body>
               <div class="container vw-90 vh-50 text-center" role="button">
