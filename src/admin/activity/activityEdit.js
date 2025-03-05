@@ -741,6 +741,7 @@ const wordComponent =()=>{
                                                     <option value={0}>QSL ESPECIAL</option>
                                                     <option value={2}>CERTIFICADO POR LETRAS</option>
                                                     <option value={3}>CONCURSO</option>
+                                                    <option value={4}>CONCURSO C/ CATEGORIAS</option>
                                                     
                                                 </select>
                                                 <div
