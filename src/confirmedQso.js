@@ -466,7 +466,8 @@ const showTable=()=>{
         return activityByLettersTable();   
     // eslint-disable-next-line
     }else if (properties.type==3){     
-        return activityTable();   
+        return activityTable();  
+    // eslint-disable-next-line  
     }else if (properties.type==4){     
         return activityTableByCategory();   
     }
