@@ -178,7 +178,7 @@ const handleRecovery = (station)=>{
                     <td class="text-center">{each.cqzone}</td>
                     <td class="text-center">{each.updateable==="true"?"SI":"NO"}</td>
                     <td class="text-center">
-                        {each.updateable==="true"?
+                        {each.recoverable==="true"?
                         
                         <span  class="text-success" 
                                 style={{ cursor: 'pointer'}} 
