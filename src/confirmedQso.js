@@ -506,7 +506,7 @@ const showTable=()=>{
         }else{
             return (       
                 <div>
-            <p>Las estaciones que entregan contacto son: </p>
+            <p>{(properties.type===4?'Las estaciones anunciadas son:':'Las estaciones que entregan contacto son:' )}</p>
                 <p class="m-2">
                     {stations.map((each)=>{
                                                     
