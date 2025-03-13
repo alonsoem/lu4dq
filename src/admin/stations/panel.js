@@ -178,11 +178,15 @@ const handleRecovery = (station)=>{
                     <td class="text-center">{each.cqzone}</td>
                     <td class="text-center">{each.updateable==="true"?"SI":"NO"}</td>
                     <td class="text-center">
+                        {each.updateable==="true"?
+                        
                         <span  class="text-success" 
                                 style={{ cursor: 'pointer'}} 
                                 onClick={() =>handleRecovery(each.station)}>
                                     ENVIAR
                         </span>
+                        :
+                        "-"}
                     </td>
                     </tr>
                  )
