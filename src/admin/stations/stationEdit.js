@@ -146,6 +146,7 @@ const submit = () =>{
      formData.append('itu',itu?itu:null);
      formData.append('cqZone',cqZone?cqZone:null);
      formData.append('grid',grid);
+     formData.append('editable',editable);
  
     
  
