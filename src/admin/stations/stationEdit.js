@@ -79,7 +79,9 @@ const handleChangeCqZone=(event)=>{
 }
 
 const handleChangeEditable=(event)=>{
-  setEditable(event.target.value);
+  //console.log(event.target.checked);
+  setEditable(event.target.checked?true:false);
+  //setEditable(event.target.value);
 }
 
 
