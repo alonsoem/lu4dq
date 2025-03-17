@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 
 export default function FormRequest(props) {
- const [show] = useState(false);
+ 
   const [signal, setSignal] = useState("");
   const [type, setType ] = useState(null);
  
@@ -131,10 +131,7 @@ useEffect(() => {
    
 
   return (
-    (show?
-
-
-
+ 
        <form onSubmit={handleSubmit} className="row g-3 needs-validation">
            <div class="">
            <ToastContainer />
@@ -213,6 +210,5 @@ useEffect(() => {
            </div>
            
     </form>
-  :null)
   );
 }

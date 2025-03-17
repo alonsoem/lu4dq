@@ -10,6 +10,7 @@ import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
 export default function  AnnouncementMod(props) {
     const navigate = useNavigate();
+    const [show ] = useState(false);
     const [formState,setFormState] = useState(true);
   
     const setQsl = ()=>{
@@ -43,27 +44,40 @@ export default function  AnnouncementMod(props) {
 
     
     return (
-    
+
+    show?
             
-            <div style={{ 'height': '100%'}} className="container p-0">
+        <div style={{ 'height': '100%'}} className="container p-0">
+            
+                <div className="card" style={{'background-color': 'rgba(181,181,181,0.6)'}}>
+                    <div className="card-header headerLu4dq">
+                        <span class="display-6 ">ANUNCIARSE PARA UN CONCURSO</span>       
+                    </div>
                 
-                    <div className="card" style={{'background-color': 'rgba(181,181,181,0.6)'}}>
-                        <div className="card-header headerLu4dq">
-                            <span class="display-6 ">ANUNCIARSE PARA UN CONCURSO</span>       
-                        </div>
-                    
-                        <div className="card-body" >
-                            <ConditionalForm qslHook={setQsl}  gotoQsoUpload={gotoQsoUpload} />
-                            
-                        </div>
+                    <div className="card-body" >
+                        <ConditionalForm qslHook={setQsl}  gotoQsoUpload={gotoQsoUpload} />
                         
                     </div>
-                    <ToastContainer />
-            </div>
+                    
+                </div>
+                <ToastContainer />
+        </div>
                     
             
-    
+    :
+    <div style={{ 'height': '100%'}} className="container p-0">
+            
+                <div className="card" style={{'background-color': 'rgba(181,181,181,0.6)'}}>
+                
+                    <div className="card-body text-center" >
+                    ¡No hay actividades disponibles para anunciarse!
+                        
+                    </div>
+                    
+                </div>
+                <ToastContainer />
+        </div>
 
-        );
+    );
 
 }
