@@ -35,6 +35,7 @@ import Announcement from "./announcement.js";
 
 //import '../node_modules/bootstrap-css-only/css/bootstrap.css';
 import Register from "./registration.js";
+import ContestPanel from "./admin/stations/ContestPanel.js";
 
 
 
@@ -77,6 +78,7 @@ export default class App extends React.Component {
 
           
 
+          <Route exact path='/rcpanel/contest' element={<ContestPanel />}></Route>  
           <Route exact path='/rcpanel/stations' element={<StationsList />}></Route>  
           <Route exact path='/rcpanel/stations/:stationId' element={<StationEdit />}></Route>  
           <Route exact path='/rcpanel/doc' element={<AdminDoc />}></Route>  

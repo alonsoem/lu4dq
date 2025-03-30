@@ -63,6 +63,7 @@ export const postLogin = (body) => foreignPost("https://lu4dq.qrits.com.ar/api/a
 export const postAutoLogin = (body) => foreignPost("https://lu4dq.qrits.com.ar/api/autoLogin.php", body);
 
 export const getStations = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getStationDetails.php',params,{'Content-Type':'Content-Type: application/json'});
+export const getContestStations = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getContestStations.php',params,{'Content-Type':'Content-Type: application/json'});
 
 export const addMode = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/core/addModeToActivity.php',params,{'Content-Type':'Content-Type: application/json'});
 export const removeMode = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/core/removeModeFromActivity.php',params,{'Content-Type':'Content-Type: application/json'});

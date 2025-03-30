@@ -52,6 +52,9 @@ console.log(session);
           <li class="nav-item">
             <a class="nav-link" href="/rcpanel/stations">ESTACIONES</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/rcpanel/contest">CONCURSO</a>
+          </li>
           
         </ul>
     );
