@@ -110,6 +110,8 @@ function Admin() {
             // eslint-disable-next-line
             }else if (type==3){ 
                 return "CONCURSO";
+            }else if (type==4){ 
+                return "CONCURSO C/ CATEGORIAS";
           }
         }
         
