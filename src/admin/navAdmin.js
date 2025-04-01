@@ -54,6 +54,7 @@ console.log(session);
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/rcpanel/contest">CONCURSO</a>
+            <a class="nav-link" href="/rcpanel/contestResults">RESULTADOS</a>
           </li>
           
         </ul>
