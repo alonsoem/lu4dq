@@ -112,7 +112,7 @@ const handleRecovery = (station)=>{
                                     
                     return (
                             <div class="card mt-3">
-                                <h5 class="card-title">{categoryList[index]+' => '+modeList[index]}</h5>
+                                <h5 class="card-title">{categoryList[index].name  +' ( entregan '+categoryList[index].points+') => '+modeList[index]}</h5>
                                 <PrintDataList data={a} />
                                 
                             </div>
