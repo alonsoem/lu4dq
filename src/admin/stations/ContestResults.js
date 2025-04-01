@@ -134,8 +134,10 @@ const handleRecovery = (station)=>{
             <thead>
                 <tr class="table-primary">
                    
+                    <th scope="col" class="text-center">POSITION</th>
                     <th scope="col" class="text-center">STATION</th>
                     <th scope="col" class="text-center">NAME</th>
+                    <th scope="col" class="text-center">QSOs</th>
                     <th scope="col" class="text-center">POINTS</th>
                     
                 </tr>
@@ -148,11 +150,11 @@ const handleRecovery = (station)=>{
                 console.log(a);
                 return (
                         <tr class="table-primary">
-                                <td  class="text-center">
-                                    {a.station}
-                                </td>
+                                <td  class="text-center">{a.position}</td>
+                                <td  class="text-center">{a.station}</td>
                                 
                                 <td  class="text-center">{a.name}</td>
+                                <td  class="text-center">{a.qsoQty}</td>
                                 <td  class="text-center">{a.points}</td>
                                 
                             </tr>
