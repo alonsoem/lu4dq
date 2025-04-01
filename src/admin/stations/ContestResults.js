@@ -182,7 +182,7 @@ const handleRecovery = (station)=>{
                     <div className="container-fluid table-scroll-vertical col-11">
                         <div className="card mt-3" >
                             <div className="card-header headerLu4dq">
-                                <span class="display-6 ">ADMINISTRACION DE CONCURSO</span>       
+                                <span class="display-6 ">RESULTADOS DEL CONCURSO</span>       
                             </div>
                             <div className="card-body" >
 
@@ -193,7 +193,7 @@ const handleRecovery = (station)=>{
                                         
 
                                             <div className="col-7">
-                                                Aca se mostraran los concursos para poder seleccionarlos y manejar la parametria. Ahora puntualmente esta HARDCODEADO para resolver mas rapido.
+                                                Aca se mostraran los resultado de los concursos para poder verificarlos antes de publicar.
                                                 
                                             </div>
                                         </div>
