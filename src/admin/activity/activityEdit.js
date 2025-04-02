@@ -705,7 +705,7 @@ const wordComponent =()=>{
     setAllvsAll(false);
   }
   const stationsGivingContacts=()=>{
-    if (type==0){
+    if (type===0){
       return(
       <div class="col-12 m-4">
 
