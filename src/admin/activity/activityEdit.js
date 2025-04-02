@@ -35,6 +35,7 @@ function ActivityEdit(params){
   
   const [errors, setErrors] = useState([]);
   const [title, setTitle ] = useState("");
+  const [allvsall, setAllvsAll ] = useState(false);
   const [word, setWord ] = useState("");
   const [mode, setMode ] = useState("");
   const [modeList, setModeList] = useState([]);
@@ -275,6 +276,7 @@ const updateModeList=()=>{
         setTitle(response.title);
         setType(response.type);  
         setWord(response.word);    
+        setAllvsAll(response.allvsall);  
         setMinContacts(response.minContacts);
         setCwcontacts(response.cwContacts);
         setEnabled(response.enabled);
@@ -390,8 +392,7 @@ const handleRemoveMode = (id) =>{
 
 const submit = () =>{
   
-  //console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
-  
+   
 		// Create an object of formData
 		const formData = new FormData();
 
@@ -420,6 +421,7 @@ const submit = () =>{
 		formData.append('id', id);
 		formData.append('doc', documentId);
     formData.append('enabled', enabled);
+    formData.append('allvsall', allvsall);
 		formData.append('type', type);
     formData.append('word', word);
 		formData.append('title', title);
@@ -472,8 +474,6 @@ const handleSubmit = (event) => {
     errors.push("description");
   }
 
-
-  console.log(type);
 
   // eslint-disable-next-line
 if (type==2 && word.length<=1) {
@@ -560,7 +560,7 @@ const ModalForm=()=>{
 	
 	
 const Imageconditional = (params) =>{
-  console.log(params);
+  
   if (!params.file){
     var accepts ="image/jpeg";
     if (params.type==="DOC"){
@@ -698,8 +698,43 @@ const wordComponent =()=>{
   
   }
 
+  const handleSetTrue = (val) =>{
+    setAllvsAll(true);
+  }
+  const handleSetFalse = (val) =>{
+    setAllvsAll(false);
+  }
+  const stationsGivingContacts=()=>{
+    if (type==0){
+      return(
+      <div class="col-12 m-4">
 
-    return (
+
+      
+       <Form.Group  className="mb-3 col-12" controlId="swlValue">
+          <Form.Label  >¿QUE ESTACIONES ENTREGAN CONTACTOS?</Form.Label>
+          <div class="form-check mb-3">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value={false} onChange={handleSetFalse} checked={!allvsall?"checked":null} />
+              <label class="form-check-label" for="inlineRadio1">Solo las seleccionadas</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value={true} onChange={handleSetTrue} checked={allvsall?"checked":null} />
+              <label class="form-check-label" for="inlineRadio2">Todas</label>
+            </div>
+
+          </div>               
+
+        
+        </Form.Group>
+        </div> 
+      )
+      }
+  }
+
+
+  return (
+  
       
       <div>
             <NavMenu />
@@ -1120,14 +1155,17 @@ const wordComponent =()=>{
               {cwContactsComponent()}
               {wordComponent()}
             </Row>  
-                                            
+
+           {stationsGivingContacts()}
+
             <div class="col-12">
        
           <Row className="m-3">
           <fieldset class="border p-3 mb-3">
             <legend  class="float-none w-auto t-4">ESTACIONES</legend>
-
+            
             <div class="col-12">
+            
             <Row className="m-3 col-6">
                   <Form.Group className="mb-3 col-3" controlId="stationValue">
                   <Form.Label>ESTACION</Form.Label>
