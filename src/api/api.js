@@ -15,6 +15,7 @@ export const postOneQSO = (params) => foreignRequest('get', 'https://lu4dq.qrits
 export const demoCreator = (params) => foreignRequest('get', 'https://lu4dq.qrits.com.ar/api/demoCreator.php',params,{'Content-Type':'Content-Type: text/html','Control-Allow-Origin':'*'});
 export const getQsl = (params) => foreignRequest('get', 'https://lu4dq.qrits.com.ar/api/qslCreator.php',params,{'Content-Type':'Content-Type: text/html','Control-Allow-Origin':'*'});
 export const getResumedActivities = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/activityLog.php',params,{'Content-Type':'Content-Type: application/json'});
+export const getContestResults = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getContestResults.php',params,{'Content-Type':'Content-Type: application/json'});
 export const getActivities = () => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getActivities.php',null,{'Content-Type':'Content-Type: application/json'});
 export const getAllActivities = () => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getAllActivities.php',null,{'Content-Type':'Content-Type: application/json'});
 export const getActivity = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getActivityProperties.php',params,{'Content-Type':'Content-Type: application/json'});

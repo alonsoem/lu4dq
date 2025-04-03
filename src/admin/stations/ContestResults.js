@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useState,useEffect} from 'react';
-import { getResumedActivities } from '../../api/api';
+import { getContestResults } from '../../api/api';
 //import {useNavigate} from 'react-router-dom';
 
 //rm} from "react-bootstrap";
@@ -25,7 +25,7 @@ function ContestResults() {
    
     useEffect(() => {
         setLoading(true);
-        getResumedActivities({id:127})
+        getContestResults({id:127})
             .then((response) => {
                
                response.test.forEach(function (item, index, arr){
