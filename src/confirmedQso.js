@@ -24,12 +24,17 @@ import { saveAs } from 'file-saver';
     const [properties,setProps] = useState({});
     const [show, setShow] = useState(false);
     const [loadingMatch, setLoadingMatch] = useState(false);
+    
 
     const [filter,setFilter] = useState("");
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const navigate = useNavigate();
+
+    const [categoryList] = useState([]);
+        const [modeList] = useState([]);
+        const [valueList] = useState([]);
 
     const navigateToStationQso = (station) => {
         if (station){
@@ -43,6 +48,7 @@ import { saveAs } from 'file-saver';
         getActivity({id: idAct})       
         .then((response) => {
                 setProps(response);
+                
         })
         .catch((response) => {
             //handleAxiosError(response)
@@ -59,13 +65,23 @@ import { saveAs } from 'file-saver';
             console.log(response);
             }
         );
-        
-    
         setLoadingMatch(true);
         getResumedActivities({id: idAct})       
             .then((response) => {
-                    
-                    setActivity(response.confirmed);
+                
+                    if (response.type==="Contest"){
+                        console.log("TYPE O");
+                        
+                        response.test.forEach(function (item, index, arr){
+                            console.log(item);
+                            categoryList.push(item.category);
+                            modeList.push(item.mode);
+                            valueList.push(item.values);
+                        });     
+                    }else{        
+                        setActivity(response.confirmed);
+                        
+                    }
                     setLoadingMatch(false);
             })
             .catch((response) => {
@@ -74,9 +90,14 @@ import { saveAs } from 'file-saver';
                 setLoadingMatch(false);
                 }
             );
-        }, [idAct]
+        
+    
+    
+        }, [idAct,valueList,categoryList,modeList]
         )
 
+        
+      
         const onChangeFilter = (event)=>{
             setFilter(event.target.value.toUpperCase());
         }
@@ -125,66 +146,33 @@ import { saveAs } from 'file-saver';
             );
 
         }else{
-            return (<table class="table striped hover bordered responsive ">
-                <thead>
-                    <tr class="table-primary ">
-                    <th scope="col" class="text-center">Posición</th>
-                    <th scope="col" class="text-center">Indicativo</th>
-                    <th scope="col" class="text-center">Contactos</th>
-                    <th scope="col" class="text-center">Certificado</th>
-                    <th scope="col" class="text-center">Qsl</th>
-                    <th scope="col" class="text-center d-none d-lg-table-cell">Estaciones contactadas</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {
-                    activity && activity.length===0?
-                        <tr > 
-                            <td class="text-center" colspan="6">
-                                <div class="card p-5 mt-3">
-                                <h5>NO HAY NADA POR EL MOMENTO...</h5>
-                                <p>Volvé en breve para ver las actualizaciones!</p></div>
-                                    
-                            </td>
-                        </tr>
-                    :
-                    activity.filter(each=>each.station.includes(filter.toUpperCase()))
-                            .sort((a,b)=>b.callsigns.length-a.callsigns.length)
-                            .map((each) =>{
-                            
-                            return ( <tr>
-                            <th scope="row" class="text-center">{activity.indexOf(each)+1}</th>
-                            <td class="text-center">
-                                
-                                    {each.station.toUpperCase()}
-                                
-                            </td>
-                            <td class="text-center">{each.callsigns.length}</td>
-                            
-                            <td class="text-center">
-                                <CellDocument info={each} />
-                            </td>
-                            <td class="text-center">
-                                <badge class="badge text-bg-primary  text-center" role="button" title="Click para ver los comunicados y sus QSL" onClick={(r)=>navigateToStationQso(each.station)}  >
-                                    Ver
-                                </badge>
-                            </td>
-                            
-                            <td class="text-center d-none d-lg-table-cell">
-
-                                {each.callsigns.join(" ").toUpperCase()}
-                            
-                            </td>
-                        </tr>
-                            )
-                        
-                    })
-             }
-            </tbody>
-            </table>
-            );
-       
-       
+            
+            return( 
+                
+                valueList.map((a,index)=>{                
+                    if (a.length>0){
+                        return (
+                        <div class="div mt-2 ">
+                            <h5 class="card-title mt-3 ms-3">
+                                {categoryList[index].name==="CHECKLOG"
+                                ?
+                                    categoryList[index].name
+                                :
+                                categoryList[index].name +" en "+ modeList[index]
+                                }
+                            </h5>
+                            <div class="card-body">
+                                <PrintContestDataList data={a} />
+                            </div>
+                        </div>
+                        );
+                    }else{
+                        return null;
+                    }
+                
+                
+                })
+            )
        
        }
        
@@ -192,6 +180,56 @@ import { saveAs } from 'file-saver';
 
        
     }
+
+    
+
+    const PrintContestDataList=(props)=>{
+        console.log(props);
+        if (props.data && props.data.length>0){
+            return (
+            <table class="table striped hover bordered responsive  border">
+            <thead>
+                <tr class="table table-primary">
+                   
+                    <th scope="col" class="text-center">POSICIÓN</th>
+                    <th scope="col" class="text-center">ESTACIÓN</th>
+                    <th scope="col" class="text-center">NOMBRE</th>
+                    <th scope="col" class="text-center">PUNTOS</th>
+                    <th scope="col" class="text-center">CERTIFICADO</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+
+
+            {props.data.map(a=> {
+                
+                return (
+                        <tr class="table">
+                                <td  class="text-center">{a.position}</td>
+                                <td  class="text-center">{a.station}</td>                               
+                                <td  class="text-center">{a.name}</td>
+                                <td  class="text-center">{a.points}</td>
+                                <td  class="text-center"><CellDocument info={a} /></td>
+                                
+                            </tr>
+                        
+ 
+                )
+          
+                        
+
+            }
+            )}
+                  </tbody>
+                  </table>
+                  );
+            
+        }else{
+            return ("NO HAY NADA AQUI");
+        }
+    }
+    
     function activityTable(){
         
         if (loadingMatch){
@@ -467,8 +505,8 @@ const showTable=()=>{
     // eslint-disable-next-line
     }else if (properties.type==3){     
         return activityTable();  
-    // eslint-disable-next-line  
-    }else if (properties.type==4){     
+     
+    }else if (properties.type===4){     
         return activityTableByCategory();   
     }
 }
@@ -641,6 +679,8 @@ const showTable=()=>{
                                         <button class="btn btn-success float-end mb-3" onClick={navLoad}>Cargar Contactos</button>
                                         <button class="btn btn-primary float-end mb-3 me-3" onClick={navView}>Ver contactos</button>
                                     </div>
+                                    {!activity.type===4
+                                    ?
                                     <div class="container row m-0">
                                             <Form.Group className="mb-4 " controlId="signalValue">
                                                 <Form.Label>BUSCAR INDICATIVO</Form.Label>
@@ -650,6 +690,7 @@ const showTable=()=>{
                                             </Form.Group>
                                         
                                     </div>
+                                    :null}
                                     <div class="card col-12">
 
                                     
