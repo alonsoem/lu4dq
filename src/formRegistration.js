@@ -133,6 +133,10 @@ const updateFromCallsign= (callsign)=>{
       errors.push("name");
     }
 
+    if (email.length < 5) {
+      errors.push("email");
+    }
+
     setErrors(errors);
 
     if (errors.length > 0) {
