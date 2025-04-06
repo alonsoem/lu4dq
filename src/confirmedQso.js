@@ -677,8 +677,10 @@ const showTable=()=>{
                                         <button class="btn btn-success float-end mb-3" onClick={navLoad}>Cargar Contactos</button>
                                         <button class="btn btn-primary float-end mb-3 me-3" onClick={navView}>Ver contactos</button>
                                     </div>
-                                    {console.log(properties)}
-                                    {properties.type==0 || properties.type==1 || properties.type==2
+                                    
+                                    
+                                    {// eslint-disable-next-line 
+                                    properties.type==0 || properties.type==1 || properties.type==2
                                     ?
                                     <div class="container row m-0">
                                             <Form.Group className="mb-4 " controlId="signalValue">
