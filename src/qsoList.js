@@ -245,6 +245,12 @@ function QsoList() {
       }
         
      }
+
+     const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+          handleSearch();
+        }
+      };
      
 
     return (
@@ -268,7 +274,7 @@ function QsoList() {
                                
                                 <Form.Group className="mb-3" controlId="callSignValue">
                                     <Form.Label>INDICATIVO</Form.Label>
-                                    <Form.Control onChange={handleChangeCallsign}  value={callsign} type="text"
+                                    <Form.Control onChange={handleChangeCallsign}  onKeyDown={handleKeyPress} value={callsign} type="text"
                                         className="form-control" />
                                </Form.Group>
                                
