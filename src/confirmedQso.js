@@ -191,8 +191,8 @@ import { saveAs } from 'file-saver';
                    
                     <th scope="col" class="text-center">POSICIÓN</th>
                     <th scope="col" class="text-center">ESTACIÓN</th>
-                    <th scope="col" class="text-center">NOMBRE</th>
-                    <th scope="col" class="text-center">PUNTOS</th>
+                    <th scope="col" class="text-center d-none d-lg-table-cell">NOMBRE</th>
+                    <th scope="col" class="text-center d-none d-lg-table-cell">PUNTOS</th>
                     <th scope="col" class="text-center">CERTIFICADO</th>
                     
                 </tr>
@@ -206,8 +206,8 @@ import { saveAs } from 'file-saver';
                         <tr class="table">
                                 <td  class="text-center">{a.position}</td>
                                 <td  class="text-center">{a.station}</td>                               
-                                <td  class="text-center">{a.name}</td>
-                                <td  class="text-center">{a.points}</td>
+                                <td  class="text-center d-none d-lg-table-cell">{a.name}</td>
+                                <td  class="text-center d-none d-lg-table-cell">{a.points}</td>
                                 <td  class="text-center"><CellDocument info={a} /></td>
                                 
                             </tr>
@@ -246,9 +246,9 @@ import { saveAs } from 'file-saver';
                     <tr class="table-primary ">
                     <th scope="col" class="text-center">Posición</th>
                     <th scope="col" class="text-center">Indicativo</th>
-                    <th scope="col" class="text-center">Contactos</th>
+                    <th scope="col" class="text-center d-none d-lg-table-cell ">Contactos</th>
                     <th scope="col" class="text-center">Certificado</th>
-                    <th scope="col" class="text-center">Qsl</th>
+                    <th scope="col" class="text-center d-none d-lg-table-cell">Qsl</th>
                     <th scope="col" class="text-center d-none d-lg-table-cell">Estaciones contactadas</th>
                     </tr>
                 </thead>
@@ -275,12 +275,12 @@ import { saveAs } from 'file-saver';
                                     {each.station.toUpperCase()}
                                 
                             </td>
-                            <td class="text-center">{each.callsigns.length}</td>
+                            <td class="text-center d-none d-lg-table-cell">{each.callsigns.length}</td>
                             
                             <td class="text-center">
                                 <CellDocument info={each} />
                             </td>
-                            <td class="text-center">
+                            <td class="text-center d-none d-lg-table-cell">
                                 <badge class="badge text-bg-primary  text-center" role="button" title="Click para ver los comunicados y sus QSL" onClick={(r)=>navigateToStationQso(each.station)}  >
                                     Ver
                                 </badge>
@@ -413,7 +413,7 @@ import { saveAs } from 'file-saver';
                     <th scope="col" class="text-center">Indicativo</th>
                     <th scope="col" class="text-center">Corresponsal</th>
                     <th scope="col" class="text-center">QSL</th>
-                    <th scope="col" class="text-center">Contactos</th>
+                    <th scope="col" class="text-center d-none d-lg-table-cell">Contactos</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -431,7 +431,7 @@ import { saveAs } from 'file-saver';
                             <td class="text-center">
                                 <CellQslDocument info={each} />
                             </td>
-                            <td class="text-center">
+                            <td class="text-center d-none d-lg-table-cell">
                                 <badge class="badge text-bg-primary  text-center" role="button" title="Click para ver los comunicados y sus QSL" onClick={(r)=>navigateToStationQso(each.station)}  >
                                         Ver
                                 </badge>
