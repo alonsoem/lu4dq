@@ -106,15 +106,20 @@ const updateFromCallsign= (callsign)=>{
     }
 
     if (!captcha){
-      notifyError("¡FALTA QUE VERIFIQUES EL CAPTCHA!");
       errors.push("captcha");
     }
   
     setErrors(errors);
 
     if (errors.length > 0) {
+      if (!captcha){
+        notifyError("¡FALTA QUE VERIFIQUES EL CAPTCHA!");
+        
+      }else{
         notifyError("VERIFIQUE LOS DATOS CARGADOS EN EL FORMULARIO!");
-        return false;
+        
+      }
+      return false;
     } else {
         submit();
         
