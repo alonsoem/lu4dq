@@ -1,19 +1,18 @@
 //import "./styles.css";
 import {Form, Row} from "react-bootstrap";
 import { useState } from "react";
-import {checkName, putRecoveryOnQueue} from "./api/api";
+import {putRecoveryOnQueue} from "./api/api";
 import { ToastContainer, toast } from 'react-toastify';
 import ReCAPTCHA from "react-google-recaptcha";
 
 
 
 export default function FormRequest(props) {
-  const [signal, setSignal] = useState("");
+  const [email, setEmail] = useState("");
   const [captcha, setCaptcha]=useState(false);
   
   const [errors, setErrors] = useState([]);
-  const [formEnabled,setFormEnabled]= useState(false);
-  
+   
 
 
   function onChangeCaptcha(value) {
@@ -21,33 +20,10 @@ export default function FormRequest(props) {
     setCaptcha(true);
 
   }
-const handleChangeSignal  = (event) => {
-  updateFromCallsign(event.target.value.trim());
+const handleChangeEmail  = (event) => {
+  setEmail(event.target.value.trim());
 }; 
 
-const updateFromCallsign= (callsign)=>{
-  setSignal(callsign.toUpperCase());
-  var errors=[];
-  
-  checkName({station:callsign})
-      .then((response) => {
-          //si existe una estacion con ese dato
-          console.log(response);
-          if (response.result===true){
-            
-            setErrors(errors);
-            setFormEnabled(true);
-          }else{
-            errors.push("signal");
-            setErrors(errors);
-            setFormEnabled(false);
-          }
-          
-        
-    })
-    //.catch((response) =>null );
-  //handleAxiosError(response)
-}
 
 
 
@@ -81,7 +57,7 @@ const updateFromCallsign= (callsign)=>{
   const submit = () =>{
     const formData = new FormData();
 
-		formData.append('station',signal);
+		formData.append('email',email);
 
     putRecoveryOnQueue(formData)       
         .then((response) => {
@@ -98,11 +74,8 @@ const updateFromCallsign= (callsign)=>{
     var errors = [];
     
     // Check name of Rule
-    if (signal.length<=3) {
-        errors.push("signal");
-    }
-    if (hasWhiteSpace(signal)){
-      errors.push("signal")
+    if (email.length<=5) {
+        errors.push("email");
     }
 
     if (!captcha){
@@ -126,9 +99,7 @@ const updateFromCallsign= (callsign)=>{
     }
   }
 
-  const hasWhiteSpace = (s) =>{
-    return /\s/g.test(s);
-  }
+ 
 
    
   const hasError= (key) => {
@@ -145,28 +116,28 @@ const updateFromCallsign= (callsign)=>{
            <ToastContainer />
                <div className="row rowForm mb-5">
                   <div className="col-12">
-                    <h5>Completá tu señal distintiva y te reenviaremos el código  que permitira la carga de los contactos.</h5>
+                    <h5>Completá el email registrado para tu estación.<br/> Si tu email existe en nuestra base de datos te enviaremos el código que permitirá el ingreso al log.</h5>
                   </div>
                 </div>
 
             <Row className="mb-3 col-13">
             <div class="col-5">
-               <Form.Group className="mb-3" controlId="signalValue">
-                 <Form.Label>TU SEÑAL DISTINTIVA</Form.Label>
-                 <Form.Control  onChange={handleChangeSignal} value={signal}
+               <Form.Group className="mb-3" controlId="emailValue">
+                 <Form.Label>TU EMAIL REGISTRADO</Form.Label>
+                 <Form.Control  onChange={handleChangeEmail} value={email}
                                 className={
-                                  hasError("signal")
+                                  hasError("email")
                                         ? "form-control is-invalid"
                                         : "form-control"
                                 }/>
                    <div
                        className={
-                        hasError("signal")
+                        hasError("email")
                                ? "invalid-feedback"
                                : "visually-hidden"
                        }
                    >
-                    Esta señal distintiva es incorrecta o puede no estar registrada.
+                    Esta dirección de email es incorrecta.
                    </div>
 
                </Form.Group>
@@ -187,9 +158,9 @@ const updateFromCallsign= (callsign)=>{
                 <div className="row">
                     <div className="col-12 text-right">
                             <button type="submit" 
-                                  class={formEnabled?"btn btn-success m-2" :"btn btn-outline-success m-2"}
+                                  class={"btn btn-success m-2"}
 
-                                    disabled={!formEnabled}
+                                    
 
                             >Confirmar</button>
                     </div>
