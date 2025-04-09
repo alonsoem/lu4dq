@@ -87,23 +87,20 @@ const handleChangeSignal  = (event) => {
       errors.push("signal");
   }
 
-    if (!captcha){
-      errors.push("captcha");
-    }
-  
+     
     setErrors(errors);
 
     if (errors.length > 0) {
-      if (!captcha){
-        notifyError("¡FALTA QUE VERIFIQUES EL CAPTCHA!");
-        
-      }else{
-        notifyError("VERIFIQUE LOS DATOS CARGADOS EN EL FORMULARIO!");
-        
-      }
+
+      notifyError("VERIFIQUE LOS DATOS CARGADOS EN EL FORMULARIO!");
       return false;
     } else {
+      if (!captcha){
+        notifyError("¡FALTA QUE VERIFIQUES EL CAPTCHA!");
+      
+      }else{
         submit();
+      }
         
     }
   }
