@@ -9,19 +9,24 @@ import ReCAPTCHA from "react-google-recaptcha";
 
 export default function FormRequest(props) {
   const [email, setEmail] = useState("");
+  const [signal, setSignal] = useState("");
   const [captcha, setCaptcha]=useState(false);
   
   const [errors, setErrors] = useState([]);
    
 
 
-  function onChangeCaptcha(value) {
-    //console.log("Captcha value:", value);
-    setCaptcha(true);
+function onChangeCaptcha(value) {
+  //console.log("Captcha value:", value);
+  setCaptcha(true);
 
-  }
+}
 const handleChangeEmail  = (event) => {
   setEmail(event.target.value.trim());
+}; 
+
+const handleChangeSignal  = (event) => {
+  setSignal(event.target.value.trim());
 }; 
 
 
@@ -58,6 +63,7 @@ const handleChangeEmail  = (event) => {
     const formData = new FormData();
 
 		formData.append('email',email);
+    formData.append('station',signal);
 
     putRecoveryOnQueue(formData)       
         .then((response) => {
@@ -77,6 +83,9 @@ const handleChangeEmail  = (event) => {
     if (email.length<=5) {
         errors.push("email");
     }
+    if (signal.length<4) {
+      errors.push("signal");
+  }
 
     if (!captcha){
       errors.push("captcha");
@@ -116,10 +125,34 @@ const handleChangeEmail  = (event) => {
            <ToastContainer />
                <div className="row rowForm mb-5">
                   <div className="col-12">
-                    <h5>Completá el email registrado para tu estación.<br/> Si tu email existe en nuestra base de datos te enviaremos el código que permitirá el ingreso al log.</h5>
+                    <h5>Completá tu señal distintiva y el email registrado para la estación.<br/> ¡RECORDA QUE EL MAIL DEBE ESTAR REGISTRADO PREVIAMENTE! y te enviaremos el código que permitirá el ingreso al log.</h5>
                   </div>
                 </div>
 
+                <Row className="mb-3 col-13">
+            <div class="col-5">
+               <Form.Group className="mb-3" controlId="signalValue">
+                 <Form.Label>TU ESTACIÓN</Form.Label>
+                 <Form.Control  onChange={handleChangeSignal} value={email}
+                                className={
+                                  hasError("signal")
+                                        ? "form-control is-invalid"
+                                        : "form-control"
+                                }/>
+                   <div
+                       className={
+                        hasError("signal")
+                               ? "invalid-feedback"
+                               : "visually-hidden"
+                       }
+                   >
+                    Inlcuya una estación válida.
+                   </div>
+
+               </Form.Group>
+
+            </div>
+          </Row>
             <Row className="mb-3 col-13">
             <div class="col-5">
                <Form.Group className="mb-3" controlId="emailValue">
