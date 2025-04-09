@@ -130,10 +130,10 @@ const handleChangeSignal  = (event) => {
                 </div>
 
                 <Row className="mb-3 col-13">
-            <div class="col-5">
+            <div class="col-3">
                <Form.Group className="mb-3" controlId="signalValue">
                  <Form.Label>TU ESTACIÓN</Form.Label>
-                 <Form.Control  onChange={handleChangeSignal} value={email}
+                 <Form.Control  onChange={handleChangeSignal} value={signal}
                                 className={
                                   hasError("signal")
                                         ? "form-control is-invalid"
