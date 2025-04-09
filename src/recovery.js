@@ -26,8 +26,8 @@ export default function  Recovery(props) {
     function PreviewPanel(props){
         return <div className="container">
                     <div class="col-md-12 text-left">
-                        <h3>¡Te enviamos tu código!</h3>
-                        <h5>En breve podras verlo a tu direccion de email para que puedas validar los contactos que cargues.</h5>
+                        <h3>¡Te estamos enviando tu link de acceso!</h3>
+                        <h5>En breve podrás verlo en tu direccion de email y obtener acceso a la plataforma.</h5>
                     </div>
                      <button type="button" className="btn btn-primary mt-3" onClick={props.gotoQsoForms} >Vamos a cargar contactos!</button>
                      
