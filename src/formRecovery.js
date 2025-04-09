@@ -3,6 +3,9 @@ import {Form, Row} from "react-bootstrap";
 import { useState } from "react";
 import {checkName, putRecoveryOnQueue} from "./api/api";
 import { ToastContainer, toast } from 'react-toastify';
+import ReCAPTCHA from "react-google-recaptcha";
+
+
 
 export default function FormRequest(props) {
   const [signal, setSignal] = useState("");
@@ -11,6 +14,10 @@ export default function FormRequest(props) {
   const [formEnabled,setFormEnabled]= useState(false);
   
 
+
+  function onChange(value) {
+    console.log("Captcha value:", value);
+  }
 const handleChangeSignal  = (event) => {
   updateFromCallsign(event.target.value.trim());
 }; 
@@ -156,7 +163,11 @@ const updateFromCallsign= (callsign)=>{
 
           <Row className="mb-3 col-13">
             <div class="col-5">
-                    <div class="g-recaptcha" data-sitekey="6LfYsRArAAAAADkz9tINB1Jb-7B3IGnW_TjTjS9a"></div>
+            <ReCAPTCHA
+    sitekey="6LfYsRArAAAAADkz9tINB1Jb-7B3IGnW_TjTjS9a"
+    onChange={onChange}
+  />
+              
                     
             </div>
           </Row>
