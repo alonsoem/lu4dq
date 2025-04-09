@@ -9,14 +9,17 @@ import ReCAPTCHA from "react-google-recaptcha";
 
 export default function FormRequest(props) {
   const [signal, setSignal] = useState("");
+  const [captcha, setCaptcha]=useState(false);
   
   const [errors, setErrors] = useState([]);
   const [formEnabled,setFormEnabled]= useState(false);
   
 
 
-  function onChange(value) {
-    console.log("Captcha value:", value);
+  function onChangeCaptcha(value) {
+    //console.log("Captcha value:", value);
+    setCaptcha(true);
+
   }
 const handleChangeSignal  = (event) => {
   updateFromCallsign(event.target.value.trim());
@@ -101,6 +104,11 @@ const updateFromCallsign= (callsign)=>{
     if (hasWhiteSpace(signal)){
       errors.push("signal")
     }
+
+    if (!captcha){
+      notifyError("¡FALTA QUE VERIFIQUES EL CAPTCHA!");
+      errors.push("captcha");
+    }
   
     setErrors(errors);
 
@@ -163,10 +171,10 @@ const updateFromCallsign= (callsign)=>{
 
           <Row className="mb-3 col-13">
             <div class="col-5">
-            <ReCAPTCHA
-    sitekey="6LfYsRArAAAAADkz9tINB1Jb-7B3IGnW_TjTjS9a"
-    onChange={onChange}
-  />
+              <ReCAPTCHA
+                sitekey="6LfYsRArAAAAADkz9tINB1Jb-7B3IGnW_TjTjS9a"
+                onChange={onChangeCaptcha}
+              />
               
                     
             </div>
