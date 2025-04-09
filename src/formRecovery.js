@@ -153,6 +153,13 @@ const updateFromCallsign= (callsign)=>{
 
             </div>
           </Row>
+
+          <Row className="mb-3 col-13">
+            <div class="col-5">
+                    <div class="g-recaptcha" data-sitekey="6LfYsRArAAAAADkz9tINB1Jb-7B3IGnW_TjTjS9a"></div>
+                    
+            </div>
+          </Row>
                 <div className="row">
                     <div className="col-12 text-right">
                             <button type="submit" 
