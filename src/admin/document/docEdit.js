@@ -31,9 +31,6 @@ export default function EditDoc() {
   const [imageFile, setImageFile ] = useState(null);
   const [updateImageFile, setUpdateImageFile] = useState(false);
 
-
-  const [imageFt8File, setImageFT8File ] = useState(null);
-  const [updateImageFileFT8, setUpdateImageFileFT8] = useState(false);
   
   const [show, setShow] = useState(false);
   const [ showImage , setShowImage ] = useState(null);
@@ -86,16 +83,14 @@ const ModalForm=()=>{
 
 const setItem= (item) =>{
   setTitle(item.description);
-  setImageFT8File(item.imageFT8);
+  
   setImageFile(item.image);
   setProps(item.props);
 
   if (item.image){
     setImageFile(new File([new Blob()],item.image,{type: "image/jpeg"}));
   }
-  if (item.imageFT8){
-    setImageFT8File(new File([new Blob()],item.imageFT8,{type: "image/jpeg"}));
-  }
+  
 }
    
 const handleChangeTitle=(event)=>{
@@ -172,16 +167,9 @@ const submit = () =>{
       );
     }
 
-    if (imageFt8File){
-      formData.append(
-        "imageFileFT8",
-        imageFt8File,
-        imageFt8File.name
-      );
-    }
+    
     
     formData.append('updateImage', updateImageFile);
-    formData.append('updateImageFT8', updateImageFileFT8);
     formData.append('description', title);
     formData.append('id',id);
     
@@ -374,28 +362,7 @@ const Imageconditional = (params) =>{
                                       </fieldset>
                                     </Row>
 
-                                    <Row className="m-4 ">
-                                    <fieldset class="border p-3 mb-3">
-                                          <legend  class="float-none w-auto t-4">Imagen para QSL o CERTIFICADO FT8 (JPG)</legend>
-                                      
-                                      <Form.Group  className="mb-3" controlId="frontPageFile">
-                                        
-                                        <Imageconditional type="IMG" file={imageFt8File} setFileHook={setImageFT8File} updateFileHook={setUpdateImageFileFT8}/>
-									                      
-                                        
-
-                                        <div
-                                              className={
-                                              hasError("imageFT8File")
-                                                      ? "invalid-feedback"
-                                                      : "visually-hidden"
-                                              }
-                                          >
-                                          Incluya una imagen para usar como certificado o qsl.
-                                          </div>
-                                      </Form.Group>
-                                      </fieldset>
-                                    </Row>
+                                    
 
 
                                     <Row className="m-4 ">

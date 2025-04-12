@@ -18,7 +18,7 @@ function AdminDoc() {
     const [type, setType ] = useState(null);
     const [title, setTitle ] = useState("");
     const [imageFile, setImageFile ] = useState(null);
-    const [imageFt8File, setImageFT8File ] = useState(null);
+    //const [imageFt8File, setImageFT8File ] = useState(null);
 
    
     const handleChangeTitle=(event)=>{
@@ -33,9 +33,9 @@ function AdminDoc() {
       setImageFile(event.target.files[0] );
     };
     
-    const onImageFT8FileChange = event => {
+    /*const onImageFT8FileChange = event => {
       setImageFT8File(event.target.files[0] );
-    };
+    };*/
     
 
     const hasError= (key) => {
@@ -105,13 +105,14 @@ const submit = () =>{
       );
     }
 
-    if (imageFt8File){
+    /*if (imageFt8File){
       formData.append(
         "imageFileFT8",
         imageFt8File,
         imageFt8File.name
       );
     }
+      */
     
 		
     formData.append('description', title);
@@ -181,7 +182,7 @@ const handleSubmit = (event) => {
 
 
 
-const frontPageFileData = () => {
+/*const frontPageFileData = () => {
 
   if (imageFt8File) {
     return (
@@ -197,18 +198,19 @@ const frontPageFileData = () => {
       </div>
     );
   }
-};
+};*/
 
+/*
 const fileSize=(size)=>{
   if (size/1024/1024>=1){
     return (parseFloat(size/1024/1024).toFixed(2)).toString()+" Mb"
   }else{
     return (parseFloat(size/1024).toFixed(2)).toString()+" Kb"
   }
-}
+}*/
 
 const docInputRef = useRef(null);
-const frontPageRef =useRef(null);
+//const frontPageRef =useRef(null);
 
 	
 	
@@ -312,30 +314,7 @@ const frontPageRef =useRef(null);
                                       
                                     </Row>
 
-                                    <Row className="mb-3 align-middle col-12">
-                                      
-                                      <Form.Group  className="mb-3" controlId="frontPageFile">
-                                        <Form.Label  >Imagen para QSL o CERTIFICADO FT8 (JPG)</Form.Label>
-									                      <input  ref={frontPageRef} accept="image/jpeg" class="form-control" type="file" id="frontPageformFile"  onChange={onImageFT8FileChange} 
-                                          className={
-                                                              hasError("imageFT8File")
-                                                                    ? "form-control is-invalid"
-                                                                    : "form-control"
-                                                            }
-                                        />
-                                        {frontPageFileData()}
-
-                                        <div
-                                              className={
-                                              hasError("imageFT8File")
-                                                      ? "invalid-feedback"
-                                                      : "visually-hidden"
-                                              }
-                                          >
-                                          Incluya una imagen para usar como certificado o qsl.
-                                          </div>
-                                      </Form.Group>
-                                    </Row>
+                                    
 
                                    
 
