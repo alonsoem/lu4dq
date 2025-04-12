@@ -753,7 +753,7 @@ const wordComponent =()=>{
       <Row className="mb-3 align-middle col-12">
 
         <Form.Group className="mb-3" controlId="assocDocValue">
-          <Form.Label>QSL Special asociada</Form.Label>
+          
           
           <select id="docQslEspecial"  onChange={handleSpecialDocumentChange}
             className="form-select" >
