@@ -43,6 +43,9 @@ function AdminABM() {
 
     const [documents,setDocuments] = useState([]);
     const [documentId,setDocumentId] = useState(null);
+    
+
+    
 
 
 
@@ -93,6 +96,8 @@ function AdminABM() {
     const hasError= (key) => {
       return errors.indexOf(key) !== -1;
     }
+
+    
 
 
   
@@ -184,6 +189,8 @@ const submit = () =>{
         frontPageFile.name
       );
     }
+    
+
     
 		formData.append('doc', documentId);
     formData.append('enabled', enabled);
@@ -458,7 +465,7 @@ const wordComponent =()=>{
   
   }
 
-	
+  
     return (
       <div>
         <NavMenu />
@@ -685,6 +692,7 @@ const wordComponent =()=>{
                                                     </div>
 
                                           </Form.Group>
+                                         
                                           <Row className="m-2 ">
                                           
                                             <Form.Group  className="mb-3" controlId="file">
@@ -693,6 +701,7 @@ const wordComponent =()=>{
                                               {docFileData()}
                                             </Form.Group>
                                           </Row>
+                                          
 
                                           </Row>
                                         </fieldset>
@@ -733,6 +742,10 @@ const wordComponent =()=>{
                                       
                                       
                                     </Row>
+
+
+                                    
+
 
                                     <Row className="mb-3 align-middle col-12">
                                       

@@ -54,6 +54,9 @@ function ActivityEdit(params){
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   
   const [ documentId, setDocumentId ] = useState(null);
+
+  const [documentqslSpecialId, setDocumentQslSpecialId] = useState(null);
+
   const [ documents, setDocuments ] = useState([]);
 
   const [ selectedDocFile, setDocFile ] = useState(null);
@@ -284,6 +287,7 @@ const updateModeList=()=>{
         setTecnicalDetails(EditorState.createWithContent(ContentState.createFromBlockArray(htmlToDraft(response.tecnical))));
         setStations(response.stations);
         setModeList(response.modes);
+        setDocumentQslSpecialId(response.assocDocId);
         
         //setFile(new File([new Blob()],response.image,{type: "image/jpeg"}));
         setDocumentId(response.documentId);
@@ -390,6 +394,13 @@ const handleRemoveMode = (id) =>{
 
 }
 
+
+const handleSpecialDocumentChange = event => {
+
+  setDocumentQslSpecialId(event.target.value===""?null:event.target.value );
+}
+
+
 const submit = () =>{
   
    
@@ -420,6 +431,7 @@ const submit = () =>{
     
 		formData.append('id', id);
 		formData.append('doc', documentId);
+    formData.append('assocDocId', documentqslSpecialId);
     formData.append('enabled', enabled);
     formData.append('allvsall', allvsall);
 		formData.append('type', type);
@@ -732,6 +744,44 @@ const wordComponent =()=>{
       }
   }
 
+
+  const DropdownQslEspecial = () =>{
+    if (type!==0){
+      return (
+        <fieldset class="border p-3 mb-3">
+                                      <legend  class="float-none w-auto t-4">QSL asociada (JPG)</legend>
+      <Row className="mb-3 align-middle col-12">
+
+        <Form.Group className="mb-3" controlId="assocDocValue">
+          <Form.Label>QSL Special asociada</Form.Label>
+          
+          <select id="docQslEspecial"  onChange={handleSpecialDocumentChange}
+            className="form-select" >
+                    <option selected value="">SIN QSL ESPECIAL</option>
+                    {
+                      documents.map(doc=>{
+                        if (documentqslSpecialId==doc.id){
+                          return <option selected value={doc.id} >{doc.description}</option>
+                        }else{
+                          return <option value={doc.id}>{doc.description}</option>
+                        }
+                        
+                      })
+                    }
+                    </select>
+            
+
+        </Form.Group>
+        
+        
+      </Row>
+      </fieldset>
+      );
+    }else{
+      return null;
+    }
+  }
+	
 
   return (
   
@@ -1107,6 +1157,9 @@ const wordComponent =()=>{
                                       </Form.Group>
                                     </Row>
                                     </fieldset>
+
+
+                                    <DropdownQslEspecial />
 
                                     <Row className="mb-3 align-middle col-12">
                                       
