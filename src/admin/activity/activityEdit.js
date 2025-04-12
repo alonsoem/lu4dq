@@ -759,7 +759,11 @@ const wordComponent =()=>{
             className="form-select" >
                     <option selected value="">SIN QSL ESPECIAL</option>
                     {
-                      documents.map(doc=>{
+                      documents
+                      // eslint-disable-next-line
+                      .filter(each=>each.type==0)
+                      .map(doc=>{
+                        // eslint-disable-next-line
                         if (documentqslSpecialId==doc.id){
                           return <option selected value={doc.id} >{doc.description}</option>
                         }else{
@@ -1111,7 +1115,10 @@ const wordComponent =()=>{
                                           } >
                                                                     
                                                                     {
-                                                                      documents.map(doc=>{
+                                                                      documents
+                                                                      // eslint-disable-next-line
+                                                                      .filter(each=>(each.type==0 && type==0) || (type!=0 && each.type!=0))
+                                                                      .map(doc=>{
                                                                         //eslint-disable-next-line
                                                                         if (documentId==doc.id){
                                                                           return <option selected value={doc.id} >{doc.description}</option>

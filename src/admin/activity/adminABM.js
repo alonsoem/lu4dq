@@ -106,6 +106,7 @@ function AdminABM() {
 
         getDocuments()       
         .then((response) => {
+          
           setDocuments(response.documents);
 
              
@@ -723,9 +724,13 @@ const wordComponent =()=>{
                                           } >
                                                                     <option selected disabled value="">Elija un documento...</option>
                                                                     {
-                                                                      documents.map(doc=>{
-                                                                        return <option value={doc.id}>{doc.description}</option>
-                                                                      })
+                                                                      
+                                                                      documents
+                                                                      // eslint-disable-next-line
+                                                                        .filter(each=>(each.type==0 && type==0) || (type!=0 && each.type!=0))
+                                                                        .map(doc=>{
+                                                                          return <option value={doc.id}>{doc.description}</option>
+                                                                        })
                                                                     }
                                                                     </select>
                                           <div
