@@ -30,6 +30,7 @@ import AutoLogin from "./magicLogin.js";
 //import MapImage from "./admin/document/mapImage.js";
 import Logout from "./logout.js";
 import Announcement from "./announcement.js";
+import Help from "./help.js";
 
 
 
@@ -50,6 +51,8 @@ export default class App extends React.Component {
           <Routes>
             
           <Route exact path="/" element={<Landing />}></Route>
+
+          <Route exact path="/ayuda" element={<Help />}></Route>
           
           <Route exact path='/cargaMasiva' element={<UploadBis />}></Route>
           <Route exact path='/cargaManual' element={<QsoUpload />}></Route>

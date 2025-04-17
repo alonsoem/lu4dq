@@ -13,7 +13,9 @@ const ConditionalItems = (props) =>{
     return null;
   }else{
     return (
+      
       <div>
+        <NavDropdown.Item href="/ayuda">Ayuda</NavDropdown.Item>
       <NavDropdown.Item href="/registrar">Registrarse</NavDropdown.Item>
       <NavDropdown.Item href="/recupero">Recuperar código</NavDropdown.Item>
       </div>
