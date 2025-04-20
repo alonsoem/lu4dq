@@ -7,45 +7,28 @@ import { NavDropdown } from 'react-bootstrap';
 import logo from  "./logo.png";
 
 
-const ConditionalItems = (props) =>{
+const StationMenu = (props)=> {
+  const cookie=  props.session;
   // eslint-disable-next-line
-  if (props.session.getItem("userLoginOK") && props.session.getItem("userLoginOK")==1){
-    return null;
-  }else{
-    return (
-      
-      <div>
+  if (cookie.getItem("userLoginOK") && cookie.getItem("userLoginOK")==1){
+      return (
+      <NavDropdown title={cookie.getItem("userStation").toUpperCase()} id="basic-nav-dropdown">
         <NavDropdown.Item href="/ayuda">Ayuda</NavDropdown.Item>
-      <NavDropdown.Item href="/registrar">Registrarse</NavDropdown.Item>
-      <NavDropdown.Item href="/recupero">Recuperar código</NavDropdown.Item>
-      </div>
-    );
-  }
-  
-}
-const ConditionalItem = (props) =>{
-  // eslint-disable-next-line
-  if (props.session.getItem("userLoginOK") && props.session.getItem("userLoginOK")==1){
-    return <NavDropdown.Item href="/profile">{props.session.getItem("userStation").toUpperCase()}</NavDropdown.Item>
+        <NavDropdown.Item href="/profile">Mi Estación</NavDropdown.Item>
+        <NavDropdown.Item href="/logout">Salir</NavDropdown.Item>
+      </NavDropdown>  
+      );
   }else{
-    return null;
-  }
-  
-
-}
-
-const ConditionalLogout = (props) =>{
-  // eslint-disable-next-line
-  if (props.session.getItem("userLoginOK") && props.session.getItem("userLoginOK")==1){
     return (
-      <NavDropdown.Item href="/logout">Salir</NavDropdown.Item>
+    <NavDropdown title="AUTOGESTIÓN" id="basic-nav-dropdown">   
+      <NavDropdown.Item href="/ayuda">Ayuda</NavDropdown.Item>
+      <NavDropdown.Item href="/registrar">Registrarse</NavDropdown.Item>
+      <NavDropdown.Item href="/recupero">Recuperar código</NavDropdown.Item>    
+    </NavDropdown>  
     );
-  }else{
-    return null;
-    
   }
-  
 }
+
 
 function NavMenu() {
 
@@ -73,12 +56,9 @@ function NavMenu() {
                 
                     <Nav.Link class="navlink" href="/qsoList">VER CONTACTOS</Nav.Link>
                     
-                    <NavDropdown title="AUTOGESTIÓN" id="basic-nav-dropdown">
-                      <ConditionalItems session={sessionStorage} />
-                      <ConditionalItem session={sessionStorage} />
-                      <ConditionalLogout session={sessionStorage} />
-                      
-                  </NavDropdown>
+
+                    <StationMenu session={sessionStorage} />
+
               </Nav>
             </Navbar.Collapse>
             
