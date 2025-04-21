@@ -17,6 +17,7 @@ import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { saveAs } from 'file-saver';
 import NavMenu from '../../nav';
 
+
 export default function EditDoc() {
 
   const { id } = useParams(); 
@@ -35,6 +36,8 @@ export default function EditDoc() {
   const [show, setShow] = useState(false);
   const [ showImage , setShowImage ] = useState(null);
   const handleClose = () => setShow(false);
+   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  
 
   useEffect(() => {
     getDocumentById({id:id})       
@@ -212,6 +215,10 @@ const handleSubmit = (event) => {
   }
   if (!imageFile){
     errors.push("imageFile");
+  }else{
+    if (dimensions.height!==1024 || dimensions.width!==1600){
+      errors.push("imageFile");
+    }
   }
 
   setErrors(errors);
@@ -266,6 +273,18 @@ const onFileChange = (event,setFileHook,updateFileHook=null) => {
   if (updateFileHook){
     updateFileHook(true);
   }
+  const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            setDimensions({ width: img.width, height: img.height });
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
   
 };
 	
@@ -289,7 +308,20 @@ const Imageconditional = (params) =>{
         <span  onClick={()=>handleShow(params.type,params.file)} style={{ cursor: 'pointer'}} >{params.file.name}</span>
           <span  onClick={()=>handleRemoveFile(params.setFileHook,params.updateFileHook)} class="text-danger ms-4" style={{ cursor: 'pointer'}} >
             <FontAwesomeIcon   icon={icon({name: 'rectangle-xmark'})}  title="Click para eliminar este archivo." />
+          </span>
+          <span>
+              {dimensions.width > 0 && dimensions.width!==1600 && dimensions.height!==1024    && (
+              <p class="m-2 mt-4 text-danger">
+                Dimensiones incorrectas: {dimensions.width} x {dimensions.height} pixels (ancho x alto)
+              </p>
+              )}
+              {dimensions.width > 0 && dimensions.width==1600 && dimensions.height==1024    && (
+              <p class="m-2 mt-4 text-success">
+                Dimensiones OK!: {dimensions.width} x {dimensions.height} pixels (ancho x alto)
+              </p>
+              )}
         </span>
+        
       </div>
     )
     }else{
