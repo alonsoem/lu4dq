@@ -315,7 +315,7 @@ const Imageconditional = (params) =>{
                 Dimensiones incorrectas: {dimensions.width} x {dimensions.height} pixels (ancho x alto)
               </p>
               )}
-              {dimensions.width > 0 && dimensions.width==1600 && dimensions.height==1024    && (
+              {dimensions.width > 0 && dimensions.width===1600 && dimensions.height===1024    && (
               <p class="m-2 mt-4 text-success">
                 Dimensiones OK!: {dimensions.width} x {dimensions.height} pixels (ancho x alto)
               </p>
