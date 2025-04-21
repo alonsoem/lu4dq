@@ -20,7 +20,9 @@ function AdminDoc() {
     const [imageFile, setImageFile ] = useState(null);
     //const [imageFt8File, setImageFT8File ] = useState(null);
 
-   
+    const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+
+
     const handleChangeTitle=(event)=>{
       setTitle(event.target.value);
     }
@@ -31,6 +33,20 @@ function AdminDoc() {
 
     const onImageFileChange = event => {
       setImageFile(event.target.files[0] );
+
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            setDimensions({ width: img.width, height: img.height });
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+      
     };
     
     /*const onImageFT8FileChange = event => {
@@ -102,6 +118,7 @@ const submit = () =>{
         "imageFile",
         imageFile,
         imageFile.name
+        
       );
     }
 
@@ -162,6 +179,10 @@ const handleSubmit = (event) => {
   }
   if (!imageFile){
     errors.push("imageFile");
+  }else{
+    if (dimensions.height!==1024 || dimensions.width!==1600){
+      errors.push("imageFile");
+    }
   }
 
   setErrors(errors);
@@ -298,6 +319,11 @@ const docInputRef = useRef(null);
                                                                     : "form-control"
                                                             }
                                         />
+                                        {dimensions.width > 0 && (
+                                          <p class="m-2">
+                                            Dimensiones: {dimensions.width} x {dimensions.height} pixels (ancho x alto)
+                                          </p>
+      )}
                                        
                                           <div
                                               className={
@@ -306,7 +332,7 @@ const docInputRef = useRef(null);
                                                       : "visually-hidden"
                                               }
                                           >
-                                            Seleccione un documento válido
+                                            Verifique la imagen y su resolución
                                           </div>
 
                                       </Form.Group>
