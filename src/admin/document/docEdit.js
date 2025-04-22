@@ -1,6 +1,6 @@
 import React from 'react';
 import {useState,useEffect} from 'react';
-import {Form, Row} from "react-bootstrap";
+import {Form, Row,OverlayTrigger,Popover} from "react-bootstrap";
 
 import { ToastContainer, toast } from 'react-toastify';
 import {getDocumentById, putDocument} from "../../api/api";
@@ -14,6 +14,7 @@ import Modal from 'react-bootstrap/Modal';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
+
 import { saveAs } from 'file-saver';
 import NavMenu from '../../nav';
 
@@ -342,6 +343,16 @@ const Imageconditional = (params) =>{
     
 }
 
+const popOverImage = (
+  <Popover id="popover-positioned-right"  placement="right" >
+  <Popover.Title as="h3">Imagen</Popover.Title>
+      <Popover.Content>
+        <p>Debe ser una imagen JPG o JPEG con una resolución de 1600 x 1028 pixeles</p>
+      </Popover.Content>
+    </Popover>
+  );
+
+
 
     return (
       
@@ -364,8 +375,11 @@ const Imageconditional = (params) =>{
                                 <div className="card-body" >
                                     
                                         <Row className="m-4">
-                                         <Form.Group className="mb-3" controlId="nameValue">
+                                         <Form.Group className="mb-3" controlId="titleValue">
                                             <Form.Label>TITULO</Form.Label>
+                                            
+                                            
+                                            
                                             <Form.Control  onChange={handleChangeTitle} value={title}
                                                             className={
                                                               hasError("title")
@@ -387,10 +401,22 @@ const Imageconditional = (params) =>{
                                     
                                     <Row className="m-4 ">
                                     <fieldset class="border p-3 mb-3">
-                                          <legend  class="float-none w-auto t-4">Imagen para QSL o CERTIFICADO (JPG)</legend>
+                                          <legend  class="float-none w-auto t-4">Imagen para QSL o CERTIFICADO (JPG)
+                                          <span class="ms-2">
+                                            
+                                            <OverlayTrigger trigger="hover" placement="right" overlay={popOverImage}>
+                                                <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
+                                            </OverlayTrigger>
+                                            </span>
+
+                                          </legend>
+                                          
+                                          
+                                                       
                                       
 
-                                      <Form.Group className="mb-3" controlId="modeValue">
+                                      <Form.Group className="mb-3" controlId="imgValue">
+                                      
                                         <Imageconditional type="IMG" file={imageFile} setFileHook={setImageFile} updateFileHook={setUpdateImageFile}/>
                                        
 
@@ -408,7 +434,7 @@ const Imageconditional = (params) =>{
                                       
                                           <table class="table table-bordered " >
                                             <thead class="table-success" >
-                                            <tr>
+                                            <tr  >
                                               <th>Nombre</th>
                                               <th>Fila Inicio</th>
                                               <th>Fila Fin</th>
@@ -422,7 +448,7 @@ const Imageconditional = (params) =>{
                                             <tbody>
                                                 {props.map(each=>{
                                                   return(
-                                                    <tr>
+                                                    <tr >
                                                       <td>
                                                         <span class="badge text-bg-primary">{each.name}</span>
                                                       </td>

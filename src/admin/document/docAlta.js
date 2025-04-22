@@ -1,6 +1,6 @@
 import React from 'react';
 import {useRef, useState} from 'react';
-import {Form, Row} from "react-bootstrap";
+import {Form, Row,OverlayTrigger, Popover} from "react-bootstrap";
 
 import { ToastContainer, toast } from 'react-toastify';
 import {postDocument} from "../../api/api";
@@ -10,6 +10,9 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import {useNavigate} from 'react-router-dom';
 import NavAdmin from '../navAdmin';
 import NavMenu from '../../nav';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 function AdminDoc() {
 
@@ -236,7 +239,14 @@ const docInputRef = useRef(null);
 
 	
 	
-
+const popOverImage = (
+  <Popover id="popover-positioned-right"  placement="right" >
+  <Popover.Title as="h3">Imagen</Popover.Title>
+      <Popover.Content>
+        <p>Debe ser una imagen JPG o JPEG con una resolución de 1600 x 1028 pixeles</p>
+      </Popover.Content>
+    </Popover>
+  );
 
 
 
@@ -312,7 +322,12 @@ const docInputRef = useRef(null);
                                     <Row className="mt-5 mb-3 align-middle col-12">
 
                                       <Form.Group className="mb-3" controlId="modeValue">
-                                        <Form.Label>Imagen para QSL o CERTIFICADO (JPG)</Form.Label>
+                                        <Form.Label>Imagen para QSL o CERTIFICADO (JPG) </Form.Label>
+                                                         <span class="ms-2">
+                                                         <OverlayTrigger trigger="hover" placement="right" overlay={popOverImage}>
+                                                              <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
+                                                         </OverlayTrigger>
+                                                         </span>
                                         <input  ref={docInputRef} accept="image/jpeg" class="form-control" type="file" id="docformFile"  onChange={onImageFileChange} 
                                           className={
                                                               hasError("imageFile")
