@@ -216,6 +216,7 @@ const handleSubmit = (event) => {
   if (!imageFile){
     errors.push("imageFile");
   }else{
+    //eslint-disable-next-line
     if (dimensions.height!=1028 || dimensions.width!=1600){
       errors.push("imageFile");
     }
@@ -310,12 +311,16 @@ const Imageconditional = (params) =>{
             <FontAwesomeIcon   icon={icon({name: 'rectangle-xmark'})}  title="Click para eliminar este archivo." />
           </span>
           <span>
-              {dimensions.width > 0 && (dimensions.width!=1600 || dimensions.height!=1028)  && (
+              {
+                //eslint-disable-next-line
+              dimensions.width > 0 && (dimensions.width!=1600 || dimensions.height!=1028)  && (
               <p class="m-2 mt-4 text-danger">
                 Dimensiones incorrectas: {dimensions.width} x {dimensions.height} pixels (ancho x alto)
               </p>
               )}
-              {dimensions.width > 0 && (dimensions.width==1600 && dimensions.height==1028)  && (
+              {
+                //eslint-disable-next-line
+              dimensions.width > 0 && (dimensions.width==1600 && dimensions.height==1028)  && (
               <p class="m-2 mt-4 text-success">
                 Dimensiones OK!: {dimensions.width} x {dimensions.height} pixels (ancho x alto)
               </p>
