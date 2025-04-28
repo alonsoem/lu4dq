@@ -187,9 +187,11 @@ useEffect(() => {
     if (response.response.data.code==1062 ) {
           errorToDisplay = "EL QSO YA EXISTE EN NUESTRA BASE DE DATOS.";
         }
-    if (response.response.data.status==="Station not validated" ) {
+    // eslint-disable-next-line        
+    if (response.response.data.status=="Station not validated" ) {
           errorToDisplay = "EL CODIGO DE ESTACION NO ES CORRECTO. VERIFIQUELO!";
       }
+
     // eslint-disable-next-line
     if (response.message=="Network Error") {
       errorToDisplay = "Error de red!. Reintente a la brevedad";
@@ -214,8 +216,13 @@ useEffect(() => {
     if (response.response.data.code==1062 ) {
           errorToDisplay = "EL QSO YA EXISTE EN NUESTRA BASE DE DATOS.";
         }
-    if (response.response.data.status==="Station not validated" ) {
+        // eslint-disable-next-line
+    if (response.response.data.status=="Station not validated" ) {
           errorToDisplay = "EL CODIGO DE ESTACION NO ES CORRECTO. VERIFIQUELO!";
+      }
+        // eslint-disable-next-line
+    if (response.response.data.status=="Invalid QSO Date" ) {
+          errorToDisplay = "LA FECHA DEL QSO ES INCORRECTA. VERIFIQUELA!";
       }
     // eslint-disable-next-line
     if (response.message=="Network Error") {
