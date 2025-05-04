@@ -30,6 +30,7 @@ ChartJS.register(ArcElement,  CategoryScale,
 function AdminView() {
 
 	const [ rank, setRank] = useState([]);
+  const [ checklog, setCheckLog] = useState([]);
 	
     const [ loading, setLoading ] = useState(false);
     const [ modeLabels, setModeLabels ] = useState([]);
@@ -124,6 +125,7 @@ function AdminView() {
         .then((response) => {
             
             setRank(response.rank);
+            setCheckLog(response.checklog);
             setLoading(false);
           
       })
@@ -180,6 +182,65 @@ function AdminView() {
 
 	
 
+function CheckLog(){
+        
+  if (loading){
+          return (<div class="card p-5 mt-3">
+              <div class="text-center">
+                  <div class="spinner-border" role="status">
+                      <span class="visually-hidden">Cargando...</span>
+                  </div>
+                  <p class="m-2"> Aguarde un instante...</p>
+              </div>
+              </div>);
+  }else{
+      if (checklog.length!==0){
+  
+          return (
+            <div class="card mt-3">
+            <div className="card-header ">
+              <span class=" ">CHECKLOG</span>       
+            </div>
+          
+            <div class="card-body">
+             
+            
+      <table class="table striped hover bordered responsive mt-3 border">
+          <thead>
+              <tr class="table-primary">
+                  <th scope="col" class="text-center">Posición</th>
+                  <th scope="col" class="text-center">Indicativo</th>
+                  <th scope="col" class="text-center">Nombre</th>
+                  <th scope="col" class="text-center">QSOs</th>
+                  
+              </tr>
+          </thead>
+      <tbody>
+      {checklog.map((each) =>{
+        
+           return ( 
+              <tr>
+                <td class="text-center">{each.position}</td>
+                <td class="text-center">{each.station}</td>
+                <td class="text-center">{each.name}</td>
+                <td class="text-center">{each.qty}</td>
+              </tr>
+           )
+      
+          }   )}
+  
+  </tbody>
+</table>
+
+            </div>
+          </div>
+          );
+      }else{
+        return null;
+      }
+}
+  
+}
 
 
     function ActivityTable(){
@@ -250,6 +311,9 @@ function AdminView() {
 
                     
                             <ActivityTable />
+
+                           <CheckLog />
+                            
                     
                     
                             <div class="card mt-3">

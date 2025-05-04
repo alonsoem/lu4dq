@@ -58,6 +58,8 @@ function NavMenu() {
                     
 
                     <StationMenu session={sessionStorage} />
+                    
+                    <Nav.Link class="navlink" href="/ranking">RANKING</Nav.Link>
 
               </Nav>
             </Navbar.Collapse>
