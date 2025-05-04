@@ -304,7 +304,7 @@ function CheckLog(){
                 <div className="container-fluid table-scroll-vertical col-11">
                     <div className="card mt-3" >
                         <div className="card-header headerLu4dq">
-                            <span class="display-6 ">RANKING LU4DQ Log</span>       
+                            <span class="display-6 ">RANKING LU4DQ Log {new Date().getFullYear()}</span>       
                         </div>
                         <div className="card-body" >
 
