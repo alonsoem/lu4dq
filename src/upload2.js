@@ -70,8 +70,10 @@ function Upload(){
 		const [signal, setSignal] = useState("");
   		const [name, setName] = useState("");
 		const [email, setEmail] = useState("");
+		// eslint-disable-next-line
 		const [accepted, setAccepted] = useState(0);
 		const [failed, setFailed] = useState(0);
+		const [total, setTotal] = useState(0);
 
 
 
@@ -159,6 +161,33 @@ function Upload(){
 			}
 		}
 
+		const ResultStats = () =>{
+			
+			
+			
+			if (failed>0 && total!==failed){
+				return (
+					<div class="mt-3 text-danger h5">
+						Se procesó el archivo pero con algunos errores!
+					</div>
+				);
+			}else if (failed===0){
+				return (<div class="mt-3 text-success h5">
+						Se procesó el archivo exitosamente!
+						</div>);
+			}else if (failed>0 && total===failed){
+				return (
+						<div class="mt-3 text-danger h5">
+							Error en el procesamiento del archivo. Verifique el archivo.
+						</div>
+				);
+			}
+						
+
+			
+			
+	
+		}
 		const showResultsTable = () => {
 	
 			// eslint-disable-next-line
@@ -175,9 +204,10 @@ function Upload(){
 	
 				return (
 					<div class="container">
-					<div class="mt-3 text-success h5">
-						Se procesó el archivo exitosamente!
-					</div>
+						<div class="mt-3 text-success h5">
+							<ResultStats />
+						</div>
+					
 					<div  className="col-12 mt-3 border">
 						<table className="table striped hover bordered responsive ">
 						<thead>
@@ -406,6 +436,7 @@ function Upload(){
 							showResults(res.rows.detail);
 							setAccepted(res.rows.stats.accepted);
 							setFailed(res.rows.stats.failed);
+							setTotal(res.rows.stats.total);
 	
 							
 			}
