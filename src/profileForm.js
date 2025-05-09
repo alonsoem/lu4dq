@@ -222,7 +222,7 @@ const popoverItu = (
 
   return (
 
-       <form onSubmit={handleSubmit} className="row g-3 needs-validation">
+       
            <div class="">
            <ToastContainer />
                <div className="row rowForm mb-5">
@@ -235,7 +235,7 @@ const popoverItu = (
              
 
                  
-
+            <form onSubmit={handleSubmit} className="row g-3 needs-validation">
             <Row className="mb-3 col-13">
             <div class="col-5">
                <Form.Group className="mb-3" controlId="signalValue">
@@ -374,9 +374,11 @@ const popoverItu = (
                                        <button type="submit" className="btn btn-success">Confirmar</button>
                                </div>
                            </div>
+
+              </form>                           
            </div>
            
-    </form>
+    
   
   );
 }

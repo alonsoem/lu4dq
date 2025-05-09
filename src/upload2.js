@@ -70,6 +70,8 @@ function Upload(){
 		const [signal, setSignal] = useState("");
   		const [name, setName] = useState("");
 		const [email, setEmail] = useState("");
+		const [accepted, setAccepted] = useState(0);
+		const [failed, setFailed] = useState(0);
 
 
 
@@ -248,8 +250,8 @@ function Upload(){
 	  };
 
 	const showResults=(res)=>{
-		setFilas(res.rows);
-		console.log(res.rows);
+		setFilas(res);
+		console.log(res);
 		setResponse(true);
 	}
 
@@ -401,8 +403,10 @@ function Upload(){
 			.then(res=>	{
 							setCookie('logCallsign', signal,{ path: '/' });
 							setLoading(false);
-							showResults(res);
-							console.log(res);			
+							showResults(res.rows.detail);
+							setAccepted(res.rows.stats.accepted);
+							setFailed(res.rows.stats.failed);
+	
 							
 			}
 			)
@@ -410,7 +414,6 @@ function Upload(){
 				
 				setError(true);
 				setLoading(false);
-
 				
 				if (res){
 					// eslint-disable-next-line
