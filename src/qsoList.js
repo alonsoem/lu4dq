@@ -28,10 +28,9 @@ function QsoList() {
 
 
     const navigateToStationQso = (station) => {
-        if (station){
-            const myArray = station.split("/");
-            navigate('/qsoList/'+myArray[0]);
-        }
+        
+            navigate('/qsoList/'+station[0]);
+        
     };
 
  
@@ -151,7 +150,31 @@ function QsoList() {
         });
     }
 
+    function printStationLink(qso){
+        if (qso.swl){
+            return (
+                        <div>
+                    <badge  onClick={(r)=>navigateToStationQso(qso.callsign.match(/[A-Za-z0-9]+/))}>
+                    {qso.callsign}                  
+                    </badge>
+                    &nbsp;-  &nbsp;
+                    <badge  onClick={(r)=>navigateToStationQso(qso.callsign2.match(/[A-Za-z0-9]+/))}>
+                    {qso.callsign2}                  
+                    </badge>
+                    
+                    </div>
+            );
+        }else{
+            return (
+                <badge  onClick={(r)=>navigateToStationQso(qso.callsign.match(/[A-Za-z0-9]+/))}>
+                    {qso.callsign}                  
+                    </badge>
+            )
 
+        }
+        
+        
+    }
 
     function ActivityTable(){
         
@@ -199,7 +222,7 @@ function QsoList() {
             <table class="table block striped hover bordered responsive mt-3 border">
                 <thead>
                     <tr class="table-primary">
-			<th scope="col" class="text-center d-none d-sm-table-cell">Estación</th>
+			            <th scope="col" class="text-center d-none d-sm-table-cell">Estación</th>
                         <th scope="col" class="text-center">Corresponsal</th>
                         <th scope="col" class="text-center">Fecha</th>
                         <th scope="col" class="text-center d-none d-sm-table-cell">Hora</th>
@@ -216,9 +239,9 @@ function QsoList() {
                     <tr>
 			<td class="text-center d-none d-sm-table-cell">{each.station}</td>
                     <td class="text-center">
-                        <badge  onClick={(r)=>navigateToStationQso(each.callsign.match(/[A-Za-z0-9]+/))}>
-                            {each.swl?each.callsign+" - "+each.callsign2:each.callsign}
-                        </badge>
+
+                        {printStationLink(each)}
+                        
                     </td>
                     <td class="text-center">{each.date}</td>
                     <td class="text-center d-none d-sm-table-cell">{each.time}</td>
