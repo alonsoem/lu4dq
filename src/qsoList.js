@@ -24,6 +24,8 @@ function QsoList() {
     const [ page, setPage ] = useState(2);
     const [ hasMore, setHasMore] = useState(true);
     const [ loading, setLoading ] = useState(false);
+    const [ showOnlyConfirmed, setShowOnlyConfirmed ] = useState(true);
+
     const navigate = useNavigate();
 
 
@@ -32,6 +34,11 @@ function QsoList() {
             navigate('/qsoList/'+station[0]);
         
     };
+
+    
+    const handleChangeOnlyConfirmed = (event) =>{
+        setShowOnlyConfirmed(event.target.checked);
+    }
 
  
     useEffect(() => {
@@ -76,7 +83,7 @@ function QsoList() {
         setHasMore(true);
         setPage(2);
         setLoading(true);
-        getQsoList({station:callId,page:1})
+        getQsoList({station:callId,page:1,showNotConfirmed:(showOnlyConfirmed?0:1)})
         .then((response) => {
             // eslint-disable-next-line
             if (response.qsos.length>0 && response.qsos.length==100){
@@ -305,6 +312,22 @@ function QsoList() {
 
                                 
                             </Row>
+                            <Row className="mb-3 c-4">
+                                <div>
+                                            <input
+                                
+                                    type="checkbox"
+                                    onChange={handleChangeOnlyConfirmed} 
+                                    defaultChecked={showOnlyConfirmed}
+                                    value={showOnlyConfirmed}
+                                    class="form-check-input"
+                                    id="ConfirmedCheck"
+                                />
+                                <label class="form-check-label ms-3" for="swlCheck">
+                                    Mostrar solo contactos confirmados
+                                </label>
+                                </div>
+                            </Row>                            
                             <div className=" row float-end">
                                 <div class="col-6 text-end">
                                     <button class="btn btn-success" onClick={handleSearch}>Buscar</button>
