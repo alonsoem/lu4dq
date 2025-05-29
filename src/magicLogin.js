@@ -51,17 +51,18 @@ export default function LoginForm(props) {
     
         postAutoLogin(formData)
         .then((response) => {
-            console.log(response.token);
+            
             sessionStorage.setItem("userLoginOK", 1);
             sessionStorage.setItem("userToken", response.token);
             sessionStorage.setItem("userStation", response.station);
-            navigate('/');
+            navigate('/landing');
         })
         .catch((responseError) => handleAPIError(responseError));
     };
 
     const handleAPIError = (responseError) =>{
         console.log(responseError);
+        navigate('/');
        /* let errorToDisplay = "SE PRODUJO UN ERROR INESPERADO";
 
         if (responseError.request && responseError.request.status === 0) {
