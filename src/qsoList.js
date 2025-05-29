@@ -57,7 +57,7 @@ function QsoList() {
 
     const getMoreData=()=>{
         
-        getQsoList({station:callsign,page:page})
+        getQsoList({station:callsign,page:page,showNotConfirmed:(showOnlyConfirmed?0:1)})
         .then((response) => {
             // eslint-disable-next-line
             if (response.qsos.length>0 && response.qsos.length==100){
