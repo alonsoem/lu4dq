@@ -57,7 +57,7 @@ export default function  UserRegistration(props) {
                     <div class="  m-auto  col-lg-10 col-md-10 col-sm-10 col-xs-12 col-12" >
                         <div className="card" style={{'background-color': 'rgba(181,181,181,0.6)'}}>
                             <div className="card-header headerLu4dq">
-                                <span class="display-6 ">REGISTRACIÓN</span>       
+                                <span class="display-6 ">REGISTRO</span>       
                             </div>
                         
                             <div className="card-body" >

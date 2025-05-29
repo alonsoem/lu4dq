@@ -122,8 +122,9 @@ const handleChangeSignal  = (event) => {
            <ToastContainer />
                <div className="row rowForm mb-5">
                   <div className="col-12">
-                    <h5>Completá tu señal distintiva y el email registrado para la estación.<br/> ¡RECORDA QUE EL MAIL DEBE ESTAR REGISTRADO PREVIAMENTE! y te enviaremos el código que permitirá el ingreso al log.</h5>
+                    <h5>Para poder cargar contactos en la plataforma es necesario que utilices el link que enviamos a tu correo electrónico registrado.</h5>
                   </div>
+
                 </div>
 
                 <Row className="mb-3 col-13">
@@ -185,6 +186,9 @@ const handleChangeSignal  = (event) => {
                     
             </div>
           </Row>
+                            <div className="col-12 m-4">
+                  </div>
+                    <h5>¡RECORDA QUE DEBES ESTAR REGISTRADO PREVIAMENTE! Si aún no lo hiciste hace click <a href="/registrar" >aquí</a>.</h5>
                 <div className="row">
                     <div className="col-12 text-right">
                             <button type="submit" 
@@ -192,7 +196,7 @@ const handleChangeSignal  = (event) => {
 
                                     
 
-                            >Confirmar</button>
+                            >Enviar</button>
                     </div>
                 </div>
            </div>

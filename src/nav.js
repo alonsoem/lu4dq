@@ -13,18 +13,16 @@ const StationMenu = (props)=> {
   if (cookie.getItem("userLoginOK") && cookie.getItem("userLoginOK")==1){
       return (
       <NavDropdown title={cookie.getItem("userStation").toUpperCase()} id="basic-nav-dropdown">
-        <NavDropdown.Item href="/ayuda">Ayuda</NavDropdown.Item>
+        <NavDropdown.Item class="navlink" href="/landing">CARGA DE CONTACTOS</NavDropdown.Item>  
         <NavDropdown.Item href="/profile">Mi Estación</NavDropdown.Item>
         <NavDropdown.Item href="/logout">Salir</NavDropdown.Item>
       </NavDropdown>  
       );
   }else{
     return (
-    <NavDropdown title="AUTOGESTIÓN" id="basic-nav-dropdown">   
-      <NavDropdown.Item href="/ayuda">Ayuda</NavDropdown.Item>
-      <NavDropdown.Item href="/registrar">Registrarse</NavDropdown.Item>
-      <NavDropdown.Item href="/recupero">Recuperar código</NavDropdown.Item>    
-    </NavDropdown>  
+      
+      <Nav.Link class="navlink" href="/recupero">LOGIN</Nav.Link>    
+    
     );
   }
 }
@@ -52,14 +50,16 @@ function NavMenu() {
              
                     <Nav.Link class="navlink" href="/activities">ACTIVIDADES</Nav.Link>
                   
-                    <Nav.Link class="navlink" href="/">CARGA DE CONTACTOS</Nav.Link>  
+                    
                 
                     <Nav.Link class="navlink" href="/qsoList">VER CONTACTOS</Nav.Link>
                     
 
                     <StationMenu session={sessionStorage} />
                     
+                    
                     <Nav.Link class="navlink" href="/ranking">RANKING</Nav.Link>
+                    <Nav.Link class="navlink" href="/ayuda">AYUDA</Nav.Link>
 
               </Nav>
             </Navbar.Collapse>

@@ -50,7 +50,7 @@ export default class App extends React.Component {
         
           <Routes>
             
-          <Route exact path="/" element={<Landing />}></Route>
+          <Route exact path="/" element={<AllActivities />}></Route>
 
           <Route exact path="/ayuda" element={<Help />}></Route>
           
@@ -70,6 +70,8 @@ export default class App extends React.Component {
           <Route exact path='/qsoTest' element={<Qso />}></Route>   
           
           <Route path='/activities/:idAct' element={<Activities />}></Route>   
+
+          <Route path='/landing' element={<Landing />}></Route>   
           
           <Route path="/:stationCode" element={<Landing />}></Route>
           <Route path="/cargaMasiva/:stationCode" element={<UploadBis />}></Route>
