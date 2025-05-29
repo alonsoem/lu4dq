@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { postAutoLogin } from "./api/api";
 
 import { useNavigate } from 'react-router-dom'
-import Landing from "./landing";
+import AllActivities from "./landing";
 //import "./loginform.css";
 import { useLocation } from 'react-router-dom';
 
@@ -80,7 +80,7 @@ export default function LoginForm(props) {
     
 
     return (
-        <Landing />
+        <AllActivities />
     );
   
 }
