@@ -125,6 +125,7 @@ const handleChangeSignal  = (event) => {
                     <h5>Para poder cargar contactos en la plataforma es necesario que utilices el link que enviamos a tu correo electrónico registrado.</h5>
                   </div>
                 </div>
+                
                   
                 <div className="row rowForm mb-5">
                   <div className="col-12 mt-4">
