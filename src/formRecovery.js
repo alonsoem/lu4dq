@@ -124,11 +124,16 @@ const handleChangeSignal  = (event) => {
                   <div className="col-12">
                     <h5>Para poder cargar contactos en la plataforma es necesario que utilices el link que enviamos a tu correo electrónico registrado.</h5>
                   </div>
-
+                </div>
+                  
+                <div className="row rowForm mb-5">
+                  <div className="col-12 mt-4">
+                    <h5>A continuación ingresá tus datos para recuperar el código de ingreso:</h5>
+                  </div>
                 </div>
 
                 <Row className="mb-3 col-13">
-            <div class="col-3">
+            <div class="col-6 col-sm-5 col-md-5  col-lg-2">
                <Form.Group className="mb-3" controlId="signalValue">
                  <Form.Label>TU ESTACIÓN</Form.Label>
                  <Form.Control  onChange={handleChangeSignal} value={signal}
@@ -151,8 +156,8 @@ const handleChangeSignal  = (event) => {
 
             </div>
           </Row>
-            <Row className="mb-3 col-13">
-            <div class="col-5">
+            <Row className="mb-3 col-12">
+            <div class="col-md-6 col-sm-12">
                <Form.Group className="mb-3" controlId="emailValue">
                  <Form.Label>TU EMAIL REGISTRADO</Form.Label>
                  <Form.Control  onChange={handleChangeEmail} value={email}
@@ -186,17 +191,19 @@ const handleChangeSignal  = (event) => {
                     
             </div>
           </Row>
-                            <div className="col-12 m-4">
-                  </div>
+              <div className="col-12 p-4 text-center">
+                  
                     <h5>¡RECORDA QUE DEBES ESTAR REGISTRADO PREVIAMENTE! Si aún no lo hiciste hace click <a href="/registrar" >aquí</a>.</h5>
-                <div className="row">
-                    <div className="col-12 text-right">
+                </div>
+
+                <div className="row mt-2">
+                    <div className="col-12 text-end">
                             <button type="submit" 
-                                  class={"btn btn-success m-2"}
+                                  class={"btn btn-success "}
 
                                     
 
-                            >Enviar</button>
+                            >Enviar código</button>
                     </div>
                 </div>
            </div>
