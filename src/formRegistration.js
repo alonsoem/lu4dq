@@ -214,65 +214,68 @@ const popoverItu = (
   return (
 
        <form onSubmit={handleSubmit} className="row g-3 needs-validation">
-           <div class="">
            <ToastContainer />
-               <div className="row rowForm mb-5">
-                  <div className="col-12">
-                    <h5>Por favor, completá el registro con los datos de tu licencia de radioaficionado para poder participar de las actividades.</h5>
-                    <h5>Esos datos seran utilizados para imprimir los certificados y para validar los contactos que cargues!</h5>
-                  </div>
+           <div class="container col-12">
+           
+
+              <Row className=" mb-3 col-12">
+
+                      <div className="col-12">
+                        <h5>Por favor, completá el registro con los datos de tu licencia de radioaficionado para poder participar de las actividades.</h5>
+                        <h5>Esos datos seran utilizados para imprimir los certificados y para validar los contactos que cargues!</h5>
+                      </div>
+                    
+              </Row>
+            <Row className="col-12">
+                <div class="col-5">
+                  <Form.Group className="mb-3" controlId="signalValue">
+                    <Form.Label>TU SEÑAL DISTINTIVA</Form.Label>
+                    <Form.Control  onChange={handleChangeSignal} value={signal}
+                                    className={
+                                      hasError("signal")
+                                            ? "form-control is-invalid"
+                                            : "form-control"
+                                    }/>
+                      <div
+                          className={
+                            hasError("signal")
+                                  ? "invalid-feedback"
+                                  : "visually-hidden"
+                          }
+                      >
+                        Esta señal distintiva ya fue registrada.
+                      </div>
+
+                  </Form.Group>
+
                 </div>
+                <div class="col-7">
+                  <Form.Group className="mb-3" controlId="nameValue">
+                    <Form.Label>NOMBRE COMPLETO</Form.Label>
+                    <span class="ms-2">
+                    <OverlayTrigger trigger="hover" placement="right" overlay={popoverFullName}>
+                          <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
+                    </OverlayTrigger>
+                    </span>
+                    <Form.Control  onChange={handleChangeName} value={name} disabled={!formEnabled}
+                                    className={
+                                      hasError("name")
+                                            ? "form-control is-invalid"
+                                            : "form-control"
+                                    }/>
+                      <div
+                          className={
+                            hasError("name")
+                                  ? "invalid-feedback"
+                                  : "visually-hidden"
+                          }
+                      >
+                        Escribe al menos 3 caracteres de un nombre
+                      </div>
 
-            <Row className="mb-3 col-13">
-            <div class="col-5">
-               <Form.Group className="mb-3" controlId="signalValue">
-                 <Form.Label>TU SEÑAL DISTINTIVA</Form.Label>
-                 <Form.Control  onChange={handleChangeSignal} value={signal}
-                                className={
-                                  hasError("signal")
-                                        ? "form-control is-invalid"
-                                        : "form-control"
-                                }/>
-                   <div
-                       className={
-                        hasError("signal")
-                               ? "invalid-feedback"
-                               : "visually-hidden"
-                       }
-                   >
-                    Esta señal distintiva ya fue registrada.
-                   </div>
+                  </Form.Group>
 
-               </Form.Group>
-
-            </div>
-            <div class="col-7">
-               <Form.Group className="mb-3" controlId="nameValue">
-                 <Form.Label>NOMBRE COMPLETO</Form.Label>
-                 <span class="ms-2">
-                 <OverlayTrigger trigger="hover" placement="right" overlay={popoverFullName}>
-                      <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
-                 </OverlayTrigger>
-                 </span>
-                 <Form.Control  onChange={handleChangeName} value={name} disabled={!formEnabled}
-                                className={
-                                  hasError("name")
-                                        ? "form-control is-invalid"
-                                        : "form-control"
-                                }/>
-                   <div
-                       className={
-                        hasError("name")
-                               ? "invalid-feedback"
-                               : "visually-hidden"
-                       }
-                   >
-                    Escribe al menos 3 caracteres de un nombre
-                   </div>
-
-               </Form.Group>
-
-            </div>
+                </div>
           </Row>
 
 
