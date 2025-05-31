@@ -226,7 +226,7 @@ const popoverItu = (
                       </div>
                     
               </Row>
-            <Row className="col-12">
+            <Row>
                 <div class="col-5">
                   <Form.Group className="mb-3" controlId="signalValue">
                     <Form.Label>TU SEÑAL DISTINTIVA</Form.Label>
@@ -308,7 +308,7 @@ const popoverItu = (
              </Row>
 
 
-             <Row className="mb-3 col-12">
+             <Row className="mb-3">
             <div class="col-3">
                <Form.Group className="mb-3" controlId="signalValue">
                  <Form.Label>ITU</Form.Label>
@@ -323,7 +323,7 @@ const popoverItu = (
                </Form.Group>
 
                </div>
-               <div class="col-3">
+               <div class="col-5">
                <Form.Group className="mb-3" controlId="nameValue">
                  <Form.Label>GRID LOCATOR</Form.Label>
                  <span class="ms-2">
@@ -338,7 +338,7 @@ const popoverItu = (
                </Form.Group>
 
                </div>
-               <div class="col-3">
+               <div class="col-4">
                <Form.Group className="mb-3" controlId="nameValue"  >
                  <Form.Label>CQ ZONE</Form.Label>
                  <span class="ms-2">
