@@ -358,7 +358,7 @@ const popoverItu = (
                            <div className="row">&nbsp;</div>
 
                            <div className="row">
-                               <div className="col-12 text-right">
+                               <div className="col-12 text-end">
                                        <button type="submit" 
                                               class={formEnabled?"btn btn-success m-2" :"btn btn-outline-success m-2"}
 

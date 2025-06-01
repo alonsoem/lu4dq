@@ -31,6 +31,7 @@ import AutoLogin from "./magicLogin.js";
 import Logout from "./logout.js";
 import Announcement from "./announcement.js";
 import Help from "./help.js";
+import PreActivity from "./newPreActivity.js";
 
 
 
@@ -103,6 +104,7 @@ export default class App extends React.Component {
           <Route exact path='/logout' element={<Logout />}></Route>  
 
           <Route exact path='/anunciate' element={<Announcement />}></Route>
+          <Route exact path='/preact' element={<PreActivity />}></Route>
           
           
             
