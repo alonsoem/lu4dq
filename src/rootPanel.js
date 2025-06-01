@@ -54,7 +54,7 @@ export default class App extends React.Component {
           <Route exact path="/" element={<AllActivities />}></Route>
 
           <Route exact path="/ayuda" element={<Help />}></Route>
-          
+          <Route exact path='/demo/preact' element={<PreActivity />}></Route>
           <Route exact path='/cargaMasiva' element={<UploadBis />}></Route>
           <Route exact path='/cargaManual' element={<QsoUpload />}></Route>
           <Route exact path='/registrar' element={<Register />}></Route>
@@ -104,7 +104,7 @@ export default class App extends React.Component {
           <Route exact path='/logout' element={<Logout />}></Route>  
 
           <Route exact path='/anunciate' element={<Announcement />}></Route>
-          <Route exact path='/preact' element={<PreActivity />}></Route>
+          
           
           
             

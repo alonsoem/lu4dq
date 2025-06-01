@@ -24,10 +24,8 @@ function PreAct() {
         
     const [errors, setErrors] = useState([]);
     const [title, setTitle ] = useState("");
-    const [word, setWord ] = useState("");
+    
     const [tecnicalDetails, setTecnicalDetails ] = useState(EditorState.createEmpty());
-    const [minContacts, setMinContacts ] = useState(0);
-    const [cwContacts, setcwContacts ] = useState(0);
     
     const [dateFrom, setDateFrom] = useState(format(dateData,"yyyy-MM-dd"));
     const [dateTo, setDateTo] = useState(format(dateData,"yyyy-MM-dd"));
@@ -38,10 +36,6 @@ function PreAct() {
     
     const [ selectedDocFile, setDocFile ] = useState(null);
     
-  
-    const handleChangeWord = (event)=>{
-      setWord(event.target.value);
-    }
     const handleChangeDescriptionHtml=(state)=>{
       setEditorState(state);
     }
@@ -58,17 +52,12 @@ function PreAct() {
       setLateEnd(value);
     };
 
-    const handleChangeMinContacts=(event)=>{
-        setMinContacts(event.target.value);
-    }
+ 
 
     const handleChangeTitle=(event)=>{
       setTitle(event.target.value);
     }
 
-    const handleChangeCwcontacts=(event)=>{
-      setcwContacts(event.target.value);
-    }
 
 
     const handleChangeTecnicalDetails=(state)=>{
@@ -152,10 +141,8 @@ const submit = () =>{
     formData.append('end', dateTo.replace(/\D/g, ""));
     formData.append('description', draftToHtml(convertToRaw(editorState.getCurrentContent())),);
     formData.append('late_end', late_end.replace(/\D/g, ""));
-    formData.append('minContacts', minContacts);
-    formData.append('cwContacts', cwContacts);
+    
     formData.append('techDetail', draftToHtml(convertToRaw(tecnicalDetails.getCurrentContent())),);
-    formData.append('word', word);
   
     setActivity(formData)       
       .then((response) => {
@@ -259,102 +246,6 @@ const fileSize=(size)=>{
 const docInputRef = useRef(null);
 
 
-const minimumContactsComponent=()=>{
-  // eslint-disable-next-line
-if (type==1){
-  return (
-  <Row className="mb-3">
-                                         <Form.Group className="mb-3" controlId="nameValue">
-                                            <Form.Label>CONTACTOS MINIMOS</Form.Label>
-                                            <Form.Control  onChange={handleChangeMinContacts} value={minContacts} type="number"
-                                                            className={
-                                                              hasError("minContacts")
-                                                                    ? "form-control is-invalid"
-                                                                    : "form-control"
-                                                            }/>
-                                              <div
-                                                  className={
-                                                    hasError("minContacts")
-                                                          ? "invalid-feedback"
-                                                          : "visually-hidden"
-                                                  }
-                                              >
-                                                Se necesita un valor mayor a cero
-                                              </div>
-
-                                          </Form.Group>
-                                        </Row>  );
-}else{
-  return null;
-}
-
-
-}
-const cwContactsComponent=()=>{
-  // eslint-disable-next-line
-  if (type==2 || type==1){
-  return (
-  <Row className="mb-3">
-                                         <Form.Group className="mb-3" controlId="nameValue">
-                                            <Form.Label>CW - CONTACTOS MINIMOS</Form.Label>
-                                            <Form.Control  onChange={handleChangeCwcontacts} value={cwContacts} type="number"
-                                                            className={
-                                                              hasError("cwContacts")
-                                                                    ? "form-control is-invalid"
-                                                                    : "form-control"
-                                                            }/>
-                                              <div
-                                                  className={
-                                                    hasError("cwContacts")
-                                                          ? "invalid-feedback"
-                                                          : "visually-hidden"
-                                                  }
-                                              >
-                                                Se necesita un valor mayor o igual a cero
-                                              </div>
-
-                                          </Form.Group>
-                                        </Row>  );
-}else{
-  return null;
-}
-
-
-}
-
-const wordComponent =()=>{
-  // eslint-disable-next-line
-  if (type==2){
-    
-    return (
-      <Row className="mb-3">
-      <Form.Group className="mb-6" controlId="wordValue">
-         <Form.Label>PALABRA A COMPLETAR</Form.Label>
-         <Form.Control  onChange={handleChangeWord} value={word.word} type="text"
-                         className={
-                           hasError("word")
-                                 ? "form-control is-invalid"
-                                 : "form-control"
-                         }/>
-           <div
-               className={
-                 hasError("word")
-                       ? "invalid-feedback"
-                       : "visually-hidden"
-               }
-           >
-             Se necesita un texto mayor a 1 caracter
-           </div>
-
-       </Form.Group>
-     </Row>  
-    );
-  }else{
-    return null;
-  }
-  
-  
-  }
 
   
     return (
@@ -512,13 +403,9 @@ const wordComponent =()=>{
                                 </Row>
 
 
-                                        {wordComponent()}
+                                        
                                     
-                                    
-                                        {minimumContactsComponent()}
-                                        {cwContactsComponent()}
-                                      
-                                    
+                               
                                         
                                         <fieldset class="border p-3 mb-3">
                                           <legend  class="float-none w-auto t-4">BASES</legend>
