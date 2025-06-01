@@ -1,10 +1,10 @@
 import React from 'react';
-import {useRef, useState, useEffect} from 'react';
+import {useRef, useState} from 'react';
 import {Form, Row} from "react-bootstrap";
 import { format } from "date-fns";
 import { ToastContainer, toast } from 'react-toastify';
 
-import { getDocuments,setActivity } from './api/api.js';
+import { setActivity } from './api/api.js';
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import {  EditorState, convertToRaw } from 'draft-js';
@@ -21,17 +21,14 @@ function PreAct() {
 	  const actual= new Date();
     const dateData = new Date(actual.getUTCFullYear(),actual.getUTCMonth(),actual.getUTCDate(),actual.getUTCHours(),actual.getUTCMinutes());
    
-    const [type, setType ] = useState(null);
-    
+        
     const [errors, setErrors] = useState([]);
     const [title, setTitle ] = useState("");
     const [word, setWord ] = useState("");
-    //const [description, setDescription ] = useState("");
     const [tecnicalDetails, setTecnicalDetails ] = useState(EditorState.createEmpty());
     const [minContacts, setMinContacts ] = useState(0);
     const [cwContacts, setcwContacts ] = useState(0);
-    const [enabled, setEnabled ] = useState(false);
-
+    
     const [dateFrom, setDateFrom] = useState(format(dateData,"yyyy-MM-dd"));
     const [dateTo, setDateTo] = useState(format(dateData,"yyyy-MM-dd"));
     const [late_end, setLateEnd] = useState(format(dateData,"yyyy-MM-dd"));
@@ -40,29 +37,13 @@ function PreAct() {
     
     
     const [ selectedDocFile, setDocFile ] = useState(null);
-    const [ frontPageFile, setFrontPageFile ] = useState(null);
-
-    const [documents,setDocuments] = useState([]);
-    const [documentId,setDocumentId] = useState(null);
     
-
-    
-
-
-
+  
     const handleChangeWord = (event)=>{
       setWord(event.target.value);
     }
     const handleChangeDescriptionHtml=(state)=>{
       setEditorState(state);
-    }
-
-    const handleChangeType =(event)=>{
-      setType(event.target.value);
-    }
-    
-    const handleChangeEnabled =(event)=>{
-      setEnabled(event.target.checked);
     }
 
     const handleChangeDateFrom = (value) => {
@@ -97,28 +78,8 @@ function PreAct() {
     const hasError= (key) => {
       return errors.indexOf(key) !== -1;
     }
-
-    
-
-
   
-    useEffect(
-      () => {
-
-        getDocuments()       
-        .then((response) => {
-          
-          setDocuments(response.documents);
-
-             
-        })
-        .catch((response) => handleAxiosError(response));
-    
-          return;
-  
-        // eslint-disable-next-line
-      },[]
-    )
+   
   
    
 
@@ -183,20 +144,9 @@ const submit = () =>{
         selectedDocFile.name
       );
     }
-
-    if (frontPageFile){
-      formData.append(
-        "frontPageFile",
-        frontPageFile,
-        frontPageFile.name
-      );
-    }
-    
+   
 
     
-		formData.append('doc', documentId);
-    formData.append('enabled', enabled);
-		formData.append('type', type);
 		formData.append('title', title);
 		formData.append('start', dateFrom.replace(/\D/g, ""));
     formData.append('end', dateTo.replace(/\D/g, ""));
@@ -206,31 +156,11 @@ const submit = () =>{
     formData.append('cwContacts', cwContacts);
     formData.append('techDetail', draftToHtml(convertToRaw(tecnicalDetails.getCurrentContent())),);
     formData.append('word', word);
-  /*{
-      enabled:enabled,
-      type:type,
-      title: title,
-      start:dateFrom.replace(/\D/g, ""),
-      end:dateTo.replace(/\D/g, ""),
-      description:draftToHtml(convertToRaw(editorState.getCurrentContent())),
-      late_end:late_end.replace(/\D/g, ""),
-      minContacts:minContacts,
-      techDetail:tecnicalDetails,
-      
-      }*/
+  
     setActivity(formData)       
       .then((response) => {
         navigateToAdmin();
-         /* //eslint-disable-next-line
-          if (response.qsl.status=="RC Confirmed"){
-              
-          //eslint-disable-next-line
-          }else if (response.qsl.status=="Confirmed"){
-              
-          }else{
-              
-              //handleAPIError(response);
-          }*/
+         
           console.log(response);         
       })
       .catch((response) => handleAxiosError(response));
@@ -244,10 +174,7 @@ const handleSubmit = (event) => {
   var errors = [];
 
   
-  // Check type
-  if (!type) {
-    errors.push("type");
-  }
+
   // Check title
   if (title.length<=5) {
       errors.push("title");
@@ -258,19 +185,7 @@ const handleSubmit = (event) => {
   }
 
 
-  // eslint-disable-next-line
-  if (type==2 && word.length<=1) {
-    errors.push("word");
-  }
-  // eslint-disable-next-line
-  if (type==1 && minContacts<1) {
-    errors.push("minContacts");
-  }
-  // eslint-disable-next-line
-  if ((type==2 || type==1) && cwContacts<0) {
-    errors.push("cwContacts");
-  }
-  
+
 
   if (editorState.length < 3) {
     errors.push("description");
@@ -293,10 +208,7 @@ const handleSubmit = (event) => {
     errors.push("tecnicalDetails");
   }
 
-  if (!documentId){
-    errors.push("doc");
-  }
-
+  
   setErrors(errors);
 
   if (errors.length > 0) {
@@ -308,17 +220,11 @@ const handleSubmit = (event) => {
 
 
 
-const handleDocumentChange = event => {
-  setDocumentId(event.target.value );
-};
 
 const onDocFileChange = event => {
   setDocFile(event.target.files[0] );
 };
 
-const onFrontPageFileChange = event => {
-  setFrontPageFile(event.target.files[0] );
-};
 
 
 
@@ -341,23 +247,6 @@ const docFileData = () => {
 };
 
 
-const frontPageFileData = () => {
-
-  if (frontPageFile) {
-    return (
-      
-      <div>
-        <h2>Detalles:</h2>
-        <p>Nombre: {frontPageFile.name}</p>
-        <p>
-          Tamaño:{" "}
-          {fileSize(frontPageFile.size)}
-        </p>
-
-      </div>
-    );
-  }
-};
 
 const fileSize=(size)=>{
   if (size/1024/1024>=1){
@@ -368,7 +257,7 @@ const fileSize=(size)=>{
 }
 
 const docInputRef = useRef(null);
-const frontPageRef =useRef(null);
+
 
 const minimumContactsComponent=()=>{
   // eslint-disable-next-line
