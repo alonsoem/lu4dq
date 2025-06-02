@@ -43,6 +43,7 @@ function AdminABM() {
 
     const [documents,setDocuments] = useState([]);
     const [documentId,setDocumentId] = useState(null);
+    const [ref,setRef]=useState("");
     
 
     
@@ -55,6 +56,10 @@ function AdminABM() {
     const handleChangeDescriptionHtml=(state)=>{
       setEditorState(state);
     }
+
+    const handleChangeRef  = (event) => {
+      setRef(event.target.value.toUpperCase());
+    };
 
     const handleChangeType =(event)=>{
       setType(event.target.value);
@@ -204,6 +209,7 @@ const submit = () =>{
     formData.append('minContacts', minContacts);
     formData.append('cwContacts', cwContacts);
     formData.append('techDetail', draftToHtml(convertToRaw(tecnicalDetails.getCurrentContent())),);
+    formData.append('refId', ref);
     formData.append('word', word);
   /*{
       enabled:enabled,
@@ -486,8 +492,9 @@ const wordComponent =()=>{
                         
                                 <div className="card-body" >
                                     
-                                        <Row className="mb-6 col-6">
-                                            <Form.Group className="mb-6" controlId="bandValue">
+                                        <Row className="mb-6 col-12">
+                                          <div class="col-6" >
+                                            <Form.Group className="mb-6 col-8" controlId="bandValue">
                                                 <Form.Label>TIPO</Form.Label>
                                                 <select id="activity" onChange={handleChangeType} value={type} className={
                                                     hasError("type")
@@ -513,6 +520,19 @@ const wordComponent =()=>{
                                                   Seleccione un tipo válido
                                                 </div>
                                             </Form.Group>
+
+                                              </div>
+                                              <div class="col-6" >
+                                                                                         <Form.Group className="mb-3 col-5" controlId="refValue">
+                                                                                        <Form.Label>REFERENCIA</Form.Label>
+                                                                                        <Form.Control  onChange={handleChangeRef} value={ref}
+                                                                                                        className="form-control"
+                                                                                                        />
+                                                            
+                                            
+                                                                                      </Form.Group>
+                                            
+                                                                                      </div>
                                         </Row>  
                                         
                                     <Row class="border mb-3 p-0 ">
