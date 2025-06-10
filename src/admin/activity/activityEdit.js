@@ -290,6 +290,7 @@ const updateModeList=()=>{
         setStations(response.stations);
         setModeList(response.modes);
         setDocumentQslSpecialId(response.assocDocId);
+        setConfirmationType(response.confirmationType);
         
         //setFile(new File([new Blob()],response.image,{type: "image/jpeg"}));
         setDocumentId(response.documentId);
