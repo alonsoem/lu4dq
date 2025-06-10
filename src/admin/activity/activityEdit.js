@@ -66,6 +66,8 @@ function ActivityEdit(params){
   const [newStation,setNewStation]=useState("");
   const [newLetter,setNewLetter]=useState("");
   const [newReq,setNewReq]=useState(false);
+  const [confirmationType,setConfirmationType]=useState(2);
+  
   
   
 
@@ -395,6 +397,15 @@ const handleRemoveMode = (id) =>{
 }
 
 
+
+
+
+const handleChangeConfirmationType = event => {
+
+  setConfirmationType(event.target.value );
+}
+
+
 const handleSpecialDocumentChange = event => {
 
   setDocumentQslSpecialId(event.target.value===""?null:event.target.value );
@@ -430,7 +441,8 @@ const submit = () =>{
     }
     
 		formData.append('id', id);
-		formData.append('doc', documentId);
+    formData.append('confirmationType', confirmationType);
+    formData.append('doc', documentId);
     formData.append('assocDocId', documentqslSpecialId);
     formData.append('enabled', enabled);
     formData.append('allvsall', allvsall);
@@ -745,6 +757,8 @@ const wordComponent =()=>{
   }
 
 
+
+
   const DropdownQslEspecial = () =>{
     if (type!==0){
       return (
@@ -786,6 +800,37 @@ const wordComponent =()=>{
     }
   }
 	
+  
+  const dropDownConfirmationType = () =>{
+    if (type===0){
+      return (
+        <fieldset class="border p-3 m-3">
+          <legend  class="float-none w-auto t-4">TIPO DE CONFIRMACION DE CONTACTOS</legend>
+      <Row className="mb-3 align-middle col-12">
+
+        <Form.Group className="mb-3" controlId="assocConfirmValue">
+          
+          
+          <select id="confirmationType"  onChange={handleChangeConfirmationType}
+            className="form-select" value={confirmationType}>
+                    <option selected value="2">BATCH (Mas Performante)</option>
+                    <option selected value="0" >SIN CONFIRMACION (Para actividades del RC)</option>
+                    <option value="1">ONLINE</option>
+          </select>
+            
+
+        </Form.Group>
+        
+        
+      </Row>
+      </fieldset>
+      );
+    }else{
+      return null;
+    }
+  }
+	
+
 
   return (
   
@@ -1217,6 +1262,7 @@ const wordComponent =()=>{
             </Row>  
 
            {stationsGivingContacts()}
+            {dropDownConfirmationType()}
 
             <div class="col-12">
        
