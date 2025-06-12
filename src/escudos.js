@@ -87,8 +87,7 @@ const handleShowPreview=(callsign,name)=> {
 
 const downloadFile=()=>{
     
-  const fileParts = showImage.name.split('.');
-  const fileName=fileParts[0]+"."+fileParts[1];
+  
   const url = "https://lu4dq.qrits.com.ar/api/createEscudo.php?callsign="+callsign + "&name="+name+"&rnd="+Math.floor(Math.random() * (1000)) + 1
   saveAs(url, "escudo_"+callsign+".jpg");
 }
