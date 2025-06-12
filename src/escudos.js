@@ -48,7 +48,7 @@ const Escudos=()=> {
 const ModalForm=(props)=>{
     return (
       <Modal
-        size="xl"
+        size="m"
         aria-labelledby="contained-modal-title-vcenter"
         show={show} onHide={handleClose} animation={false}>
       <Modal.Header closeButton>
