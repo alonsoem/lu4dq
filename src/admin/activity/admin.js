@@ -114,7 +114,7 @@ function Admin() {
             }else if (type==4){ 
                 return "CONCURSO C/ CATEGORIAS";
             // eslint-disable-next-line
-            }else if (type==5){ 
+            }else if (type==6){ 
                 return "PRE ACTIVIDAD";                
           }
         }
