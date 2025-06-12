@@ -46,6 +46,7 @@ export const getQsoCheck = (params) => foreignRequest('get','https://lu4dq.qrits
 export const getBand = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getBandsNew.php',params,{'Content-Type':'Content-Type: application/json'});
 
 export const setActivity = (form) => foreignPost('https://lu4dq.qrits.com.ar/api/setActivity.php',form);
+export const setPreActivity = (form) => foreignPost('https://lu4dq.qrits.com.ar/api/setPreActivity.php',form);
 export const updateActivity = (form) => foreignPost('https://lu4dq.qrits.com.ar/api/updateActivity.php',form);
 export const setStatus = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/setEnabled.php',params,{'Content-Type':'Content-Type: application/json'});
 

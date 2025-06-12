@@ -4,7 +4,7 @@ import {Form, Row} from "react-bootstrap";
 import { format } from "date-fns";
 import { ToastContainer, toast } from 'react-toastify';
 
-import { setActivity } from './api/api.js';
+import { setPreActivity } from './api/api.js';
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import {  EditorState, convertToRaw } from 'draft-js';
@@ -144,7 +144,7 @@ const submit = () =>{
     
     formData.append('techDetail', draftToHtml(convertToRaw(tecnicalDetails.getCurrentContent())),);
   
-    setActivity(formData)       
+    setPreActivity(formData)       
       .then((response) => {
         navigateToAdmin();
          
