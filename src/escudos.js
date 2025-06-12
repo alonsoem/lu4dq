@@ -121,21 +121,6 @@ const downloadFile=()=>{
     
   );
 
-  const FormObject = (props) =>{
-    return(
-     <Row className="mb-3">
-      <Form.Group readonly className="mb-3" controlId={props.name+"value"} >
-        <Form.Label>{props.title}</Form.Label>
-        <span class="ms-2">
-          <OverlayTrigger trigger="hover" placement="right" overlay={props.popover}>
-                    <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
-            </OverlayTrigger>
-          </span>
-        <Form.Control  value={props.value} className="form-control"  onChange={props.handleChange}/>
-      </Form.Group>
-    </Row>
-    )
-  }
 
     return (
       
@@ -167,9 +152,31 @@ const downloadFile=()=>{
                                       <fieldset class="border p-3 mb-3">
                                           <legend  class="float-none w-auto t-4">DATOS PARA IMPRIMIR EL ESCUDO</legend>
 
-                                          <FormObject name={"callsign"} title={"SEÑAL DISTINTIVA"} value={callsign} popover={popoverCallsign}/>
+                                          
+                                           <Row className="mb-3">
+                                              <Form.Group readonly className="mb-3" controlId={"callsignvalue"} >
+                                                <Form.Label>SEÑAL DISTINTIVA</Form.Label>
+                                                <span class="ms-2">
+                                                  <OverlayTrigger trigger="hover" placement="right" overlay={popoverCallsign}>
+                                                            <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
+                                                    </OverlayTrigger>
+                                                  </span>
+                                                <Form.Control  value={callsign} className="form-control" />
+                                              </Form.Group>
+                                            </Row>
 
-                                          <FormObject name={"name"} title={"NOMBRE"} value={name} popover={popoverName} handleChange={handleChangeName} />
+                                          
+                                           <Row className="mb-3">
+                                              <Form.Group readonly className="mb-3" controlId={"namevalue"} >
+                                                <Form.Label>NOMBRE</Form.Label>
+                                                <span class="ms-2">
+                                                  <OverlayTrigger trigger="hover" placement="right" overlay={popoverName}>
+                                                            <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
+                                                    </OverlayTrigger>
+                                                  </span>
+                                                <Form.Control  value={name} className="form-control"  onChange={handleChangeName}/>
+                                              </Form.Group>
+                                            </Row>
 
     
                                         
