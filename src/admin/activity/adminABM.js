@@ -508,6 +508,7 @@ const wordComponent =()=>{
                                                     <option value={2}>CERTIFICADO POR LETRAS </option>              
                                                     <option value={3}>CONCURSO </option> 
                                                     <option value={4}>CONCURSO C/ CATEGORIAS</option>             
+                                                    <option value={6}>PRE-CARGA</option>             
                                                     
                                                 </select>
                                                 <div
