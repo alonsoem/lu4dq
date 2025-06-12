@@ -32,7 +32,7 @@ import Logout from "./logout.js";
 import Announcement from "./announcement.js";
 import Help from "./help.js";
 import PreActivity from "./newPreActivity.js";
-
+import Escudos from "./escudos.js";
 
 
 //import '../node_modules/bootstrap-css-only/css/bootstrap.css';
@@ -60,7 +60,7 @@ export default class App extends React.Component {
           <Route exact path='/registrar' element={<Register />}></Route>
           <Route exact path='/profile' element={<UserProfile />}></Route>F
           <Route exact path='/recupero' element={<Recovery />}></Route>
-
+          <Route exact path="/escudos" element={<Escudos />}></Route>
           <Route exact path='/qsoList/:station' element={<QsoList />}></Route>   
           <Route exact path='/qsoList' element={<QsoList />}></Route>         
 
