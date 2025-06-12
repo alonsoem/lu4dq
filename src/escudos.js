@@ -1,10 +1,10 @@
 import React from 'react';
 import {useState,useEffect} from 'react';
 
-import {Form, Row,Popover, OverlayTrigger} from "react-bootstrap";
+import {Form, Row,Popover, OverlayTrigger,Button} from "react-bootstrap";
 import {getName} from "./api/api";
 
-import { ToastContainer, toast } from 'react-toastify';
+
 
 
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -22,49 +22,38 @@ import NavMenu from './nav';
 
 const Escudos=()=> {
 
-
-  const [name, setName] = "";
-  const [callsign, setCallsign] = "";
-    
+  const [name, setName] = useState("");
+  const [callsign, setCallsign] =  useState("");
   const [show, setShow] = useState(false);
   const [ showImage , setShowImage ] = useState(null);
-  const handleClose = () => setShow(false);
-   
-  
+  const handleClose = () => setShow(false); 
 
   useEffect(() => {
-    
+    // eslint-disable-next-line
     if (sessionStorage.getItem("userLoginOK") && sessionStorage.getItem("userLoginOK")==1){
-      console.log(sessionStorage.getItem("userStation"));
-  
+      
       getName({station:sessionStorage.getItem("userStation")})
           .then((response) => {
             setName(response.name);
-        
-    })
+            setCallsign(sessionStorage.getItem("userStation"));  
+            }
+          )
     
-      
     }
    
     // eslint-disable-next-line
-}, []
-)
+    }, [sessionStorage]
+  ) 
 
-
-
-  
-
-
-const ModalForm=()=>{
-  console.log();
-  return (
+const ModalForm=(props)=>{
+    return (
       <Modal
         size="xl"
         aria-labelledby="contained-modal-title-vcenter"
         show={show} onHide={handleClose} animation={false}>
       <Modal.Header closeButton>
       <Modal.Title id="contained-modal-title-vcenter">
-          Muestra de documento
+          Muestra de Escudo
         </Modal.Title>
       </Modal.Header>
           <Modal.Body>
@@ -75,6 +64,9 @@ const ModalForm=()=>{
                   />
               </div>
           </Modal.Body>
+                <Modal.Footer>
+        <Button onClick={props.download}>Descargar</Button>
+      </Modal.Footer>
     </Modal>
 
     
@@ -87,22 +79,24 @@ const ModalForm=()=>{
 
 
 
-const handleShowPreview=(callsign)=> {
+const handleShowPreview=(callsign,name)=> {
   
-  setShowImage(new File([new Blob()],"api/createEscudo.php?callsign="+callsign + "&rnd="+Math.floor(Math.random() * (1000)) + 1,{type: "image/jpeg"}));
+  setShowImage(new File([new Blob()],"api/createEscudo.php?callsign="+callsign + "&name="+name+"&rnd="+Math.floor(Math.random() * (1000)) + 1,{type: "image/jpeg"}));
   setShow(true);
 }
 
-const downloadFile=(file)=>{
+const downloadFile=()=>{
     
-  const fileParts = file.name.split('.');
+  const fileParts = showImage.name.split('.');
   const fileName=fileParts[0]+"."+fileParts[1];
-  
-  saveAs("https://lu4dq.qrits.com.ar/dinamic-content/DOC/"+fileName, fileName);
+  const url = "https://lu4dq.qrits.com.ar/api/createEscudo.php?callsign="+callsign + "&name="+name+"&rnd="+Math.floor(Math.random() * (1000)) + 1
+  saveAs(url, "escudo_"+callsign+".jpg");
 }
 
 
-	
+	const handleChangeName = (event)=>{
+    setName(event.target.value);
+  }
 
  const popoverName = (
     
@@ -128,15 +122,31 @@ const downloadFile=(file)=>{
     
   );
 
+  const FormObject = (props) =>{
+    return(
+     <Row className="mb-3">
+      <Form.Group readonly className="mb-3" controlId={props.name+"value"} >
+        <Form.Label>{props.title}</Form.Label>
+        <span class="ms-2">
+          <OverlayTrigger trigger="hover" placement="right" overlay={props.popover}>
+                    <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
+            </OverlayTrigger>
+          </span>
+        <Form.Control  value={props.value} className="form-control"  onChange={props.handleChange}/>
+      </Form.Group>
+    </Row>
+    )
+  }
+
     return (
       
       <div>
         <NavMenu />
-      <ModalForm />
+      <ModalForm download={downloadFile} />
       
       
             <div className="container d-flex ">
-            <ToastContainer />
+            
                 <div className="container-fluid table-scroll-vertical col-11">
                     <div className="card mt-3" >
                         <div className="card-header headerLu4dq">
@@ -148,49 +158,27 @@ const downloadFile=(file)=>{
                         
                                 <div className="card-body" >
                                     
-                                      <Row className="mb-3">
-                                        <Form.Group readonly className="mb-3" controlId="callsignValue" >
-                                          <Form.Label>SEÑAL DISTINTIVA</Form.Label>
-                                          <span class="ms-2">
-                                            <OverlayTrigger trigger="hover" placement="right" overlay={popoverCallsign}>
-                                                      <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
-                                              </OverlayTrigger>
-                                            </span>
-                                          <Form.Control  value={callsign} 
-                                                          className="form-control"  />
-                                            
-
-                                        </Form.Group>
-                                      </Row>
-
-                                       <Row className="mb-3">
-                                        <Form.Group className="mb-3" controlId="nameValue" >
-                                          <Form.Label>NOMBRE</Form.Label>
-                                          <span class="ms-2">
-                                            <OverlayTrigger trigger="hover" placement="right" overlay={popoverName}>
-                                                      <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
-                                              </OverlayTrigger>
-                                            </span>
-                                          <Form.Control  value={name} 
-                                                          className="form-control"  />
-                                            
-
-                                        </Form.Group>
-                                      </Row>
-             
+                                      
                                        
 
                                     
 
 
                                     <Row className="m-4 ">
-                                    <fieldset class="border p-3 mb-3">
-                                          <legend  class="float-none w-auto t-4">PARAMETRÍA</legend>
-                                      
+                                      <fieldset class="border p-3 mb-3">
+                                          <legend  class="float-none w-auto t-4">DATOS PARA IMPRIMIR EL ESCUDO</legend>
+
+                                          <FormObject name={"callsign"} title={"SEÑAL DISTINTIVA"} value={callsign} popover={popoverCallsign}/>
+
+                                          <FormObject name={"name"} title={"NOMBRE"} value={name} popover={popoverName} handleChange={handleChangeName} />
+
+    
                                         
                                           <div className="row ms-auto">
+
+                                            
                                       <div className=" col-12 ms-auto">
-                                        <button type="button" onClick={()=>handleShowPreview(callsign)} style={{ cursor: 'pointer'}}  className="btn btn-success">Ver Impresión</button>
+                                        <button type="button" onClick={()=>handleShowPreview(callsign,name)} style={{ cursor: 'pointer'}}  className="btn btn-success">Mostrar</button>
                                       </div>
                                     </div>
                                         </fieldset>
