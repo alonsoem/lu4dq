@@ -123,34 +123,41 @@ const downloadFile=()=>{
 
 
     return (
-      
-      <div>
-        <NavMenu />
-      <ModalForm download={downloadFile} />
-      
-      
-            <div className="container d-flex ">
-            
-                <div className="container-fluid table-scroll-vertical col-11">
-                    <div className="card mt-3" >
-                        <div className="card-header headerLu4dq">
-                            <span class="display-6 ">EDITAR DOCUMENTO</span>       
-                        </div>
-                        <div className="card-body" >
-
-                            <div className="card mt-3" style={{'background-color': 'rgba(181,181,181,0.1)'}}>
-                        
-                                <div className="card-body" >
+             <div>
+                        <NavMenu />
+                        <ModalForm download={downloadFile} />
+                               <div  className="mt-4 " >                 
+                                
+                                <div class="container-fluid  ">
+                                <div class="row ">
+                                <div class="  m-auto  col-lg-10 col-md-10 col-sm-10 col-xs-12 col-12" >
+                                    <div className="card" style={{'background-color': 'rgba(181,181,181,0.6)'}}>
+                                        <div className="card-header headerLu4dq">
+                                            <span class="display-6 ">MI ESTACiÓN</span>       
+                                        </div>
                                     
+                                        <div className="card-body" >
+
+                                           
+                                            <div class="row col-12" >
+                                               
+                                                <div class="col col-9" >
+                                                   <div className="row rowForm mb-5 col-12">
+                                                      <div className="col-12">
+                                                        <h5>Ahora Imprimí tu escudo de radioaficionado con el logo de LU4DQ-Log!</h5>
+                                                      </div>
+                                                        <h5>Solo necesitas hacer click en Mostrar y luego descargalo para usarlo donde quieras! Si preferis, poder editar el nombre que aparece bajo tu señal distintiva.</h5>
+                                                      
+                                                                                                     
+                                                    </div>
+                                                     <div class=" col-12 col m-auto text-center">
+                                                        <img height="150" width="150" 
+                                                        src="https://lu4dq.qrits.com.ar/dinamic-content/escudos/miniescudo.png" 
+                                                        class="img-fluid" alt="Responsive image" />
+                                                      </div>    
+
+                                                    <Row >
                                       
-                                       
-
-                                    
-
-
-                                    <Row className="m-4 ">
-                                      <fieldset class="border p-3 mb-3">
-                                          <legend  class="float-none w-auto t-4">DATOS PARA IMPRIMIR EL ESCUDO</legend>
 
                                           
                                            <Row className="mb-3">
@@ -180,33 +187,38 @@ const downloadFile=()=>{
 
     
                                         
-                                          <div className="row ms-auto">
-
-                                            
-                                      <div className=" col-12 ms-auto">
-                                        <button type="button" onClick={()=>handleShowPreview(callsign,name)} style={{ cursor: 'pointer'}}  className="btn btn-success">Mostrar</button>
-                                      </div>
-                                    </div>
-                                        </fieldset>
+                                          <div className="row ">
+                                            <div className=" col-12 text-end">
+                                              <button type="button" onClick={()=>handleShowPreview(callsign,name)} style={{ cursor: 'pointer'}}  className="btn btn-success">Mostrar</button>
+                                            </div>
+                                         </div>
+                                        
                                         
                                     </Row>
-                              
+                                    
                                   
-                                   
-
+                                                </div>
+                                                
+                                                 <div class="col col-3" >
+                                                    <ul class="list-group">
+                                                    <a href="/profile" class="list-group-item list-group-item-action">Mis datos</a>
+                                                    <a href="/escudos" class="list-group-item list-group-item-action">Escudos</a>
+                                                    
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    </div>
+                                    </div>
+                                    
+                                    
+                                    </div>
                                 </div>
-                            </div>
-                    
-
-                    </div>
-                  
-                    </div>
-
             
-                </div>
-            </div>
+                     </div>
       
-      </div>
         );
 
     }

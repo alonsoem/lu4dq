@@ -370,8 +370,8 @@ const popoverItu = (
                            <div className="row">&nbsp;</div>
 
                            <div className="row">
-                               <div className="col-12 text-right">
-                                       <button type="submit" className="btn btn-success">Confirmar</button>
+                               <div className="col-12 text-end">
+                                  <button type="submit" className="btn btn-success">Guardar</button>
                                </div>
                            </div>
 

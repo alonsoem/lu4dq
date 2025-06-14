@@ -67,8 +67,19 @@ export default function  UserRegistration(props) {
                             </div>
                         
                             <div className="card-body" >
-                                <ConditionalForm qslHook={setQsl}  gotoQsoUpload={gotoQsoUpload} />
-                                
+                                <div class="row col-12" >
+                                   
+                                    <div class="col col-9" >
+                                        <ConditionalForm qslHook={setQsl}  gotoQsoUpload={gotoQsoUpload} />
+                                    </div>
+                                     <div class="col col-3" >
+                                        <ul class="list-group">
+                                        <a href="/profile" class="list-group-item list-group-item-action">Mis datos</a>
+                                        <a href="/escudos" class="list-group-item list-group-item-action">Escudos</a>
+                                        <a href="#" class="list-group-item list-group-item-action disabled">¡Mucho más por venir!</a>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                             
                         </div>
