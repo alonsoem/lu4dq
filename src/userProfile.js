@@ -76,7 +76,7 @@ export default function  UserRegistration(props) {
                                         <ul class="list-group">
                                         <a href="/profile" class="list-group-item list-group-item-action">Mis datos</a>
                                         <a href="/escudos" class="list-group-item list-group-item-action">Escudos</a>
-                                        <a href="#" class="list-group-item list-group-item-action disabled">¡Mucho más por venir!</a>
+                                        
                                         </ul>
                                     </div>
                                 </div>

@@ -153,7 +153,7 @@ const downloadFile=()=>{
                                                      <div class=" col-12 col m-auto text-center">
                                                         <img height="150" width="150" 
                                                         src="https://lu4dq.qrits.com.ar/dinamic-content/escudos/miniescudo.png" 
-                                                        class="img-fluid" alt="Responsive image" />
+                                                        class="img-fluid" alt="Nuestro primer escudo!" />
                                                       </div>    
 
                                                     <Row >
