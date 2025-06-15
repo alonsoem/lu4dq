@@ -32,9 +32,7 @@ import Logout from "./logout.js";
 import Announcement from "./announcement.js";
 import Help from "./help.js";
 import PreActivity from "./newPreActivity.js";
-
 import Escudos from "./escudos.js";
-
 
 
 //import '../node_modules/bootstrap-css-only/css/bootstrap.css';
