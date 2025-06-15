@@ -4,7 +4,7 @@ import { useParams} from 'react-router-dom';
 import {Form, Row,Tabs,Tab} from "react-bootstrap";
 import { format } from "date-fns";
 import { ToastContainer, toast } from 'react-toastify';
-import {updateActivity,getActivity,getDocuments, addNewStation,addMode,removeMode, getActivityModes, getActivityStations, removeStation} from "../../api/api";
+import {updateActivity,getActivity,getDocuments, addNewStation,addMode,removeMode, getActivityModes, getActivityStations, removeStation,getDocumentsByActivityId} from "../../api/api";
 import {  Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import {ContentState,  EditorState, convertToRaw } from 'draft-js';
@@ -67,12 +67,18 @@ function ActivityEdit(params){
   const [newLetter,setNewLetter]=useState("");
   const [newReq,setNewReq]=useState(false);
   const [confirmationType,setConfirmationType]=useState(2);
-  
-  
-  
+  const [enablePrintCategory,setEnablePrintCategory]=useState(false);
+  const [rangeDocuments,setRangeDocuments]=useState([]);
+  const [minContactsRange,setMinContactsRange]=useState(0);
+  const [ref,setRef]=useState("");
 
+  
+  const handleChangeMinContactsRange = (event) =>{
+    setMinContactsRange(event.target.value);
+  }
 
   const handleShow = (type,file) => {
+    
     if (type==="DOC"){
       //var newFileName = type+"/"+file.name;
       downloadFile(file);
@@ -90,6 +96,9 @@ function ActivityEdit(params){
     setMode(event.target.value.toUpperCase());
   };
 
+  const handleChangeRef  = (event) => {
+    setRef(event.target.value.toUpperCase());
+  };
   const downloadFile=(file)=>{
     
     const fileParts = file.name.split('.');
@@ -103,7 +112,22 @@ function ActivityEdit(params){
 useEffect(
   () => {
 
-    getDocuments()       
+   readAllDocuments();
+    // eslint-disable-next-line
+  },[]
+)
+
+useEffect(
+  () => {
+
+   readRangeDocuments(id);
+    // eslint-disable-next-line
+  },[id]
+)
+
+const readAllDocuments=()=>{
+  getDocuments()       
+
     .then((response) => {
       setDocuments(response.documents);
 
@@ -112,10 +136,19 @@ useEffect(
     .catch((response) => handleAxiosError(response));
 
       return;
+}
+const readRangeDocuments=(id)=>{
+  getDocumentsByActivityId({id:id})       
 
-    // eslint-disable-next-line
-  },[]
-)
+    .then((response) => {
+      setRangeDocuments(response.documents);
+
+         
+    })
+    .catch((response) => handleAxiosError(response));
+
+      return;
+}
 
 const handleChangeWord = (event)=>{
   setWord(event.target.value);
@@ -123,6 +156,36 @@ const handleChangeWord = (event)=>{
 
 const handleChangeCwcontacts = (event)=>{
   setCwcontacts(event.target.value);
+}
+
+const addRange = (minContacts,document) =>{
+  console.log ("AGREGANDO EL RANGO");
+}
+
+const clearFormRange = () =>{
+  setDocumentId(null);
+  setMinContactsRange(0);
+}
+const handleAddRange = (event) =>{
+  
+  if (minContactsRange<minContacts)  {
+    notifyError("DEBE SUPERAR LA CANTIDAD MINIMA");
+    
+  }else{
+    if (documentId){
+      addRange(minContactsRange,documentId);
+      clearFormRange();
+
+    }else{
+      notifyError("DEBES ELEGIR UN DOCUMENTO");
+    }
+
+  }
+  
+}
+
+const handleRemoveRange = (event) =>{
+  console.log("remove range");
 }
 
 const handleAddStation = (event) =>{
@@ -217,6 +280,11 @@ const updateModeList=()=>{
     const handleChangeEnabled =(event)=>{
       setEnabled(event.target.checked);
     }
+
+    const handleChangeEnablePrintCategory =(event)=>{
+      setEnablePrintCategory(event.target.checked);
+    }
+    
 
     const handleChangeDateFrom = (value) => {
       setDateFrom(value);
@@ -458,6 +526,7 @@ const submit = () =>{
     formData.append('late_end', late_end.replace(/\D/g, ""));
     formData.append('minContacts', minContacts);
     formData.append('cwContacts', cwContacts);
+    formData.append('refId', ref);
     formData.append('techDetail', draftToHtml(convertToRaw(tecnicalDetails.getCurrentContent())),);
   
     updateActivity(formData)       
@@ -800,8 +869,7 @@ const wordComponent =()=>{
       return null;
     }
   }
-	
-  
+
   const dropDownConfirmationType = () =>{
     if (type===0){
       return (
@@ -830,7 +898,6 @@ const wordComponent =()=>{
       return null;
     }
   }
-	
 
 
   return (
@@ -862,8 +929,9 @@ const wordComponent =()=>{
       <Tab eventKey="home" title="Principal">
         
         
-          <Row className="mb-3 col-3">
-                                            <Form.Group className="mb-3" controlId="bandValue">
+          <Row className="mb-3">
+            <div class="col-6" >
+                                            <Form.Group className="mb-3 col-8" controlId="bandValue">
                                                 <Form.Label>TIPO</Form.Label>
                                                 <select id="activity" onChange={handleChangeType} value={type} className={
                                                     hasError("type")
@@ -890,6 +958,22 @@ const wordComponent =()=>{
                                                   Seleccione un tipo válido
                                                 </div>
                                             </Form.Group>
+
+                                             </div>
+                                          <div class="col-6" >
+                                             <Form.Group className="mb-3 col-5" controlId="refValue">
+                                            <Form.Label>REFERENCIA</Form.Label>
+                                            <Form.Control  onChange={handleChangeRef} value={ref}
+                                                            className={
+                                                              hasError("ref")
+                                                                    ? "form-control is-invalid"
+                                                                    : "form-control"
+                                                            }/>
+                
+
+                                          </Form.Group>
+
+                                          </div>
                                         </Row>  
                                         
                                     <Row class="border mb-3 p-0 ">
@@ -899,7 +983,7 @@ const wordComponent =()=>{
                                     
                                         
                                         <Row className="mb-3">
-                                         <Form.Group className="mb-3" controlId="nameValue">
+                                          <Form.Group className="mb-3" controlId="nameValue">
                                             <Form.Label>TITULO</Form.Label>
                                             <Form.Control  onChange={handleChangeTitle} value={title}
                                                             className={
@@ -918,6 +1002,7 @@ const wordComponent =()=>{
                                               </div>
 
                                           </Form.Group>
+                                         
                                             </Row>
 
                                             <Row className="mb-3">
@@ -1150,44 +1235,131 @@ const wordComponent =()=>{
                                     <fieldset class="border p-3 mb-3">
                                       <legend  class="float-none w-auto t-4">Documento Imagen para imprimir</legend>
                                       <Row className="mb-3 align-middle col-12">
-                                          
-                                      <Form.Group className="mb-3" controlId="modeValue">
-                                        
-                                        
-                                        <select id="doc"  onChange={handleDocumentChange}
-                                          className={
-                                            hasError("doc")
-                                                  ? "form-select is-invalid"
-                                                  : "form-select"
-                                          } >
-                                                                    
-                                                                    {
-                                                                      documents
-                                                                      // eslint-disable-next-line
-                                                                      .filter(each=>(each.type==0 && type==0) || (type!=0 && each.type!=0))
-                                                                      .map(doc=>{
-                                                                        //eslint-disable-next-line
-                                                                        if (documentId==doc.id){
-                                                                          return <option selected value={doc.id} >{doc.description}</option>
-                                                                        }else{
-                                                                          return <option  value={doc.id} >{doc.description}</option>
-                                                                        }
-                                                                      })
-                                                                    }
-                                                                    </select>
-                                          <div
-                                              className={
-                                                hasError("doc")
-                                                      ? "invalid-feedback"
-                                                      : "visually-hidden"
-                                              }
-                                          >
-                                            Seleccione un documento válido
-                                          </div>
+                                       <div class="col-12">
+       
+          <Row className="m-3">
+          <fieldset class="border p-3 mb-3">
+            <legend  class="float-none w-auto t-4">ESTACIONES</legend>
+            
+            <div class="col-12">
+               <Form.Group  className="mb-3" controlId="printCategoryValue">
+                  <div class="form-check mb-3">
+                    <input
+                        type="checkbox"
+                        onChange={handleChangeEnablePrintCategory}  
+                        defaultChecked={enablePrintCategory}
+                        checked ={enablePrintCategory}
+                        value={enablePrintCategory}
+                        class={hasError("printCategory")
+                            ? "form-check-input form-control is-invalid"
+                            : "form-check-input form-control"
+                        }
+                        id="enablePrintCategoryCheck"
+                    />
+                    <label class="form-check-label ms-3" for="enablePrintCategoryCheck">
+                          ¿Imprime documento condicional?
+                    </label>
+                  </div>               
 
-                                      </Form.Group>
-                                      
-                                        </Row>
+                  
+                </Form.Group>
+            
+              <Row className="mb-3 align-middle col-12">
+                <Form.Group className="mb-3 col-2" controlId="minContactsRangeValue">
+                  <Form.Label>MIN CONTACTS</Form.Label>
+                  <Form.Control  onChange={handleChangeMinContactsRange} value={minContactsRange} type="number" size="3" 
+                                  className={
+                                    hasError("minContactsRange")
+                                          ? "form-control is-invalid"
+                                          : "form-control"
+                                  }/>
+                    <div
+                        className={
+                          hasError("minContactsRange")
+                                ? "invalid-feedback"
+                                : "visually-hidden"
+                        }
+                    >
+                      Se necesita un texto mayor a 1 caracter
+                    </div>
+
+                </Form.Group>
+                                          
+                <Form.Group className="mb-3 col-7" controlId="docValue">
+                  <Form.Label>DOCUMENTO</Form.Label>
+                  
+                  <select id="doc"  onChange={handleDocumentChange}
+                    className={
+                      hasError("doc")
+                            ? "form-select is-invalid"
+                            : "form-select"
+                    } >
+                                              
+                                              {
+                                                documents
+                                                // eslint-disable-next-line
+                                                .filter(each=>(each.type==0 && type==0) || (type!=0 && each.type!=0))
+                                                .map(doc=>{
+                                                  //eslint-disable-next-line
+                                                  if (documentId==doc.id){
+                                                    return <option selected value={doc.id} >{doc.description}</option>
+                                                  }else{
+                                                    return <option  value={doc.id} >{doc.description}</option>
+                                                  }
+                                                })
+                                              }
+                                              </select>
+                    <div
+                        className={
+                          hasError("doc")
+                                ? "invalid-feedback"
+                                : "visually-hidden"
+                        }
+                    >
+                      Seleccione un documento válido
+                    </div>
+
+                </Form.Group>
+
+               
+                <button type="button"  class="btn btn-sm btn-primary col-2" onClick={handleAddRange} >AGREGAR</button> 
+                <span>El primera campo contactos minimos siempre esta grisado. </span>
+        </Row>
+                
+            </div>
+              <ul class="list-group col-6">
+              {rangeDocuments.map(each=>{
+                return(
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    
+                    <span  class="text-danger " style={{ cursor: 'pointer' }} onClick={()=> handleRemoveRange(each.id)}>
+                        <FontAwesomeIcon   icon={icon({name: 'trash-can'})}  title="Click para cambiar el estado" />
+                        
+                        <span class="text-black ms-4">{each.docTitle}</span>
+                        <span class=" m-1 badge bg-success rounded-pill">Mas de {each.minValue} contactos</span>
+                    </span>
+                        
+                    
+                        
+                    
+                  
+                 
+                </li>  
+                )
+              }
+              )}
+            
+            
+          </ul>
+          </fieldset>
+        </Row>  
+    
+
+
+      </div>
+                                     
+                                    </Row>
+                                   
                                     </fieldset>
                                     
 

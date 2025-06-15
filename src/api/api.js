@@ -75,3 +75,6 @@ export const putRecoveryOnQueue = (body) => foreignPost("https://lu4dq.qrits.com
 export const putRecoveryOnQueueWithGet = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/putStationToRecoveryAdmin.php',params,{'Content-Type':'Content-Type: application/json'});
 
 export const putAnnouncement = (form) => foreignPost('https://lu4dq.qrits.com.ar/api/putAnnouncement.php',form);
+
+export const getDocumentsByActivityId = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getActivityDocumentsByRange.php',params,{'Content-Type':'Content-Type: application/json'});
+

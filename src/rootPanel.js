@@ -32,7 +32,9 @@ import Logout from "./logout.js";
 import Announcement from "./announcement.js";
 import Help from "./help.js";
 import PreActivity from "./newPreActivity.js";
+
 import Escudos from "./escudos.js";
+
 
 
 //import '../node_modules/bootstrap-css-only/css/bootstrap.css';
@@ -75,6 +77,8 @@ export default class App extends React.Component {
           <Route path='/activities/:idAct' element={<Activities />}></Route>   
 
           <Route path='/landing' element={<Landing />}></Route>   
+
+          <Route path='/escudos' element={<Escudos />}></Route>  
           
           <Route path="/:stationCode" element={<Landing />}></Route>
           <Route path="/cargaMasiva/:stationCode" element={<UploadBis />}></Route>
