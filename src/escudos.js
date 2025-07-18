@@ -126,9 +126,9 @@ const downloadFile=()=>{
              <div>
                         <NavMenu />
                         <ModalForm download={downloadFile} />
-                               <div  className="mt-4 " >                 
+                               <div  class="mt-4 " >                 
                                 
-                                <div class="container-fluid  ">
+                                <div >
                                 <div class="row ">
                                 <div class="  m-auto  col-lg-10 col-md-10 col-sm-10 col-xs-12 col-12" >
                                     <div className="card" style={{'background-color': 'rgba(181,181,181,0.6)'}}>
@@ -144,31 +144,31 @@ const downloadFile=()=>{
                                             </div>       
                                         </div>
                                     
-                                        <div className="card-body container" >
+                                        <div className="card-body " >
 
                                            
-                                            <div class="row col-12 " >
+                                            <div class="row p-2" >
                                                
-                                                <div class="col-md col-12 overflow-visible" >
+                                                
                                                   
-                                                    <div className="row rowForm  col-12 overflow-visible  ">
-                                                        <div className="col-12 ">
-                                                          <h5 class="overflow-visible">Ahora Imprimí tu escudo de radioaficionado con el logo de LU4DQ-Log!</h5>
-                                                        </div>
-                                                          <h5 class="overflow-visible">Solo necesitas hacer click en Mostrar y luego descargalo para usarlo donde quieras! Si preferis, poder editar el nombre que aparece bajo tu señal distintiva.</h5>
+                                                    <div className="col-12 fs-5">
+                                                         
+                                                          <p class="text-justify overflow-visible">Ahora Imprimí tu escudo de radioaficionado con el logo de LU4DQ-Log!</p>
+                                                          <p class="text-justify overflow-visible">Solo necesitas hacer click en Mostrar y luego descargalo para usarlo donde quieras! Si preferis, poder editar el nombre que aparece bajo tu señal distintiva.</p>
+                                                          
                                                     </div>
 
-                                                    <div class="  col-sm-9  col-s-2 col-9  m-auto text-center align-bottom overflow-visible">
+                                                    <div class=" mt-4 mb-4 col-sm-9  col-s-2 col-9  m-auto text-center align-bottom overflow-visible">
                                                       <img height="150" width="150" 
                                                       src="https://lu4dq.qrits.com.ar/dinamic-content/escudos/miniescudo.png" 
                                                       class="img-fluid" alt="Nuestro primer escudo!" />
                                                     </div>    
                                                       
-                                            <Row >
+                                            
                                       
 
                                           
-                                           <Row className="mb-3">
+                                           <Row>
                                               <Form.Group readonly className="mb-3" controlId={"callsignvalue"} >
                                                 <Form.Label>SEÑAL DISTINTIVA</Form.Label>
                                                 <span class="ms-2">
@@ -181,7 +181,7 @@ const downloadFile=()=>{
                                             </Row>
 
                                           
-                                           <Row className="mb-3">
+                                           <Row >
                                               <Form.Group readonly className="mb-3" controlId={"namevalue"} >
                                                 <Form.Label>NOMBRE</Form.Label>
                                                 <span class="ms-2">
@@ -195,17 +195,17 @@ const downloadFile=()=>{
 
     
                                         
-                                          <div className="row ">
-                                            <div className=" col-12 text-end">
+                                          <div className="row mt-4">
+                                            <div className="col-sm-12 col-12 text-end">
                                               <button type="button" onClick={()=>handleShowPreview(callsign,name)} style={{ cursor: 'pointer'}}  className="btn btn-success">Mostrar</button>
                                             </div>
                                          </div>
                                         
                                         
-                                    </Row>
+                                    
                                     
                                   
-                                                </div>
+                                                
                                                 
                                                
                                             </div>
