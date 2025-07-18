@@ -39,6 +39,7 @@ import Escudos from "./escudos.js";
 import Register from "./registration.js";
 import ContestPanel from "./admin/stations/ContestPanel.js";
 import ContestResults from "./admin/stations/ContestResults.js";
+import Feedback from "./feedback.js";
 
 
 
@@ -108,6 +109,7 @@ export default class App extends React.Component {
           <Route exact path='/logout' element={<Logout />}></Route>  
 
           <Route exact path='/anunciate' element={<Announcement />}></Route>
+          <Route exact path='/comentanos' element={<Feedback />}></Route>
           
           
           
