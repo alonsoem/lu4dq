@@ -225,7 +225,7 @@ const popoverItu = (
        
            <div class="">
            <ToastContainer />
-               <div className="row  mb-5">
+               <div className="row mb-5">
                   <div className="col-12">
                     <div class="fs-5">
                       <p>Por favor, completá el registro con los datos de tu licencia de radioaficionado para poder participar de las actividades.</p>
@@ -237,11 +237,11 @@ const popoverItu = (
              
 
                  
-            <form onSubmit={handleSubmit} className="row g-3 needs-validation">
-            <Row className="mb-3 col-13">
+            <form onSubmit={handleSubmit} className="row  needs-validation ">
+            <Row className="mb-3 g-3 col-12">
             <div class="col-5">
                <Form.Group className="mb-3" controlId="signalValue">
-                 <Form.Label>TU SEÑAL DISTINTIVA</Form.Label>
+                 <Form.Label>SD</Form.Label>
                  <Form.Control  onChange={handleChangeSignal} value={signal}
                                 className={
                                   hasError("signal")
@@ -324,22 +324,24 @@ const popoverItu = (
              </Row>
 
 
-             <Row className="mb-3 col-12">
-            <div class="col-3">
+             <Row className="mb-3 ">
+            <div class="col-4">
                <Form.Group className="mb-3" controlId="signalValue">
                  <Form.Label>ITU</Form.Label>
+                 <span class="ms-2">
                  <OverlayTrigger trigger="hover" placement="right" overlay={popoverItu}>
                       <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
                  </OverlayTrigger>
+                 </span>
                  <Form.Control  onChange={handleChangeItu} value={itu} 
                                 className={"form-control"}/>
 
                </Form.Group>
 
                </div>
-               <div class="col-3">
+               <div class="col-4">
                <Form.Group className="mb-3" controlId="nameValue">
-                 <Form.Label>GRID LOCATOR</Form.Label>
+                 <Form.Label>GRID </Form.Label>
                  <span class="ms-2">
                  <OverlayTrigger trigger="hover" placement="right" overlay={popoverGridLocator}>
                       <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
@@ -352,9 +354,9 @@ const popoverItu = (
                </Form.Group>
 
                </div>
-               <div class="col-3">
+               <div class="col-4">
                <Form.Group className="mb-3" controlId="nameValue">
-                 <Form.Label>CQ ZONE</Form.Label>
+                 <Form.Label >CQ ZONE</Form.Label>
                  <span class="ms-2">
                  <OverlayTrigger trigger="hover" placement="right" overlay={popoverCqZone}>
                       <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
@@ -369,10 +371,10 @@ const popoverItu = (
              </Row>
 
                        
-                           <div className="row">&nbsp;</div>
+                           
 
-                           <div className="row">
-                               <div className="col-12 text-end">
+                           <div className="row mt-4">
+                               <div className="  text-end">
                                   <button type="submit" className="btn btn-success">Guardar</button>
                                </div>
                            </div>
