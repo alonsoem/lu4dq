@@ -168,3 +168,14 @@ ul.a {
   list-style-position: inside;
   padding:20px;
 }
+
+.breadcrumb  > .active  a{
+   color: white;
+   text-decoration: underline;
+}
+
+.breadcrumb a {
+   color: white!important;
+   
+   text-decoration: none;
+}

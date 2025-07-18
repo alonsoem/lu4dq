@@ -67,7 +67,7 @@ export default function  UserRegistration(props) {
                                 <div class="col-12">
                                     <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb ">
-                                        <li class="breadcrumb-item active"><a href="/profile">Datos</a></li>
+                                        <li class="breadcrumb-item active"><a href="/profile">Mis datos</a></li>
                                         <li class="breadcrumb-item "><a href="/escudos">Escudos</a></li>
                                     </ol>
                                     </nav>
