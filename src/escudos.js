@@ -133,7 +133,15 @@ const downloadFile=()=>{
                                 <div class="  m-auto  col-lg-10 col-md-10 col-sm-10 col-xs-12 col-12" >
                                     <div className="card" style={{'background-color': 'rgba(181,181,181,0.6)'}}>
                                         <div className="card-header headerLu4dq">
-                                            <span class="display-6 ">MI ESTACiÓN</span>       
+                                            <span class="display-6 ">MI ESTACiÓN</span>
+                                            <div class="col-12">
+                                                <nav aria-label="breadcrumb">
+                                                <ol class="breadcrumb">
+                                                    <li class="breadcrumb-item "><a href="/profile">Datos</a></li>
+                                                    <li class="breadcrumb-item active"><a href="/escudos">Escudos</a></li>
+                                                </ol>
+                                                </nav>
+                                            </div>       
                                         </div>
                                     
                                         <div className="card-body container" >
@@ -141,7 +149,7 @@ const downloadFile=()=>{
                                            
                                             <div class="row col-12 " >
                                                
-                                                <div class="col-md col-9 overflow-visible" >
+                                                <div class="col-md col-12 overflow-visible" >
                                                   
                                                     <div className="row rowForm  col-12 overflow-visible  ">
                                                         <div className="col-12 ">
@@ -199,13 +207,7 @@ const downloadFile=()=>{
                                   
                                                 </div>
                                                 
-                                                 <div class="col col-3" >
-                                                    <ul class="list-group">
-                                                    <a href="/profile" class="list-group-item list-group-item-action">Mis datos</a>
-                                                    <a href="/escudos" class="list-group-item list-group-item-action">Escudos</a>
-                                                    
-                                                    </ul>
-                                                </div>
+                                               
                                             </div>
                                         </div>
                                         
