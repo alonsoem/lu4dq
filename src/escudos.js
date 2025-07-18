@@ -81,7 +81,7 @@ const ModalForm=(props)=>{
 
 const handleShowPreview=(callsign,name)=> {
   
-  setShowImage(new File([new Blob()],"api/createEscudo.php?callsign="+callsign + "&name="+name+"&rnd="+Math.floor(Math.random() * (1000)) + 1,{type: "image/jpeg"}));
+  setShowImage(new File([new Blob()],"api/createEscudo.php?callsign="+callsign + "&name="+name+"&rnd="+Math.floor(Math.random() * (1000)) + 1,{type: "image/png"}));
   setShow(true);
 }
 
@@ -89,7 +89,7 @@ const downloadFile=()=>{
     
   
   const url = "https://lu4dq.qrits.com.ar/api/createEscudo.php?callsign="+callsign + "&name="+name+"&rnd="+Math.floor(Math.random() * (1000)) + 1
-  saveAs(url, "escudo_"+callsign+".jpg");
+  saveAs(url, "escudo_"+callsign+".png");
 }
 
 
@@ -136,27 +136,27 @@ const downloadFile=()=>{
                                             <span class="display-6 ">MI ESTACiÓN</span>       
                                         </div>
                                     
-                                        <div className="card-body" >
+                                        <div className="card-body container" >
 
                                            
-                                            <div class="row col-12" >
+                                            <div class="row col-12 " >
                                                
-                                                <div class="col col-9" >
-                                                   <div className="row rowForm mb-5 col-12">
-                                                      <div className="col-12">
-                                                        <h5>Ahora Imprimí tu escudo de radioaficionado con el logo de LU4DQ-Log!</h5>
-                                                      </div>
-                                                        <h5>Solo necesitas hacer click en Mostrar y luego descargalo para usarlo donde quieras! Si preferis, poder editar el nombre que aparece bajo tu señal distintiva.</h5>
-                                                      
-                                                                                                     
+                                                <div class="col-md col-9 overflow-visible" >
+                                                  
+                                                    <div className="row rowForm  col-12 overflow-visible  ">
+                                                        <div className="col-12 ">
+                                                          <h5 class="overflow-visible">Ahora Imprimí tu escudo de radioaficionado con el logo de LU4DQ-Log!</h5>
+                                                        </div>
+                                                          <h5 class="overflow-visible">Solo necesitas hacer click en Mostrar y luego descargalo para usarlo donde quieras! Si preferis, poder editar el nombre que aparece bajo tu señal distintiva.</h5>
                                                     </div>
-                                                     <div class=" col-12 col m-auto text-center">
-                                                        <img height="150" width="150" 
-                                                        src="https://lu4dq.qrits.com.ar/dinamic-content/escudos/miniescudo.png" 
-                                                        class="img-fluid" alt="Nuestro primer escudo!" />
-                                                      </div>    
 
-                                                    <Row >
+                                                    <div class="  col-sm-9  col-s-2 col-9  m-auto text-center align-bottom overflow-visible">
+                                                      <img height="150" width="150" 
+                                                      src="https://lu4dq.qrits.com.ar/dinamic-content/escudos/miniescudo.png" 
+                                                      class="img-fluid" alt="Nuestro primer escudo!" />
+                                                    </div>    
+                                                      
+                                            <Row >
                                       
 
                                           
