@@ -60,7 +60,7 @@ export default function  UserRegistration(props) {
                     
                     <div class="container-fluid  ">
                     <div class="row ">
-                    <div class="  m-auto  col-lg-10 col-md-10 col-sm-10 col-xs-12 col-12" >
+                    <div class="m-auto col-lg-10 col-md-10 col-sm-10 col-xs-12 col-12" >
                         <div className="card" style={{'background-color': 'rgba(181,181,181,0.6)'}}>
                             <div className="card-header headerLu4dq">
                                 <span class="display-6 ">MI ESTACiÓN</span>       
@@ -72,7 +72,7 @@ export default function  UserRegistration(props) {
                                     <div class="col col-9" >
                                         <ConditionalForm qslHook={setQsl}  gotoQsoUpload={gotoQsoUpload} />
                                     </div>
-                                     <div class="col col-3" >
+                                    <div class="col col-3" >
                                         <ul class="list-group">
                                         <a href="/profile" class="list-group-item list-group-item-action">Mis datos</a>
                                         <a href="/escudos" class="list-group-item list-group-item-action">Escudos</a>

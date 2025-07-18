@@ -225,10 +225,12 @@ const popoverItu = (
        
            <div class="">
            <ToastContainer />
-               <div className="row rowForm mb-5">
+               <div className="row  mb-5">
                   <div className="col-12">
-                    <h5>Por favor, completá el registro con los datos de tu licencia de radioaficionado para poder participar de las actividades.</h5>
-                    <h5>Esos datos seran utilizados para imprimir los certificados y para validar los contactos que cargues!</h5>
+                    <div class="fs-5">
+                      <p>Por favor, completá el registro con los datos de tu licencia de radioaficionado para poder participar de las actividades.</p>
+                      <p>Esos datos seran utilizados para imprimir los certificados y para validar los contactos que cargues!</p>
+                      </div>
                   </div>
                 </div>
                 
