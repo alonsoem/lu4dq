@@ -97,7 +97,7 @@ function ActivityEdit(params){
     setMode(event.target.value.toUpperCase());
   };
 
-    const handleChangeCountType  = (event) => {
+  const handleChangeCountType  = (event) => {
     setCountType(event.target.value);
   };
 
@@ -612,7 +612,7 @@ const handleSubmit = (event) => {
   }
 
     // Check conteo
-  if (!countType) {
+  if (countType===null) {
     errors.push("count");
   }
 
@@ -1698,7 +1698,7 @@ const wordComponent =()=>{
                               ? "form-select is-invalid"
                               : "form-select"
                       } >
-                                                <option selected disabled value="">Elija un tipo de conteo...</option>
+                                                <option selected disabled value={null}>Elija un tipo de conteo...</option>
                                                 <option value={0}>Contactos</option>
                                                 <option value={1}>Modos</option>
                                                 <option value={2}>Bandas</option>
