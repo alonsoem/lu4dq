@@ -1657,16 +1657,16 @@ const wordComponent =()=>{
                 <Form.Group className="mb-3 col-4" controlId="modeValue">
                     <Form.Label>CONTEO</Form.Label>
                     
-                    <select id="countType"  onChange={handleChangeCountType}
+                    <select id="countType"  onChange={handleChangeCountType} value={countType}
                       className={
                         hasError("count")
                               ? "form-select is-invalid"
                               : "form-select"
                       } >
                                                 <option selected disabled value="">Elija un tipo de conteo...</option>
-                                                <option value="0">Contactos</option>
-                                                <option value="1">Modos</option>
-                                                <option value="2">Bandas</option>
+                                                <option value={0}>Contactos</option>
+                                                <option value={1}>Modos</option>
+                                                <option value={2}>Bandas</option>
                                                 </select>
                       <div
                           className={
