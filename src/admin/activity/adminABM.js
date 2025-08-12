@@ -1,9 +1,9 @@
 import React from 'react';
-import {useRef, useState, useEffect} from 'react';
+import {useRef, useState} from 'react';
 import {Form, Row} from "react-bootstrap";
 import { format } from "date-fns";
 import { ToastContainer, toast } from 'react-toastify';
-import {setActivity,getDocuments} from "../../api/api";
+import {setActivity} from "../../api/api";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import {  EditorState, convertToRaw } from 'draft-js';
@@ -41,8 +41,7 @@ function AdminABM() {
     const [ selectedDocFile, setDocFile ] = useState(null);
     const [ frontPageFile, setFrontPageFile ] = useState(null);
 
-    const [documents,setDocuments] = useState([]);
-    const [documentId,setDocumentId] = useState(null);
+  
     const [ref,setRef]=useState("");
     
 
@@ -106,24 +105,7 @@ function AdminABM() {
 
 
   
-    useEffect(
-      () => {
-
-        getDocuments()       
-        .then((response) => {
-          
-          setDocuments(response.documents);
-
-             
-        })
-        .catch((response) => handleAxiosError(response));
     
-          return;
-  
-        // eslint-disable-next-line
-      },[]
-    )
-  
    
 
    
@@ -198,7 +180,7 @@ const submit = () =>{
     
 
     
-		formData.append('doc', documentId);
+		
     formData.append('enabled', enabled);
 		formData.append('type', type);
 		formData.append('title', title);
@@ -298,9 +280,7 @@ const handleSubmit = (event) => {
     errors.push("tecnicalDetails");
   }
 
-  if (!documentId){
-    errors.push("doc");
-  }
+
 
   setErrors(errors);
 
@@ -313,9 +293,6 @@ const handleSubmit = (event) => {
 
 
 
-const handleDocumentChange = event => {
-  setDocumentId(event.target.value );
-};
 
 const onDocFileChange = event => {
   setDocFile(event.target.files[0] );
@@ -732,42 +709,7 @@ const wordComponent =()=>{
                                    
 
 
-                                    <Row className="mb-3 align-middle col-12">
-
-                                      <Form.Group className="mb-3" controlId="modeValue">
-                                        <Form.Label>Documento Imagen para imprimir</Form.Label>
-                                        
-                                        <select id="doc"  onChange={handleDocumentChange}
-                                          className={
-                                            hasError("doc")
-                                                  ? "form-select is-invalid"
-                                                  : "form-select"
-                                          } >
-                                                                    <option selected disabled value="">Elija un documento...</option>
-                                                                    {
-                                                                      
-                                                                      documents
-                                                                      // eslint-disable-next-line
-                                                                        .filter(each=>(each.type==0 && type==0) || (type!=0 && each.type!=0))
-                                                                        .map(doc=>{
-                                                                          return <option value={doc.id}>{doc.description}</option>
-                                                                        })
-                                                                    }
-                                                                    </select>
-                                          <div
-                                              className={
-                                                hasError("doc")
-                                                      ? "invalid-feedback"
-                                                      : "visually-hidden"
-                                              }
-                                          >
-                                            Seleccione un documento válido
-                                          </div>
-
-                                      </Form.Group>
-                                      
-                                      
-                                    </Row>
+                                   
 
 
                                     

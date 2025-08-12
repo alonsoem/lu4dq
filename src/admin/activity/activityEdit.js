@@ -68,7 +68,6 @@ function ActivityEdit(params){
   const [newLetter,setNewLetter]=useState("");
   const [newReq,setNewReq]=useState(false);
   const [confirmationType,setConfirmationType]=useState(2);
-  const [enablePrintCategory,setEnablePrintCategory]=useState(false);
   const [rangeDocuments,setRangeDocuments]=useState([]);
   const [minContactsRange,setMinContactsRange]=useState(0);
   const [ref,setRef]=useState("");
@@ -322,10 +321,7 @@ const updateModeList=()=>{
       setEnabled(event.target.checked);
     }
 
-    const handleChangeEnablePrintCategory =(event)=>{
-      setEnablePrintCategory(event.target.checked);
-    }
-    
+
 
     const handleChangeDateFrom = (value) => {
       setDateFrom(value);
@@ -1285,32 +1281,8 @@ const wordComponent =()=>{
                                       <Row className="mb-3 align-middle col-12">
                                        <div class="col-12">
        
-          <Row className="m-3">
-          <fieldset class="border p-3 mb-3">
-            <legend  class="float-none w-auto t-4">ESTACIONES</legend>
-            
-            <div class="col-12">
-               <Form.Group  className="mb-3" controlId="printCategoryValue">
-                  <div class="form-check mb-3">
-                    <input
-                        type="checkbox"
-                        onChange={handleChangeEnablePrintCategory}  
-                        defaultChecked={enablePrintCategory}
-                        checked ={enablePrintCategory}
-                        value={enablePrintCategory}
-                        class={hasError("printCategory")
-                            ? "form-check-input form-control is-invalid"
-                            : "form-check-input form-control"
-                        }
-                        id="enablePrintCategoryCheck"
-                    />
-                    <label class="form-check-label ms-3" for="enablePrintCategoryCheck">
-                          ¿Imprime documento condicional?
-                    </label>
-                  </div>               
 
-                  
-                </Form.Group>
+               
             
               <Row className="mb-3 align-middle col-12">
                 <Form.Group className="mb-3 col-2" controlId="minContactsRangeValue">
@@ -1399,12 +1371,8 @@ const wordComponent =()=>{
             
             
           </ul>
-          </fieldset>
-        </Row>  
+ 
     
-
-
-      </div>
                                      
                                     </Row>
                                    
