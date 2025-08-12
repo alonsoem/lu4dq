@@ -4,7 +4,7 @@ import { useParams} from 'react-router-dom';
 import {Form, Row,Tabs,Tab} from "react-bootstrap";
 import { format } from "date-fns";
 import { ToastContainer, toast } from 'react-toastify';
-import {updateActivity,getActivity,getDocuments, addNewStation,addMode,removeMode, getActivityModes, getActivityStations, removeStation,getDocumentsByActivityId} from "../../api/api";
+import {updateActivity,getActivity,getDocuments, addNewStation,addMode,removeMode, getActivityModes, getActivityStations, removeStation,getDocumentsByActivityId, addDocumentWithRange, removeDocumentWithRange} from "../../api/api";
 import {  Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import {ContentState,  EditorState, convertToRaw } from 'draft-js';
@@ -165,13 +165,34 @@ const handleChangeCwcontacts = (event)=>{
 }
 
 const addRange = (minContacts,document) =>{
-  console.log ("AGREGANDO EL RANGO");
+  
+  addDocumentWithRange({
+    activityId:id,
+    minContacts:minContacts,
+    docId:document
+    
+  })
+  .then(response=>{
+    //getDocumentsByActivityId(id);
+
+  }
+
+    
+
+  )
+  .catch(error=>{
+    console.log(error);
+    }
+  )
+  
+
 }
 
 const clearFormRange = () =>{
   setDocumentId(null);
   setMinContactsRange(0);
 }
+
 const handleAddRange = (event) =>{
   
   if (minContactsRange<minContacts)  {
@@ -181,6 +202,8 @@ const handleAddRange = (event) =>{
     if (documentId){
       addRange(minContactsRange,documentId);
       clearFormRange();
+      readRangeDocuments(id);
+      
 
     }else{
       notifyError("DEBES ELEGIR UN DOCUMENTO");
@@ -190,8 +213,18 @@ const handleAddRange = (event) =>{
   
 }
 
-const handleRemoveRange = (event) =>{
-  console.log("remove range");
+const handleRemoveRange = (rangeDocid) =>{
+ 
+  
+  removeDocumentWithRange({
+    id:rangeDocid
+  })
+  .then(response=>{
+    readRangeDocuments(id)
+
+  }
+  );
+
 }
 
 const handleAddStation = (event) =>{
@@ -249,6 +282,8 @@ const handleAddMode = (event) =>{
   )
 
 }
+
+
 
 const updateStationList=()=>{
   getActivityStations({id:id})
@@ -1349,7 +1384,7 @@ const wordComponent =()=>{
                         <FontAwesomeIcon   icon={icon({name: 'trash-can'})}  title="Click para cambiar el estado" />
                         
                         <span class="text-black ms-4">{each.docTitle}</span>
-                        <span class=" m-1 badge bg-success rounded-pill">Mas de {each.minValue} contactos</span>
+                        <span class=" m-1 badge bg-success rounded-pill">Desde {each.minValue} o más contactos</span>
                     </span>
                         
                     
