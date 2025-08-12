@@ -38,6 +38,7 @@ function ActivityEdit(params){
   const [allvsall, setAllvsAll ] = useState(false);
   const [word, setWord ] = useState("");
   const [mode, setMode ] = useState("");
+  const [countType, setCountType ] = useState(null);
   const [modeList, setModeList] = useState([]);
   const [tecnicalDetails, setTecnicalDetails ] = useState(EditorState.createEmpty());
   const [minContacts, setMinContacts ] = useState(0);
@@ -95,6 +96,11 @@ function ActivityEdit(params){
   const handleChangeMode  = (event) => {
     setMode(event.target.value.toUpperCase());
   };
+
+    const handleChangeCountType  = (event) => {
+    setCountType(event.target.value);
+  };
+
 
   const handleChangeRef  = (event) => {
     setRef(event.target.value.toUpperCase());
@@ -528,6 +534,7 @@ const submit = () =>{
     formData.append('cwContacts', cwContacts);
     formData.append('refId', ref);
     formData.append('techDetail', draftToHtml(convertToRaw(tecnicalDetails.getCurrentContent())),);
+    formData.append('countType', countType);
   
     updateActivity(formData)       
       .then((response) => {
@@ -566,6 +573,11 @@ const handleSubmit = (event) => {
   // Check description
   if (editorState.length<=10) {
     errors.push("description");
+  }
+
+    // Check conteo
+  if (!countType) {
+    errors.push("count");
   }
 
 
@@ -1623,6 +1635,56 @@ const wordComponent =()=>{
             
             
           </ul>
+          </fieldset>
+        </Row>  
+    
+
+
+      </div>
+  </Tab>
+  <Tab eventKey="countTypeTab" title="Tipo de Conteo">
+  
+                                            
+            <div class="col-12">
+       
+          <Row className="m-3">
+          <fieldset class="border p-3 mb-3">
+            <legend  class="float-none w-auto t-4">Conteo</legend>
+
+            <div class="col-12">
+            <Row className="m-3 col-12">
+                <Form.Group className="mb-3 col-4" controlId="modeValue">
+                    <Form.Label>CONTEO</Form.Label>
+                    
+                    <select id="countType"  onChange={handleChangeCountType}
+                      className={
+                        hasError("count")
+                              ? "form-select is-invalid"
+                              : "form-select"
+                      } >
+                                                <option selected disabled value="">Elija un tipo de conteo...</option>
+                                                <option value="0">Contactos</option>
+                                                <option value="1">Modos</option>
+                                                <option value="2">Bandas</option>
+                                                </select>
+                      <div
+                          className={
+                            hasError("count")
+                                  ? "invalid-feedback"
+                                  : "visually-hidden"
+                          }
+                      >
+                        Seleccione un conteo válido
+                      </div>
+
+                </Form.Group>
+              
+
+             
+       
+          </Row>
+            </div>
+            
           </fieldset>
         </Row>  
     
