@@ -189,6 +189,7 @@ const addRange = (minContacts,document) =>{
 
 const clearFormRange = () =>{
   setDocumentId(null);
+
   setMinContactsRange(0);
 }
 
@@ -215,9 +216,10 @@ const handleAddRange = (event) =>{
 const handleRemoveRange = (rangeDocid) =>{
  
   
-  removeDocumentWithRange({
-    id:rangeDocid
-  })
+  removeDocumentWithRange(
+    {activityId:id,
+    id:rangeDocid}
+  )
   .then(response=>{
     readRangeDocuments(id)
 
@@ -1285,9 +1287,9 @@ const wordComponent =()=>{
                
             
               <Row className="mb-3 align-middle col-12">
-                <Form.Group className="mb-3 col-2" controlId="minContactsRangeValue">
+                <Form.Group className="mb-3 col-3" controlId="minContactsRangeValue">
                   <Form.Label>MIN CONTACTS</Form.Label>
-                  <Form.Control  onChange={handleChangeMinContactsRange} value={minContactsRange} type="number" size="3" 
+                  <Form.Control  onChange={handleChangeMinContactsRange} value={minContactsRange} type="number" size="2" 
                                   className={
                                     hasError("minContactsRange")
                                           ? "form-control is-invalid"
@@ -1314,8 +1316,9 @@ const wordComponent =()=>{
                             ? "form-select is-invalid"
                             : "form-select"
                     } >
-                                              
+                                              <option selected disabled value="">Elija un documento...</option>
                                               {
+                                                
                                                 documents
                                                 // eslint-disable-next-line
                                                 .filter(each=>(each.type==0 && type==0) || (type!=0 && each.type!=0))
@@ -1343,20 +1346,24 @@ const wordComponent =()=>{
 
                
                 <button type="button"  class="btn btn-sm btn-primary col-2" onClick={handleAddRange} >AGREGAR</button> 
-                <span>El primera campo contactos minimos siempre esta grisado. </span>
+                
         </Row>
                 
             </div>
-              <ul class="list-group col-6">
+              <ul class="list-group col-10">
               {rangeDocuments.map(each=>{
                 return(
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                     
-                    <span  class="text-danger " style={{ cursor: 'pointer' }} onClick={()=> handleRemoveRange(each.id)}>
+                    <span  class="text-danger  " style={{ cursor: 'pointer' }} onClick={()=> handleRemoveRange(each.id)}>
+                        
                         <FontAwesomeIcon   icon={icon({name: 'trash-can'})}  title="Click para cambiar el estado" />
                         
-                        <span class="text-black ms-4">{each.docTitle}</span>
                         <span class=" m-1 badge bg-success rounded-pill">Desde {each.minValue} o más contactos</span>
+                        <p>
+                        <span class="text-black ms-0">{each.docTitle}</span>
+                        </p>
+                        
                     </span>
                         
                     
