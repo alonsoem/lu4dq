@@ -596,7 +596,7 @@ const showTable=()=>{
                             <div class="mt-4 m-auto w-25 h-25 ">
                                 
                                     <img class="rounded cursor-pointer img-fluid " 
-                                        src={(properties.image?"https://lu4dq.qrits.com.ar/api/demoCreator.php?id="+properties.documentId:null)}
+                                        src={(properties.documentId?"https://lu4dq.qrits.com.ar/api/demoCreator.php?id="+properties.documentId:null)}
                                         alt="Certificado de muestra"
                                         onClick={handleShow}
                                         
