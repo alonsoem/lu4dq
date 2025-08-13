@@ -147,6 +147,7 @@ const readRangeDocuments=(id)=>{
 
     .then((response) => {
       setRangeDocuments(response.documents);
+      
 
          
     })
@@ -195,7 +196,7 @@ const clearFormRange = () =>{
 
 const handleAddRange = (event) =>{
   
-  if (minContactsRange<minContacts)  {
+  if (minContactsRange<=0)  {
     notifyError("DEBE SUPERAR LA CANTIDAD MINIMA");
     
   }else{
@@ -1316,7 +1317,7 @@ const wordComponent =()=>{
                             ? "form-select is-invalid"
                             : "form-select"
                     } >
-                                              <option selected disabled value="">Elija un documento...</option>
+                                              <option selected value="">Elija un documento...</option>
                                               {
                                                 
                                                 documents
