@@ -1289,7 +1289,7 @@ const wordComponent =()=>{
             
               <Row className="mb-3 align-middle col-12">
                 <Form.Group className="mb-3 col-3" controlId="minContactsRangeValue">
-                  <Form.Label>MIN CONTACTS</Form.Label>
+                  <Form.Label>CONT. MINIMOS</Form.Label>
                   <Form.Control  onChange={handleChangeMinContactsRange} value={minContactsRange} type="number" size="2" 
                                   className={
                                     hasError("minContactsRange")
