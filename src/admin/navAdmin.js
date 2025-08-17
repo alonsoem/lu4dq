@@ -1,6 +1,7 @@
 import {React, useEffect} from 'react';
 import {jwtDecode} from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { NavDropdown } from 'react-bootstrap';
 
 
 export default function NavAdmin(props) {
@@ -9,8 +10,7 @@ export default function NavAdmin(props) {
     
     
     let session = sessionStorage.getItem("token");
-console.log("TOKEN");
-console.log(session);
+
     if (!session) {
       console.log("NO HAY TOKEN");
       navigate("/login");
@@ -53,8 +53,11 @@ console.log(session);
             <a class="nav-link" href="/rcpanel/stations">ESTACIONES</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/rcpanel/contest">CONCURSO</a>
-            <a class="nav-link" href="/rcpanel/contestResults">RESULTADOS</a>
+            
+            <NavDropdown title={"CONCURSO"} id="basic-nav-dropdown">
+              <NavDropdown.Item class="nav-link" href="/rcpanel/contest">CONCURSO</NavDropdown.Item>
+              <NavDropdown.Item class="nav-link" href="/rcpanel/contestResults">RESULTADOS</NavDropdown.Item>
+            </NavDropdown>  
           </li>
           
         </ul>
