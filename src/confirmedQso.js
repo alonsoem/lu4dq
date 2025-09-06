@@ -265,7 +265,7 @@ import { saveAs } from 'file-saver';
                         </tr>
                     :
                     activity.filter(each=>each.station.includes(filter.toUpperCase()))
-                            .sort((a,b)=>b.callsigns.length-a.callsigns.length)
+                            .sort((a,b)=>b.qty-a.qty)
                             .map((each) =>{
                             
                             return ( <tr>
@@ -275,7 +275,7 @@ import { saveAs } from 'file-saver';
                                     {each.station.toUpperCase()}
                                 
                             </td>
-                            <td class="text-center d-none d-lg-table-cell">{each.callsigns.length}</td>
+                            <td class="text-center d-none d-lg-table-cell">{each.qty}</td>
                             
                             <td class="text-center">
                                 <CellDocument info={each} />
