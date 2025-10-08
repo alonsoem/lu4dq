@@ -14,6 +14,8 @@ const StationMenu = (props)=> {
       return (
       <NavDropdown title={cookie.getItem("userStation").toUpperCase()} id="basic-nav-dropdown">
         <NavDropdown.Item class="navlink" href="/landing">CARGA DE CONTACTOS</NavDropdown.Item>  
+        <NavDropdown.Item href="/logros">Logros</NavDropdown.Item>
+        
         <NavDropdown.Item href="/profile">Mi Estación</NavDropdown.Item>
         <NavDropdown.Item href="/logout">Salir</NavDropdown.Item>
       </NavDropdown>  

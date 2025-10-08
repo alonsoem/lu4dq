@@ -40,6 +40,8 @@ import Register from "./registration.js";
 import ContestPanel from "./admin/stations/ContestPanel.js";
 import ContestResults from "./admin/stations/ContestResults.js";
 import Feedback from "./feedback.js";
+import Achievements from "./achievements.js";
+import Mailbox from "./mailbox.js";
 
 
 
@@ -62,7 +64,9 @@ export default class App extends React.Component {
           <Route exact path='/registrar' element={<Register />}></Route>
           <Route exact path='/profile' element={<UserProfile />}></Route>
           <Route exact path="/escudos" element={<Escudos />}></Route>
+          <Route exact path="/logros" element={<Achievements />}></Route>
           <Route exact path='/recupero' element={<Recovery />}></Route>
+          <Route exact path='/mensajes' element={<Mailbox />}></Route>
           
           <Route exact path='/qsoList/:station' element={<QsoList />}></Route>   
           <Route exact path='/qsoList' element={<QsoList />}></Route>         

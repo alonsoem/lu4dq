@@ -30,6 +30,7 @@ export const putProfile = (form) => foreignPost('https://lu4dq.qrits.com.ar/api/
 export const checkName = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/checkName.php',params,{'Content-Type':'Content-Type: application/json'});
 
 export const getQsoList = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getQsos.php',params,{'Content-Type':'Content-Type: application/json'});
+export const getMessages = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getMessages.php',params,{'Content-Type':'Content-Type: application/json'});
 export const getStatusRank = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getStatusRank.php',params,{'Content-Type':'Content-Type: application/json'});
 export const getStatsByMode = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getStatsByMode.php',params,{'Content-Type':'Content-Type: application/json'});
 export const getStatsByBand = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getStatsByBand.php',params,{'Content-Type':'Content-Type: application/json'});
@@ -58,7 +59,7 @@ export const getDocumentById = (params) => foreignRequest('get','https://lu4dq.q
 export const addNewStation = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/core/addNewStationToActivity.php',params,{'Content-Type':'Content-Type: application/json'});
 export const removeStation = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/core/removeStationToActivity.php',params,{'Content-Type':'Content-Type: application/json'});
 
-export const addDocumentWithRange = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/core/addDocumentToActivity.php',params,{'Content-Type':'Content-Type: application/json'});
+export const addDocumentWithRange = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/core/addNewStationToActivity.php',params,{'Content-Type':'Content-Type: application/json'});
 export const removeDocumentWithRange = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/core/removeDocumentToActivity.php',params,{'Content-Type':'Content-Type: application/json'});
 
 export const postStatistics = (params) => foreignRequest('get', 'https://lu4dq.qrits.com.ar/api/preQsoStatistics.php',params,{'Content-Type':'Content-Type: text/html'});
@@ -82,4 +83,4 @@ export const putAnnouncement = (form) => foreignPost('https://lu4dq.qrits.com.ar
 export const putMessage = (form) => foreignPost('https://lu4dq.qrits.com.ar/api/putMessage.php',form);
 
 export const getDocumentsByActivityId = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getActivityDocumentsByRange.php',params,{'Content-Type':'Content-Type: application/json'});
-
+export const getAchievementsFromStation = (params) => foreignRequest('get','https://lu4dq.qrits.com.ar/api/getCertificatesByStation.php',params,{'Content-Type':'Content-Type: application/json'});

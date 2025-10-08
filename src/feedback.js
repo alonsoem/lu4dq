@@ -1,156 +1,172 @@
-import React from 'react';
+
 import { useState} from 'react';
 import {Form, Row} from "react-bootstrap";
 
 import { ToastContainer, toast } from 'react-toastify';
-import {postDocument} from "./api/api";
+import { putMessage} from "./api/api";
+
+
 
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
-import {useNavigate} from 'react-router-dom';
-import NavMenu from './nav';
 
 
-function Feedback() {
 
-  const navigate = useNavigate();
-    const [errors, setErrors] = useState([]);
+
+function Feedback(props) {
+  
+  const [errors, setErrors] = useState([]);
+  const [title, setTitle ] = useState("");
+  const [onSend,setOnSend] = useState(false);
     
-    const [title, setTitle ] = useState("");
-    
-    
-
-    
-
-
-    const handleChangeTitle=(event)=>{
-      setTitle(event.target.value);
-    }
-
-    
-
-    const hasError= (key) => {
-      return errors.indexOf(key) !== -1;
-    }
-
-
-   
-const handleAxiosError = (response) => {
-  let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
-  console.log(response.response.data);
-  console.log("HANDLEAXIOSERROR form");
-  //console.log(response);
-      // eslint-disable-next-line
-  if (response.response.data.code==1062 ) {
-        errorToDisplay = "EL QSO YA EXISTE EN NUESTRA BASE DE DATOS.";
-      }
-  if (response.response.data.status==="Station not validated" ) {
-        errorToDisplay = "EL CODIGO DE ESTACION NO ES CORRECTO. VERIFIQUELO!";
-    }
-  // eslint-disable-next-line
-  if (response.message=="Network Error") {
-    errorToDisplay = "Error de red!. Reintente a la brevedad";
+  const handleChangeTitle=(event)=>{
+    setTitle(event.target.value);
   }
-
-  //setError(errorToDisplay);
-  notifyError(errorToDisplay);
-}
-
-
-
-const notifyError = (message) => {
-  toast.error(message, {
-    position: "top-center",
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: false,
-    progress: undefined,
-    theme: 'colored',
-  });
-}
-
-const navigateToAdmin = () => {
-      
-  navigate('/rcpanel/doc');    
-
-};
-
-
-const submit = () =>{
-  
-  
-  
-		// Create an object of formData
-		const formData = new FormData();
-
-		// Update the formData object
-
-    
-		
-    formData.append('message', title);
-    
-		
-    
-    
-    postDocument(formData)       
-      .then((response) => {
-        navigateToAdmin();
-        
-          console.log(response);         
-      })
-      .catch((error) => {
-        console.log(error);
-        handleAxiosError(error);
-       }
-      );
-
-}
-
-
-const handleSubmit = (event) => {
-  
-  event.preventDefault();
-  var errors = [];
-
-  
-
-  // Check title
-  if (title.length<=5) {
-      errors.push("title");
+  const hasError= (key) => {
+    return errors.indexOf(key) !== -1;
   }
-
-
  
+  const handleAxiosError = (response) => {
+    let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
+    
+    console.log("HANDLEAXIOSERROR form");
+    //console.log(response);
+        // eslint-disable-next-line
+    if (response.response.data.code==1062 ) {
+          errorToDisplay = "EL QSO YA EXISTE EN NUESTRA BASE DE DATOS.";
+        }
+    if (response.response.data.status==="Station not validated" ) {
+          errorToDisplay = "EL CODIGO DE ESTACION NO ES CORRECTO. VERIFIQUELO!";
+      }
+    // eslint-disable-next-line
+    if (response.message=="Network Error") {
+      errorToDisplay = "Error de red!. Reintente a la brevedad";
+    }
 
-  setErrors(errors);
-
-  if (errors.length > 0) {
-      return false;
-  } else {
-      submit();
+    //setError(errorToDisplay);
+    notifyError(errorToDisplay);
   }
-}
+
+
+
+  const notifyError = (message) => {
+    toast.error(message, {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined,
+      theme: 'colored',
+    });
+  }
+        
+  const notifySuccess = () => {
+    toast.done("OK OK OK", {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined,
+      theme: 'colored',
+      
+    });
+    
+  
+  }
+
+
+
+  const submit = () =>{
+      // Create an object of formData
+      const formData = new FormData();
+
+      // Update the formData object
+
+
+      
+      formData.append('message', title);
+      formData.append('station', props.station);
+      formData.append('url', window.location.href);
+      
+      
+      
+      
+      setOnSend(true);
+      putMessage(formData)       
+        .then((response) => {
+            props.close();
+                 
+        })
+        .catch((error) => {
+          console.log(error);
+          handleAxiosError(error);
+          setOnSend(false);
+        }
+        );
+
+  }
+
+
+
+  const handleSubmit = (event) => {
+    
+    event.preventDefault();
+    var errors = [];
+
+    
+
+    // Check title
+    if (title.length<=5) {
+        errors.push("title");
+    }
+
+
+  
+
+    setErrors(errors);
+
+    if (errors.length > 0) {
+        return false;
+    } else {
+        submit();
+    }
+  }
 
 
 
 
 	
 
-
+const DinamicButton=()=>{
+  if (onSend){
+    return(
+      
+      <button class="btn btn-success" type="submit" disabled>
+                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                Enviando...
+      </button>
+    )  ;
+  }else{
+    return (<button type="submit" className="btn btn-success">Enviar Mensaje</button>);
+  }
+  
+}
 
 
     return (
       
-      <div>
-        <NavMenu />
+      <div class="m-0">
+        
       
-      <form onSubmit={handleSubmit} className="row g-3 needs-validation">
-            <div className="container d-flex ">
+      <form onSubmit={handleSubmit} className="row needs-validation">
+            
             <ToastContainer />
-                <div className="container-fluid table-scroll-vertical col-11">
-                    <div className="card mt-3" >
+                <div className="container-fluid table-scroll-vertical ">
+                    <div className="card " >
                         <div className="card-header headerLu4dq">
                             <span class="display-6 ">DEJANOS TU COMENTARIO</span>       
                         </div>
@@ -160,10 +176,10 @@ const handleSubmit = (event) => {
                         
                                 <div className="card-body" >
                                     
-                                    
+                                    <Row className="mb-3"><div class="text-justify fs-5" >Queremos que tengas la mejor experiencia en lu4dq-Log. Por eso esperamos que nos dejes tus reportes, comentarios, quejas, oportunidades de mejora, casos a revisar, lo que quieras. ¡Lo tendremos en cuenta para mejorar la experiencia de todos!</div></Row>
                                         <Row className="mb-3">
                                          <Form.Group className="mb-3" controlId="commentsValue">
-                                            <Form.Label>TU MENSAJE</Form.Label>
+                                            <Form.Label>TU MENSAJE: </Form.Label>
                                             <Form.Control  onChange={handleChangeTitle} value={title} as="textarea" rows={5}
                                                             className={
                                                               hasError("title")
@@ -186,7 +202,7 @@ const handleSubmit = (event) => {
 
                                     <div className="row">
                                       <div className="col-12 text-right">
-                                        <button type="submit" className="btn btn-success">ENVIAR MENSAJE</button>
+                                        <DinamicButton />
                                       </div>
                                     </div>
 
@@ -209,7 +225,7 @@ const handleSubmit = (event) => {
 
             
                 </div>
-            </div>
+            
       </form>
       </div>
         );
