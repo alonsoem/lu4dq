@@ -61,23 +61,7 @@ function Feedback(props) {
       theme: 'colored',
     });
   }
-        
-  const notifySuccess = () => {
-    toast.done("OK OK OK", {
-      position: "top-center",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: false,
-      progress: undefined,
-      theme: 'colored',
-      
-    });
     
-  
-  }
-
 
 
   const submit = () =>{
