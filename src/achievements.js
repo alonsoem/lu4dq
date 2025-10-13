@@ -27,7 +27,7 @@ function QsoList() {
     const [ hasMore, setHasMore] = useState(false);
     const [ loading, setLoading ] = useState(false);
     
-    const [stationLogged, setStationLogged] = useState(false);
+    //const [stationLogged, setStationLogged] = useState(false);
     const [loggedStation,setStation]=useState(null);
 
     const [show, setShow] = useState(false);
@@ -42,12 +42,12 @@ function QsoList() {
         // eslint-disable-next-line
            if (sessionStorage.getItem("userLoginOK") && sessionStorage.getItem("userLoginOK")==1){
               
-                setStationLogged(true);
+                //setStationLogged(true);
                 setStation(sessionStorage.getItem("userStation"));
                 console.log("LOGGED");
             
             }else{
-                setStationLogged(false);
+                //setStationLogged(false);
                 setStation(null);
                 console.log("not LOGGED");
             }
@@ -65,14 +65,14 @@ function QsoList() {
         }, [loggedStation]
         )
 
-
+/*
     const handleReport = () =>{
         handleShow();
 
     }
-    
+    */
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    //const handleShow = () => setShow(true);
 
 
     const getMoreData=()=>{
@@ -183,6 +183,7 @@ function QsoList() {
             <tbody>
            
                 {goals && goals.map((each) =>{
+                    
                     var url = "https://lu4dq.qrits.com.ar/api/certCreator.php?qso="+each.document.body+"&chk="+each.document.hash;
                  return ( 
                     <tr>
@@ -243,34 +244,22 @@ function QsoList() {
                 <div className="container-fluid table-scroll-vertical col-12">
                 <div className="card mt-3" >
                     <div className="card-header headerLu4dq ">
-                            <span class="display-6 ">TUS LOGROS</span>       
+                            <span class="display-6 ">CERTIFICADOS</span>       
                             
                     </div>
                         <div className="card-body" >
-
-
-                    <div className="card mt-3" style={{'background-color': 'rgba(181,181,181,0.1)'}}>
-                        
-                        <div className="card-body" >
-                           
-                               
-                            <Row class="col-12">
-                                 <div className=" col-6 float-start">
-                                <div class="col-12  ">
-                                    
-                                    <span class={" link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"+(stationLogged?'':'invisible')} onClick={handleReport}  >
-                                        Reportar
-                                    </span>
-                                </div>
-                                
-                            </div>  
-                              
-                            
-                            </Row>              
-                            
+                                                <Row class="col-12 mt-4 text-end">
+                                 
+                        <div class="col col-12  ">
+                            Los certificados logrados en actividades de Concursos o de Certificados podras visualizarlos aqui mismo.
+            
                         </div>
-                    </div>
+                
                     
+                    </Row>  
+
+
+                   
 
                     
                             <ActivityTable />
@@ -280,10 +269,16 @@ function QsoList() {
                     
                     </div>
                     </div>
-
-            
+ 
+    
                 </div>
+                               
             </div>
+
+             
+                               
+                  
+
             
         </div>
 

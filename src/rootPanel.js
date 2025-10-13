@@ -64,7 +64,7 @@ export default class App extends React.Component {
           <Route exact path='/registrar' element={<Register />}></Route>
           <Route exact path='/profile' element={<UserProfile />}></Route>
           <Route exact path="/escudos" element={<Escudos />}></Route>
-          <Route exact path="/logros" element={<Achievements />}></Route>
+          <Route exact path="/certificados" element={<Achievements />}></Route>
           <Route exact path='/recupero' element={<Recovery />}></Route>
           
           

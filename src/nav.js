@@ -17,6 +17,7 @@ const StationMenu = (props)=> {
         
         
         <NavDropdown.Item href="/profile">Mi Estación</NavDropdown.Item>
+        <NavDropdown.Item href="/certificados">Certificados</NavDropdown.Item>
         <NavDropdown.Item href="/logout">Salir</NavDropdown.Item>
       </NavDropdown>  
       );
