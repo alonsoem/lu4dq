@@ -705,7 +705,7 @@ function SeñalesRecibidas() {
                             <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
                     </OverlayTrigger>
                   </span>
-                 <Form.Control  onChange={handleChangeTime} value={timePick} type="time"
+                 <Form.Control  onChange={handleChangeTime} value={timePick} locale="en_GB" type="time"
                                 className={
                                   hasError("time")
                                         ? "form-control is-invalid"
