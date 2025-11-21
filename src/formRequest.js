@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { useCookies } from 'react-cookie';
 import TokenField from "./tokenField.js"
+import {IntlProvider} from 'react-intl'
 
 
 
@@ -705,12 +706,14 @@ function SeñalesRecibidas() {
                             <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
                     </OverlayTrigger>
                   </span>
-                 <Form.Control  onChange={handleChangeTime} value={timePick} locale="en_GB" type="time"
+                  <IntlProvider locale="en" defaultLocale="en">
+                 <Form.Control  onChange={handleChangeTime} value={timePick}  type="time"
                                 className={
                                   hasError("time")
                                         ? "form-control is-invalid"
                                         : "form-control"
                                 }/>
+                  </IntlProvider>
                    <div
                        className={
                            hasError("time")
