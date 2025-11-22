@@ -9,8 +9,11 @@ import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { useCookies } from 'react-cookie';
-import TokenField from "./tokenField.js"
-import {IntlProvider} from 'react-intl'
+import TokenField from "./tokenField.js";
+import TimePicker from 'react-weblineindia-time-picker';
+import InputGroup from 'react-bootstrap/InputGroup';
+import { faClock } from '@fortawesome/free-regular-svg-icons'
+
 
 
 
@@ -27,7 +30,7 @@ export default function FormRequest(props) {
   const [token,setToken] = useState("");
 
   const [datePick, setDate] = useState(format(dateData,"yyyy-MM-dd"));
-  const [timePick, setTime] = useState(format(dateData,"HH:mm"));
+  const [timePick, setTime] = useState(dateData);
   const [signal, setSignal] = useState("");
   const [name, setName] = useState("");
   const [band, setBand] = useState("");
@@ -106,6 +109,7 @@ export default function FormRequest(props) {
   };
  
   const handleChangeTime = (event) => {
+    console.log(event.target.value);
     setTime(event.target.value);
   };
 
@@ -255,7 +259,7 @@ if (swl){
     postOneQSO({
         signal: signal,
         date:datePick.replace(/\D/g, ""),
-        time:timePick.replace(/\D/g, ""),
+        time:format(timePick,"HHmmss"),
         band:band,
         mode:mode,
         freq:freq,
@@ -296,7 +300,7 @@ if (swl){
     postStatistics({
       signal: signal,
       date:datePick.replace(/\D/g, ""),
-      time:timePick.replace(/\D/g, ""),
+      time:timePick?format(timePick,"HHmmss"):"00:00:00",
       band:band,
       mode:mode,
       freq:freq,
@@ -314,7 +318,11 @@ if (swl){
       .catch()
 
 
-
+    
+    if(!timePick){
+      errors.push("time");
+      console.log("HORA MALA");
+    }
     
     // Check name of Rule
     if (signal.length<=3) {
@@ -698,38 +706,44 @@ function SeñalesRecibidas() {
                </Form.Group>
                               
 </div>
-                           <div class="col-6">
-                           <Form.Group className="mb-3" controlId="timeValue">
-                 <Form.Label>HORA UTC</Form.Label>
-                 <span class="ms-2">
-                   <OverlayTrigger trigger="hover" placement="right" overlay={popoverUTC}>
-                            <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
-                    </OverlayTrigger>
-                  </span>
-                  <IntlProvider locale="en" defaultLocale="en">
-                 <Form.Control  onChange={handleChangeTime} value={timePick}  type="time"
-                                className={
+                  <div class="col-6">
+                    <Form.Group className="mb-3" controlId="timeValue">
+                      <Form.Label>HORA UTC</Form.Label>
+                      <span class="ms-2">
+                          <OverlayTrigger trigger="hover" placement="right" overlay={popoverUTC}>
+                              <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
+                          </OverlayTrigger>
+                      </span>
+<InputGroup className="mb-3 form-control p-0 inputGroup-sizing-sm">
+        
+         <TimePicker id="time24" locale="en-GB" hourFormat="24" timeOnly="true" manualInput="true" 
+                            value={timePick} onChange={handleChangeTime} showTime showSeconds
+                            className={
                                   hasError("time")
                                         ? "form-control is-invalid"
-                                        : "form-control"
-                                }/>
-                  </IntlProvider>
-                   <div
-                       className={
-                           hasError("time")
-                               ? "invalid-feedback"
-                               : "visually-hidden"
-                       }
-                   >
-                    Indicar un horario correcto
-                   </div>
+                                        : "form-control p-0 "
+                                }
+                                
+                      />
+                       
+<InputGroup.Text id="basic-addon1"><
+  FontAwesomeIcon  size="1x" icon={faClock} />
+  </InputGroup.Text> 
+
+                     
+      </InputGroup>
+      
 
                </Form.Group>
-                            </div>
+               
+              </div>
 
+  
                    
                
              </Row>
+
+         
 
              <Row className="mb-3 col-13">
 
