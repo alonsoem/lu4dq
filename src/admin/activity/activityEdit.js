@@ -409,7 +409,7 @@ const updateModeList=()=>{
         }
         
 
-        if (response.frontImage){
+        if (response.image){
           setFrontPageFile(new File([new Blob()],response.frontImage,{type: "image/jpeg"}));
         }
         
@@ -652,10 +652,10 @@ if (type==1 && minContacts<1) {
     errors.push("tecnicalDetails");
   }
 
-  if (!documentId){
+  
+  if (rangeDocuments.length===0){
     errors.push("doc");
   }
-
   setErrors(errors);
 
   if (errors.length > 0) {
@@ -1534,7 +1534,7 @@ const wordComponent =()=>{
         </Row>
             </div>
               <ul class="list-group col-4">
-              {stations.map(each=>{
+              {stations && stations.map(each=>{
                 return(
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                     <span  class="text-danger " style={{ cursor: 'pointer' }} onClick={()=> handleRemoveStation(each.id)}>
@@ -1631,7 +1631,7 @@ const wordComponent =()=>{
           </Row>
             </div>
               <ul class="list-group col-4">
-              {modeList.map(each=>{
+              {modeList && modeList.map(each=>{
                 return(
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                     <span  class="text-danger " style={{ cursor: 'pointer' }} onClick={()=> handleRemoveMode(each.id)}>
