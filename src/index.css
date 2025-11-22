@@ -179,3 +179,9 @@ ul.a {
    
    text-decoration: none;
 }
+
+.p-inputtext{
+  position:relative!important;
+  width:100%!important;
+  border:0!important;
+}
