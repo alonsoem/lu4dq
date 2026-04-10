@@ -408,8 +408,9 @@ const updateModeList=()=>{
           setDocFile(new File([new Blob()],response.doc,{type: "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"}));
         }
         
+        
 
-        if (response.image){
+        if (response.frontImage){
           setFrontPageFile(new File([new Blob()],response.frontImage,{type: "image/jpeg"}));
         }
         
