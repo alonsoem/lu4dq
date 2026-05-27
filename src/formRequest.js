@@ -278,12 +278,12 @@ if (swl){
             setCookie('logCallsign', signal,{ path: '/' });
             //eslint-disable-next-line
             if (response.qsl.status=="RC Confirmed"){
-                props.qslHook(response.qsl);
+                props.qslHook();
             //eslint-disable-next-line
             }else if (response.qsl.status=="Confirmed"){
-                props.qslHook(response.qsl);
+                props.qslHook();
             }else{
-                props.qslHook(response.qsl);
+                props.qslHook();
                 //handleAPIError(response);
             }         
         })

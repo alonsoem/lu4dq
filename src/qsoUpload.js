@@ -29,8 +29,8 @@ export default class QsoUpload extends  React.Component {
 
 
 
-    setQsl=(value)=>{
-        this.setState({qsl:value})
+    setQsl=()=>{
+        
         this.setState({formState:false})
     }
 
