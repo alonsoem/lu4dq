@@ -31,7 +31,7 @@ export default class QsoUpload extends  React.Component {
 
     setQsl=()=>{
         
-        this.setState({formState:false})
+        this.setState({formState:true})
     }
 
     resetForm=()=>{
