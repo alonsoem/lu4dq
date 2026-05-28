@@ -46,6 +46,7 @@ export default class QsoUpload extends  React.Component {
         this.setState({isLoading:true});
         getEnabledActivities()       
             .then((response) => {
+                console.log(response);
                 this.setState({enabled:response.enabled});
                 this.setState({isLoading:false});
                 
