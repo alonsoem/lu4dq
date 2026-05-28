@@ -276,16 +276,8 @@ if (swl){
         })       
         .then((response) => {
             setCookie('logCallsign', signal,{ path: '/' });
-            //eslint-disable-next-line
-            if (response.qsl.status=="RC Confirmed"){
-                props.qslHook();
-            //eslint-disable-next-line
-            }else if (response.qsl.status=="Confirmed"){
-                props.qslHook();
-            }else{
-                props.qslHook();
-                //handleAPIError(response);
-            }         
+            props.qslHook();
+       
         })
         .catch((response) => handleAxiosErrorB(response));
 
