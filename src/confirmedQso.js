@@ -179,6 +179,88 @@ import { saveAs } from 'file-saver';
        
     }
 
+     function activityTableByGroupCategory(){
+        if (loadingMatch){
+            return (
+            <div class="text-center p-5 mt-3">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+                <p class="m-2"> Aguarde un instante...</p>
+            </div>
+            );
+
+        }else{
+            return (<table class="table striped hover bordered responsive border">
+                <thead>
+                    <tr class="table-primary">
+                    <th scope="col" class="text-center">Posición</th>
+                    <th scope="col" class="text-center">Indicativo</th>
+                    <th scope="col" class="text-center d-none d-lg-table-cell">Contactos</th>
+                    <th scope="col" class="text-center d-none d-sm-table-cell">Grupos/Letras</th>
+                    <th scope="col" class="text-center">Certificado</th>
+                    <th scope="col" class="text-center">Qsl</th>
+                    
+                    <th scope="col" class="text-center d-none d-lg-table-cell">Estaciones contactadas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                {
+
+                        activity.filter(each=>each.station.includes(filter.toUpperCase()))
+                                
+                                .map((each) =>{
+                    
+                            return ( <tr>
+                            <th scope="row" class="text-center">{ activity.indexOf(each)+1}</th>
+                            <td class="text-center">
+                                    {each.station.toUpperCase()}
+                            </td>
+                            <td class="text-center d-none d-lg-table-cell">{each.callsigns.length}</td>
+                            <td class="text-center d-none d-sm-table-cell">
+                                <div class="container-fluid">
+                                    {each.letters.map(each=>{
+                                
+                                        if (each.gotIt){
+                                            return <span class="letters fw-bold">{each.letter}</span>;
+                                        }else{
+                                            return <span class="letters ">{each.letter}</span>;
+                                        }
+                                
+                            })}
+                            </div></td>
+                            
+                            <td class="text-center">
+                                <CellDocument info={each} />
+                            </td>
+                            <td class="text-center">
+                                <badge class="badge text-bg-primary  text-center" role="button" title="Click para ver los comunicados y sus QSL" onClick={(r)=>navigateToStationQso(each.station)}  >
+                                    Ver
+                                </badge>
+                            </td>
+                            
+                            <td class="text-center d-none d-lg-table-cell">
+
+                                {each.callsigns.join(" ").toUpperCase()}
+                            
+                            </td>
+                        </tr>
+                            )
+                        
+                    })
+             }
+            </tbody>
+            </table>
+            );
+       
+       
+       
+       }
+       
+       
+    }
+
     
 
     const PrintContestDataList=(props)=>{
@@ -506,6 +588,8 @@ const showTable=()=>{
      
     }else if (properties.type===4){     
         return activityTableByCategory();   
+    }else if (properties.type===5){     
+        return activityTableByGroupCategory();   
     }
 }
       const navLoad = () =>{

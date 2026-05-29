@@ -52,9 +52,8 @@ function AdminABM() {
     const handleChangeWord = (event)=>{
       setWord(event.target.value);
     }
-    const handleChangeCwcontacts=(event)=>{
-      setcwContacts(event.target.value);
-    }
+ 
+    
 
     const handleChangeDescriptionHtml=(state)=>{
       setEditorState(state);
@@ -358,38 +357,6 @@ const frontPageRef =useRef(null);
 
 
   
-
-const cwContactsComponent=()=>{
-  // eslint-disable-next-line
-if (type==2){
-  return (
-  <Row className="mb-3">
-                                         <Form.Group className="mb-3" controlId="nameValue">
-                                            <Form.Label>CW - CONTACTOS MINIMOS</Form.Label>
-                                            <Form.Control  onChange={handleChangeCwcontacts} value={cwContacts} type="number"
-                                                            className={
-                                                              hasError("cwContacts")
-                                                                    ? "form-control is-invalid"
-                                                                    : "form-control"
-                                                            }/>
-                                              <div
-                                                  className={
-                                                    hasError("cwContacts")
-                                                          ? "invalid-feedback"
-                                                          : "visually-hidden"
-                                                  }
-                                              >
-                                                Se necesita un valor mayor a cero
-                                              </div>
-
-                                          </Form.Group>
-                                        </Row>  );
-}else{
-  return null;
-}
-
-
-}
 
 
 
