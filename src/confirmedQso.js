@@ -197,7 +197,7 @@ import { saveAs } from 'file-saver';
                     <th scope="col" class="text-center">Posición</th>
                     <th scope="col" class="text-center">Indicativo</th>
                     <th scope="col" class="text-center d-none d-lg-table-cell">Contactos</th>
-                    <th scope="col" class="text-center d-none d-sm-table-cell">Grupos/Letras</th>
+                    
                     <th scope="col" class="text-center">Certificado</th>
                     <th scope="col" class="text-center">Qsl</th>
                     
@@ -218,18 +218,7 @@ import { saveAs } from 'file-saver';
                                     {each.station.toUpperCase()}
                             </td>
                             <td class="text-center d-none d-lg-table-cell">{each.callsigns.length}</td>
-                            <td class="text-center d-none d-sm-table-cell">
-                                <div class="container-fluid">
-                                    {each.letters.map(each=>{
-                                
-                                        if (each.gotIt){
-                                            return <span class="letters fw-bold">{each.letter}</span>;
-                                        }else{
-                                            return <span class="letters ">{each.letter}</span>;
-                                        }
-                                
-                            })}
-                            </div></td>
+                            
                             
                             <td class="text-center">
                                 <CellDocument info={each} />
