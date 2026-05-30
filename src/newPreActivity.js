@@ -3,34 +3,30 @@ import {useRef, useState} from 'react';
 import {Form, Row} from "react-bootstrap";
 import { format } from "date-fns";
 import { ToastContainer, toast } from 'react-toastify';
-import {setActivity} from "../../api/api";
+
+import { setPreActivity } from './api/api.js';
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import {  EditorState, convertToRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import {useNavigate} from 'react-router-dom';
-import NavMenu from '../../nav';
-import NavAdmin from '../navAdmin';
+import NavMenu from './nav.js';
+
 //import { descriptors } from 'chart.js/dist/core/core.defaults';
 
-function AdminABM() {
+function PreAct() {
 
   const navigate = useNavigate();
 
 	  const actual= new Date();
     const dateData = new Date(actual.getUTCFullYear(),actual.getUTCMonth(),actual.getUTCDate(),actual.getUTCHours(),actual.getUTCMinutes());
    
-    const [type, setType ] = useState(null);
-    
+        
     const [errors, setErrors] = useState([]);
     const [title, setTitle ] = useState("");
-    const [word, setWord ] = useState("");
-    //const [description, setDescription ] = useState("");
+    
     const [tecnicalDetails, setTecnicalDetails ] = useState(EditorState.createEmpty());
-    const [minContacts, setMinContacts ] = useState(0);
-    const [cwContacts, setcwContacts ] = useState(0);
-    const [enabled, setEnabled ] = useState(false);
-
+    
     const [dateFrom, setDateFrom] = useState(format(dateData,"yyyy-MM-dd"));
     const [dateTo, setDateTo] = useState(format(dateData,"yyyy-MM-dd"));
     const [late_end, setLateEnd] = useState(format(dateData,"yyyy-MM-dd"));
@@ -39,36 +35,9 @@ function AdminABM() {
     
     
     const [ selectedDocFile, setDocFile ] = useState(null);
-    const [ frontPageFile, setFrontPageFile ] = useState(null);
-
-  
-    const [ref,setRef]=useState("");
     
-
-    
-
-
-
-    const handleChangeWord = (event)=>{
-      setWord(event.target.value);
-    }
- 
-    
-
     const handleChangeDescriptionHtml=(state)=>{
       setEditorState(state);
-    }
-
-    const handleChangeRef  = (event) => {
-      setRef(event.target.value.toUpperCase());
-    };
-
-    const handleChangeType =(event)=>{
-      setType(event.target.value);
-    }
-    
-    const handleChangeEnabled =(event)=>{
-      setEnabled(event.target.checked);
     }
 
     const handleChangeDateFrom = (value) => {
@@ -83,17 +52,12 @@ function AdminABM() {
       setLateEnd(value);
     };
 
-    const handleChangeMinContacts=(event)=>{
-        setMinContacts(event.target.value);
-    }
+ 
 
     const handleChangeTitle=(event)=>{
       setTitle(event.target.value);
     }
 
-    const handleChangeCwcontacts=(event)=>{
-      setcwContacts(event.target.value);
-    }
 
 
     const handleChangeTecnicalDetails=(state)=>{
@@ -103,12 +67,9 @@ function AdminABM() {
     const hasError= (key) => {
       return errors.indexOf(key) !== -1;
     }
-
-    
-
-
   
-    
+   
+  
    
 
    
@@ -172,55 +133,21 @@ const submit = () =>{
         selectedDocFile.name
       );
     }
-
-    if (frontPageFile){
-      formData.append(
-        "frontPageFile",
-        frontPageFile,
-        frontPageFile.name
-      );
-    }
-    
+   
 
     
-		
-    formData.append('enabled', enabled);
-		formData.append('type', type);
 		formData.append('title', title);
 		formData.append('start', dateFrom.replace(/\D/g, ""));
     formData.append('end', dateTo.replace(/\D/g, ""));
     formData.append('description', draftToHtml(convertToRaw(editorState.getCurrentContent())),);
     formData.append('late_end', late_end.replace(/\D/g, ""));
-    formData.append('minContacts', minContacts);
-    formData.append('cwContacts', cwContacts);
+    
     formData.append('techDetail', draftToHtml(convertToRaw(tecnicalDetails.getCurrentContent())),);
-    formData.append('refId', ref);
-    formData.append('word', word);
-  /*{
-      enabled:enabled,
-      type:type,
-      title: title,
-      start:dateFrom.replace(/\D/g, ""),
-      end:dateTo.replace(/\D/g, ""),
-      description:draftToHtml(convertToRaw(editorState.getCurrentContent())),
-      late_end:late_end.replace(/\D/g, ""),
-      minContacts:minContacts,
-      techDetail:tecnicalDetails,
-      
-      }*/
-    setActivity(formData)       
+  
+    setPreActivity(formData)       
       .then((response) => {
         navigateToAdmin();
-         /* //eslint-disable-next-line
-          if (response.qsl.status=="RC Confirmed"){
-              
-          //eslint-disable-next-line
-          }else if (response.qsl.status=="Confirmed"){
-              
-          }else{
-              
-              //handleAPIError(response);
-          }*/
+         
           console.log(response);         
       })
       .catch((response) => handleAxiosError(response));
@@ -234,10 +161,7 @@ const handleSubmit = (event) => {
   var errors = [];
 
   
-  // Check type
-  if (!type) {
-    errors.push("type");
-  }
+
   // Check title
   if (title.length<=5) {
       errors.push("title");
@@ -248,19 +172,7 @@ const handleSubmit = (event) => {
   }
 
 
-  // eslint-disable-next-line
-  if (type==2 && word.length<=1) {
-    errors.push("word");
-  }
-  // eslint-disable-next-line
-  if (type==1 && minContacts<1) {
-    errors.push("minContacts");
-  }
-  // eslint-disable-next-line
-  if ((type==2 || type==1) && cwContacts<0) {
-    errors.push("cwContacts");
-  }
-  
+
 
   if (editorState.length < 3) {
     errors.push("description");
@@ -283,8 +195,7 @@ const handleSubmit = (event) => {
     errors.push("tecnicalDetails");
   }
 
-
-
+  
   setErrors(errors);
 
   if (errors.length > 0) {
@@ -301,9 +212,6 @@ const onDocFileChange = event => {
   setDocFile(event.target.files[0] );
 };
 
-const onFrontPageFileChange = event => {
-  setFrontPageFile(event.target.files[0] );
-};
 
 
 
@@ -326,23 +234,6 @@ const docFileData = () => {
 };
 
 
-const frontPageFileData = () => {
-
-  if (frontPageFile) {
-    return (
-      
-      <div>
-        <h2>Detalles:</h2>
-        <p>Nombre: {frontPageFile.name}</p>
-        <p>
-          Tamaño:{" "}
-          {fileSize(frontPageFile.size)}
-        </p>
-
-      </div>
-    );
-  }
-};
 
 const fileSize=(size)=>{
   if (size/1024/1024>=1){
@@ -353,115 +244,14 @@ const fileSize=(size)=>{
 }
 
 const docInputRef = useRef(null);
-const frontPageRef =useRef(null);
 
 
-  
-
-
-
-const minimumContactsComponent=()=>{
-  // eslint-disable-next-line
-if (type==1){
-  return (
-  <Row className="mb-3">
-                                         <Form.Group className="mb-3" controlId="nameValue">
-                                            <Form.Label>CONTACTOS MINIMOS</Form.Label>
-                                            <Form.Control  onChange={handleChangeMinContacts} value={minContacts} type="number"
-                                                            className={
-                                                              hasError("minContacts")
-                                                                    ? "form-control is-invalid"
-                                                                    : "form-control"
-                                                            }/>
-                                              <div
-                                                  className={
-                                                    hasError("minContacts")
-                                                          ? "invalid-feedback"
-                                                          : "visually-hidden"
-                                                  }
-                                              >
-                                                Se necesita un valor mayor a cero
-                                              </div>
-
-                                          </Form.Group>
-                                        </Row>  );
-}else{
-  return null;
-}
-
-
-}
-const cwContactsComponent=()=>{
-  // eslint-disable-next-line
-  if (type==2 || type==1){
-  return (
-  <Row className="mb-3">
-                                         <Form.Group className="mb-3" controlId="nameValue">
-                                            <Form.Label>CW - CONTACTOS MINIMOS</Form.Label>
-                                            <Form.Control  onChange={handleChangeCwcontacts} value={cwContacts} type="number"
-                                                            className={
-                                                              hasError("cwContacts")
-                                                                    ? "form-control is-invalid"
-                                                                    : "form-control"
-                                                            }/>
-                                              <div
-                                                  className={
-                                                    hasError("cwContacts")
-                                                          ? "invalid-feedback"
-                                                          : "visually-hidden"
-                                                  }
-                                              >
-                                                Se necesita un valor mayor o igual a cero
-                                              </div>
-
-                                          </Form.Group>
-                                        </Row>  );
-}else{
-  return null;
-}
-
-
-}
-
-const wordComponent =()=>{
-  // eslint-disable-next-line
-  if (type==2){
-    
-    return (
-      <Row className="mb-3">
-      <Form.Group className="mb-6" controlId="wordValue">
-         <Form.Label>PALABRA A COMPLETAR</Form.Label>
-         <Form.Control  onChange={handleChangeWord} value={word.word} type="text"
-                         className={
-                           hasError("word")
-                                 ? "form-control is-invalid"
-                                 : "form-control"
-                         }/>
-           <div
-               className={
-                 hasError("word")
-                       ? "invalid-feedback"
-                       : "visually-hidden"
-               }
-           >
-             Se necesita un texto mayor a 1 caracter
-           </div>
-
-       </Form.Group>
-     </Row>  
-    );
-  }else{
-    return null;
-  }
-  
-  
-  }
 
   
     return (
       <div>
         <NavMenu />
-        <NavAdmin />
+        
       
       <form onSubmit={handleSubmit} className="row g-3 needs-validation">
             <div className="container d-flex ">
@@ -469,7 +259,7 @@ const wordComponent =()=>{
                 <div className="container-fluid table-scroll-vertical col-11">
                     <div className="card mt-3" >
                         <div className="card-header headerLu4dq">
-                            <span class="display-6 ">NUEVA ACTIVIDAD</span>       
+                            <span class="display-6 ">PRE-CARGA DE ACTIVIDAD</span>       
                         </div>
                         <div className="card-body" >
 
@@ -477,55 +267,7 @@ const wordComponent =()=>{
                         
                                 <div className="card-body" >
                                     
-                                        <Row className="mb-6 col-12">
-                                          <div class="col-6" >
-                                            <Form.Group className="mb-6 col-8" controlId="bandValue">
-                                                <Form.Label>TIPO</Form.Label>
-                                                <select id="activity" onChange={handleChangeType} value={type} className={
-                                                    hasError("type")
-                                                          ? "form-select is-invalid "
-                                                          : "form-select " 
-                                                  }>
-                                                    <option selected disabled value="">Elija un tipo de actividad...</option>
-                                                    
-                                                    <option value={1}>CERTIFICADO</option>
-                                                    <option value={0}>QSL ESPECIAL</option>
-                                                    <option value={2}>CERTIFICADO POR LETRAS </option>              
-                                                    <option value={3}>CONCURSO </option> 
-                                                    <option value={4}>CONCURSO C/ CATEGORIAS</option>             
-                                                    <option value={6}>PRE-CARGA</option>             
-                                                    
-                                                </select>
-                                                <div
-                                                    className={
-                                                      hasError("type")
-                                                            ? "invalid-feedback"
-                                                            : "visually-hidden"
-                                                    }
-                                                >
-                                                  Seleccione un tipo válido
-                                                </div>
-                                            </Form.Group>
-
-                                              </div>
-                                              <div class="col-6" >
-                                                                                         <Form.Group className="mb-3 col-5" controlId="refValue">
-                                                                                        <Form.Label>REFERENCIA</Form.Label>
-                                                                                        <Form.Control  onChange={handleChangeRef} value={ref}
-                                                                                                        className="form-control"
-                                                                                                        />
-                                                            
-                                            
-                                                                                      </Form.Group>
-                                            
-                                                                                      </div>
-                                        </Row>  
-                                        
-                                    <Row class="border mb-3 p-0 ">
-                                    
-                                        
-                                    </Row>
-                                    
+                                       
                                         <Row className="mb-3">
                                          <Form.Group className="mb-3" controlId="nameValue">
                                             <Form.Label>TITULO</Form.Label>
@@ -661,13 +403,9 @@ const wordComponent =()=>{
                                 </Row>
 
 
-                                        {wordComponent()}
+                                        
                                     
-                                    
-                                        {minimumContactsComponent()}
-                                        {cwContactsComponent()}
-                                      
-                                    
+                               
                                         
                                         <fieldset class="border p-3 mb-3">
                                           <legend  class="float-none w-auto t-4">BASES</legend>
@@ -716,72 +454,10 @@ const wordComponent =()=>{
 
                                    
 
-
-                                   
-
-
                                     
 
 
-                                    <Row className="mb-3 align-middle col-12">
-                                      
-                                      <Form.Group  className="mb-3" controlId="frontPageFile">
-                                        <Form.Label  >Imagen de PORTADA (JPG)</Form.Label>
-									                      <input  ref={frontPageRef} accept="image/jpeg" class="form-control" type="file" id="frontPageformFile"  onChange={onFrontPageFileChange} 
-                                          className={
-                                                              hasError("frontPageFile")
-                                                                    ? "form-control is-invalid"
-                                                                    : "form-control"
-                                                            }
-                                        />
-                                        {frontPageFileData()}
-
-                                        <div
-                                              className={
-                                              hasError("frontPageFile")
-                                                      ? "invalid-feedback"
-                                                      : "visually-hidden"
-                                              }
-                                          >
-                                          Incluya una imagen para usar como certificado o qsl.
-                                          </div>
-                                      </Form.Group>
-                                    </Row>
-
-                                    <Row className="mb-3 align-middle col-12">
-                                      
-                                      <Form.Group  className="mb-3" controlId="swlValue">
-                                        <Form.Label  >Habilitada</Form.Label>
-                                        <div class="form-check mb-3">
-                                          <input
-                                              type="checkbox"
-                                              onChange={handleChangeEnabled}  
-                                              defaultChecked={enabled}
-                                              value={enabled}
-                                              class={hasError("enabled")
-                                                  ? "form-check-input form-control is-invalid"
-                                                  : "form-check-input form-control"
-                                              }
-                                              id="swlCheck"
-                                          />
-                                          <label class="form-check-label ms-3" for="swlCheck">
-                                                ¿Se muestra la actividad en los listados?
-                                          </label>
-                                        </div>               
-
-                                        <div
-                                              className={
-                                              hasError("swl")
-                                                      ? "invalid-feedback"
-                                                      : "visually-hidden"
-                                              }
-                                          >
-                                          Escribe al menos 3 caracteres de una señal distintiva
-                                          </div>
-                                      </Form.Group>
-                                    </Row>
-
-                                   
+                                                  
                                     
 
                                     <div className="row">&nbsp;</div>
@@ -817,4 +493,4 @@ const wordComponent =()=>{
         );
 
     }
-    export default AdminABM;
+    export default PreAct;

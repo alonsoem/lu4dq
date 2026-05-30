@@ -1,6 +1,9 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
 import { useParams } from "react-router-dom";
+import {Alert} from "react-bootstrap";
+import NavMenu from './nav';
+import AnnouncementMod from './announcementMod';
 
 export default function Landing(props) {
     
@@ -22,16 +25,43 @@ export default function Landing(props) {
             navigate('/cargaMasiva/'+stationCode);
         }
     };
+    const WelcomeBanner = () =>{
+        // eslint-disable-next-line
+        if (sessionStorage.getItem("userLoginOK")==1) {
+            return (
+                <Alert variant="success">
+                <Alert.Heading>¡BIENVENIDO {sessionStorage.getItem("userStation").toUpperCase()}!</Alert.Heading>
+                <p>
+                  Esta es la pagina de bienvenida donde encontrarás resumidas todas las acciones e información que necesites.
+                  
+                </p>
+                <hr />
+                <p className="mb-0">
+                ¡Consultá la página con frecuencia para no perderte de nada!
+                </p>
+              </Alert>
+            )
+        }else{
+            return null;
+        }
+    }
+
+    
 
       
     return (
+        <div>
+            <NavMenu />
             <div className="container d-flex ">
 
                 <div className="container-fluid table-scroll-vertical ">
             
                     <p>&nbsp;</p>
                     
+                    
                     <div style={{ 'height': '100%'}} className="container col-10">
+
+                    <WelcomeBanner />
                         
                         <div className="card" style={{'background-color': 'rgba(181,181,181,0.1)'}}>
                         
@@ -50,9 +80,14 @@ export default function Landing(props) {
                              </div>
                             
                         </div>
+                        <div class="mt-4 p-0">
+                            <AnnouncementMod />
+
+                        </div>
                     </div>
                 </div>
             
+         </div>
          </div>
         
 

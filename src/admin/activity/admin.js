@@ -6,6 +6,8 @@ import {useNavigate} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import NavAdmin from '../navAdmin';
+import NavMenu from '../../nav';
+
 
 
 
@@ -96,16 +98,24 @@ function Admin() {
         }
 
         const showType =(type)=>{
-        // eslint-disable-next-line
-          if (type==1){
-            return "CERTIFICADO";
             // eslint-disable-next-line
-          }else if (type==0){
-            return "QSL ESPECIAL";
+            if (type==1){
+                return "CERTIFICADO";
             // eslint-disable-next-line
-          }else if (type==2){ 
-            return "CERTIFICADO POR LETRAS";
-
+            }else if (type==0){
+                return "QSL ESPECIAL";
+            // eslint-disable-next-line
+            }else if (type==2){ 
+                return "CERTIFICADO POR LETRAS";
+            // eslint-disable-next-line
+            }else if (type==3){ 
+                return "CONCURSO";
+            // eslint-disable-next-line
+            }else if (type==4){ 
+                return "CONCURSO C/ CATEGORIAS";
+            // eslint-disable-next-line
+            }else if (type==6){ 
+                return "PRE ACTIVIDAD";                
           }
         }
         
@@ -165,13 +175,14 @@ function Admin() {
 
      const navigateAddActivity = () => {
       
-          navigate('/status/admin/ABM');    
+          navigate('/rcpanel/ABM');    
       
     };
   
 
     return (
             <div>
+                <NavMenu />
                 <NavAdmin />
             
             <div className="container d-flex ">

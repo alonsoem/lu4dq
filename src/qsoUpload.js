@@ -1,6 +1,6 @@
 import React from 'react';
 import FormRequest from './formRequest';
-import { saveAs } from 'file-saver';
+//import { saveAs } from 'file-saver';
 import { getEnabledActivities } from './api/api';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -9,6 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
 import TimeUp from './timeUp';
+import NavMenu from './nav';
 
 
 export default class QsoUpload extends  React.Component {
@@ -28,7 +29,8 @@ export default class QsoUpload extends  React.Component {
 
 
 
-    setQsl=(value)=>{
+    setQsl=()=>{
+        
         this.setState({formState:false})
     }
 
@@ -91,12 +93,12 @@ export default class QsoUpload extends  React.Component {
     render() {
 
         
-
+/*
         const downloadImage=(url)=>{
             saveAs(url, 'qsl.jpg');
           }
-          
-          const downloadQsl=(qsl)=>{
+  */        
+         /* const downloadQsl=(qsl)=>{
             // eslint-disable-next-line
             if (qsl.status=="RC Confirmed"){
                 var url = "https://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qsl.document+"&chk="+qsl.chk;
@@ -120,7 +122,7 @@ export default class QsoUpload extends  React.Component {
             }
             
             
-          }
+          }*/
        
         function PreviewPanel(props){
             return <div className="container">
@@ -129,7 +131,7 @@ export default class QsoUpload extends  React.Component {
 
                             <h5>Podrás seguir la confirmación de contactos desde el sitio de la actividad. <a class="btn btn-success m-3" href="/activities/">Ir a las actividades</a></h5>
                         
-                            {downloadQsl(props.qsl)}
+                            
                         </div>
 
                                          
@@ -173,7 +175,8 @@ export default class QsoUpload extends  React.Component {
       
         return (
 
-            
+            <div>
+            <NavMenu />
             
 
                    <div  className="mt-4 " >
@@ -204,7 +207,7 @@ export default class QsoUpload extends  React.Component {
                         </div>
                     </div>
 
-         
+         </div>
     
 
         );

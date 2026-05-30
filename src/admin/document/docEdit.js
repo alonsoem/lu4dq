@@ -1,6 +1,6 @@
 import React from 'react';
 import {useState,useEffect} from 'react';
-import {Form, Row} from "react-bootstrap";
+import {Form, Row,OverlayTrigger,Popover} from "react-bootstrap";
 
 import { ToastContainer, toast } from 'react-toastify';
 import {getDocumentById, putDocument} from "../../api/api";
@@ -11,9 +11,13 @@ import {useNavigate} from 'react-router-dom';
 import { useParams} from 'react-router-dom';
 import NavAdmin from '../navAdmin';
 import Modal from 'react-bootstrap/Modal';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
+
 import { saveAs } from 'file-saver';
+import NavMenu from '../../nav';
+
 
 export default function EditDoc() {
 
@@ -29,13 +33,12 @@ export default function EditDoc() {
   const [imageFile, setImageFile ] = useState(null);
   const [updateImageFile, setUpdateImageFile] = useState(false);
 
-
-  const [imageFt8File, setImageFT8File ] = useState(null);
-  const [updateImageFileFT8, setUpdateImageFileFT8] = useState(false);
   
   const [show, setShow] = useState(false);
   const [ showImage , setShowImage ] = useState(null);
   const handleClose = () => setShow(false);
+   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  
 
   useEffect(() => {
     getDocumentById({id:id})       
@@ -63,11 +66,14 @@ const ModalForm=()=>{
         aria-labelledby="contained-modal-title-vcenter"
         show={show} onHide={handleClose} animation={false}>
       <Modal.Header closeButton>
+      <Modal.Title id="contained-modal-title-vcenter">
+          Muestra de documento
+        </Modal.Title>
       </Modal.Header>
           <Modal.Body>
               <div class="container vw-90 vh-50 text-center" role="button">
                   <img  class="rounded img-fluid"  
-                  src={(showImage?"https://lu4dq.qrits.com.ar/dinamic-content/"+showImage.name:"https://lu4dq.qrits.com.ar/dinamic-content/IMG/noimage.jpg")}
+                  src={(showImage?"https://lu4dq.qrits.com.ar/"+showImage.name:"https://lu4dq.qrits.com.ar/dinamic-content/IMG/noimage.jpg")}
                   alt="Previzualización de imagen" 
                   />
               </div>
@@ -81,16 +87,14 @@ const ModalForm=()=>{
 
 const setItem= (item) =>{
   setTitle(item.description);
-  setImageFT8File(item.imageFT8);
+  
   setImageFile(item.image);
   setProps(item.props);
 
   if (item.image){
     setImageFile(new File([new Blob()],item.image,{type: "image/jpeg"}));
   }
-  if (item.imageFT8){
-    setImageFT8File(new File([new Blob()],item.imageFT8,{type: "image/jpeg"}));
-  }
+  
 }
    
 const handleChangeTitle=(event)=>{
@@ -144,7 +148,7 @@ const notifyError = (message) => {
 
 const navigateToAdmin = () => {
       
-  navigate('/status/admin/doc');    
+  navigate('/rcpanel/doc');    
 
 };
 
@@ -167,16 +171,9 @@ const submit = () =>{
       );
     }
 
-    if (imageFt8File){
-      formData.append(
-        "imageFileFT8",
-        imageFt8File,
-        imageFt8File.name
-      );
-    }
+    
     
     formData.append('updateImage', updateImageFile);
-    formData.append('updateImageFT8', updateImageFileFT8);
     formData.append('description', title);
     formData.append('id',id);
     
@@ -219,6 +216,11 @@ const handleSubmit = (event) => {
   }
   if (!imageFile){
     errors.push("imageFile");
+  }else{
+    //eslint-disable-next-line
+    if (dimensions.height!=1028 || dimensions.width!=1600){
+      errors.push("imageFile");
+    }
   }
 
   setErrors(errors);
@@ -239,6 +241,12 @@ const handleRemoveFile =(setFileHook, updateFileHook =null)=>{
   }
 }
 
+const handleShowPreview=(documentId)=> {
+  
+  setShowImage(new File([new Blob()],"api/qslPreview.php?id="+documentId + "&rnd="+Math.floor(Math.random() * (1000)) + 1,{type: "image/jpeg"}));
+  setShow(true);
+}
+
 const handleShow = (type,file) => {
   if (type==="DOC"){
     //var newFileName = type+"/"+file.name;
@@ -248,7 +256,7 @@ const handleShow = (type,file) => {
   }else{
     var newFileName = type+"/"+file.name;
     console.log(newFileName);
-    setShowImage(new File([file.Blob],newFileName,{type: file.type}));
+    setShowImage(new File([file.Blob],"dinamic-content/"+newFileName,{type: file.type}));
     setShow(true);
   }
   
@@ -267,6 +275,18 @@ const onFileChange = (event,setFileHook,updateFileHook=null) => {
   if (updateFileHook){
     updateFileHook(true);
   }
+  const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            setDimensions({ width: img.width, height: img.height });
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
   
 };
 	
@@ -290,7 +310,24 @@ const Imageconditional = (params) =>{
         <span  onClick={()=>handleShow(params.type,params.file)} style={{ cursor: 'pointer'}} >{params.file.name}</span>
           <span  onClick={()=>handleRemoveFile(params.setFileHook,params.updateFileHook)} class="text-danger ms-4" style={{ cursor: 'pointer'}} >
             <FontAwesomeIcon   icon={icon({name: 'rectangle-xmark'})}  title="Click para eliminar este archivo." />
+          </span>
+          <span>
+              {
+                //eslint-disable-next-line
+              dimensions.width > 0 && (dimensions.width!=1600 || dimensions.height!=1028)  && (
+              <p class="m-2 mt-4 text-danger">
+                Dimensiones incorrectas: {dimensions.width} x {dimensions.height} pixels (ancho x alto)
+              </p>
+              )}
+              {
+                //eslint-disable-next-line
+              dimensions.width > 0 && (dimensions.width==1600 && dimensions.height==1028)  && (
+              <p class="m-2 mt-4 text-success">
+                Dimensiones OK!: {dimensions.width} x {dimensions.height} pixels (ancho x alto)
+              </p>
+              )}
         </span>
+        
       </div>
     )
     }else{
@@ -306,10 +343,21 @@ const Imageconditional = (params) =>{
     
 }
 
+const popOverImage = (
+  <Popover id="popover-positioned-right"  placement="right" >
+  <Popover.Title as="h3">Imagen</Popover.Title>
+      <Popover.Content>
+        <p>Debe ser una imagen JPG o JPEG con una resolución de 1600 x 1028 pixeles</p>
+      </Popover.Content>
+    </Popover>
+  );
+
+
 
     return (
       
       <div>
+        <NavMenu />
       <ModalForm />
       <NavAdmin />
       <form onSubmit={handleSubmit} className="row g-3 needs-validation">
@@ -327,8 +375,11 @@ const Imageconditional = (params) =>{
                                 <div className="card-body" >
                                     
                                         <Row className="m-4">
-                                         <Form.Group className="mb-3" controlId="nameValue">
+                                         <Form.Group className="mb-3" controlId="titleValue">
                                             <Form.Label>TITULO</Form.Label>
+                                            
+                                            
+                                            
                                             <Form.Control  onChange={handleChangeTitle} value={title}
                                                             className={
                                                               hasError("title")
@@ -350,10 +401,22 @@ const Imageconditional = (params) =>{
                                     
                                     <Row className="m-4 ">
                                     <fieldset class="border p-3 mb-3">
-                                          <legend  class="float-none w-auto t-4">Imagen para QSL o CERTIFICADO (JPG)</legend>
+                                          <legend  class="float-none w-auto t-4">Imagen para QSL o CERTIFICADO (JPG)
+                                          <span class="ms-2">
+                                            
+                                            <OverlayTrigger trigger="hover" placement="right" overlay={popOverImage}>
+                                                <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
+                                            </OverlayTrigger>
+                                            </span>
+
+                                          </legend>
+                                          
+                                          
+                                                       
                                       
 
-                                      <Form.Group className="mb-3" controlId="modeValue">
+                                      <Form.Group className="mb-3" controlId="imgValue">
+                                      
                                         <Imageconditional type="IMG" file={imageFile} setFileHook={setImageFile} updateFileHook={setUpdateImageFile}/>
                                        
 
@@ -362,28 +425,7 @@ const Imageconditional = (params) =>{
                                       </fieldset>
                                     </Row>
 
-                                    <Row className="m-4 ">
-                                    <fieldset class="border p-3 mb-3">
-                                          <legend  class="float-none w-auto t-4">Imagen para QSL o CERTIFICADO FT8 (JPG)</legend>
-                                      
-                                      <Form.Group  className="mb-3" controlId="frontPageFile">
-                                        
-                                        <Imageconditional type="IMG" file={imageFt8File} setFileHook={setImageFT8File} updateFileHook={setUpdateImageFileFT8}/>
-									                      
-                                        
-
-                                        <div
-                                              className={
-                                              hasError("imageFT8File")
-                                                      ? "invalid-feedback"
-                                                      : "visually-hidden"
-                                              }
-                                          >
-                                          Incluya una imagen para usar como certificado o qsl.
-                                          </div>
-                                      </Form.Group>
-                                      </fieldset>
-                                    </Row>
+                                    
 
 
                                     <Row className="m-4 ">
@@ -392,25 +434,31 @@ const Imageconditional = (params) =>{
                                       
                                           <table class="table table-bordered " >
                                             <thead class="table-success" >
-                                            <tr>
+                                            <tr  >
                                               <th>Nombre</th>
-                                              <th>Fila</th>
-                                              <th>Col Inicio</th>
-                                              <th>Col Fin</th>
+                                              <th>Fila Inicio</th>
+                                              <th>Fila Fin</th>
+                                              <th>Col. Inicio</th>
+                                              <th>Col. Fin</th>
                                               <th>Tamaño Fuente</th>
+                                              <th>Color Fuente</th>
+                                              <th>Ángulo</th>
                                               </tr>
                                             </thead>
                                             <tbody>
                                                 {props.map(each=>{
                                                   return(
-                                                    <tr>
+                                                    <tr >
                                                       <td>
                                                         <span class="badge text-bg-primary">{each.name}</span>
                                                       </td>
                                                       <td>{each.row}</td>
+                                                      <td>{each.rowEnd}</td>
                                                       <td>{each.colStart}</td>
                                                       <td>{each.colEnd}</td>
                                                       <td>{each.fontSize}</td>
+                                                      <td>{each.fontColor}</td>
+                                                      <td>{each.angle}</td>
                                                     </tr>
                                                   );
                                                 })
@@ -419,14 +467,22 @@ const Imageconditional = (params) =>{
 
                                             </tbody>
                                           </table>
+                                          <div className="row ms-auto">
+                                      <div className=" col-12 ms-auto">
+                                        <button type="button" onClick={()=>handleShowPreview(id)} style={{ cursor: 'pointer'}}  className="btn btn-success">Ver Impresión</button>
+                                      </div>
+                                    </div>
                                         </fieldset>
+                                        
                                     </Row>
+                              
                                   
                                     <div className="row">&nbsp;</div>
 
                                     <div className="row">
                                       <div className="col-12 text-right">
                                         <button type="submit" className="btn btn-success">Guardar</button>
+                                        
                                       </div>
                                     </div>
 

@@ -1,11 +1,10 @@
 import React from 'react';
 
 import { useState,useEffect} from 'react';
-import { getActivities, getStatsByBand, getStatsByMode, getStatusRank ,getStatsByDate} from '../api/api';
-import {Form, Row} from "react-bootstrap";
-import { Pie,Bar } from 'react-chartjs-2';
-import NavAdmin from './navAdmin';
-import NavMenu from '../nav';
+import { getGlobalStatsByBand, getGlobalStatsByMode, getGlobalStatusRank} from './api/api';
+import {Row} from "react-bootstrap";
+import { Pie } from 'react-chartjs-2';
+import NavMenu from './nav';
 
 //import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import {
@@ -31,20 +30,18 @@ ChartJS.register(ArcElement,  CategoryScale,
 function AdminView() {
 
 	const [ rank, setRank] = useState([]);
+  const [ checklog, setCheckLog] = useState([]);
 	
     const [ loading, setLoading ] = useState(false);
-    const [ activities, setActivities ] = useState([]);
-    const [ activity, setActivity ] = useState(null);
     const [ modeLabels, setModeLabels ] = useState([]);
     const [ modeData, setModes ] = useState([]);
     const [ bandLabels, setBandLabels ] = useState([]);
     const [ bandData, setBands ] = useState([]);
     
-    const [ dateLabels, setDateLabels ] = useState([]);
-    const [ dateData, setDates ] = useState([]);
 
     const dataModes = {
         labels: modeLabels,
+        
         datasets: [
           {
             label: 'Cantidad',
@@ -69,8 +66,11 @@ function AdminView() {
           },
         ],
       };
+      
 
       const dataBands = {
+       
+       
         labels: bandLabels,
         datasets: [
           {
@@ -95,94 +95,37 @@ function AdminView() {
             borderWidth: 1,
           },
         ],
+
       };
      
-      const dataDates = {
-        labels: dateLabels,
-        datasets: [
-          {
-            label: 'Cantidad de Contactos por día',
-            data: dateData,
-            backgroundColor: [
-              
-              'rgba(54, 162, 235, 0.2)',
-              
-            ],
-            borderColor: [
-              
-              'rgba(54, 162, 235, 1)',
-              
-            ],
-            borderWidth: 1,
-          },
-        ],
-      };
+     
 
      
-      const barOptions = {
-        responsive: true,
-        legend: {
-          display: false
-        },
-        type: "bar",
-        scales: {
-          xAxes: [
-            {
-              stacked: true
-            }
-          ],
-          yAxes: [
-            {
-              stacked: true
-            }
-          ]
-        }
-      };
+     
 
+  
     useEffect(() => {
         
-        getActivities()
-            .then((response) => {
-            
-                setActivities(response.activities);
-                setLoading(false);
-          
-            })
-            .catch((response) => handleAxiosError(response));
-
-        return;
+            loadData();
+            loadPieModes();
+            loadPieBands();
+        
         
         // eslint-disable-next-line
         }, []
-        )
-
-    useEffect(() => {
-        
-        if (activity){
-            loadData(activity);
-            loadPieModes(activity);
-            loadPieBands(activity);
-            loadBarDates(activity);
-        }
-        
-        // eslint-disable-next-line
-        }, [activity]
     )        
 
 
-    const handleChangeActivity=(event)=>{
-            console.log(event.target.value);
-            setActivity(event.target.value);
-
-    }
+    
 
     const loadData =(activityId)=> {
         console.log(activityId);
         setLoading(true);
-        getStatusRank({id:activityId})
+        getGlobalStatusRank()
         .then((response) => {
             
             setRank(response.rank);
+            setCheckLog(response.checklog);
             setLoading(false);
           
       })
@@ -192,7 +135,7 @@ function AdminView() {
     const loadPieModes =(activityId)=> {
         
         setLoading(true);
-        getStatsByMode({id:activityId})
+        getGlobalStatsByMode()
         .then((response) => {
             
             setModeLabels(response.statsByMode.map(aMode=>aMode.mode));
@@ -206,7 +149,7 @@ function AdminView() {
     const loadPieBands =(activityId)=> {
         
         setLoading(true);
-        getStatsByBand({id:activityId})
+        getGlobalStatsByBand()
         .then((response) => {
             console.log(response);
             setBandLabels(response.statsByBand.map(aBand=>aBand.band));
@@ -217,20 +160,7 @@ function AdminView() {
       .catch((response) => handleAxiosError(response));
     }
 
-    const loadBarDates =(activityId)=> {
-        
-        setLoading(true);
-        getStatsByDate({id:activityId})
-        .then((response) => {
-            
-            setDateLabels(response.statsByDate.map(each=>each.date));
-            setDates(response.statsByDate.map(each=>each.qty));
-            setLoading(false);
-          
-      })
-      .catch((response) => handleAxiosError(response));
-    }
-
+    
     const handleAxiosError = (response) => {
         setLoading(false);
         //let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
@@ -252,6 +182,65 @@ function AdminView() {
 
 	
 
+function CheckLog(){
+        
+  if (loading){
+          return (<div class="card p-5 mt-3">
+              <div class="text-center">
+                  <div class="spinner-border" role="status">
+                      <span class="visually-hidden">Cargando...</span>
+                  </div>
+                  <p class="m-2"> Aguarde un instante...</p>
+              </div>
+              </div>);
+  }else{
+      if (checklog.length!==0){
+  
+          return (
+            <div class="card mt-3">
+            <div className="card-header ">
+              <span class=" ">CHECKLOG</span>       
+            </div>
+          
+            <div class="card-body">
+             
+            
+      <table class="table striped hover bordered responsive mt-3 border">
+          <thead>
+              <tr class="table-primary">
+                  <th scope="col" class="text-center">Posición</th>
+                  <th scope="col" class="text-center">Indicativo</th>
+                  <th scope="col" class="text-center">Nombre</th>
+                  <th scope="col" class="text-center">QSOs</th>
+                  
+              </tr>
+          </thead>
+      <tbody>
+      {checklog.map((each) =>{
+        
+           return ( 
+              <tr>
+                <td class="text-center">{each.position}</td>
+                <td class="text-center">{each.station}</td>
+                <td class="text-center">{each.name}</td>
+                <td class="text-center">{each.qty}</td>
+              </tr>
+           )
+      
+          }   )}
+  
+  </tbody>
+</table>
+
+            </div>
+          </div>
+          );
+      }else{
+        return null;
+      }
+}
+  
+}
 
 
     function ActivityTable(){
@@ -268,27 +257,30 @@ function AdminView() {
         }else{
             if (rank.length===0){
                 return (<div class="card p-5 mt-3">
-                            <h5>NO HAY NADA POR EL MOMENTO...</h5>
-                            <p>Busca un indicativo para ver los contactos cargados!</p></div>);
+                            <h5>NO PUDIMOS CARGAR LOS DATOS EN ESTE MOMENTO...</h5>
+                            <p>Intentá en un breve momento de tiempo.</p></div>);
             }else{
         
                 return (
             <table class="table striped hover bordered responsive mt-3 border">
                 <thead>
                     <tr class="table-primary">
+                        <th scope="col" class="text-center">Posición</th>
                         <th scope="col" class="text-center">Indicativo</th>
-                        <th scope="col" class="text-center">Cantidad Total</th>
-                        <th scope="col" class="text-center">Cantidad entre Fechas</th>
+                        <th scope="col" class="text-center">Nombre</th>
+                        <th scope="col" class="text-center">QSOs</th>
                         
                     </tr>
                 </thead>
             <tbody>
             {rank.map((each) =>{
+              
                  return ( 
                     <tr>
+                      <td class="text-center">{each.position}</td>
                     <td class="text-center">{each.station}</td>
+                    <td class="text-center">{each.name}</td>
                     <td class="text-center">{each.qty}</td>
-                    <td class="text-center">{each.actQty}</td>
                     </tr>
                  )
             
@@ -306,75 +298,55 @@ function AdminView() {
       
       <div>
         <NavMenu />
-      <NavAdmin />
+      
 
             <div className="container d-flex ">
                 <div className="container-fluid table-scroll-vertical col-11">
                     <div className="card mt-3" >
                         <div className="card-header headerLu4dq">
-                            <span class="display-6 ">ESTADISTICAS</span>       
+                            <span class="display-6 ">RANKING LU4DQ Log {new Date().getFullYear()}</span>       
                         </div>
                         <div className="card-body" >
 
-                            <div className="card mt-3" style={{'background-color': 'rgba(181,181,181,0.1)'}}>
-                        
-                                <div className="card-body" >
-                                    <div className="row rowForm">
-                                        <Row className="mb-3">
-                                            <Form.Group className="mb-3" controlId="bandValue">
-                                                <Form.Label>ACTIVITY</Form.Label>
-                                                <select id="activity" onChange={handleChangeActivity} >
-                                                    <option selected disabled value="">Elija una actividad...</option>
-                                                    {
-                                                        activities.map(anAct => 
-                                                            <option value={anAct.id}>{anAct.title}</option>
-                                                        )
-                                                    }
-                                                </select>
-                                            </Form.Group>
-                                        </Row>  
-                                    </div>
-                                </div>
-                            </div>
-                    
 
                     
                             <ActivityTable />
+
+                           <CheckLog />
+                            
                     
                     
-                            <div class="card p-5 mt-3">
-                                <Row class="">
-                                    <div class="text-center">
-                                        <Pie data={dataModes} />
+                            <div class="card mt-3">
+                              <div className="card-header ">
+                                <span class="display-6 ">Otras Estadísticas</span>       
+                              </div>
+                              
+                                <Row class="col-12 container flex">
+                                    <div class="text-center col-6 p-4 ">
+                                        <div class="card mt-3">
+                                            <div className="card-header ">
+                                              <span class="display-10 ">Distribución por modos</span>       
+                                            </div>
+                                            <Pie data={dataModes} />
+                                       </div>
+                                    </div>
+                                    <div class="text-center col-6 p-4">
+                                    <div class="card mt-3">
+                                    <div className="card-header ">
+                                          <span class="display-10 ">Distribución por bandas</span>       
+                                            
+                                            </div>
+                                            <Pie data={dataBands} />
+                                        </div>
                                     </div>
                                 </Row>
                             </div>
 
-                            <div class="card p-5 mt-3">
-                                <Row class="">
-                                    <div class="text-center">
-                                        <Pie data={dataBands} />
-                                    </div>
-                                </Row>
-                            </div>
-
-                            <div class="card p-5 mt-3">
-                                <Row class="">
-                                    <div class="text-center">
-                                        <Bar data={dataDates} options={barOptions} />
-                                    </div>
-                                </Row>
-                            </div>
+                            
+                          
                     
                     </div>
-                    
-
-                  
-                    
-
-
-
-                    
+  
                     </div>
 
             

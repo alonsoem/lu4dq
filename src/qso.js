@@ -3,6 +3,7 @@ import React from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import FormRequest from './formRequest';
 import { saveAs } from 'file-saver';
+import NavMenu from './nav';
 
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
@@ -78,6 +79,8 @@ export default class Qso extends  React.Component {
         }
       
         return (
+            <div>
+            <NavMenu />
             <div className="container d-flex gap-3 p-3">
                 <div className="container-fluid table-scroll-vertical gap-3">
                     <p>&nbsp;</p>
@@ -98,6 +101,7 @@ export default class Qso extends  React.Component {
                     </div>
                 </div>
             
+         </div>
          </div>
         
 

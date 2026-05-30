@@ -5,6 +5,7 @@ import * as DOMPurify from 'dompurify';
 import {Parser} from "html-to-react";
 import TimeUp from './timeUp.js';
 import { format } from "date-fns";
+import NavMenu from './nav.js';
 
 
 
@@ -32,12 +33,23 @@ function  ActivitiesBeta () {
         }, []
     )
 
-    const getExpiredBadge = (endDate)=>{
-        if (endDate){
-            var endDateParts=endDate.split("-");
+    const getBadge = (item)=>{
+        if (item.endDate && item.startDate){
+            var endDateParts=item.endDate.split("-");
+            var startDateParts=item.startDate.split("-");
             var activityendDate= new Date(endDateParts[0],endDateParts[1]-1,endDateParts[2])
+            var activitystartDate= new Date(startDateParts[0],startDateParts[1]-1,startDateParts[2])
+            
             if (format(activityendDate,"yyyy-MM-dd")< format(new Date(),"yyyy-MM-dd")){
                 return <span class="badge bg-danger ms-2">FINALIZADA</span>
+            }
+            
+            if (format(activityendDate,"yyyy-MM-dd")>= format(new Date(),"yyyy-MM-dd") && format(activitystartDate,"yyyy-MM-dd")<= format(new Date(),"yyyy-MM-dd")){
+                return <span class="badge bg-success ms-2">AHORA</span>
+            }
+
+            if (format(activitystartDate,"yyyy-MM-dd")> format(new Date(),"yyyy-MM-dd")){
+                return <span class="badge bg-warning ms-2">PROXIMAMENTE</span>
             }
             
         }
@@ -47,7 +59,8 @@ function  ActivitiesBeta () {
 
     
         return (
-                            
+            <div>
+            <NavMenu />
             <div class="container-fluid ">
                 <div class="mt-4 m-auto row row-cols-1 row-cols-xs-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 row-cols-xxl-3 col-xxl-10 col-12 col-xl-10 col-md-12 col-lg-8 ">
                     {activities && activities.map((each)=>
@@ -56,13 +69,12 @@ function  ActivitiesBeta () {
                             <div class="col mb-4 ">
                             <div class="card cardActivity m-auto" >
                                     <img class="card-img-top" src={(each.image?"/dinamic-content/FRT/"+each.image:"/static/defaultFrontImage.jpg")} height="130x" width="400px" alt={each.title} />
+                                    
                                     <div class="card-body">
                                     <h5 class="card-title ">
                                         
-                                        <a class="link-underline link-underline-opacity-0 text-body" href={"/wp/logs/activities/"+each.id} >{each.title}</a>
-                                        
-                                        { getExpiredBadge(each.endDate)}
-
+                                        <a class="link-underline link-underline-opacity-0 text-body stretched-link" href={"/activities/"+each.id} >{each.title}</a>
+                                        { getBadge(each)}
                                         
                                     </h5>
                                     <p class="card-text"> {Parser().parse(DOMPurify.sanitize(each.description.substring(0,300)).toString()+"...")}</p>
@@ -77,6 +89,7 @@ function  ActivitiesBeta () {
                     )}
                 </div>
                 {!loading && !activities?<TimeUp />:null}
+            </div>
             </div>
 
         );

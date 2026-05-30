@@ -1,6 +1,6 @@
 import React from 'react';
 import {useRef, useState} from 'react';
-import {Form, Row} from "react-bootstrap";
+import {Form, Row,OverlayTrigger, Popover} from "react-bootstrap";
 
 import { ToastContainer, toast } from 'react-toastify';
 import {postDocument} from "../../api/api";
@@ -9,28 +9,52 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 import {useNavigate} from 'react-router-dom';
 import NavAdmin from '../navAdmin';
+import NavMenu from '../../nav';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 function AdminDoc() {
 
   const navigate = useNavigate();
     const [errors, setErrors] = useState([]);
-  
+    const [type, setType ] = useState(null);
     const [title, setTitle ] = useState("");
     const [imageFile, setImageFile ] = useState(null);
-    const [imageFt8File, setImageFT8File ] = useState(null);
+    //const [imageFt8File, setImageFT8File ] = useState(null);
 
-   
+    const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+
+
     const handleChangeTitle=(event)=>{
       setTitle(event.target.value);
     }
 
+    const handleChangeType=(event)=>{
+      setType(event.target.value);
+    }
+
     const onImageFileChange = event => {
       setImageFile(event.target.files[0] );
+
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            setDimensions({ width: img.width, height: img.height });
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+      
     };
     
-    const onImageFT8FileChange = event => {
+    /*const onImageFT8FileChange = event => {
       setImageFT8File(event.target.files[0] );
-    };
+    };*/
     
 
     const hasError= (key) => {
@@ -77,7 +101,7 @@ const notifyError = (message) => {
 
 const navigateToAdmin = () => {
       
-  navigate('/status/admin/doc');    
+  navigate('/rcpanel/doc');    
 
 };
 
@@ -97,19 +121,22 @@ const submit = () =>{
         "imageFile",
         imageFile,
         imageFile.name
+        
       );
     }
 
-    if (imageFt8File){
+    /*if (imageFt8File){
       formData.append(
         "imageFileFT8",
         imageFt8File,
         imageFt8File.name
       );
     }
+      */
     
 		
     formData.append('description', title);
+    formData.append('type', type);
 		
     
     
@@ -148,8 +175,18 @@ const handleSubmit = (event) => {
   if (title.length<=5) {
       errors.push("title");
   }
+
+
+  if (!type) {
+    errors.push("type");
+  }
   if (!imageFile){
     errors.push("imageFile");
+  }else{
+    //eslint-disable-next-line
+    if (dimensions.height!==1028 || dimensions.width!==1600){
+      errors.push("imageFile");
+    }
   }
 
   setErrors(errors);
@@ -170,7 +207,7 @@ const handleSubmit = (event) => {
 
 
 
-const frontPageFileData = () => {
+/*const frontPageFileData = () => {
 
   if (imageFt8File) {
     return (
@@ -186,22 +223,30 @@ const frontPageFileData = () => {
       </div>
     );
   }
-};
+};*/
 
+/*
 const fileSize=(size)=>{
   if (size/1024/1024>=1){
     return (parseFloat(size/1024/1024).toFixed(2)).toString()+" Mb"
   }else{
     return (parseFloat(size/1024).toFixed(2)).toString()+" Kb"
   }
-}
+}*/
 
 const docInputRef = useRef(null);
-const frontPageRef =useRef(null);
+//const frontPageRef =useRef(null);
 
 	
 	
-
+const popOverImage = (
+  <Popover id="popover-positioned-right"  placement="right" >
+  <Popover.Title as="h3">Imagen</Popover.Title>
+      <Popover.Content>
+        <p>Debe ser una imagen JPG o JPEG con una resolución de 1600 x 1028 pixeles</p>
+      </Popover.Content>
+    </Popover>
+  );
 
 
 
@@ -209,6 +254,7 @@ const frontPageRef =useRef(null);
     return (
       
       <div>
+        <NavMenu />
       <NavAdmin />
       <form onSubmit={handleSubmit} className="row g-3 needs-validation">
             <div className="container d-flex ">
@@ -245,11 +291,43 @@ const frontPageRef =useRef(null);
 
                                           </Form.Group>
                                         </Row>  
+
+                                        <Row className="mb-3 align-middle col-12">
+                                            <Form.Group className="mb-6" controlId="bandValue">
+                                                <Form.Label>TIPO</Form.Label>
+                                                <select id="activity" onChange={handleChangeType} value={type} className={
+                                                    hasError("type")
+                                                          ? "form-select is-invalid "
+                                                          : "form-select " 
+                                                  }>
+                                                    <option selected disabled value="">Elija un tipo de documento...</option>
+                                                    
+                                                    <option value={0}>QSL</option>
+                                                    <option value={1}>CERTIFICADO</option>
+                                                    
+                                                </select>
+                                                <div
+                                                    className={
+                                                      hasError("type")
+                                                            ? "invalid-feedback"
+                                                            : "visually-hidden"
+                                                    }
+                                                >
+                                                  Seleccione un tipo de documento válido
+                                                </div>
+                                            </Form.Group>
+                                        </Row>  
+                                        
                                     
-                                    <Row className="mb-3 align-middle col-12">
+                                    <Row className="mt-5 mb-3 align-middle col-12">
 
                                       <Form.Group className="mb-3" controlId="modeValue">
-                                        <Form.Label>Imagen para QSL o CERTIFICADO (JPG)</Form.Label>
+                                        <Form.Label>Imagen para QSL o CERTIFICADO (JPG) </Form.Label>
+                                                         <span class="ms-2">
+                                                         <OverlayTrigger trigger="hover" placement="right" overlay={popOverImage}>
+                                                              <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
+                                                         </OverlayTrigger>
+                                                         </span>
                                         <input  ref={docInputRef} accept="image/jpeg" class="form-control" type="file" id="docformFile"  onChange={onImageFileChange} 
                                           className={
                                                               hasError("imageFile")
@@ -257,6 +335,22 @@ const frontPageRef =useRef(null);
                                                                     : "form-control"
                                                             }
                                         />
+                                        
+                                          {
+                                            //eslint-disable-next-line
+                                          dimensions.width > 0 && (dimensions.width!=1600 || dimensions.height!=1028)  && (
+              <p class="m-2 mt-4 text-danger">
+                
+                Dimensiones incorrectas: {dimensions.width} x {dimensions.height} pixels (ancho x alto)
+              </p>
+              )}
+              {
+                //eslint-disable-next-line
+              dimensions.width > 0 && (dimensions.width==1600 && dimensions.height==1028)  && (
+              <p class="m-2 mt-4 text-success">
+                Dimensiones OK!: {dimensions.width} x {dimensions.height} pixels (ancho x alto)
+              </p>
+              )}
                                        
                                           <div
                                               className={
@@ -265,7 +359,7 @@ const frontPageRef =useRef(null);
                                                       : "visually-hidden"
                                               }
                                           >
-                                            Seleccione un documento válido
+                                            Verifique la imagen y su resolución
                                           </div>
 
                                       </Form.Group>
@@ -273,30 +367,7 @@ const frontPageRef =useRef(null);
                                       
                                     </Row>
 
-                                    <Row className="mb-3 align-middle col-12">
-                                      
-                                      <Form.Group  className="mb-3" controlId="frontPageFile">
-                                        <Form.Label  >Imagen para QSL o CERTIFICADO FT8 (JPG)</Form.Label>
-									                      <input  ref={frontPageRef} accept="image/jpeg" class="form-control" type="file" id="frontPageformFile"  onChange={onImageFT8FileChange} 
-                                          className={
-                                                              hasError("imageFT8File")
-                                                                    ? "form-control is-invalid"
-                                                                    : "form-control"
-                                                            }
-                                        />
-                                        {frontPageFileData()}
-
-                                        <div
-                                              className={
-                                              hasError("imageFT8File")
-                                                      ? "invalid-feedback"
-                                                      : "visually-hidden"
-                                              }
-                                          >
-                                          Incluya una imagen para usar como certificado o qsl.
-                                          </div>
-                                      </Form.Group>
-                                    </Row>
+                                    
 
                                    
 

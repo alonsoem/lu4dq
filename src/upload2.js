@@ -3,9 +3,11 @@ import {useRef, useState, useEffect} from 'react';
 import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import {Form, Row} from "react-bootstrap";
-import { saveAs } from 'file-saver';
+//import { saveAs } from 'file-saver';
 import TimeUp from './timeUp';
 import { useCookies } from 'react-cookie';
+import NavMenu from "./nav";
+import TokenField from "./tokenField";
 
 function Upload(){	
 
@@ -55,6 +57,9 @@ function Upload(){
 	
 	const ShowForm = (props) =>{
 		const [cookies, setCookie] = useCookies(['logCallsign']);
+  		const [token, setToken] = useState("");
+		const { stationCode } = useParams();
+
 		const [ selectedFile, setFile ] = useState(null);
 		const [ filas, setFilas ] = useState([]);
 		const [ response, setResponse ] = useState(false);
@@ -65,11 +70,15 @@ function Upload(){
 		const [signal, setSignal] = useState("");
   		const [name, setName] = useState("");
 		const [email, setEmail] = useState("");
+		// eslint-disable-next-line
+		const [accepted, setAccepted] = useState(0);
+		const [failed, setFailed] = useState(0);
+		const [total, setTotal] = useState(0);
 
 
 
 
-		const { stationCode } = useParams();
+		
 		const inputRef = useRef(null);
 
 		const resetFileInput = () => {
@@ -79,13 +88,22 @@ function Upload(){
 		};
 
 		useEffect(() => {
-			console.log("STARTUP - LEO COOKIE");
-			if(cookies['logCallsign']){
-				//setSignal(cookies["lu4dq-log-callsign"]);
-				
-				updateFromCallsign(cookies["logCallsign"]);
-			  }
+
+			// eslint-disable-next-line
+			if (sessionStorage.getItem("userLoginOK")==1){
+				updateFromCallsign(sessionStorage.getItem("userStation"));
+				setToken(sessionStorage.getItem("userToken"));
+			}
 			
+			if(cookies["logCallsign"]){
+				updateFromCallsign(cookies["logCallsign"]);
+			}
+			
+			if (stationCode){
+				setToken(stationCode);
+			}
+
+
 			
 			// eslint-disable-next-line
 		  }, []
@@ -143,6 +161,33 @@ function Upload(){
 			}
 		}
 
+		const ResultStats = () =>{
+			
+			
+			
+			if (failed>0 && total!==failed){
+				return (
+					<div class="mt-3 text-danger h5">
+						Se procesó el archivo pero con algunos errores!
+					</div>
+				);
+			}else if (failed===0){
+				return (<div class="mt-3 text-success h5">
+						Se procesó el archivo exitosamente!
+						</div>);
+			}else if (failed>0 && total===failed){
+				return (
+						<div class="mt-3 text-danger h5">
+							Error en el procesamiento del archivo. Verifique el archivo.
+						</div>
+				);
+			}
+						
+
+			
+			
+	
+		}
 		const showResultsTable = () => {
 	
 			// eslint-disable-next-line
@@ -159,18 +204,19 @@ function Upload(){
 	
 				return (
 					<div class="container">
-					<div class="mt-3 text-success h5">
-						Se procesó el archivo exitosamente!
-					</div>
+						<div class="mt-3 text-success h5">
+							<ResultStats />
+						</div>
+					
 					<div  className="col-12 mt-3 border">
 						<table className="table striped hover bordered responsive ">
 						<thead>
 							<tr class="table-primary">
 								<th class="text-center">Resultado</th>
-								<th class="text-center">Contraparte</th>
+								<th class="text-center">Corresponsal</th>
 								<th class="text-center">Fecha</th>
 								<th class="text-center">Hora</th>
-								<th class="text-center">Confirmación</th>
+								
 							  </tr>
 						</thead>
 						<tbody className="col-12">
@@ -178,14 +224,10 @@ function Upload(){
 										(r)=>(
 												<tr  className="col-12">
 													<td className="col-2 text-center">{showBadgeMov(r)}</td>
-													<td className="col-4 text-center">{r.data.callsign}</td>
-													<td className="col-2 text-center">{r.data.date}</td>
-													<td className="col-2 text-center">{r.data.time}</td>
-													<td className="col-2 text-center">		
-														 {qsl(r.qsl)}										
-														
-													</td>
-	
+													<td className="col-4 text-center">{r.request.callsign}</td>
+													<td className="col-2 text-center">{r.request.date}</td>
+													<td className="col-2 text-center">{r.request.time}</td>
+									
 													
 													</tr>
 										)
@@ -210,6 +252,9 @@ function Upload(){
 		const handleChangeName = (event) => {
 			setName(event.target.value);
 	  	};
+		  const handleChangeToken = (event) => {
+			setToken(event.target.value);
+		  };
 	  
 		const resetForm=()=>{
 			setResponse(false);
@@ -235,8 +280,8 @@ function Upload(){
 	  };
 
 	const showResults=(res)=>{
-		setFilas(res.rows);
-		console.log(res.rows);
+		setFilas(res);
+		console.log(res);
 		setResponse(true);
 	}
 
@@ -269,18 +314,18 @@ function Upload(){
 
 		const showBadgeMov = (reg) => {
 			// eslint-disable-next-line
-			if (reg.insert=="OK"){
+			if (reg.response=="OK"){
 				return <span class="badge bg-success">Aceptado</span>
 			// eslint-disable-next-line
-			}else if (reg.insert=="duplicate"){
-				return <span class="badge bg-warning">{reg.insert}</span>
+			}else if (reg.response=="duplicate"){
+				return <span class="badge bg-warning">{reg.response}</span>
 			// eslint-disable-next-line
-			}else if (reg.insert=="No Match Station"){
+			}else if (reg.response=="No Match Station"){
 				return <span class="badge bg-danger" data-toggle="tooltip" data-placement="right" data-title={reg.message} >
 							{reg.message}
 							</span>	
 			// eslint-disable-next-line
-			}else if (reg.insert=="Self Qso"){
+			}else if (reg.response=="Self Qso"){
 				return <span class="badge bg-danger" data-toggle="tooltip" data-placement="right" data-title={reg.message} >
 					{reg.message}
 					</span>							
@@ -289,11 +334,11 @@ function Upload(){
 			}
 		}
 
-		const downloadImage=(url)=>{
+	/*	const downloadImage=(url)=>{
 			saveAs(url, 'qsl.jpg');
 		}
-
-		const qsl = (qsl) =>{
+*/
+		/*const qsl = (qsl) =>{
 			// eslint-disable-next-line
 			if (qsl.status=="RC Confirmed"){
 				return (<button className="btn btn-success btn-sm" onClick={r=>
@@ -307,7 +352,7 @@ function Upload(){
 				return "-";
 			}
 
-		}
+		}*/
 
 		const handleAxiosError = (response) => {
 			let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
@@ -379,7 +424,7 @@ function Upload(){
 			selectedFile,
 			selectedFile.name
 		);
-		formData.append('stationCode', stationCode);
+		formData.append('stationCode', token);
 		formData.append('station', signal);
 		formData.append('name', name);
 		formData.append('email', email);
@@ -388,8 +433,11 @@ function Upload(){
 			.then(res=>	{
 							setCookie('logCallsign', signal,{ path: '/' });
 							setLoading(false);
-							showResults(res);
-							console.log(res);			
+							showResults(res.rows.detail);
+							setAccepted(res.rows.stats.accepted);
+							setFailed(res.rows.stats.failed);
+							setTotal(res.rows.stats.total);
+	
 							
 			}
 			)
@@ -397,7 +445,6 @@ function Upload(){
 				
 				setError(true);
 				setLoading(false);
-
 				
 				if (res){
 					// eslint-disable-next-line
@@ -409,6 +456,9 @@ function Upload(){
 					// eslint-disable-next-line
 					}else if (res.response.data.status=="Station not validated" ) {
 						setResponseError("EL CÓDIGO DE ESTACIÓN NO ES CORRECTO. VERIFIQUELO!");
+					// eslint-disable-next-line
+					}else if (res.response.data.status=="DIRECTERROR" ) {
+						setResponseError(res.response.data.detail);
 					}else{
 						setResponseError("Ocurrió un error inesperado!");
 					}
@@ -423,6 +473,7 @@ function Upload(){
 		
 			
 		return (
+			
 			<div className="card-body " >
 								<ToastContainer />
 								<h1>Incluir un archivo ADIF</h1>
@@ -494,6 +545,8 @@ function Upload(){
 
 									</Form.Group>
 									</Row>
+
+									<TokenField handler={handleChangeToken} value={token} />
 								</div>
 								
 									
@@ -549,6 +602,8 @@ function Upload(){
 
 	}
 		return (
+			<div>
+            <NavMenu />
 			<div className="container-fluid  gap-3 p-3">
 				<div className="container-fluid  m-auto  col-lg-10 col-md-10 col-sm-10 col-xs-12 col-12">
 
@@ -561,6 +616,7 @@ function Upload(){
 							</div>
 					</div>
 				</div>
+			</div>
 			</div>
 		);
 	

@@ -87,6 +87,10 @@ code {
   margin-right:1rem;
 }
 
+.cardActivity .card-text{
+  line-height: 1.1em!important;
+}
+
 legend{
   font-size: 1em;
 }
@@ -117,5 +121,67 @@ span.letters{
 .navlink { display: flex; justify-content: center }
 
 
+.tableNoBorder{
+  border-collapse: collapse!important;
+}
 
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic);
+blockquote{
+  font-size: 1.4em;
+  width:80%;
+  margin:30px auto;
+  font-family:Open Sans;
+  font-style:italic;
+  color: #555555;
+  padding:1.2em 30px 1.2em 75px;
+  border-left:8px solid #78C0A8 ;
+  line-height:1.6;
+  position: relative;
+  background:#EDEDED;
+}
+
+blockquote::before{
+  font-family:Arial;
+  content: "\201C";
+  color:#78C0A8;
+  font-size:4em;
+  position: absolute;
+  left: 10px;
+  top:-10px;
+}
+
+blockquote::after{
+  content: '';
+}
+
+blockquote span{
+  display:block;
+  color:#333333;
+  font-style: normal;
+  font-weight: bold;
+  margin-top:1em;
+}
   
+
+ul.a {
+  list-style-type: circle;
+  list-style-position: inside;
+  padding:20px;
+}
+
+.breadcrumb  > .active  a{
+   color: white;
+   text-decoration: underline;
+}
+
+.breadcrumb a {
+   color: white!important;
+   
+   text-decoration: none;
+}
+
+.p-inputtext{
+  position:relative!important;
+  width:100%!important;
+  border:0!important;
+}

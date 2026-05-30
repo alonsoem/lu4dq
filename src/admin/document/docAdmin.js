@@ -4,6 +4,7 @@ import { useState,useEffect} from 'react';
 import { getDocuments } from '../../api/api';
 import {useNavigate} from 'react-router-dom';
 import NavAdmin from '../navAdmin';
+import NavMenu from '../../nav';
 
 
 
@@ -72,7 +73,7 @@ export default function DocAdmin() {
                     </div>
                     </div>);
         }else{
-            if (items.length===0){
+            if (items && items.length===0){
                 return (<div class="card p-5 mt-3">
                             <h5>NO HAY NADA POR EL MOMENTO...</h5>
                         </div>);
@@ -87,7 +88,7 @@ export default function DocAdmin() {
                     </tr>
                 </thead>
             <tbody>
-            {items.map((each) =>{
+            {items && items.map((each) =>{
                  return ( 
                     <tr>
                     <td class="text-center">{each.id}</td>
@@ -115,13 +116,14 @@ export default function DocAdmin() {
 
      const navigateAdd = () => {
       
-          navigate('/status/admin/doc/new');    
+          navigate('/rcpanel/doc/new');    
       
     };
   
 
     return (
             <div>
+                <NavMenu />
                 <NavAdmin />
             
             <div className="container d-flex ">

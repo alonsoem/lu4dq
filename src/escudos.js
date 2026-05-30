@@ -1,0 +1,227 @@
+import React from 'react';
+import {useState,useEffect} from 'react';
+
+import {Form, Row,Popover, OverlayTrigger,Button} from "react-bootstrap";
+import {getName} from "./api/api";
+
+
+
+
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+
+
+
+import Modal from 'react-bootstrap/Modal';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
+
+import { saveAs } from 'file-saver';
+import NavMenu from './nav';
+
+
+const Escudos=()=> {
+
+  const [name, setName] = useState("");
+  const [callsign, setCallsign] =  useState("");
+  const [show, setShow] = useState(false);
+  const [ showImage , setShowImage ] = useState(null);
+  const handleClose = () => setShow(false); 
+
+  useEffect(() => {
+    // eslint-disable-next-line
+    if (sessionStorage.getItem("userLoginOK") && sessionStorage.getItem("userLoginOK")==1){
+      
+      getName({station:sessionStorage.getItem("userStation")})
+          .then((response) => {
+            setName(response.name);
+            setCallsign(sessionStorage.getItem("userStation"));  
+            }
+          )
+    
+    }
+   
+    // eslint-disable-next-line
+    }, [sessionStorage]
+  ) 
+
+const ModalForm=(props)=>{
+    return (
+      <Modal
+        size="m"
+        aria-labelledby="contained-modal-title-vcenter"
+        show={show} onHide={handleClose} animation={false}>
+      <Modal.Header closeButton>
+      <Modal.Title id="contained-modal-title-vcenter">
+          Muestra de Escudo
+        </Modal.Title>
+      </Modal.Header>
+          <Modal.Body>
+              <div class="container vw-90 vh-50 text-center" role="button">
+                  <img  class="rounded img-fluid"  
+                  src={(showImage?"https://lu4dq.qrits.com.ar/"+showImage.name:"https://lu4dq.qrits.com.ar/dinamic-content/IMG/noimage.jpg")}
+                  alt="Previzualización de imagen" 
+                  />
+              </div>
+          </Modal.Body>
+                <Modal.Footer>
+        <Button onClick={props.download}>Descargar</Button>
+      </Modal.Footer>
+    </Modal>
+
+    
+  );
+  
+}
+
+   
+
+
+
+
+const handleShowPreview=(callsign,name)=> {
+  
+  setShowImage(new File([new Blob()],"api/createEscudo.php?callsign="+callsign + "&name="+name+"&rnd="+Math.floor(Math.random() * (1000)) + 1,{type: "image/png"}));
+  setShow(true);
+}
+
+const downloadFile=()=>{
+    
+  
+  const url = "https://lu4dq.qrits.com.ar/api/createEscudo.php?callsign="+callsign + "&name="+name+"&rnd="+Math.floor(Math.random() * (1000)) + 1
+  saveAs(url, "escudo_"+callsign+".png");
+}
+
+
+	const handleChangeName = (event)=>{
+    setName(event.target.value);
+  }
+
+ const popoverName = (
+    
+    <Popover id="popover-positioned-right"  placement="right" >
+      <Popover.Title as="h3">Nombre</Popover.Title>
+      <Popover.Content>
+          Es el nombre como queres que lo imprimamos en el escudo.
+      </Popover.Content>
+      
+    </Popover>
+    
+  );
+
+   const popoverCallsign = (
+    
+    <Popover id="popover-positioned-right"  placement="right" >
+      <Popover.Title as="h3">SEÑAL DISTINTIVA</Popover.Title>
+      <Popover.Content>
+          Es la señal distintiva que se imprimirá en el escudo. NO PUEDE MODIFICARSE
+      </Popover.Content>
+      
+    </Popover>
+    
+  );
+
+
+    return (
+             <div>
+                        <NavMenu />
+                        <ModalForm download={downloadFile} />
+                               <div  class="mt-4 " >                 
+                                
+                                <div >
+                                <div class="row ">
+                                <div class="   col-lg-10 col-md-10 col-sm-10 col-xs-12 col-12" >
+                                    <div className="card m-2" style={{'background-color': 'rgba(181,181,181,0.6)'}}>
+                                        <div className="card-header headerLu4dq">
+                                            <span class="display-6 ">MI ESTACiÓN</span>
+                                            <div class="col-12">
+                                                <nav aria-label="breadcrumb">
+                                                <ol class="breadcrumb">
+                                                    <li class="breadcrumb-item "><a href="/profile">Mis datos</a></li>
+                                                    <li class="breadcrumb-item active"><a href="/escudos">Escudos</a></li>
+                                                </ol>
+                                                </nav>
+                                            </div>       
+                                        </div>
+                                    
+                                        <div className="card-body " >
+
+                                           
+                                            <div class="row p-2" >
+                                               
+                                                
+                                                  
+                                                    <div className="col-12 fs-5">
+                                                         
+                                                          <p class="text-justify overflow-visible">Ahora Imprimí tu escudo de radioaficionado con el logo de LU4DQ-Log!</p>
+                                                          <p class="text-justify overflow-visible">Solo necesitas hacer click en Mostrar y luego descargalo para usarlo donde quieras! Si preferis, poder editar el nombre que aparece bajo tu señal distintiva.</p>
+                                                          
+                                                    </div>
+
+                                                    <div class=" mt-4 mb-4 col-sm-9  col-s-2 col-9  m-auto text-center align-bottom overflow-visible">
+                                                      <img height="150" width="150" 
+                                                      src="https://lu4dq.qrits.com.ar/dinamic-content/escudos/miniescudo.png" 
+                                                      class="img-fluid" alt="Nuestro primer escudo!" />
+                                                    </div>    
+                                                      
+                                            
+                                      
+
+                                          
+                                           <Row>
+                                              <Form.Group readonly className="mb-3" controlId={"callsignvalue"} >
+                                                <Form.Label>SEÑAL DISTINTIVA</Form.Label>
+                                                <span class="ms-2">
+                                                  <OverlayTrigger trigger="hover" placement="right" overlay={popoverCallsign}>
+                                                            <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
+                                                    </OverlayTrigger>
+                                                  </span>
+                                                <Form.Control  value={callsign} className="form-control" />
+                                              </Form.Group>
+                                            </Row>
+
+                                          
+                                           <Row >
+                                              <Form.Group readonly className="mb-3" controlId={"namevalue"} >
+                                                <Form.Label>NOMBRE</Form.Label>
+                                                <span class="ms-2">
+                                                  <OverlayTrigger trigger="hover" placement="right" overlay={popoverName}>
+                                                            <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
+                                                    </OverlayTrigger>
+                                                  </span>
+                                                <Form.Control  value={name} className="form-control"  onChange={handleChangeName}/>
+                                              </Form.Group>
+                                            </Row>
+
+    
+                                        
+                                          <div className="row mt-4">
+                                            <div className="col-sm-12 col-12 text-end">
+                                              <button type="button" onClick={()=>handleShowPreview(callsign,name)} style={{ cursor: 'pointer'}}  className="btn btn-success">Mostrar</button>
+                                            </div>
+                                         </div>
+                                        
+                                        
+                                    
+                                    
+                                  
+                                                
+                                                
+                                               
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    </div>
+                                    </div>
+                                    
+                                    
+                                    </div>
+                                </div>
+            
+                     </div>
+      
+        );
+
+    }
+    export default Escudos;

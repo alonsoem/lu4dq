@@ -7,6 +7,11 @@ import { saveAs } from 'file-saver';
 import { useParams} from "react-router-dom";
 import {useNavigate} from 'react-router-dom';
 
+import InfiniteScroll from 'react-infinite-scroll-component';
+
+import NavMenu from './nav';
+
+
 
 
 
@@ -16,15 +21,24 @@ function QsoList() {
     const {station} = useParams();
 	const [ qsos, setQsos] = useState([]);
 	const [ callsign, setCallSign ] = useState("");
+    const [ page, setPage ] = useState(2);
+    const [ hasMore, setHasMore] = useState(true);
     const [ loading, setLoading ] = useState(false);
+    const [ showOnlyConfirmed, setShowOnlyConfirmed ] = useState(true);
+
     const navigate = useNavigate();
 
 
     const navigateToStationQso = (station) => {
-        if (station){
-            navigate('/qsoList/'+station);
-        }
+        
+            navigate('/qsoList/'+station[0]);
+        
     };
+
+    
+    const handleChangeOnlyConfirmed = (event) =>{
+        setShowOnlyConfirmed(event.target.checked);
+    }
 
  
     useEffect(() => {
@@ -41,11 +55,42 @@ function QsoList() {
         loadData(callsign);
     }
 
-    const loadData =(callId)=> {
+    const getMoreData=()=>{
         
-        setLoading(true);
-        getQsoList({station:callId})
+        getQsoList({station:callsign,page:page,showNotConfirmed:(showOnlyConfirmed?0:1)})
         .then((response) => {
+            // eslint-disable-next-line
+            if (response.qsos.length>0 && response.qsos.length==100){
+                setQsos(qsos.concat(response.qsos));
+                setPage(page+1);
+                setHasMore(true);
+            
+            }else if (response.qsos.length>0 && response.qsos.length<100){
+                setQsos(qsos.concat(response.qsos));
+                setHasMore(false);
+            }else{
+                setHasMore(false);
+            }
+
+            
+          
+      })
+      .catch((response) =>null);
+       
+    }
+
+    const loadData =(callId)=> {
+        setHasMore(true);
+        setPage(2);
+        setLoading(true);
+        getQsoList({station:callId,page:1,showNotConfirmed:(showOnlyConfirmed?0:1)})
+        .then((response) => {
+            // eslint-disable-next-line
+            if (response.qsos.length>0 && response.qsos.length==100){
+                setHasMore(true);
+            }else{
+                setHasMore(false);
+            }
             
             setQsos(response.qsos);
             setLoading(false);
@@ -80,28 +125,63 @@ function QsoList() {
 		saveAs(url, fileName);
 	}
 
-	const qsl = (qso) =>{
+	function qsl (qsli,qso){
+        
 		// eslint-disable-next-line
-		if (qso.qsl.status=="RC Confirmed"){
-            		var url ="https://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qso.qsl.document+"&chk="+qso.qsl.chk;
-			
-			const fileName=qso.station+"_"+qso.callsign+"_"+qso.date.replace(/-/gi,"")+"_"+qso.time.replace(/:/gi,"")+".jpg";
-			console.log (fileName);
-			
-			return (
+		if (qsli.status=="RC Confirmed"){
+            
+            
+            const fileName=qso.station+"_"+qso.callsign+"_"+qso.date.replace(/-/gi,"")+"_"+qso.time.replace(/:/gi,"")+".jpg";
+            var url ="https://lu4dq.qrits.com.ar/api/qslCreator.php?qso="+qsli.document+"&chk="+qsli.chk;
+            return (
+                <p>
                 <badge class="badge text-bg-warning  text-center" role="button" onClick={()=>downloadImage(url,fileName)} >
                         Descargar QSL
                 </badge>
-            	);
+                </p>
+            );
+
+            
+                
         // eslint-disable-next-line
-        }else if (qso.qsl.status=="Confirmed"){
+        }else if (qsli.status=="Confirmed"){
             return ("Confirmado");
-		}else{
-			return "-";
-		}
+        }else{
+            return ("La estación no confirmó el contacto.");
+        }
     }
 
+    function allQsl(qso){
+        return  qso.qsl.map((each)=>{            
+            return qsl(each,qso);
+        });
+    }
 
+    function printStationLink(qso){
+        if (qso.swl){
+            return (
+                        <div>
+                    <badge  onClick={(r)=>navigateToStationQso(qso.callsign.match(/[A-Za-z0-9]+/))}>
+                    {qso.callsign}                  
+                    </badge>
+                    &nbsp;-  &nbsp;
+                    <badge  onClick={(r)=>navigateToStationQso(qso.callsign2.match(/[A-Za-z0-9]+/))}>
+                    {qso.callsign2}                  
+                    </badge>
+                    
+                    </div>
+            );
+        }else{
+            return (
+                <badge  onClick={(r)=>navigateToStationQso(qso.callsign.match(/[A-Za-z0-9]+/))}>
+                    {qso.callsign}                  
+                    </badge>
+            )
+
+        }
+        
+        
+    }
 
     function ActivityTable(){
         
@@ -122,50 +202,90 @@ function QsoList() {
             }else{
         
                 return (
+                    <div  >
+                    <InfiniteScroll
+                    dataLength={qsos.length} //This is important field to render the next data
+                    next={getMoreData}
+                    hasMore={hasMore}
+                    loader={
+                        <div class="text-center">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Cargando más...</span>
+                            </div>
+                            <p class="m-2"> Aguarde un instante...</p>
+                        </div>
+                        }
+                    endMessage={
+                        <p style={{ textAlign: 'center' }}>
+                        <b>Eso es todo por ahora...</b>
+                        </p>
+                        
+                    }
+                    style={{ height: "100%", overflow:"hidden" }}
+                    
+                    // below props only if you need pull down functionality
+                   
+                    >
             <table class="table block striped hover bordered responsive mt-3 border">
                 <thead>
                     <tr class="table-primary">
-			<th scope="col" class="text-center  d-none d-sm-table-cell">Estacion</th>
+			            <th scope="col" class="text-center d-none d-sm-table-cell">Estación</th>
                         <th scope="col" class="text-center">Corresponsal</th>
                         <th scope="col" class="text-center">Fecha</th>
                         <th scope="col" class="text-center d-none d-sm-table-cell">Hora</th>
                         <th scope="col" class="text-center ">Banda</th>
                         <th scope="col" class="text-center d-none d-lg-table-cell">Modo</th>
                         <th scope="col" class="text-center d-none d-lg-table-cell ">Swl</th>
-                        <th scope="col" class="text-center">Qso / Qsl</th>
+                        <th scope="col" class="text-center">Qsl</th>
                     </tr>
                 </thead>
             <tbody>
-            {qsos.map((each) =>{
+           
+                {qsos.map((each) =>{
                  return ( 
                     <tr>
-			 <td class="text-center  d-none d-sm-table-cell">{each.station}</td>
+			<td class="text-center d-none d-sm-table-cell">{each.station}</td>
                     <td class="text-center">
-                        <badge  onClick={(r)=>navigateToStationQso(each.callsign.match(/[A-Za-z0-9]+/))}>
-                            {each.swl?each.callsign+" - "+each.callsign2:each.callsign}
-                        </badge>
+
+                        {printStationLink(each)}
+                        
                     </td>
                     <td class="text-center">{each.date}</td>
                     <td class="text-center d-none d-sm-table-cell">{each.time}</td>
                     <td class="text-center">{each.band}</td>
                     <td class="text-center d-none d-lg-table-cell">{each.mode}</td>
                     <td class="text-center d-none d-lg-table-cell">{each.swl?"SI":"-"}</td>
-                    <td class="text-center">{qsl(each)}</td>
+                    <td class="text-center">
+                        
+                        {allQsl(each)}
+                    </td>
                   </tr>
                  )
             
                 }   )}
+            
+
+            
         
         </tbody>
-      </table>);
+      </table>
+      </InfiniteScroll>
+      </div>);
             }
       }
         
      }
+
+     const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+          handleSearch();
+        }
+      };
      
 
     return (
-
+        <div>
+            <NavMenu />
             <div className="container-fluid d-flex ">
 
                 <div className="container-fluid table-scroll-vertical col-12">
@@ -184,7 +304,7 @@ function QsoList() {
                                
                                 <Form.Group className="mb-3" controlId="callSignValue">
                                     <Form.Label>INDICATIVO</Form.Label>
-                                    <Form.Control onChange={handleChangeCallsign}  value={callsign} type="text"
+                                    <Form.Control onChange={handleChangeCallsign}  onKeyDown={handleKeyPress} value={callsign} type="text"
                                         className="form-control" />
                                </Form.Group>
                                
@@ -192,6 +312,22 @@ function QsoList() {
 
                                 
                             </Row>
+                            <Row className="mb-3 c-4">
+                                <div>
+                                            <input
+                                
+                                    type="checkbox"
+                                    onChange={handleChangeOnlyConfirmed} 
+                                    defaultChecked={showOnlyConfirmed}
+                                    value={showOnlyConfirmed}
+                                    class="form-check-input"
+                                    id="ConfirmedCheck"
+                                />
+                                <label class="form-check-label ms-3" for="swlCheck">
+                                    Mostrar solo contactos confirmados
+                                </label>
+                                </div>
+                            </Row>                            
                             <div className=" row float-end">
                                 <div class="col-6 text-end">
                                     <button class="btn btn-success" onClick={handleSearch}>Buscar</button>
@@ -204,6 +340,7 @@ function QsoList() {
 
                     
                             <ActivityTable />
+                            
                     
                     
                     
@@ -213,6 +350,7 @@ function QsoList() {
             
                 </div>
             </div>
+        </div>
 
         );
 

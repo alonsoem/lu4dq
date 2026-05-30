@@ -11,7 +11,6 @@ import QsoUpload from "./qsoUpload.js";
 import Landing from "./landing.js";
 import Qso from "./qso.js";
 import QsoList from "./qsoList.js";
-import NavMenu from "./nav.js";
 import AdminView from "./admin/adminView.js";
 import AdminABM from "./admin/activity/adminABM.js";
 import Checker from "./checker.js";
@@ -21,12 +20,29 @@ import ActivityEdit from "./admin/activity/activityEdit.js";
 import AdminDoc from "./admin/document/docAdmin.js";
 import NewDoc from "./admin/document/docAlta.js";
 import EditDoc from "./admin/document/docEdit.js";
-
-
-
+import LoginForm  from "./admin/login.js";
+import StationsList  from "./admin/stations/panel.js";
+import StationEdit from "./admin/stations/stationEdit.js";
+import UserProfile from "./userProfile.js";
+import Recovery  from "./recovery.js";
+import PublicRanking from "./publicRanking.js";
+import AutoLogin from "./magicLogin.js";
+//import MapImage from "./admin/document/mapImage.js";
+import Logout from "./logout.js";
+import Announcement from "./announcement.js";
+import Help from "./help.js";
+import PreActivity from "./newPreActivity.js";
+import Escudos from "./escudos.js";
 
 
 //import '../node_modules/bootstrap-css-only/css/bootstrap.css';
+import Register from "./registration.js";
+import ContestPanel from "./admin/stations/ContestPanel.js";
+import ContestResults from "./admin/stations/ContestResults.js";
+import Feedback from "./feedback.js";
+import Achievements from "./achievements.js";
+//import Mailbox from "./mailbox.js";
+
 
 
 
@@ -34,48 +50,70 @@ export default class App extends React.Component {
     render() {
       return (
         
-        <BrowserRouter basename='/wp/logs' >
-        <NavMenu />
+        <BrowserRouter >
+        
           <Routes>
             
-          <Route  path="/" element={<Landing />}></Route>
+          <Route exact path="/" element={<AllActivities />}></Route>
+
+          <Route exact path="/ayuda" element={<Help />}></Route>
+          <Route exact path='/demo/preact' element={<PreActivity />}></Route>
           
           <Route exact path='/cargaMasiva' element={<UploadBis />}></Route>
           <Route exact path='/cargaManual' element={<QsoUpload />}></Route>
-
-          <Route exact path='/qsoList/:station' element={<QsoList />}></Route>   
-          <Route exact path='/qsoList' element={<QsoList />}></Route>   
-
-
+          <Route exact path='/registrar' element={<Register />}></Route>
+          <Route exact path='/profile' element={<UserProfile />}></Route>
+          <Route exact path="/escudos" element={<Escudos />}></Route>
+          <Route exact path="/certificados" element={<Achievements />}></Route>
+          <Route exact path='/recupero' element={<Recovery />}></Route>
           
+          
+          <Route exact path='/qsoList/:station' element={<QsoList />}></Route>   
+          <Route exact path='/qsoList' element={<QsoList />}></Route>         
 
 
           <Route exact path='/activities' element={<AllActivities />}></Route>   
+          <Route exact path='/ranking' element={<PublicRanking />}></Route>   
 
           <Route exact path='/qsoTest' element={<Qso />}></Route>   
           
           <Route path='/activities/:idAct' element={<Activities />}></Route>   
+
+          <Route path='/landing' element={<Landing />}></Route>   
+
+          <Route path='/escudos' element={<Escudos />}></Route>  
           
           <Route path="/:stationCode" element={<Landing />}></Route>
           <Route path="/cargaMasiva/:stationCode" element={<UploadBis />}></Route>
           <Route path="/cargaManual/:stationCode" element={<QsoUpload />}></Route>
           
-          
-          
-          <Route exact path='/status/checker/:station/:toCallsign' element={<CheckerCompare />}></Route>   
-          <Route exact path='/status/checker/:station' element={<Checker />}></Route>   
-          <Route exact path='/status/checker' element={<Checker />}></Route>   
-          <Route exact path='/status/blabla' element={<AdminView />}></Route>  
+          <Route exact path='/rcpanel/qsoChecker/:station/:toCallsign' element={<CheckerCompare />}></Route>   
+          <Route exact path='/rcpanel/qsoChecker/:station' element={<Checker />}></Route>   
+          <Route exact path='/rcpanel/qsoChecker' element={<Checker />}></Route>   
+          <Route exact path='/rcpanel/stats' element={<AdminView />}></Route>  
 
           
-          <Route exact path='/status/admin/doc' element={<AdminDoc />}></Route>  
-          <Route exact path='/status/admin/doc/new' element={<NewDoc />}></Route>  
-          <Route exact path='/status/admin/doc/:id' element={<EditDoc />}></Route>  
 
-          <Route exact path='/status/admin/ABM' element={<AdminABM />}></Route>  
-          <Route exact path='/status/admin/editActivity/:id' element={<ActivityEdit />}></Route>  
-          <Route exact path='/status/admin' element={<Admin />}></Route>  
+          <Route exact path='/rcpanel/contest' element={<ContestPanel />}></Route>  
+          <Route exact path='/rcpanel/contestResults' element={<ContestResults />}></Route>  
+          <Route exact path='/rcpanel/stations' element={<StationsList />}></Route>  
+          <Route exact path='/rcpanel/stations/:stationId' element={<StationEdit />}></Route>  
+          <Route exact path='/rcpanel/doc' element={<AdminDoc />}></Route>  
+          
+          <Route exact path='/rcpanel/doc/new' element={<NewDoc />}></Route>  
+          <Route exact path='/rcpanel/doc/:id' element={<EditDoc />}></Route>  
 
+          <Route exact path='/rcpanel/ABM' element={<AdminABM />}></Route>  
+          <Route exact path='/rcpanel/editActivity/:id' element={<ActivityEdit />}></Route>  
+          <Route exact path='/rcpanel' element={<Admin />}></Route>  
+
+
+          <Route exact path='/login' element={<LoginForm />}></Route>  
+          <Route exact path='/autoLogin' element={<AutoLogin />}></Route>  
+          <Route exact path='/logout' element={<Logout />}></Route>  
+
+          <Route exact path='/anunciate' element={<Announcement />}></Route>
+          <Route exact path='/comentanos' element={<Feedback />}></Route>
           
           
           

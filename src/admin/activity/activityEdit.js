@@ -1,10 +1,10 @@
 import React from 'react';
 import { useState,useEffect} from 'react';
 import { useParams} from 'react-router-dom';
-import {Form, Row,Col,Tabs,Tab} from "react-bootstrap";
+import {Form, Row,Tabs,Tab} from "react-bootstrap";
 import { format } from "date-fns";
 import { ToastContainer, toast } from 'react-toastify';
-import {updateActivity,getActivity,getDocuments, addNewStation,getActivityStations} from "../../api/api";
+import {updateActivity,getActivity,getDocuments, addNewStation,addMode,removeMode, getActivityModes, getActivityStations, removeStation,getDocumentsByActivityId, addDocumentWithRange, removeDocumentWithRange} from "../../api/api";
 import {  Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import {ContentState,  EditorState, convertToRaw } from 'draft-js';
@@ -16,6 +16,8 @@ import Modal from 'react-bootstrap/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { saveAs } from 'file-saver';
+import NavMenu from '../../nav';
+import NavAdmin from '../navAdmin';
 
 function ActivityEdit(params){
 
@@ -26,7 +28,57 @@ function ActivityEdit(params){
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
 
+  const actual= new Date();
+  const dateData = new Date(actual.getUTCFullYear(),actual.getUTCMonth(),actual.getUTCDate(),actual.getUTCHours(),actual.getUTCMinutes());
+ 
+  const [type, setType ] = useState(0);
+  
+  const [errors, setErrors] = useState([]);
+  const [title, setTitle ] = useState("");
+  const [allvsall, setAllvsAll ] = useState(false);
+  const [word, setWord ] = useState("");
+  const [mode, setMode ] = useState("");
+  const [countType, setCountType ] = useState(null);
+  const [modeList, setModeList] = useState([]);
+  const [tecnicalDetails, setTecnicalDetails ] = useState(EditorState.createEmpty());
+  const [minContacts, setMinContacts ] = useState(0);
+  const [cwContacts, setCwcontacts ] = useState(0);
+
+  const [enabled, setEnabled ] = useState(false);
+
+  const [dateFrom, setDateFrom] = useState(format(dateData,"yyyy-MM-dd"));
+  const [timeFrom, setTimeFrom] = useState(format(dateData,"H:i"));
+  const [dateTo, setDateTo] = useState(format(dateData,"yyyy-MM-dd"));
+  const [timeTo, setTimeTo] = useState(format(dateData,"H:i"));
+  const [late_end, setLateEnd] = useState(format(dateData,"yyyy-MM-dd"));
+
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  
+  const [ documentId, setDocumentId ] = useState(null);
+
+  const [documentqslSpecialId, setDocumentQslSpecialId] = useState(null);
+
+  const [ documents, setDocuments ] = useState([]);
+
+  const [ selectedDocFile, setDocFile ] = useState(null);
+  const [ frontPageFile, setFrontPageFile ] = useState(null);
+  const [ showImage , setShowImage ] = useState(null);
+  const [stations, setStations] = useState([]);
+  const [newStation,setNewStation]=useState("");
+  const [newLetter,setNewLetter]=useState("");
+  const [newReq,setNewReq]=useState(false);
+  const [confirmationType,setConfirmationType]=useState(2);
+  const [rangeDocuments,setRangeDocuments]=useState([]);
+  const [minContactsRange,setMinContactsRange]=useState(0);
+  const [ref,setRef]=useState("");
+
+  
+  const handleChangeMinContactsRange = (event) =>{
+    setMinContactsRange(event.target.value);
+  }
+
   const handleShow = (type,file) => {
+    
     if (type==="DOC"){
       //var newFileName = type+"/"+file.name;
       downloadFile(file);
@@ -40,6 +92,18 @@ function ActivityEdit(params){
     
   }
 
+  const handleChangeMode  = (event) => {
+    setMode(event.target.value.toUpperCase());
+  };
+
+  const handleChangeCountType  = (event) => {
+    setCountType(event.target.value);
+  };
+
+
+  const handleChangeRef  = (event) => {
+    setRef(event.target.value.toUpperCase());
+  };
   const downloadFile=(file)=>{
     
     const fileParts = file.name.split('.');
@@ -48,42 +112,27 @@ function ActivityEdit(params){
     saveAs("https://lu4dq.qrits.com.ar/dinamic-content/DOC/"+fileName, fileName);
   }
 
-	  const actual= new Date();
-    const dateData = new Date(actual.getUTCFullYear(),actual.getUTCMonth(),actual.getUTCDate(),actual.getUTCHours(),actual.getUTCMinutes());
-   
-    const [type, setType ] = useState(0);
-    
-    const [errors, setErrors] = useState([]);
-    const [title, setTitle ] = useState("");
-    const [word, setWord ] = useState("");
-    const [tecnicalDetails, setTecnicalDetails ] = useState(EditorState.createEmpty());
-    const [minContacts, setMinContacts ] = useState(0);
-    const [enabled, setEnabled ] = useState(false);
-
-    const [dateFrom, setDateFrom] = useState(format(dateData,"yyyy-MM-dd"));
-    const [dateTo, setDateTo] = useState(format(dateData,"yyyy-MM-dd"));
-    const [late_end, setLateEnd] = useState(format(dateData,"yyyy-MM-dd"));
-
-    const [editorState, setEditorState] = useState(EditorState.createEmpty());
-    
-    const [ documentId, setDocumentId ] = useState(null);
-    const [ documents, setDocuments ] = useState([]);
-
-    const [ selectedDocFile, setDocFile ] = useState(null);
-    const [ frontPageFile, setFrontPageFile ] = useState(null);
-    const [ showImage , setShowImage ] = useState(null);
-    const [stations, setStations] = useState([]);
-    const [newStation,setNewStation]=useState("");
-    const [newLetter,setNewLetter]=useState("");
-    const [newReq,setNewReq]=useState(false);
-    
-    
- 
+	
     
 useEffect(
   () => {
 
-    getDocuments()       
+   readAllDocuments();
+    // eslint-disable-next-line
+  },[]
+)
+
+useEffect(
+  () => {
+
+   readRangeDocuments(id);
+    // eslint-disable-next-line
+  },[id]
+)
+
+const readAllDocuments=()=>{
+  getDocuments()       
+
     .then((response) => {
       setDocuments(response.documents);
 
@@ -92,13 +141,92 @@ useEffect(
     .catch((response) => handleAxiosError(response));
 
       return;
+}
+const readRangeDocuments=(id)=>{
+  getDocumentsByActivityId({id:id})       
 
-    // eslint-disable-next-line
-  },[]
-)
+    .then((response) => {
+      setRangeDocuments(response.documents);
+      
+
+         
+    })
+    .catch((response) => handleAxiosError(response));
+
+      return;
+}
 
 const handleChangeWord = (event)=>{
   setWord(event.target.value);
+}
+
+const handleChangeCwcontacts = (event)=>{
+  setCwcontacts(event.target.value);
+}
+
+const addRange = (minContacts,document) =>{
+  
+  addDocumentWithRange({
+    activityId:id,
+    minContacts:minContacts,
+    docId:document
+    
+  })
+  .then(response=>{
+    //getDocumentsByActivityId(id);
+
+  }
+
+    
+
+  )
+  .catch(error=>{
+    console.log(error);
+    }
+  )
+  
+
+}
+
+const clearFormRange = () =>{
+  setDocumentId(null);
+
+  setMinContactsRange(0);
+}
+
+const handleAddRange = (event) =>{
+  
+  if (minContactsRange<=0)  {
+    notifyError("DEBE SUPERAR LA CANTIDAD MINIMA");
+    
+  }else{
+    if (documentId){
+      addRange(minContactsRange,documentId);
+      clearFormRange();
+      readRangeDocuments(id);
+      
+
+    }else{
+      notifyError("DEBES ELEGIR UN DOCUMENTO");
+    }
+
+  }
+  
+}
+
+const handleRemoveRange = (rangeDocid) =>{
+ 
+  
+  removeDocumentWithRange(
+    {activityId:id,
+    id:rangeDocid}
+  )
+  .then(response=>{
+    readRangeDocuments(id)
+
+  }
+  );
+
 }
 
 const handleAddStation = (event) =>{
@@ -128,10 +256,51 @@ const handleAddStation = (event) =>{
 
 }
 
+const resetModeForm = () =>{
+  setMode(null);
+
+}
+
+const handleAddMode = (event) =>{
+  
+  
+  addMode({
+    activityId:id,
+    mode:mode,
+    
+  })
+  .then(response=>{
+    resetModeForm();
+    updateModeList();
+
+  }
+
+    
+
+  )
+  .catch(error=>{
+    console.log(error);
+    }
+  )
+
+}
+
+
+
 const updateStationList=()=>{
   getActivityStations({id:id})
   .then(response=>{
       setStations(response.stations);
+    }
+  ).catch(error=>{
+    console.log(error);
+  }
+  )
+}
+const updateModeList=()=>{
+  getActivityModes({id:id})
+  .then(response=>{
+      setModeList(response.modes);
     }
   ).catch(error=>{
     console.log(error);
@@ -155,12 +324,21 @@ const updateStationList=()=>{
       setEnabled(event.target.checked);
     }
 
+
+
     const handleChangeDateFrom = (value) => {
       setDateFrom(value);
     };
+    const handleChangeTimeFrom = (value) => {
+      setTimeFrom(value);
+    };
+    
 
     const handleChangeDateTo = (value) => {
       setDateTo(value);
+    };
+    const handleChangeTimeTo = (value) => {
+      setTimeTo(value);
     };
 
     const handleChangeLateEnd = (value) => {
@@ -199,24 +377,29 @@ const updateStationList=()=>{
     }
 
   useEffect(() => {
-    console.log("ENTRANDO");
-    
     
     getActivity({id:id})       
     .then((response) => {
       try{
-        console.log(response);  
         setDateFrom(response.start);
+        setTimeFrom(response.startTime);
         setDateTo(response.end);
+        setTimeTo(response.endTime);
         setLateEnd(response.lateEnd);
         setTitle(response.title);
         setType(response.type);  
         setWord(response.word);    
+        setAllvsAll(response.allvsall);  
         setMinContacts(response.minContacts);
+        setCwcontacts(response.cwContacts);
         setEnabled(response.enabled);
         setEditorState(EditorState.createWithContent(ContentState.createFromBlockArray(htmlToDraft(response.description))));
         setTecnicalDetails(EditorState.createWithContent(ContentState.createFromBlockArray(htmlToDraft(response.tecnical))));
         setStations(response.stations);
+        setModeList(response.modes);
+        setDocumentQslSpecialId(response.assocDocId);
+        setConfirmationType(response.confirmationType);
+        setCountType(response.countType);
         
         //setFile(new File([new Blob()],response.image,{type: "image/jpeg"}));
         setDocumentId(response.documentId);
@@ -225,10 +408,12 @@ const updateStationList=()=>{
           setDocFile(new File([new Blob()],response.doc,{type: "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"}));
         }
         
+        
 
         if (response.frontImage){
           setFrontPageFile(new File([new Blob()],response.frontImage,{type: "image/jpeg"}));
         }
+        
         
 
       }catch(e){
@@ -276,15 +461,71 @@ const notifyError = (message) => {
 
 const navigateToAdmin = () => {
       
-  navigate('/status/admin');    
+  navigate('/rcpanel');    
 
 };
+
+const handleRemoveStation = (id) =>{
+  
+  
+  removeStation({
+    id:id
+  })
+  .then(response=>{
+    updateStationList()
+
+  }
+
+    
+
+  )
+  .catch(error=>{
+    console.log(error);
+    }
+  )
+
+}
+
+const handleRemoveMode = (id) =>{
+  
+  
+  removeMode({
+    id:id
+  })
+  .then(response=>{
+    updateModeList()
+
+  }
+
+    
+
+  )
+  .catch(error=>{
+    console.log(error);
+    }
+  )
+
+}
+
+
+
+
+
+const handleChangeConfirmationType = event => {
+
+  setConfirmationType(event.target.value );
+}
+
+
+const handleSpecialDocumentChange = event => {
+
+  setDocumentQslSpecialId(event.target.value===""?null:event.target.value );
+}
 
 
 const submit = () =>{
   
-  //console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
-  
+   
 		// Create an object of formData
 		const formData = new FormData();
 
@@ -311,17 +552,25 @@ const submit = () =>{
     }
     
 		formData.append('id', id);
-		formData.append('doc', documentId);
+    formData.append('confirmationType', confirmationType);
+    formData.append('doc', documentId);
+    formData.append('assocDocId', documentqslSpecialId);
     formData.append('enabled', enabled);
+    formData.append('allvsall', allvsall);
 		formData.append('type', type);
     formData.append('word', word);
 		formData.append('title', title);
 		formData.append('start', dateFrom.replace(/\D/g, ""));
+    formData.append('startTime', timeFrom);
     formData.append('end', dateTo.replace(/\D/g, ""));
+    formData.append('endTime', timeTo);
     formData.append('description', draftToHtml(convertToRaw(editorState.getCurrentContent())));
     formData.append('late_end', late_end.replace(/\D/g, ""));
     formData.append('minContacts', minContacts);
+    formData.append('cwContacts', cwContacts);
+    formData.append('refId', ref);
     formData.append('techDetail', draftToHtml(convertToRaw(tecnicalDetails.getCurrentContent())),);
+    formData.append('countType', countType);
   
     updateActivity(formData)       
       .then((response) => {
@@ -362,8 +611,11 @@ const handleSubmit = (event) => {
     errors.push("description");
   }
 
+    // Check conteo
+  if (countType===null) {
+    errors.push("count");
+  }
 
-  console.log(type);
 
   // eslint-disable-next-line
 if (type==2 && word.length<=1) {
@@ -372,6 +624,10 @@ if (type==2 && word.length<=1) {
 // eslint-disable-next-line
 if (type==1 && minContacts<1) {
   errors.push("minContacts");
+}
+ // eslint-disable-next-line
+ if ((type==2 || type==1) && cwContacts<0) {
+  errors.push("cwContacts");
 }
   
 
@@ -397,10 +653,10 @@ if (type==1 && minContacts<1) {
     errors.push("tecnicalDetails");
   }
 
-  if (!documentId){
+  
+  if (rangeDocuments.length===0){
     errors.push("doc");
   }
-
   setErrors(errors);
 
   if (errors.length > 0) {
@@ -446,7 +702,7 @@ const ModalForm=()=>{
 	
 	
 const Imageconditional = (params) =>{
-  console.log(params);
+  
   if (!params.file){
     var accepts ="image/jpeg";
     if (params.type==="DOC"){
@@ -483,12 +739,46 @@ const Imageconditional = (params) =>{
 }
 
 
+const cwContactsComponent=()=>{
+  // eslint-disable-next-line
+if (type==2 || type==1){
+  return (
+    <div class="col-3">
+  
+                                         <Form.Group className="mb-3" controlId="nameValue">
+                                            <Form.Label>CW - CONTACTOS MINIMOS</Form.Label>
+                                            <Form.Control  onChange={handleChangeCwcontacts} value={cwContacts} type="number"
+                                                            className={
+                                                              hasError("cwContacts")
+                                                                    ? "form-control is-invalid"
+                                                                    : "form-control"
+                                                            }/>
+                                              <div
+                                                  className={
+                                                    hasError("cwContacts")
+                                                          ? "invalid-feedback"
+                                                          : "visually-hidden"
+                                                  }
+                                              >
+                                                Se necesita un valor mayor o igual a cero
+                                              </div>
+
+                                          </Form.Group>
+                                      </div> );
+}else{
+  return null;
+}
+
+
+}
+
+
 
 const minimumContactsComponent=()=>{
   // eslint-disable-next-line
 if (type==1){
   return (
-  <Row className="m-3">
+    <div class="col-3">
                                          <Form.Group className="mb-3" controlId="nameValue">
                                             <Form.Label>CONTACTOS MINIMOS</Form.Label>
                                             <Form.Control  onChange={handleChangeMinContacts} value={minContacts} type="number"
@@ -508,7 +798,7 @@ if (type==1){
                                               </div>
 
                                           </Form.Group>
-                                        </Row>  );
+                                          </div> );
 }else{
   return null;
 }
@@ -521,7 +811,7 @@ const wordComponent =()=>{
   if (type==2){
     
     return (
-      <Row className="m-3">
+      <div class="col-6">
       <Form.Group className="mb-3" controlId="wordValue">
          <Form.Label>PALABRA A COMPLETAR</Form.Label>
          <Form.Control  onChange={handleChangeWord} value={word} type="text"
@@ -541,7 +831,7 @@ const wordComponent =()=>{
            </div>
 
        </Form.Group>
-     </Row>  
+       </div>
     );
   }else{
     return null;
@@ -550,9 +840,120 @@ const wordComponent =()=>{
   
   }
 
+  const handleSetTrue = (val) =>{
+    setAllvsAll(true);
+  }
+  const handleSetFalse = (val) =>{
+    setAllvsAll(false);
+  }
+  const stationsGivingContacts=()=>{
+    if (type===0){
+      return(
+      <div class="col-12 m-4">
 
-    return (
+
       
+       <Form.Group  className="mb-3 col-12" controlId="swlValue">
+          <Form.Label  >¿QUE ESTACIONES ENTREGAN CONTACTOS?</Form.Label>
+          <div class="form-check mb-3">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value={false} onChange={handleSetFalse} checked={!allvsall?"checked":null} />
+              <label class="form-check-label" for="inlineRadio1">Solo las seleccionadas</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value={true} onChange={handleSetTrue} checked={allvsall?"checked":null} />
+              <label class="form-check-label" for="inlineRadio2">Todas</label>
+            </div>
+
+          </div>               
+
+        
+        </Form.Group>
+        </div> 
+      )
+      }
+  }
+
+
+
+
+  const DropdownQslEspecial = () =>{
+    if (type!==0){
+      return (
+        <fieldset class="border p-3 mb-3">
+                                      <legend  class="float-none w-auto t-4">QSL asociada (JPG)</legend>
+      <Row className="mb-3 align-middle col-12">
+
+        <Form.Group className="mb-3" controlId="assocDocValue">
+          
+          
+          <select id="docQslEspecial"  onChange={handleSpecialDocumentChange}
+            className="form-select" >
+                    <option selected value="">SIN QSL ESPECIAL</option>
+                    {
+                      documents
+                      // eslint-disable-next-line
+                      .filter(each=>each.type==0)
+                      .map(doc=>{
+                        // eslint-disable-next-line
+                        if (documentqslSpecialId==doc.id){
+                          return <option selected value={doc.id} >{doc.description}</option>
+                        }else{
+                          return <option value={doc.id}>{doc.description}</option>
+                        }
+                        
+                      })
+                    }
+                    </select>
+            
+
+        </Form.Group>
+        
+        
+      </Row>
+      </fieldset>
+      );
+    }else{
+      return null;
+    }
+  }
+
+  const dropDownConfirmationType = () =>{
+    if (type===0){
+      return (
+        <fieldset class="border p-3 m-3">
+          <legend  class="float-none w-auto t-4">TIPO DE CONFIRMACION DE CONTACTOS</legend>
+      <Row className="mb-3 align-middle col-12">
+
+        <Form.Group className="mb-3" controlId="assocConfirmValue">
+          
+          
+          <select id="confirmationType"  onChange={handleChangeConfirmationType}
+            className="form-select" value={confirmationType}>
+                    <option selected value="2">BATCH (Mas Performante)</option>
+                    <option selected value="0" >SIN CONFIRMACION (Para actividades del RC)</option>
+                    <option value="1">ONLINE</option>
+          </select>
+            
+
+        </Form.Group>
+        
+        
+      </Row>
+      </fieldset>
+      );
+    }else{
+      return null;
+    }
+  }
+
+
+  return (
+  
+      
+      <div>
+            <NavMenu />
+            <NavAdmin />
             <div className="container d-flex ">
             <ModalForm />
             <ToastContainer />
@@ -576,8 +977,9 @@ const wordComponent =()=>{
       <Tab eventKey="home" title="Principal">
         
         
-          <Row className="mb-3 col-3">
-                                            <Form.Group className="mb-3" controlId="bandValue">
+          <Row className="mb-3">
+            <div class="col-6" >
+                                            <Form.Group className="mb-3 col-8" controlId="bandValue">
                                                 <Form.Label>TIPO</Form.Label>
                                                 <select id="activity" onChange={handleChangeType} value={type} className={
                                                     hasError("type")
@@ -589,6 +991,9 @@ const wordComponent =()=>{
                                                     <option value={1}>CERTIFICADO</option>
                                                     <option value={0}>QSL ESPECIAL</option>
                                                     <option value={2}>CERTIFICADO POR LETRAS</option>
+                                                    <option value={3}>CONCURSO</option>
+                                                    <option value={4}>CONCURSO C/ CATEGORIAS</option>
+                                                    <option value={6}>PRE-CARGA</option>   
                                                     
                                                 </select>
                                                 <div
@@ -601,6 +1006,22 @@ const wordComponent =()=>{
                                                   Seleccione un tipo válido
                                                 </div>
                                             </Form.Group>
+
+                                             </div>
+                                          <div class="col-6" >
+                                             <Form.Group className="mb-3 col-5" controlId="refValue">
+                                            <Form.Label>REFERENCIA</Form.Label>
+                                            <Form.Control  onChange={handleChangeRef} value={ref}
+                                                            className={
+                                                              hasError("ref")
+                                                                    ? "form-control is-invalid"
+                                                                    : "form-control"
+                                                            }/>
+                
+
+                                          </Form.Group>
+
+                                          </div>
                                         </Row>  
                                         
                                     <Row class="border mb-3 p-0 ">
@@ -610,7 +1031,7 @@ const wordComponent =()=>{
                                     
                                         
                                         <Row className="mb-3">
-                                         <Form.Group className="mb-3" controlId="nameValue">
+                                          <Form.Group className="mb-3" controlId="nameValue">
                                             <Form.Label>TITULO</Form.Label>
                                             <Form.Control  onChange={handleChangeTitle} value={title}
                                                             className={
@@ -629,6 +1050,7 @@ const wordComponent =()=>{
                                               </div>
 
                                           </Form.Group>
+                                         
                                             </Row>
 
                                             <Row className="mb-3">
@@ -668,10 +1090,10 @@ const wordComponent =()=>{
                                         
                                     
                                                         
-                                    <Row className="mb-3 col-13">
+                                    <Row className="mb-3 col-9">
                                               <div class="col-4">
                                               <Form.Group className="mb-3" controlId="dateFrom">
-                                    <Form.Label>FECHA INICIO</Form.Label>
+                                    <Form.Label>FECHA UTC INICIO</Form.Label>
                                     
                                     <Form.Control  onChange={(e) => handleChangeDateFrom(e.target.value)} value={dateFrom} type="date" 
                                                     className={
@@ -692,9 +1114,34 @@ const wordComponent =()=>{
                                   </Form.Group>
                                                   
                     </div>
+                    <div class="col-4">
+                                              <Form.Group className="mb-3" controlId="dateFrom">
+                                    <Form.Label>HORA UTC INICIO</Form.Label>
+                                    
+                                    <Form.Control  onChange={(e) => handleChangeTimeFrom(e.target.value)} value={timeFrom} type="time" 
+                                                    className={
+                                                      hasError("timeFrom")
+                                                            ? "form-control is-invalid"
+                                                            : "form-control"
+                                                    }/>
+                                      <div
+                                          className={
+                                            hasError("timeFrom")
+                                                  ? "invalid-feedback"
+                                                  : "visually-hidden"
+                                          }
+                                      >
+                                        Indicar una fecha correcta
+                                      </div>
+
+                                  </Form.Group>
+                                                  
+                    </div>
+                    </Row>
+                    <Row className="mb-3 col-9">
                                               <div class="col-4">
                                               <Form.Group className="mb-3" controlId="timeValue">
-                                    <Form.Label>FECHA FINAL</Form.Label>
+                                    <Form.Label>FECHA UTC FINAL</Form.Label>
                                     
                                       <Form.Control  onChange={(e) => handleChangeDateTo(e.target.value)} value={dateTo} type="date" 
                                                     className={
@@ -716,6 +1163,29 @@ const wordComponent =()=>{
 
                                   
                                                 </div>
+                                                <div class="col-4">
+                                              <Form.Group className="mb-3" controlId="dateFrom">
+                                    <Form.Label>HORA UTC FINAL</Form.Label>
+                                    
+                                    <Form.Control  onChange={(e) => handleChangeTimeTo(e.target.value)} value={timeTo} type="time" 
+                                                    className={
+                                                      hasError("timeTo")
+                                                            ? "form-control is-invalid"
+                                                            : "form-control"
+                                                    }/>
+                                      <div
+                                          className={
+                                            hasError("timeTo")
+                                                  ? "invalid-feedback"
+                                                  : "visually-hidden"
+                                          }
+                                      >
+                                        Indicar una fecha correcta
+                                      </div>
+
+                                  </Form.Group>
+                                                  
+                    </div>
 
                                       
                          
@@ -760,12 +1230,12 @@ const wordComponent =()=>{
                                         <fieldset class="border p-3 mb-3">
                                           <legend  class="float-none w-auto t-4">BASES</legend>
                                           <Row className="mb-3 col-12">
-                                          <Col className="mb-3 align-middle col-6">
+                                          
                                           <Form.Group className="mb-3" controlId="technicalValue">
                                             <Form.Label>Detalle</Form.Label>
                                             <div class="p-2 bg-white">
                                               <Editor
-                                              editorStyle={{ height: '200px' }} 
+                                              editorStyle={{ height: '300px' }} 
                                               editorState={tecnicalDetails}
                                               toolbarClassName="toolbarClassName"
                                               wrapperClassName="wrapperClassName"
@@ -787,18 +1257,21 @@ const wordComponent =()=>{
                                                     </div>
 
                                           </Form.Group>
-                                          </Col>
+                                          
 
-                                          <Col className="mb-3 align-middle col-6">
-                                          <fieldset class="border p-3 mb-3">
-                                            <legend  class="float-none w-auto t-4">Documento (DOC, DOCX, PDF)</legend>
+                                         
+
+                                          </Row>
+                                          <Row className=" mb-3  col-12">
+                                          
+                                          <fieldset class="border p-3 m-3 mb-3">
+                                            <legend  class="float-none w-auto t-4">Documento de texto (DOC, DOCX, PDF)</legend>
                                             <Form.Group  className="mb-3" controlId="file">
                                               <Imageconditional type="DOC" file={selectedDocFile} setFileHook={setDocFile}/>
                                               
                                             </Form.Group>
                                             </fieldset>
-                                          </Col>
-
+                                          
                                           </Row>
                                         </fieldset>
                                                                              
@@ -808,43 +1281,110 @@ const wordComponent =()=>{
 
                                     
                                     <fieldset class="border p-3 mb-3">
-                                      <legend  class="float-none w-auto t-4">Imagen para QSL o CERTIFICADO (JPG)</legend>
+                                      <legend  class="float-none w-auto t-4">Documento Imagen para imprimir</legend>
                                       <Row className="mb-3 align-middle col-12">
-                                          
-                                      <Form.Group className="mb-3" controlId="modeValue">
-                                        
-                                        
-                                        <select id="doc"  onChange={handleDocumentChange}
-                                          className={
-                                            hasError("doc")
-                                                  ? "form-select is-invalid"
-                                                  : "form-select"
-                                          } >
-                                                                    
-                                                                    {
-                                                                      documents.map(doc=>{
-                                                                        //eslint-disable-next-line
-                                                                        if (documentId==doc.id){
-                                                                          return <option selected value={doc.id} >{doc.description}</option>
-                                                                        }else{
-                                                                          return <option  value={doc.id} >{doc.description}</option>
-                                                                        }
-                                                                      })
-                                                                    }
-                                                                    </select>
-                                          <div
-                                              className={
-                                                hasError("doc")
-                                                      ? "invalid-feedback"
-                                                      : "visually-hidden"
-                                              }
-                                          >
-                                            Seleccione un documento válido
-                                          </div>
+                                       <div class="col-12">
+       
 
-                                      </Form.Group>
-                                      
-                                        </Row>
+               
+            
+              <Row className="mb-3 align-middle col-12">
+                <Form.Group className="mb-3 col-3" controlId="minContactsRangeValue">
+                  <Form.Label>CONT. MINIMOS</Form.Label>
+                  <Form.Control  onChange={handleChangeMinContactsRange} value={minContactsRange} type="number" size="2" 
+                                  className={
+                                    hasError("minContactsRange")
+                                          ? "form-control is-invalid"
+                                          : "form-control"
+                                  }/>
+                    <div
+                        className={
+                          hasError("minContactsRange")
+                                ? "invalid-feedback"
+                                : "visually-hidden"
+                        }
+                    >
+                      Se necesita un texto mayor a 1 caracter
+                    </div>
+
+                </Form.Group>
+                                          
+                <Form.Group className="mb-3 col-7" controlId="docValue">
+                  <Form.Label>DOCUMENTO</Form.Label>
+                  
+                  <select id="doc"  onChange={handleDocumentChange}
+                    className={
+                      hasError("doc")
+                            ? "form-select is-invalid"
+                            : "form-select"
+                    } >
+                                              <option selected value="">Elija un documento...</option>
+                                              {
+                                                
+                                                documents
+                                                // eslint-disable-next-line
+                                                .filter(each=>(each.type==0 && type==0) || (type!=0 && each.type!=0))
+                                                .map(doc=>{
+                                                  //eslint-disable-next-line
+                                                  if (documentId==doc.id){
+                                                    return <option selected value={doc.id} >{doc.description}</option>
+                                                  }else{
+                                                    return <option  value={doc.id} >{doc.description}</option>
+                                                  }
+                                                })
+                                              }
+                                              </select>
+                    <div
+                        className={
+                          hasError("doc")
+                                ? "invalid-feedback"
+                                : "visually-hidden"
+                        }
+                    >
+                      Seleccione un documento válido
+                    </div>
+
+                </Form.Group>
+
+               
+                <button type="button"  class="btn btn-sm btn-primary col-2" onClick={handleAddRange} >AGREGAR</button> 
+                
+        </Row>
+                
+            </div>
+              <ul class="list-group col-10">
+              {rangeDocuments.map(each=>{
+                return(
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    
+                    <span  class="text-danger  " style={{ cursor: 'pointer' }} onClick={()=> handleRemoveRange(each.id)}>
+                        
+                        <FontAwesomeIcon   icon={icon({name: 'trash-can'})}  title="Click para cambiar el estado" />
+                        
+                        <span class=" m-1 badge bg-success rounded-pill">Desde {each.minValue} o más contactos</span>
+                        <p>
+                        <span class="text-black ms-0">{each.docTitle}</span>
+                        </p>
+                        
+                    </span>
+                        
+                    
+                        
+                    
+                  
+                 
+                </li>  
+                )
+              }
+              )}
+            
+            
+          </ul>
+ 
+    
+                                     
+                                    </Row>
+                                   
                                     </fieldset>
                                     
 
@@ -868,6 +1408,9 @@ const wordComponent =()=>{
                                       </Form.Group>
                                     </Row>
                                     </fieldset>
+
+
+                                    <DropdownQslEspecial />
 
                                     <Row className="mb-3 align-middle col-12">
                                       
@@ -911,16 +1454,23 @@ const wordComponent =()=>{
 
       </Tab>
       <Tab eventKey="profile" title="Estaciones y Contactos">
-            {minimumContactsComponent()}
-            {wordComponent()}
-                                
+            <Row className="mb-9 m-3"> 
+              {minimumContactsComponent()}
+              {cwContactsComponent()}
+              {wordComponent()}
+            </Row>  
+
+           {stationsGivingContacts()}
+            {dropDownConfirmationType()}
+
             <div class="col-12">
        
           <Row className="m-3">
           <fieldset class="border p-3 mb-3">
             <legend  class="float-none w-auto t-4">ESTACIONES</legend>
-
+            
             <div class="col-12">
+            
             <Row className="m-3 col-6">
                   <Form.Group className="mb-3 col-3" controlId="stationValue">
                   <Form.Label>ESTACION</Form.Label>
@@ -943,24 +1493,24 @@ const wordComponent =()=>{
                 </Form.Group>
 
                 <Form.Group className="mb-3 col-3" controlId="letterValue">
-         <Form.Label>LETRA</Form.Label>
-         <Form.Control  onChange={handleChangeNewLetter} value={newLetter} type="char" size="1" maxlength="1"
-                         className={
-                           hasError("letter")
-                                 ? "form-control is-invalid"
-                                 : "form-control"
-                         }/>
-           <div
-               className={
-                 hasError("letter")
-                       ? "invalid-feedback"
-                       : "visually-hidden"
-               }
-           >
-             Se necesita un texto mayor a 1 caracter
-           </div>
+                  <Form.Label>LETRA</Form.Label>
+                  <Form.Control  onChange={handleChangeNewLetter} value={newLetter} type="char" size="1" maxlength="1"
+                                  className={
+                                    hasError("letter")
+                                          ? "form-control is-invalid"
+                                          : "form-control"
+                                  }/>
+                    <div
+                        className={
+                          hasError("letter")
+                                ? "invalid-feedback"
+                                : "visually-hidden"
+                        }
+                    >
+                      Se necesita un texto mayor a 1 caracter
+                    </div>
 
-       </Form.Group>
+                </Form.Group>
 
        <Form.Group  className="mb-3 col-3" controlId="swlValue">
           <Form.Label  >REQUERIDA</Form.Label>
@@ -985,10 +1535,15 @@ const wordComponent =()=>{
         </Row>
             </div>
               <ul class="list-group col-4">
-              {stations.map(each=>{
+              {stations && stations.map(each=>{
                 return(
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                  {each.station}
+                    <span  class="text-danger " style={{ cursor: 'pointer' }} onClick={()=> handleRemoveStation(each.id)}>
+                        <FontAwesomeIcon   icon={icon({name: 'trash-can'})}  title="Click para cambiar el estado" />
+                        <span class="text-black ms-4">{each.station}</span>
+                    </span>
+                    <span class="align-items-left bg-danger"></span>
+                  
                   
                   {each.letter?
                     <span class="badge bg-success rounded-pill">{each.letter}</span>
@@ -1014,6 +1569,142 @@ const wordComponent =()=>{
 
       </div>
 </Tab>
+<Tab eventKey="modes" title="Modos">
+  
+                                            
+            <div class="col-12">
+       
+          <Row className="m-3">
+          <fieldset class="border p-3 mb-3">
+            <legend  class="float-none w-auto t-4">MODOS</legend>
+
+            <div class="col-12">
+            <Row className="m-3 col-12">
+                <Form.Group className="mb-3 col-4" controlId="modeValue">
+                    <Form.Label>MODO</Form.Label>
+                    
+                    <select id="mode"  onChange={handleChangeMode}
+                      className={
+                        hasError("mode")
+                              ? "form-select is-invalid"
+                              : "form-select"
+                      } >
+                                                <option selected disabled value="">Elija un modo...</option>
+                                                <option value="cw">CW</option>
+                                                <option value="am">AM</option>
+                                                <option value="ssb">SSB</option>
+                                                <option value="atv">ATV</option>
+                                                <option value="sstv">SSTV</option>
+                                                <option value="PACKET">PACKET</option>
+                                                <option value="APRS">APRS</option>
+                                                <option value="RTTY">RTTY</option>
+                                                <option value="FM">FM</option>
+                                                <option value="FT8">FT 8</option>
+                                                <option value="FT4">FT 4</option>
+                                                <option value="PSK">PSK</option>
+                                                <option value="JT9">JT9</option>
+                                                <option value="OLIVIA">Olivia</option>
+                                                <option value="ECHO">Echo</option>
+                                                <option value="JT65">JT65</option>
+                                                <option value="HELL">HELL</option>
+                                                <option value="FAX">FAX</option>
+                                                <option value="DV">DV</option>
+                                                <option value="SATCW">Sat CW</option>
+                                                <option value="SATFM">Sat FM</option>
+                                                <option value="SATSSB">Sat SSB</option>
+                                                <option value="SIM31">SIM31</option>
+                                                </select>
+                      <div
+                          className={
+                            hasError("mode")
+                                  ? "invalid-feedback"
+                                  : "visually-hidden"
+                          }
+                      >
+                        Seleccione un modo válido
+                      </div>
+
+                </Form.Group>
+              
+
+             <button type="button"  class="btn btn-sm btn-primary col-2" onClick={handleAddMode} >AGREGAR</button> 
+       
+          </Row>
+            </div>
+              <ul class="list-group col-4">
+              {modeList && modeList.map(each=>{
+                return(
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span  class="text-danger " style={{ cursor: 'pointer' }} onClick={()=> handleRemoveMode(each.id)}>
+                        <FontAwesomeIcon   icon={icon({name: 'trash-can'})}  title="Click para cambiar el estado" />
+                        <span class="text-black ms-4">{each.mode}</span>
+                    </span>
+                    <span class="align-items-left bg-danger"></span>
+                  
+                </li>  
+                )
+              }
+              )}
+            
+            
+          </ul>
+          </fieldset>
+        </Row>  
+    
+
+
+      </div>
+  </Tab>
+  <Tab eventKey="countTypeTab" title="Tipo de Conteo">
+  
+                                            
+            <div class="col-12">
+       
+          <Row className="m-3">
+          <fieldset class="border p-3 mb-3">
+            <legend  class="float-none w-auto t-4">Conteo</legend>
+
+            <div class="col-12">
+            <Row className="m-3 col-12">
+                <Form.Group className="mb-3 col-4" controlId="modeValue">
+                    <Form.Label>CONTEO</Form.Label>
+                    
+                    <select id="countType"  onChange={handleChangeCountType} value={countType}
+                      className={
+                        hasError("count")
+                              ? "form-select is-invalid"
+                              : "form-select"
+                      } >
+                                                <option selected disabled value={null}>Elija un tipo de conteo...</option>
+                                                <option value={0}>Contactos</option>
+                                                <option value={1}>Modos</option>
+                                                <option value={2}>Bandas</option>
+                                                </select>
+                      <div
+                          className={
+                            hasError("count")
+                                  ? "invalid-feedback"
+                                  : "visually-hidden"
+                          }
+                      >
+                        Seleccione un conteo válido
+                      </div>
+
+                </Form.Group>
+              
+
+             
+       
+          </Row>
+            </div>
+            
+          </fieldset>
+        </Row>  
+    
+
+
+      </div>
+  </Tab>
     </Tabs>
     
                                     
@@ -1051,6 +1742,7 @@ const wordComponent =()=>{
             
                 </div>
             </div>
+          </div>
       
         );
 

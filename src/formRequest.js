@@ -9,6 +9,10 @@ import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { useCookies } from 'react-cookie';
+import TokenField from "./tokenField.js";
+import TimePicker from 'react-weblineindia-time-picker';
+import InputGroup from 'react-bootstrap/InputGroup';
+import { faClock } from '@fortawesome/free-regular-svg-icons'
 
 
 
@@ -17,12 +21,16 @@ import { useCookies } from 'react-cookie';
 
 
 export default function FormRequest(props) {
-  const [cookies, setCookie] = useCookies(['logCallsign']);
+  
   const actual= new Date();
   const dateData = new Date(actual.getUTCFullYear(),actual.getUTCMonth(),actual.getUTCDate(),actual.getUTCHours(),actual.getUTCMinutes());
+  
+  const [cookies, setCookie] = useCookies(['logCallsign']);
   const { stationCode } = useParams();
+  const [token,setToken] = useState("");
+
   const [datePick, setDate] = useState(format(dateData,"yyyy-MM-dd"));
-  const [timePick, setTime] = useState(format(dateData,"HH:mm"));
+  const [timePick, setTime] = useState(dateData);
   const [signal, setSignal] = useState("");
   const [name, setName] = useState("");
   const [band, setBand] = useState("");
@@ -31,8 +39,8 @@ export default function FormRequest(props) {
   const [email, setEmail] = useState("");
   const [rst, setRST] = useState("");
   const [rstReceived, setRSTReceived] = useState("");
+  const [message, setMessage] = useState("");
 
-  
   const [swl, setSwl] = useState(false);
   
   const [toCall, setToCall] = useState("");
@@ -40,6 +48,7 @@ export default function FormRequest(props) {
   const [errors, setErrors] = useState([]);
   
 
+  
   const preloadFrequency = (band) => {
     switch(band){
       case "160m":
@@ -82,68 +91,60 @@ export default function FormRequest(props) {
     setBand(event.target.value.toUpperCase());
     setFrequency(preloadFrequency(event.target.value));
   }
+  
   const handleChangeFreq = (event) => {
-    
     setFrequency(event.target.value);
-    
   };
 
   const handleChangeSwl =(event)=>{
-      setSwl(event.target.checked);  
+    setSwl(event.target.checked);  
   }
 
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
   };
-
-
+  
+  const handleChangeMessage = (event) => {
+    setMessage(event.target.value);
+  };
+ 
   const handleChangeTime = (event) => {
+    console.log(event.target.value);
     setTime(event.target.value);
   };
+
   const handleChangeName = (event) => {
     setName(event.target.value);
   };
+
+  const handleChangeToken = (event) => {
+    setToken(event.target.value);
+  };
+
   const handleChangeSignal  = (event) => {
-    /*setSignal(event.target.value.toUpperCase());
-    getName({station:event.target.value})
-        .then((response) => {
-          setName(response.name);
-          setEmail(response.mail);
-          
-      })
-      .catch((response) => handleAxiosError(response));
-    */
-   updateFromCallsign(event.target.value.trim());
+    updateFromCallsign(event.target.value.trim());
   };
 
   const handleChangeToCall = (event) => {
     setToCall(event.target.value.toUpperCase().trim());
   };
 
-
   const handleChangeToCall2= (event) => {
     setToCall2(event.target.value.toUpperCase().trim());
   };
+
   const handleChangeMode  = (event) => {
     setMode(event.target.value.toUpperCase());
   };
+
   const handleChangeRST  = (event) => {
     setRST(event.target.value);
   };
+
   const handleChangeRSTReceived  = (event) => {
     setRSTReceived(event.target.value);
   };
   
-  /*const handleAPIError= (responseJson)=> {
-    let errorToDisplay = "OCURRIO UN ERROR! VERIFIQUE NUEVAMENTE A LA BREVEDAD";
-    console.log("HANDLEAPIERROR");
-    
-
-
-    //setError(errorToDisplay);
-    notifyError(errorToDisplay);
-  }
-*/
 
 const updateFromCallsign= (callsign)=>{
   setSignal(callsign.toUpperCase());
@@ -156,15 +157,28 @@ const updateFromCallsign= (callsign)=>{
     .catch((response) => handleAxiosError(response));
 
 }
+
 useEffect(() => {
-  console.log("STARTUP - LEO COOKIE");
-  if(cookies["logCallsign"]){
-    //setSignal(cookies["lu4dq-log-callsign"]);
-    updateFromCallsign(cookies["logCallsign"]);
+  
+  // eslint-disable-next-line
+  if (sessionStorage.getItem("userLoginOK")==1){
+    updateFromCallsign(sessionStorage.getItem("userStation"));
+    setToken(sessionStorage.getItem("userToken"));
+  }else{
+
+    if(cookies["logCallsign"]){
+      updateFromCallsign(cookies["logCallsign"]);
+    }
+  
+    if (stationCode){
+      setToken(stationCode);
+    }
+  
   }
+
+ 
   
-  
-  
+
   // eslint-disable-next-line
 }, []
 )
@@ -178,9 +192,11 @@ useEffect(() => {
     if (response.response.data.code==1062 ) {
           errorToDisplay = "EL QSO YA EXISTE EN NUESTRA BASE DE DATOS.";
         }
-    if (response.response.data.status==="Station not validated" ) {
+    // eslint-disable-next-line        
+    if (response.response.data.status=="Station not validated" ) {
           errorToDisplay = "EL CODIGO DE ESTACION NO ES CORRECTO. VERIFIQUELO!";
       }
+
     // eslint-disable-next-line
     if (response.message=="Network Error") {
       errorToDisplay = "Error de red!. Reintente a la brevedad";
@@ -205,8 +221,13 @@ useEffect(() => {
     if (response.response.data.code==1062 ) {
           errorToDisplay = "EL QSO YA EXISTE EN NUESTRA BASE DE DATOS.";
         }
-    if (response.response.data.status==="Station not validated" ) {
+        // eslint-disable-next-line
+    if (response.response.data.status=="Station not validated" ) {
           errorToDisplay = "EL CODIGO DE ESTACION NO ES CORRECTO. VERIFIQUELO!";
+      }
+        // eslint-disable-next-line
+    if (response.response.data.status=="Invalid QSO Date" ) {
+          errorToDisplay = "LA FECHA DEL QSO ES INCORRECTA. VERIFIQUELA!";
       }
     // eslint-disable-next-line
     if (response.message=="Network Error") {
@@ -238,7 +259,7 @@ if (swl){
     postOneQSO({
         signal: signal,
         date:datePick.replace(/\D/g, ""),
-        time:timePick.replace(/\D/g, ""),
+        time:format(timePick,"HHmmss"),
         band:band,
         mode:mode,
         freq:freq,
@@ -246,24 +267,17 @@ if (swl){
         rstR:rstReceived,
         name:name,
         toCall:toCall,
-        stationCode:stationCode,
+        stationCode:token,
         email:email,
         toCall2:toCall2,
-        isSwl:swl
+        isSwl:swl,
+        message:message
         
         })       
         .then((response) => {
             setCookie('logCallsign', signal,{ path: '/' });
-            //eslint-disable-next-line
-            if (response.qsl.status=="RC Confirmed"){
-                props.qslHook();
-            //eslint-disable-next-line
-            }else if (response.qsl.status=="Confirmed"){
-                props.qslHook();
-            }else{
-                props.qslHook();
-                //handleAPIError(response);
-            }         
+            props.qslHook();
+       
         })
         .catch((response) => handleAxiosErrorB(response));
 
@@ -278,7 +292,7 @@ if (swl){
     postStatistics({
       signal: signal,
       date:datePick.replace(/\D/g, ""),
-      time:timePick.replace(/\D/g, ""),
+      time:timePick?format(timePick,"HHmmss"):"00:00:00",
       band:band,
       mode:mode,
       freq:freq,
@@ -296,7 +310,11 @@ if (swl){
       .catch()
 
 
-
+    
+    if(!timePick){
+      errors.push("time");
+      console.log("HORA MALA");
+    }
     
     // Check name of Rule
     if (signal.length<=3) {
@@ -415,6 +433,9 @@ if (swl){
       
     }
 
+    if (message.length >=255) {
+      errors.push("message");
+    }
 
     
 
@@ -438,6 +459,8 @@ if (swl){
   }
 
 
+
+  
   const popoverEmail = (
     
     <Popover id="popover-positioned-right"  placement="right" >
@@ -450,6 +473,19 @@ if (swl){
     
   );
 
+  const popoverMessage = (
+    
+    <Popover id="popover-positioned-right"  placement="right" >
+      <Popover.Title as="h3">Mensaje </Popover.Title>
+      <Popover.Content>
+          Este campo es util, por ejemplo, para incluir referencias solicitadas por el Radio Club!
+      </Popover.Content>
+      
+    </Popover>
+    
+  );
+
+  
   
 const popoverFrequency = (
   <Popover id="popover-positioned-right"  placement="right" >
@@ -613,6 +649,9 @@ function SeñalesRecibidas() {
 }
 
 
+
+
+
   return (
 
        <form onSubmit={handleSubmit} className="row g-3 needs-validation">
@@ -659,36 +698,44 @@ function SeñalesRecibidas() {
                </Form.Group>
                               
 </div>
-                           <div class="col-6">
-                           <Form.Group className="mb-3" controlId="timeValue">
-                 <Form.Label>HORA UTC</Form.Label>
-                 <span class="ms-2">
-                   <OverlayTrigger trigger="hover" placement="right" overlay={popoverUTC}>
-                            <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
-                    </OverlayTrigger>
-                  </span>
-                 <Form.Control  onChange={handleChangeTime} value={timePick} type="time"
-                                className={
+                  <div class="col-6">
+                    <Form.Group className="mb-3" controlId="timeValue">
+                      <Form.Label>HORA UTC</Form.Label>
+                      <span class="ms-2">
+                          <OverlayTrigger trigger="hover" placement="right" overlay={popoverUTC}>
+                              <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
+                          </OverlayTrigger>
+                      </span>
+<InputGroup className="mb-3 form-control p-0 inputGroup-sizing-sm">
+        
+         <TimePicker id="time24" locale="en-GB" hourFormat="24" timeOnly="true" manualInput="true" 
+                            value={timePick} onChange={handleChangeTime} showTime showSeconds
+                            className={
                                   hasError("time")
                                         ? "form-control is-invalid"
-                                        : "form-control"
-                                }/>
-                   <div
-                       className={
-                           hasError("time")
-                               ? "invalid-feedback"
-                               : "visually-hidden"
-                       }
-                   >
-                    Indicar un horario correcto
-                   </div>
+                                        : "form-control p-0 "
+                                }
+                                
+                      />
+                       
+<InputGroup.Text id="basic-addon1"><
+  FontAwesomeIcon  size="1x" icon={faClock} />
+  </InputGroup.Text> 
+
+                     
+      </InputGroup>
+      
 
                </Form.Group>
-                            </div>
+               
+              </div>
 
+  
                    
                
              </Row>
+
+         
 
              <Row className="mb-3 col-13">
 
@@ -785,6 +832,7 @@ function SeñalesRecibidas() {
                                             <option value="RTTY">RTTY</option>
                                             <option value="FM">FM</option>
                                             <option value="FT8">FT 8</option>
+                                            <option value="FT4">FT 4</option>
                                             <option value="PSK">PSK</option>
                                             <option value="JT9">JT9</option>
                                             <option value="OLIVIA">Olivia</option>
@@ -970,6 +1018,41 @@ function SeñalesRecibidas() {
 
                </Form.Group>
              </Row>
+             
+
+             
+             <Row className="mb-3">
+               <Form.Group className="mb-3" controlId="messageValue">
+                 <Form.Label>MENSAJE</Form.Label>
+                 <span class="ms-2">
+                   <OverlayTrigger trigger="hover" placement="right" overlay={popoverMessage}>
+                            <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
+                    </OverlayTrigger>
+                  </span>
+                  <textarea class="form-control" rows="4" onChange={handleChangeMessage} value={message} 
+                                className={
+                                  hasError("message")
+                                        ? "form-control is-invalid"
+                                        : "form-control"
+                                } ></textarea>
+                 
+                   <div
+                       className={
+                        hasError("message")
+                               ? "invalid-feedback"
+                               : "visually-hidden"
+                       }
+                   >
+                    El texto excede la máxima cantidad de caracteres
+                   </div>
+
+               </Form.Group>
+             </Row>
+
+
+             <TokenField handler={handleChangeToken} value={token} show={token} />
+               
+
              
                          
 
