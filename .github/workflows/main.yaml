@@ -6,7 +6,7 @@ on:
  
 jobs:
   web-deploy:
-    name: 🎉 Deploy on Main
+    name: 🎉 Deploy on MAin
     runs-on: ubuntu-latest
     steps:
     - name: 🚚 Get latest code
@@ -26,8 +26,7 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@4.2.0
       with:          
         local-dir: ./build/
-        server: ${{ secrets.host_prod }}
-        username: ${{ secrets.ftp_user_prod }}
-        password: ${{ secrets.ftp_password_prod }}
-        
+        server: ${{ secrets.host }}
+        username: ${{ secrets.ftp_user }}
+        password: ${{ secrets.ftp_password }}
         
