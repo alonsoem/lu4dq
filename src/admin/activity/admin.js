@@ -114,6 +114,9 @@ function Admin() {
             }else if (type==4){ 
                 return "CONCURSO C/ CATEGORIAS";
             // eslint-disable-next-line
+            }else if (type==5){ 
+                return "CERTIFICADO POR GRUPOS";
+            // eslint-disable-next-line
             }else if (type==6){ 
                 return "PRE ACTIVIDAD";                
           }
