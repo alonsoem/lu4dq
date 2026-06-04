@@ -381,6 +381,7 @@ const updateModeList=()=>{
     getActivity({id:id})       
     .then((response) => {
       try{
+        setRef(response.refId);
         setDateFrom(response.start);
         setTimeFrom(response.startTime);
         setDateTo(response.end);
