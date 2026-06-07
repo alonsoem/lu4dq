@@ -125,6 +125,9 @@ const updateFromCallsign= (callsign)=>{
     if (signal.length<=3) {
         errors.push("signal");
     }
+    if (!/^[a-zA-Z0-9]+$/.test(signal)) {
+        errors.push("signal");
+    }
     if (hasWhiteSpace(signal)){
       errors.push("signal")
     }
@@ -156,6 +159,23 @@ const updateFromCallsign= (callsign)=>{
   const hasError= (key) => {
         return errors.indexOf(key) !== -1;
   }
+
+  const popoverstation =(
+    <Popover id="popover-positioned-right"  placement="right" >
+      <Popover.Title as="h3">Señal distintiva</Popover.Title>
+      <Popover.Content>
+          <p>La <strong>señal distintiva</strong> no debe existir y no debe incluir modificadores.</p>
+          <p>Por ejemplo: Si tu estacion es LU0ABC... <br/>
+          <ul style={{ listStyleType: 'disc', paddingLeft: '1.5rem' }}>
+             <li >NO incluyas la SD LU0ABC/D</li>
+             <li >Ingresa solo LU0ABC, no LU0 ABC o LU0-ABC</li>
+          </ul>
+          </p>
+      </Popover.Content>
+      
+    </Popover>
+
+  )
 
   const popoverEmail = (
     
@@ -230,6 +250,11 @@ const popoverItu = (
                 <div class="col-5">
                   <Form.Group className="mb-3" controlId="signalValue">
                     <Form.Label>TU SEÑAL DISTINTIVA</Form.Label>
+                    <span class="ms-2">
+                    <OverlayTrigger trigger="hover" placement="right" overlay={popoverstation}>
+                          <FontAwesomeIcon  size="1x" icon={icon({name: 'circle-info'})} />
+                    </OverlayTrigger>
+                    </span>
                     <Form.Control  onChange={handleChangeSignal} value={signal}
                                     className={
                                       hasError("signal")
@@ -243,7 +268,7 @@ const popoverItu = (
                                   : "visually-hidden"
                           }
                       >
-                        Esta señal distintiva ya fue registrada.
+                        Esta señal distintiva no es valida. Verificá las condiciones.
                       </div>
 
                   </Form.Group>
